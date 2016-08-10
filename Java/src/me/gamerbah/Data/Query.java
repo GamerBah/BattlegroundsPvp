@@ -17,7 +17,7 @@ public enum Query {
     UPDATE_PLAYER_DAILY_REWARD("UPDATE players SET dailyReward = ? WHERE id = ?"),
 
     // PUNISHMENT DATA
-    CREATE_PUNISHMENT("INSERT IGNORE INTO punishments (uuid, name) VALUES (?, ?)"),
+    CREATE_PUNISHMENT("INSERT IGNORE INTO punishment (uuid, name, type, time, expiration, enforcerUUID, reason) VALUES (?, ?, ?, ?, ?, ?, ?)"),
     GET_PUNISHMENT("SELECT * FROM punishment WHERE uuid = ?"),
     UPDATE_PUNISHMENT_TIME("UPDATE punishment SET expiration = ? WHERE uuid = ? AND type = ? AND time = ?"),
     

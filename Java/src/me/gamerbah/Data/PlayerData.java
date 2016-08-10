@@ -66,7 +66,7 @@ public class PlayerData {
 
     public void addPunishment(Punishment punishment) {
         punishments.add(punishment);
-        sql.executeUpdate(Query.CREATE_PUNISHMENT, uuid.toString(), punishment.getType().name(), punishment.getTime(),
+        sql.executeUpdate(Query.CREATE_PUNISHMENT, uuid.toString(), name, punishment.getType().name(), punishment.getTime(),
                 punishment.getExpiration(), punishment.getEnforcerUUID().toString(), punishment.getReason());
     }
 

@@ -13,10 +13,10 @@ public enum Rank {
     ADMIN("Admin", ChatColor.RED, 50),
     MODERATOR("Mod", ChatColor.DARK_AQUA, 25),
     HELPER("Helper", ChatColor.GREEN, 15),
-    WARLORD("Warlord", ChatColor.YELLOW, 10),
-    CHAMPION("Champion", ChatColor.LIGHT_PURPLE, 8),
-    ELITE("Elite", ChatColor.DARK_PURPLE, 6),
-    MASTER("Master", ChatColor.AQUA, 4),
+    WARLORD("Warlord", ChatColor.AQUA, 10),
+    MASTER("Master", ChatColor.YELLOW, 8),
+    CHAMPION("Champion", ChatColor.LIGHT_PURPLE, 6),
+    ELITE("Elite", ChatColor.DARK_PURPLE, 4),
     DEFAULT(null, null, 0);
 
 

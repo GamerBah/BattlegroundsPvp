@@ -54,8 +54,8 @@ public class StaffChatCommand implements CommandExecutor {
 
                 plugin.getServer().getOnlinePlayers().stream().filter(players ->
                         plugin.getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
-                        .forEach(players -> players.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "[STAFF] "
-                                + ChatColor.DARK_PURPLE + player.getName() + ": " + message));
+                        .forEach(players -> players.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "[STAFF] "
+                                + ChatColor.RED + player.getName() + ": " + message));
             }
         }
 

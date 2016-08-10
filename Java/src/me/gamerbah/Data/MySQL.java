@@ -52,12 +52,13 @@ public class MySQL {
 
                 ResultSet punishments = executeQuery(Query.GET_PUNISHMENT, uuid.toString());
                 if (punishments != null && punishments.next()) {
+                    String name = playerData.getName();
                     Punishment.PunishType type = Punishment.PunishType.valueOf(punishments.getString("type"));
                     long time = punishments.getLong("time");
                     long expiration = punishments.getLong("expiration");
                     UUID enforcerUUID = UUID.fromString(punishments.getString("enforcerUUID"));
                     String reason = punishments.getString("reason");
-                    playerData.getPunishments().add(new Punishment(uuid, type, time, expiration, enforcerUUID, reason));
+                    playerData.getPunishments().add(new Punishment(uuid, name, type, time, expiration, enforcerUUID, reason));
                 }
                 return playerData;
             }
@@ -85,6 +86,7 @@ public class MySQL {
                 preparedStatement.executeUpdate();
             } catch (SQLException e) {
                 plugin.getLogger().severe("Could not execute MySQL query: " + e.getMessage());
+                e.printStackTrace();
             }
         });
     }

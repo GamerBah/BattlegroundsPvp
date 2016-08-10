@@ -9,6 +9,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Punishment {
     private UUID playerUUID;
+    private String name;
     private PunishType type;
     private long time;
     private long expiration;
