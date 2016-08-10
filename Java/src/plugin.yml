@@ -1,0 +1,18 @@
+main: me.gamerbah.Battlegrounds
+name: Battlegrounds
+author: GamerBah
+version: 0.0.1a
+commands:
+  rank:
+    description: Changes a players rank
+  clearchat:
+    description: Clears the chat
+    aliases: [cc, cchat]
+  lockchat:
+    description: Locks the chat and allows only Staff members to talk
+    aliases: [lc, lchat]
+  cmdspy:
+    description: Allows Staff members to see all executed commands
+  staff:
+    description: Chat in the Staff channel
+    aliases: [s]

@@ -1,0 +1,4 @@
+host: localhost:51204
+database: battlegrounds
+username: root
+password: password

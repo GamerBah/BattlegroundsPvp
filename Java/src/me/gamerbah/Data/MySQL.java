@@ -1,10 +1,12 @@
 package me.gamerbah.Data;
 /* Created by GamerBah on 7/6/2016 */
 
+import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class MySQL {
@@ -44,9 +46,20 @@ public class MySQL {
     public PlayerData getPlayerData(UUID uuid) {
         try (ResultSet result = executeQuery(Query.GET_PLAYER, uuid.toString())) {
             if (result.next()) {
-                return new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
+                PlayerData playerData = new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
                         result.getString("name"), result.getString("challenges"), result.getString("achievements"),
-                        Rank.valueOf(result.getString("kills")), result.getInt("kills"), result.getInt("deaths"), result.getBoolean("dailyReward"));
+                        Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getBoolean("dailyReward"), new ArrayList<>());
+
+                ResultSet punishments = executeQuery(Query.GET_PUNISHMENT, uuid.toString());
+                if (punishments != null && punishments.next()) {
+                    Punishment.PunishType type = Punishment.PunishType.valueOf(punishments.getString("type"));
+                    long time = punishments.getLong("time");
+                    long expiration = punishments.getLong("expiration");
+                    UUID enforcerUUID = UUID.fromString(punishments.getString("enforcerUUID"));
+                    String reason = punishments.getString("reason");
+                    playerData.getPunishments().add(new Punishment(uuid, type, time, expiration, enforcerUUID, reason));
+                }
+                return playerData;
             }
             result.getStatement().close();
         } catch (SQLException e) {

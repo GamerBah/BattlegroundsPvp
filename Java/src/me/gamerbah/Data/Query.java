@@ -15,6 +15,11 @@ public enum Query {
     UPDATE_PLAYER_CHALLENGES("UPDATE players SET challenges = ? WHERE id = ?"),
     UPDATE_PLAYERS_ACHIEVEMENTS("UPDATE players SET achievements = ? WHERE id = ?"),
     UPDATE_PLAYER_DAILY_REWARD("UPDATE players SET dailyReward = ? WHERE id = ?"),
+
+    // PUNISHMENT DATA
+    CREATE_PUNISHMENT("INSERT IGNORE INTO punishments (uuid, name) VALUES (?, ?)"),
+    GET_PUNISHMENT("SELECT * FROM punishment WHERE uuid = ?"),
+    UPDATE_PUNISHMENT_TIME("UPDATE punishment SET expiration = ? WHERE uuid = ? AND type = ? AND time = ?"),
     
     // GLOBAL STATS
     CREATE_STATS("INSERT IGNORE INTO stats (type) VALUES (?)"),
