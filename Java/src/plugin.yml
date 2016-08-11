@@ -22,3 +22,6 @@ commands:
     description: Mutes a player
   unmute:
     description: Unmutes a player
+  flyspeed:
+    description: Sets your flying speed
+    aliases: [fspeed, fsp]

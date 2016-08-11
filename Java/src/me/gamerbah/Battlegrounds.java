@@ -3,10 +3,7 @@ package me.gamerbah;
 
 
 import lombok.Getter;
-import me.gamerbah.Administration.Commands.ChatCommands;
-import me.gamerbah.Administration.Commands.FreezeCommand;
-import me.gamerbah.Administration.Commands.RankCommand;
-import me.gamerbah.Administration.Commands.StaffChatCommand;
+import me.gamerbah.Administration.Commands.*;
 import me.gamerbah.Administration.Punishments.Commands.MuteCommand;
 import me.gamerbah.Administration.Punishments.Commands.UnmuteCommand;
 import me.gamerbah.Data.MySQL;
@@ -55,6 +52,7 @@ public class Battlegrounds extends JavaPlugin {
         getCommand("freeze").setExecutor(new FreezeCommand(this));
         getCommand("mute").setExecutor(new MuteCommand(this));
         getCommand("unmute").setExecutor(new UnmuteCommand(this));
+        getCommand("flyspeed").setExecutor(new FlySpeedCommand(this));
     }
 
     private void registerListeners() {
