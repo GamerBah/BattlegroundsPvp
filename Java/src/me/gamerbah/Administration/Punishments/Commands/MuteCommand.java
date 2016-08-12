@@ -43,6 +43,7 @@ public class MuteCommand implements CommandExecutor {
                 return true;
             }
 
+            @SuppressWarnings("deprecation")
             PlayerData targetData = plugin.getPlayerData(plugin.getServer().getOfflinePlayer(args[0]).getUniqueId());
             OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(targetData.getUuid());
             Player target = Bukkit.getPlayer(targetData.getUuid());

@@ -23,7 +23,7 @@ public class PlayerData {
     @Getter
     private Rank rank;
     @Getter
-    private int kills, deaths;
+    private int kills, deaths, souls, coins;
     @Getter
     private boolean dailyReward;
     @Getter
@@ -50,6 +50,14 @@ public class PlayerData {
 
     public void setDeaths(int deaths) {
         sql.executeUpdate(UPDATE_PLAYER_DEATHS, this.deaths = deaths, id);
+    }
+
+    public void setSouls(int souls) {
+        sql.executeUpdate(UPDATE_PLAYER_SOULS, this.souls = souls, id);
+    }
+
+    public void setCoins(int coins) {
+        sql.executeUpdate(UPDATE_PLAYER_COINS, this.coins = coins, id);
     }
 
     public void setChallenges(String challenges) {

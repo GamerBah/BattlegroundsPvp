@@ -45,6 +45,7 @@ public class UnmuteCommand implements CommandExecutor {
             return true;
         }
 
+        @SuppressWarnings("deprecation")
         PlayerData targetData = plugin.getPlayerData(plugin.getServer().getOfflinePlayer(args[0]).getUniqueId());
 
         if (targetData == null) {

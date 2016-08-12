@@ -3,13 +3,19 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.gamerbah</groupId>
     <artifactId>Battlegrounds</artifactId>
-    <version>RELEASE-0.0.1a</version>
+    <version>RELEASE-0.1.1a</version>
 
     <repositories>
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
         </repository>
+
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+
     </repositories>
 
     <dependencies>
@@ -21,10 +27,23 @@
         </dependency>
 
         <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>LATEST</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.gpedro.integrations.slack</groupId>
+            <artifactId>slack-webhook</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.9.4-R0.1-SNAPSHOT</version>
         </dependency>
+
 
     </dependencies>
 
@@ -63,13 +82,19 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <phase>install</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
+                    <artifactSet>
+                        <includes>
+                            <include>org.json:json</include>
+                            <include>net.gpedro.integrations.slack:slack-webhook</include>
+                        </includes>
+                    </artifactSet>
                     <finalName>${project.artifactId}</finalName>
                 </configuration>
             </plugin>

@@ -25,3 +25,7 @@ commands:
   flyspeed:
     description: Sets your flying speed
     aliases: [fspeed, fsp]
+  report:
+    description: Report a player
+  staffreq:
+    description: Requests a Staff member

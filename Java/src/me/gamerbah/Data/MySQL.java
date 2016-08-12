@@ -48,7 +48,8 @@ public class MySQL {
             if (result.next()) {
                 PlayerData playerData = new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
                         result.getString("name"), result.getString("challenges"), result.getString("achievements"),
-                        Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getBoolean("dailyReward"), new ArrayList<>());
+                        Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
+                        result.getBoolean("dailyReward"), new ArrayList<>());
 
                 ResultSet punishments = executeQuery(Query.GET_PUNISHMENT, uuid.toString());
                 if (punishments != null && punishments.next()) {

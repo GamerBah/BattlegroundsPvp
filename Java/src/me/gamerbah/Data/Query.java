@@ -12,6 +12,8 @@ public enum Query {
     UPDATE_PLAYER_RANK("UPDATE players SET rank = ? WHERE id = ?"),
     UPDATE_PLAYER_KILLS("UPDATE players SET kills = ? WHERE id = ?"),
     UPDATE_PLAYER_DEATHS("UPDATE players SET deaths = ? WHERE id = ?"),
+    UPDATE_PLAYER_SOULS("UPDATE players SET souls = ? WHERE id = ?"),
+    UPDATE_PLAYER_COINS("UPDATE players SET coins = ? WHERE id = ?"),
     UPDATE_PLAYER_CHALLENGES("UPDATE players SET challenges = ? WHERE id = ?"),
     UPDATE_PLAYERS_ACHIEVEMENTS("UPDATE players SET achievements = ? WHERE id = ?"),
     UPDATE_PLAYER_DAILY_REWARD("UPDATE players SET dailyReward = ? WHERE id = ?"),
