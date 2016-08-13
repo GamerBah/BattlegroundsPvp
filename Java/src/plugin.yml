@@ -29,3 +29,5 @@ commands:
     description: Report a player
   staffreq:
     description: Requests a Staff member
+  team:
+    description: Team with another player!

@@ -76,9 +76,7 @@ public class StaffReqCommand implements CommandExecutor {
         player.sendMessage(ChatColor.GREEN + "Your message has been sent! A staff member has been notified of your request and should be able to help you shortly!");
         plugin.playSound(player, EventSound.COMMAND_SUCCESS);
         cooldown.put(player.getUniqueId(), 60);
-        plugin.getServer().getScheduler().runTaskTimer(plugin, new Runnable() {
-            @Override
-            public void run() {
+        plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
                 if (cooldown.containsKey(player.getUniqueId())) {
                     if (cooldown.get(player.getUniqueId()) >= 0) {
                         cooldown.put(player.getUniqueId(), (cooldown.get(player.getUniqueId()) - 1));
@@ -87,7 +85,6 @@ public class StaffReqCommand implements CommandExecutor {
                         player.sendMessage(ChatColor.GREEN + "You can now use " + ChatColor.YELLOW + "/staffreq " + ChatColor.GREEN + "again!");
                     }
                 }
-            }
         }, 1L, 20L);
 
         return false;
