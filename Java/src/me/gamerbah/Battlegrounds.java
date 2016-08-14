@@ -6,6 +6,7 @@ import lombok.Getter;
 import me.gamerbah.Administration.Commands.*;
 import me.gamerbah.Administration.Punishments.Commands.MuteCommand;
 import me.gamerbah.Administration.Punishments.Commands.UnmuteCommand;
+import me.gamerbah.Administration.Utils.AutoUpdate;
 import me.gamerbah.Commands.ReportCommand;
 import me.gamerbah.Commands.StaffReqCommand;
 import me.gamerbah.Commands.TeamCommand;
@@ -20,12 +21,14 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.inventivetalent.glow.GlowAPI;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Battlegrounds extends JavaPlugin {
-
+    @Getter
+    private static Battlegrounds instance = null;
     @Getter
     private static MySQL sql = null;
     private HashSet<PlayerData> playerData = new HashSet<>();
@@ -43,6 +46,8 @@ public class Battlegrounds extends JavaPlugin {
 
 
     public void onEnable() {
+        instance = this;
+
         registerCommands();
         registerListeners();
 
@@ -51,7 +56,10 @@ public class Battlegrounds extends JavaPlugin {
         // Reload player data on reload
         for (Player player : getServer().getOnlinePlayers()) {
             playerData.add(sql.getPlayerData(player.getUniqueId()));
+            GlowAPI.setGlowing(player, null, getServer().getOnlinePlayers());
         }
+
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoUpdate(this), 120, 120);
 
         // Initialize SlackApi
         slackReports = new SlackApi("https://hooks.slack.com/services/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");
@@ -83,6 +91,7 @@ public class Battlegrounds extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerChat(this), this);
         getServer().getPluginManager().registerEvents(new InventoryClick(this), this);
         getServer().getPluginManager().registerEvents(new CombatListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerMove(this), this);
     }
 
     public void playSound(Player player, EventSound eventSound) {

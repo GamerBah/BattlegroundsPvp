@@ -79,13 +79,11 @@ public class TeamCommand implements CommandExecutor {
                         if (teammate != null) {
                             plugin.playSound(player, EventSound.TEAM_DISBAND);
                             teammate.sendMessage(ChatColor.RED + player.getName() + "has left the team. Therefore, the team has been disbanded!");
-                            Battlegrounds.currentTeams.remove(teammate.getName());
-                            Battlegrounds.currentTeams.remove(player.getName());
+                            TeamUtils.removeTeam(player, teammate);
                         }
                         plugin.playSound(player, EventSound.TEAM_DISBAND);
                         player.sendMessage(ChatColor.RED + "You have left the team. Therefore, the team has been disbanded!");
-                        Battlegrounds.currentTeams.remove(teammate.getName());
-                        Battlegrounds.currentTeams.remove(player.getName());
+                        TeamUtils.removeTeam(player, teammate);
                     } else if (Battlegrounds.currentTeams.values().contains(player.getName())) {
                         Battlegrounds.currentTeams.keySet().stream().filter(key -> Battlegrounds.currentTeams.get(key).equalsIgnoreCase(player.getName())).forEach(key -> {
                             Player teammate = Bukkit.getServer().getPlayer(Battlegrounds.currentTeams.get(key));
@@ -93,7 +91,7 @@ public class TeamCommand implements CommandExecutor {
                             plugin.playSound(player, EventSound.TEAM_DISBAND);
                             teammate.sendMessage(ChatColor.RED + player.getName() + " has left the team. Therefore, the team has been disbanded!");
                             player.sendMessage(ChatColor.RED + "You have left the team. Therefore, the team has been disbanded!");
-                            Battlegrounds.currentTeams.remove(Battlegrounds.currentTeams.get(key));
+                            TeamUtils.removeTeam(player, teammate);
                         });
                     }
                 }

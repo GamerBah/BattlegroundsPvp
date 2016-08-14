@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -140,6 +141,19 @@ public class CombatListener implements Listener {
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, ChatColor.RED + "\nYou are banned for combat logging.\nYour ban will expire 2 minutes from when you were banned.");
             } else {
                 logged.remove(uuid);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageEvent event) {
+        Player player = (Player) event.getEntity();
+
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
+            if (PlayerMove.getLaunched().contains(player)) {
+                event.setCancelled(true);
+                player.setFallDistance(0);
+                PlayerMove.getLaunched().remove(player);
             }
         }
     }

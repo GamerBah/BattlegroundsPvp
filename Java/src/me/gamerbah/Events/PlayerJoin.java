@@ -2,6 +2,7 @@ package me.gamerbah.Events;
 /* Created by GamerBah on 8/7/2016 */
 
 
+import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Data.PlayerData;
 import net.md_5.bungee.api.ChatColor;
@@ -10,6 +11,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.inventivetalent.tabapi.TabAPI;
+import org.inventivetalent.tabapi.TabItem;
 
 public class PlayerJoin implements Listener {
 
@@ -40,6 +43,9 @@ public class PlayerJoin implements Listener {
             event.setJoinMessage(ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "[" + ChatColor.GREEN + "" + ChatColor.BOLD + "+"
                     + ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "] " + ChatColor.WHITE + event.getPlayer().getName());
         }
+
+        player.setPlayerListName((playerData.hasRank(Rank.ELITE) ? playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")
+                + (playerData.hasRank(Rank.ELITE) ? ChatColor.WHITE : ChatColor.GRAY) + player.getName());
     }
 
 }
