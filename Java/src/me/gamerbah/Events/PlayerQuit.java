@@ -4,6 +4,7 @@ package me.gamerbah.Events;
 
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Commands.ReportCommand;
+import me.gamerbah.Utils.BoldColor;
 import me.gamerbah.Utils.EventSound;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
@@ -43,8 +44,8 @@ public class PlayerQuit implements Listener {
             });
         }
 
-        event.setQuitMessage(ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "[" + ChatColor.RED + "" + ChatColor.BOLD + "+"
-                + ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "] " + ChatColor.WHITE + event.getPlayer().getName());
+        event.setQuitMessage(BoldColor.DARK_GRAY.getColor() + "[" + BoldColor.RED.getColor() + "-"
+                + BoldColor.DARK_GRAY.getColor() + "] " + ChatColor.WHITE + event.getPlayer().getName());
     }
 
 }

@@ -31,3 +31,5 @@ commands:
     description: Requests a Staff member
   team:
     description: Team with another player!
+  spawn:
+    description: Takes you back to the spawn

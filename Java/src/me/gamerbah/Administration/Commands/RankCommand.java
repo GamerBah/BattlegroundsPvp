@@ -5,6 +5,7 @@ package me.gamerbah.Administration.Commands;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Data.PlayerData;
+import me.gamerbah.Listeners.ScoreboardListener;
 import me.gamerbah.Utils.EventSound;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.WordUtils;
@@ -30,7 +31,7 @@ public class RankCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
-            if (!playerData.hasRank(Rank.OWNER)) {
+            if (!playerData.hasRank(Rank.DEVELOPER)) {
                 if (player.getUniqueId().equals("dc815235-c651-4f55-b6a5-81ea33d16397")) {
                     return false;
                 } else {
@@ -61,6 +62,8 @@ public class RankCommand implements CommandExecutor {
                     if (playerData != null) {
                         playerData.setRank(rank);
                         sender.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Success! " + ChatColor.GRAY + target.getName() + "'s rank was changed to " + WordUtils.capitalizeFully(rank.toString()));
+                        ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
+                        scoreboardListener.updateScoreboards();
                         return;
                     } else {
                         sender.sendMessage(ChatColor.RED + "That player doesn't exist!");

@@ -8,6 +8,7 @@ import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Data.PlayerData;
+import me.gamerbah.Utils.BoldColor;
 import me.gamerbah.Utils.Time;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
@@ -31,28 +32,14 @@ public class PlayerChat implements Listener {
             event.setCancelled(true);
             plugin.getServer().getOnlinePlayers().stream().filter(players ->
                     plugin.getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
-                    .forEach(players -> players.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "[STAFF] "
+                    .forEach(players -> players.sendMessage(BoldColor.YELLOW.getColor() + "[STAFF] "
                             + ChatColor.RED + player.getName() + ": " + event.getMessage()));
             return;
         }
 
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
 
-        playerData.getPunishments().stream().filter(punishment -> punishment.getType().equals(Punishment.PunishType.MUTE)).forEach(punishment -> {
-            PlayerData punisherData = plugin.getPlayerData(punishment.getEnforcerUUID());
-            if (System.currentTimeMillis() <= (punishment.getTime() + punishment.getExpiration())) {
-                event.setCancelled(true);
-                player.sendMessage(ChatColor.RED + "You were temporarily muted by " + plugin.getServer().getOfflinePlayer(punisherData.getUuid()).getName()
-                        + " for " + punishment.getReason() + ".\n"
-                        + "You have " + Time.toString(punishment.getTime() + punishment.getExpiration() - System.currentTimeMillis()) + " left in your mute.\n"
-                        + "Appeal on climaxmc.net/forum if you believe that this is an error!");
-            } else if (punishment.getExpiration() == -1) {
-                event.setCancelled(true);
-                player.sendMessage(ChatColor.RED + "You were permanently muted by " + plugin.getServer().getOfflinePlayer(punisherData.getUuid()).getName()
-                        + " for " + punishment.getReason() + ".\n"
-                        + "Appeal on climaxmc.net/forum if you believe that this is an error!");
-            }
-        });
+        // TODO: Mute Check
 
         Rank rank = playerData.getRank();
 

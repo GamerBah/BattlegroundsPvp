@@ -1,7 +1,8 @@
-package me.gamerbah.Events;
+package me.gamerbah.Listeners;
 
 import lombok.Getter;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Events.PlayerMove;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

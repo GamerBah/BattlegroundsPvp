@@ -8,12 +8,16 @@ import me.gamerbah.Administration.Punishments.Commands.MuteCommand;
 import me.gamerbah.Administration.Punishments.Commands.UnmuteCommand;
 import me.gamerbah.Administration.Utils.AutoUpdate;
 import me.gamerbah.Commands.ReportCommand;
+import me.gamerbah.Commands.SpawnCommand;
 import me.gamerbah.Commands.StaffReqCommand;
 import me.gamerbah.Commands.TeamCommand;
 import me.gamerbah.Data.MySQL;
 import me.gamerbah.Data.PlayerData;
 import me.gamerbah.Data.Query;
 import me.gamerbah.Events.*;
+import me.gamerbah.Listeners.CombatListener;
+import me.gamerbah.Listeners.ScoreboardListener;
+import me.gamerbah.Utils.BoldColor;
 import me.gamerbah.Utils.EventSound;
 import net.gpedro.integrations.slack.SlackApi;
 import net.md_5.bungee.api.ChatColor;
@@ -38,8 +42,7 @@ public class Battlegrounds extends JavaPlugin {
     public SlackApi slackReports = null;
     public SlackApi slackStaffRequests = null;
 
-    public static String redBold = ChatColor.RED + "" + ChatColor.BOLD;
-    public static String incorrectUsage = redBold + "Oops! " + ChatColor.GRAY + "Try this: " + redBold;
+    public static String incorrectUsage = BoldColor.RED.getColor() + "Oops! " + ChatColor.GRAY + "Try this: " + ChatColor.RED;
     public static Map<UUID, Integer> killStreak = new HashMap<>();
     public static Map<String, String> pendingTeams = new HashMap<>();
     public static Map<String, String> currentTeams = new ConcurrentHashMap<>();
@@ -64,6 +67,9 @@ public class Battlegrounds extends JavaPlugin {
         // Initialize SlackApi
         slackReports = new SlackApi("https://hooks.slack.com/services/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");
         slackStaffRequests = new SlackApi("https://hooks.slack.com/services/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");
+
+        ScoreboardListener scoreboardListener = new ScoreboardListener(this);
+        scoreboardListener.updateScoreboards();
     }
 
     public void onDisable() {
@@ -83,6 +89,7 @@ public class Battlegrounds extends JavaPlugin {
         getCommand("report").setExecutor(new ReportCommand(this));
         getCommand("staffreq").setExecutor(new StaffReqCommand(this));
         getCommand("team").setExecutor(new TeamCommand(this));
+        getCommand("spawn").setExecutor(new SpawnCommand(this));
     }
 
     private void registerListeners() {
@@ -92,6 +99,7 @@ public class Battlegrounds extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryClick(this), this);
         getServer().getPluginManager().registerEvents(new CombatListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerMove(this), this);
+        getServer().getPluginManager().registerEvents(new ScoreboardListener(this), this);
     }
 
     public void playSound(Player player, EventSound eventSound) {
@@ -126,10 +134,16 @@ public class Battlegrounds extends JavaPlugin {
         playSound(player, EventSound.COMMAND_FAIL);
     }
 
+    // Respawn at location
     public void respawn(Player player, Location location) {
         player.spigot().respawn();
         player.teleport(location);
         getServer().getPluginManager().callEvent(new PlayerRespawnEvent(player, location, false));
+    }
+
+    // Respawn at world spawn
+    public void respawn(Player player) {
+        respawn(player, player.getWorld().getSpawnLocation().add(0.5, 0, 0.5));
     }
 
 }

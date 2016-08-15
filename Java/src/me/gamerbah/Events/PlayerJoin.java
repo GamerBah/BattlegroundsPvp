@@ -5,6 +5,7 @@ package me.gamerbah.Events;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Data.PlayerData;
+import me.gamerbah.Utils.BoldColor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,11 +38,11 @@ public class PlayerJoin implements Listener {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
 
         if (!player.hasPlayedBefore()) {
-            event.setJoinMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "New! " + ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "[" + ChatColor.GREEN + "" + ChatColor.BOLD + "+"
-                    + ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "] " + ChatColor.WHITE + event.getPlayer().getName());
+            event.setJoinMessage(BoldColor.GOLD.getColor() + "New! " + BoldColor.DARK_GRAY.getColor() + "[" + BoldColor.GREEN.getColor() + "+"
+                    + BoldColor.DARK_GRAY.getColor() + "] " + ChatColor.WHITE + event.getPlayer().getName());
         } else {
-            event.setJoinMessage(ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "[" + ChatColor.GREEN + "" + ChatColor.BOLD + "+"
-                    + ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "] " + ChatColor.WHITE + event.getPlayer().getName());
+            event.setJoinMessage(BoldColor.DARK_GRAY.getColor() + "[" + BoldColor.GREEN.getColor() + "+"
+                    + BoldColor.DARK_GRAY.getColor() + "] " + ChatColor.WHITE + event.getPlayer().getName());
         }
 
         player.setPlayerListName((playerData.hasRank(Rank.ELITE) ? playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")

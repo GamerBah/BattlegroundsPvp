@@ -5,6 +5,7 @@ package me.gamerbah.Events;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Commands.ReportCommand;
 import me.gamerbah.Etc.Menus.ReportGUI;
+import me.gamerbah.Utils.BoldColor;
 import me.gamerbah.Utils.EventSound;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
@@ -103,7 +104,7 @@ public class InventoryClick implements Listener {
                             if (message == null) {
                                 player.closeInventory();
                                 plugin.playSound(player, EventSound.COMMAND_FAIL);
-                                player.sendMessage(plugin.redBold + "Oops! " + ChatColor.GRAY + "You tried to report a player without selecting any report options!");
+                                player.sendMessage(BoldColor.RED.getColor() + "Oops! " + ChatColor.GRAY + "You tried to report a player without selecting any report options!");
                             } else {
                                 reportGUI.report(player, target, message);
                                 player.closeInventory();
