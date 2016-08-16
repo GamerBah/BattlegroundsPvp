@@ -1,4 +1,4 @@
-package me.gamerbah.Events;
+package me.gamerbah.PlayerEvents;
 
 import me.gamerbah.Battlegrounds;
 import org.bukkit.event.EventHandler;

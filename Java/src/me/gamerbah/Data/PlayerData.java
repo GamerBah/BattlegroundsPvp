@@ -25,7 +25,7 @@ public class PlayerData {
     @Getter
     private int kills, deaths, souls, coins;
     @Getter
-    private boolean dailyReward;
+    private boolean dailyReward, teamRequests, privateMessaging, stealthyJoin;
     @Getter
     private List<Punishment> punishments;
 
@@ -70,6 +70,18 @@ public class PlayerData {
 
     public void setDailyReward(boolean dailyReward) {
         sql.executeUpdate(UPDATE_PLAYER_DAILY_REWARD, this.dailyReward = dailyReward, id);
+    }
+
+    public void setTeamRequests(boolean teamRequests) {
+        sql.executeUpdate(UPDATE_PLAYER_TEAM_REQUESTS, this.teamRequests = teamRequests, id);
+    }
+
+    public void setPrivateMessaging(boolean privateMessaging) {
+        sql.executeUpdate(UPDATE_PLAYER_PRIVATE_MESSAGING, this.privateMessaging = privateMessaging, id);
+    }
+
+    public void setStealthyJoin(boolean stealthyJoin) {
+        sql.executeUpdate(UPDATE_PLAYER_STEALTHY_JOIN, this.stealthyJoin = stealthyJoin, id);
     }
 
     public void addPunishment(Punishment punishment) {

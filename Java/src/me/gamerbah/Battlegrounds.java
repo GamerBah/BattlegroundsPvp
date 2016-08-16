@@ -7,18 +7,17 @@ import me.gamerbah.Administration.Commands.*;
 import me.gamerbah.Administration.Punishments.Commands.MuteCommand;
 import me.gamerbah.Administration.Punishments.Commands.UnmuteCommand;
 import me.gamerbah.Administration.Utils.AutoUpdate;
-import me.gamerbah.Commands.ReportCommand;
-import me.gamerbah.Commands.SpawnCommand;
-import me.gamerbah.Commands.StaffReqCommand;
-import me.gamerbah.Commands.TeamCommand;
+import me.gamerbah.Administration.Utils.ChatFilter;
+import me.gamerbah.Administration.Utils.PlayerCommandPreProccess;
+import me.gamerbah.Commands.*;
 import me.gamerbah.Data.MySQL;
 import me.gamerbah.Data.PlayerData;
 import me.gamerbah.Data.Query;
-import me.gamerbah.Events.*;
-import me.gamerbah.Listeners.CombatListener;
-import me.gamerbah.Listeners.ScoreboardListener;
+import me.gamerbah.Listeners.*;
+import me.gamerbah.PlayerEvents.*;
 import me.gamerbah.Utils.BoldColor;
 import me.gamerbah.Utils.EventSound;
+import me.gamerbah.Utils.Kits.KitManager;
 import net.gpedro.integrations.slack.SlackApi;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
@@ -27,6 +26,10 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.inventivetalent.glow.GlowAPI;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -38,6 +41,10 @@ public class Battlegrounds extends JavaPlugin {
     private HashSet<PlayerData> playerData = new HashSet<>();
     @Getter
     private static HashSet<UUID> afk = new HashSet<>();
+    @Getter
+    private List<String> filteredWords = new ArrayList<>();
+    @Getter
+    private HashMap<UUID, UUID> messagers = new HashMap<>();
 
     public SlackApi slackReports = null;
     public SlackApi slackStaffRequests = null;
@@ -63,6 +70,17 @@ public class Battlegrounds extends JavaPlugin {
         }
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoUpdate(this), 120, 120);
+
+        // Save Filter File
+        File filterFile = new File(getDataFolder(), "filter.txt");
+        if (!filterFile.exists()) {
+            saveResource("filter.txt", false);
+        }
+        try {
+            Files.lines(FileSystems.getDefault().getPath(filterFile.getPath())).forEach(filterLine -> filteredWords.add(org.bukkit.ChatColor.translateAlternateColorCodes('&', filterLine)));
+        } catch (IOException e) {
+            getLogger().severe("Could not get filtered words!");
+        }
 
         // Initialize SlackApi
         slackReports = new SlackApi("https://hooks.slack.com/services/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");
@@ -90,16 +108,31 @@ public class Battlegrounds extends JavaPlugin {
         getCommand("staffreq").setExecutor(new StaffReqCommand(this));
         getCommand("team").setExecutor(new TeamCommand(this));
         getCommand("spawn").setExecutor(new SpawnCommand(this));
+        getCommand("afk").setExecutor(new AFKCommand(this));
+        getCommand("message").setExecutor(new MessageCommand(this));
+        getCommand("reply").setExecutor(new ReplyCommand(this));
+        getCommand("ping").setExecutor(new PingCommand(this));
+        getCommand("options").setExecutor(new OptionsCommand(this));
     }
 
     private void registerListeners() {
         getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
         getServer().getPluginManager().registerEvents(new PlayerQuit(this), this);
         getServer().getPluginManager().registerEvents(new PlayerChat(this), this);
-        getServer().getPluginManager().registerEvents(new InventoryClick(this), this);
+        getServer().getPluginManager().registerEvents(new InventoryClickListener(this), this);
         getServer().getPluginManager().registerEvents(new CombatListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerMove(this), this);
         getServer().getPluginManager().registerEvents(new ScoreboardListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerFoodLevelChange(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerBlockPlace(this), this);
+        getServer().getPluginManager().registerEvents(new WeatherChangeListener(this), this);
+        getServer().getPluginManager().registerEvents(new ItemSpawnListener(this), this);
+        getServer().getPluginManager().registerEvents(new InventoryCloseListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerCommandPreProccess(this), this);
+        getServer().getPluginManager().registerEvents(new ChatFilter(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerRespawn(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerInteract(this), this);
+        getServer().getPluginManager().registerEvents(new KitManager(this), this);
     }
 
     public void playSound(Player player, EventSound eventSound) {

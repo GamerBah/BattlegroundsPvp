@@ -33,3 +33,15 @@ commands:
     description: Team with another player!
   spawn:
     description: Takes you back to the spawn
+  afk:
+    description: Sets you as AFK (away-from-keyboard)
+  message:
+    description: Message another player
+    aliases: [m, msg]
+  reply:
+    description: Quick reply to your last-received message
+    aliases: [r]
+  options:
+    description: Open options for a player
+  ping:
+    description: View the ping of yourself or another player

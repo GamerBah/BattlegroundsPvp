@@ -1,11 +1,10 @@
-package me.gamerbah.Events;
+package me.gamerbah.PlayerEvents;
 /* Created by GamerBah on 8/14/2016 */
 
 
 import lombok.Getter;
 import me.gamerbah.Battlegrounds;
 import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

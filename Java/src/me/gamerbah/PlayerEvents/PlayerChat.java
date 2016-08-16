@@ -1,15 +1,13 @@
-package me.gamerbah.Events;
+package me.gamerbah.PlayerEvents;
 /* Created by GamerBah on 8/9/2016 */
 
 
 import me.gamerbah.Administration.Commands.ChatCommands;
 import me.gamerbah.Administration.Commands.StaffChatCommand;
-import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Data.PlayerData;
 import me.gamerbah.Utils.BoldColor;
-import me.gamerbah.Utils.Time;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

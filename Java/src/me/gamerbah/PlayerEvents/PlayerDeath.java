@@ -1,4 +1,4 @@
-package me.gamerbah.Events;
+package me.gamerbah.PlayerEvents;
 /* Created by GamerBah on 8/9/2016 */
 
 

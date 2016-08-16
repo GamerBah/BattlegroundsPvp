@@ -49,7 +49,7 @@ public class MySQL {
                 PlayerData playerData = new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
                         result.getString("name"), result.getString("challenges"), result.getString("achievements"),
                         Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
-                        result.getBoolean("dailyReward"), new ArrayList<>());
+                        result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"), new ArrayList<>());
 
                 ResultSet punishments = executeQuery(Query.GET_PUNISHMENT, uuid.toString());
                 if (punishments != null && punishments.next()) {
@@ -65,7 +65,7 @@ public class MySQL {
             }
             result.getStatement().close();
         } catch (SQLException e) {
-            plugin.getLogger().severe("Could not get player data!");
+            plugin.getLogger().severe("Uh oh! Unable to get the player data!");
             e.printStackTrace();
         }
         return null;

@@ -1,9 +1,10 @@
-package me.gamerbah.Events;
+package me.gamerbah.PlayerEvents;
 /* Created by GamerBah on 8/7/2016 */
 
 
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Commands.ReportCommand;
+import me.gamerbah.Data.PlayerData;
 import me.gamerbah.Utils.BoldColor;
 import me.gamerbah.Utils.EventSound;
 import net.md_5.bungee.api.ChatColor;
@@ -22,6 +23,7 @@ public class PlayerQuit implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+        PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
 
         if (Battlegrounds.killStreak.containsKey(player.getUniqueId())) {
             Battlegrounds.killStreak.remove(player.getUniqueId());
@@ -44,8 +46,12 @@ public class PlayerQuit implements Listener {
             });
         }
 
-        event.setQuitMessage(BoldColor.DARK_GRAY.getColor() + "[" + BoldColor.RED.getColor() + "-"
-                + BoldColor.DARK_GRAY.getColor() + "] " + ChatColor.WHITE + event.getPlayer().getName());
+        if (playerData.isStealthyJoin()) {
+            event.setQuitMessage(null);
+        } else {
+            event.setQuitMessage(BoldColor.DARK_GRAY.getColor() + "[" + BoldColor.RED.getColor() + "-"
+                    + BoldColor.DARK_GRAY.getColor() + "] " + ChatColor.WHITE + event.getPlayer().getName());
+        }
     }
 
 }

@@ -4,7 +4,7 @@ package me.gamerbah.Listeners;
 
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Data.PlayerData;
-import me.gamerbah.Events.PlayerBalanceChangeEvent;
+import me.gamerbah.PlayerEvents.PlayerBalanceChangeEvent;
 import me.gamerbah.Utils.BoldColor;
 import me.gamerbah.Utils.KDRatio;
 import net.md_5.bungee.api.ChatColor;
