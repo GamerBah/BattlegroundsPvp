@@ -5,7 +5,9 @@ package me.gamerbah.PlayerEvents;
 import me.gamerbah.Administration.Commands.ChatCommands;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Data.PlayerData;
+import me.gamerbah.Listeners.ScoreboardListener;
 import me.gamerbah.Utils.BoldColor;
+import me.gamerbah.Utils.KDRatio;
 import me.gamerbah.Utils.TextComponentMessages;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -16,13 +18,13 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.scheduler.BukkitTask;
-import org.inventivetalent.particle.ParticleEffect;
 
 import java.util.Random;
 
-public class PlayerDeath {
+public class PlayerDeath implements Listener {
 
     private Battlegrounds plugin;
 
@@ -37,24 +39,37 @@ public class PlayerDeath {
 
         Location location = player.getLocation();
 
-        BukkitTask task = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
-            ParticleEffect.FLAME.send(plugin.getServer().getOnlinePlayers(), player.getLocation(), 0, 1.5, 0, 0, 10, 100);
-        }, 10L, 0L);
-
-        plugin.getServer().getScheduler().runTaskLater(plugin, task::cancel, 10);
-
-        plugin.getServer().getScheduler().runTask(plugin, () -> {
-            plugin.respawn(player, player.getWorld().getSpawnLocation());
-        });
+        player.setHealth(20);
+        plugin.getServer().getScheduler().runTask(plugin, () ->
+                plugin.respawn(player));
 
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
+        KDRatio kdRatio = new KDRatio(plugin);
+        ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
+        scoreboardListener.getDeaths().put(player.getUniqueId(), playerData.getDeaths());
+        scoreboardListener.getKds().put(player.getUniqueId(), ChatColor.GRAY + "" + kdRatio.getRatio(player));
         playerData.setDeaths(playerData.getDeaths() + 1);
+        scoreboardListener.updateScoreboardDeaths(player);
+        scoreboardListener.updateScoreboardRatio(player);
 
         if (killer == null) {
-            if (plugin.getServer().getOnlinePlayers().size() >= 15) {
+            if (plugin.getServer().getOnlinePlayers().size() >= 15 || ChatCommands.chatSilenced) {
                 event.setDeathMessage(null);
             } else {
-                event.setDeathMessage("" + ChatColor.RED + player.getName() + ChatColor.GRAY + " died");
+                if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.FALL) {
+                    event.setDeathMessage("" + ChatColor.RED + player.getName() + ChatColor.GRAY + " fell to their death");
+                } else if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
+                    event.setDeathMessage("" + ChatColor.RED + player.getName() + ChatColor.GRAY + " tried to swim in lava");
+                } else if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.DROWNING) {
+                    event.setDeathMessage("" + ChatColor.RED + player.getName() + ChatColor.GRAY + " forgot to come up for air");
+                } else if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.FIRE_TICK
+                        || event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.FIRE) {
+                    event.setDeathMessage("" + ChatColor.RED + player.getName() + ChatColor.GRAY + " didn't stop, drop, and roll");
+                } else if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID) {
+                    event.setDeathMessage("" + ChatColor.RED + player.getName() + ChatColor.GRAY + " fell into the unknown");
+                } else {
+                    event.setDeathMessage("" + ChatColor.RED + player.getName() + ChatColor.GRAY + " died");
+                }
             }
             return;
         }
@@ -81,14 +96,10 @@ public class PlayerDeath {
         baseComponent.addExtra(wkb);
         baseComponent.addExtra(killerTCM);
 
-        if (ChatCommands.chatSilenced) {
+        if (plugin.getServer().getOnlinePlayers().size() >= 15 || ChatCommands.chatSilenced) {
             event.setDeathMessage(null);
         } else {
-            if (plugin.getServer().getOnlinePlayers().size() >= 15) {
-                event.setDeathMessage(null);
-            } else {
-                plugin.getServer().spigot().broadcast(baseComponent);
-            }
+            plugin.getServer().spigot().broadcast(baseComponent);
         }
 
         if (killer.getHealth() % 2 == 0) {
@@ -102,7 +113,11 @@ public class PlayerDeath {
         }
 
         PlayerData killerData = plugin.getPlayerData(killer.getUniqueId());
+        scoreboardListener.getKills().put(killer.getUniqueId(), killerData.getKills());
+        scoreboardListener.getKds().put(killer.getUniqueId(), ChatColor.GRAY + "" + kdRatio.getRatio(killer));
         killerData.setKills(playerData.getKills() + 1);
+        scoreboardListener.updateScoreboardKills(killer);
+        scoreboardListener.updateScoreboardRatio(killer);
         killer.sendMessage(ChatColor.GRAY + "You killed " + ChatColor.RED + player.getName());
 
         /*if(playerData.getKills() == 1) {
@@ -138,15 +153,21 @@ public class PlayerDeath {
             int killstreak = Battlegrounds.killStreak.get(killer.getUniqueId());
             if (killstreak % 5 == 0) {
                 plugin.getServer().broadcastMessage(ChatColor.GOLD + killer.getName() + ChatColor.GRAY + " is on a " + BoldColor.RED.getColor() + killstreak + " killstreak!");
+                scoreboardListener.getSouls().put(killer.getUniqueId(), killerData.getSouls());
                 killerData.setSouls(killerData.getSouls() + (souls * (killstreak / 5)));
+                scoreboardListener.updateScoreboardSouls(killer);
                 killer.sendMessage(ChatColor.GRAY + "You gained " + BoldColor.AQUA.getColor() + souls * (killstreak / 5) + " souls");
             } else {
+                scoreboardListener.getSouls().put(killer.getUniqueId(), killerData.getSouls());
                 killerData.setSouls(killerData.getSouls() + souls);
+                scoreboardListener.updateScoreboardSouls(killer);
                 killer.sendMessage(ChatColor.GRAY + "You gained " + BoldColor.AQUA.getColor() + souls + " souls");
             }
         } else {
             Battlegrounds.killStreak.put(killer.getUniqueId(), 1);
+            scoreboardListener.getSouls().put(killer.getUniqueId(), killerData.getSouls());
             killerData.setSouls(killerData.getSouls() + souls);
+            scoreboardListener.updateScoreboardSouls(killer);
             killer.sendMessage(ChatColor.GRAY + "You gained " + BoldColor.AQUA.getColor() + souls + " souls");
         }
 

@@ -1,6 +1,5 @@
 package me.gamerbah.Utils.Kits;
 
-import com.sun.javafx.scene.layout.region.BackgroundPositionConverter;
 import lombok.Data;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
@@ -13,7 +12,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;

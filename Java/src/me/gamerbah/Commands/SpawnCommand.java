@@ -3,11 +3,9 @@ package me.gamerbah.Commands;
 
 
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Listeners.ScoreboardListener;
+import me.gamerbah.PlayerEvents.PlayerMove;
 import me.gamerbah.Utils.EventSound;
-import me.gamerbah.Utils.Kits.Kit;
 import me.gamerbah.Utils.Kits.KitManager;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,11 +30,11 @@ public class SpawnCommand implements CommandExecutor {
         if (KitManager.isPlayerInKit(player)) {
             KitManager.getPreviousKit().put(player.getUniqueId(), KitManager.getPlayersInKits().get(player.getUniqueId()));
         }
+        if (PlayerMove.getLaunched().contains(player)) {
+            PlayerMove.getLaunched().remove(player);
+        }
         plugin.respawn(player);
-        player.sendMessage(ChatColor.GREEN + "You've been sent back the the spawn");
         plugin.playSound(player, EventSound.COMMAND_NEEDS_CONFIRMATION);
-        ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
-        scoreboardListener.updateScoreboards();
 
         return true;
     }

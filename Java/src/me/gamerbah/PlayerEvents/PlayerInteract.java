@@ -92,6 +92,7 @@ public class PlayerInteract implements Listener {
                 if (KitManager.getPreviousKit().containsKey(player.getUniqueId())) {
                     player.getInventory().setItem(0, null);
                     KitManager.getPreviousKit().get(player.getUniqueId()).wearCheckLevel(player);
+                    player.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_DIAMOND, 2, 0.85F);
                 }
             } else if (item.getType().equals(Material.DIAMOND)) {
                 player.sendMessage(ChatColor.RED + "Challenges are being fixed at the moment!");

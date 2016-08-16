@@ -10,12 +10,12 @@ import org.bukkit.event.HandlerList;
 
 import java.util.UUID;
 
-public class PlayerBalanceChangeEvent extends Event {
+public class PlayerBalanceChange extends Event {
     private static final HandlerList handlers = new HandlerList();
     @Getter
     private OfflinePlayer player;
 
-    public PlayerBalanceChangeEvent(UUID uuid) {
+    public PlayerBalanceChange(UUID uuid) {
         this.player = Bukkit.getOfflinePlayer(uuid);
     }
 

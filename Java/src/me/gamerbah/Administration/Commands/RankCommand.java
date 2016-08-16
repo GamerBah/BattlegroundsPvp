@@ -59,15 +59,23 @@ public class RankCommand implements CommandExecutor {
             for (Rank rank : Rank.values()) {
                 if (rank.toString().equalsIgnoreCase(args[1])) {
                     PlayerData playerData = plugin.getPlayerData(target.getUniqueId());
+                    ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
                     if (playerData != null) {
-                        playerData.setRank(rank);
+                        if (target.isOnline()) {
+                            scoreboardListener.getRanks().put(target.getUniqueId(), playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase());
+                            playerData.setRank(rank);
+                            scoreboardListener.updateScoreboardRank((Player) target);
+                        } else {
+                            playerData.setRank(rank);
+                        }
                         sender.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Success! " + ChatColor.GRAY + target.getName() + "'s rank was changed to " + WordUtils.capitalizeFully(rank.toString()));
-                        ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
-                        scoreboardListener.updateScoreboards();
                         return;
                     } else {
                         sender.sendMessage(ChatColor.RED + "That player doesn't exist!");
-                        if (sender instanceof Player) plugin.playSound((Player) sender, EventSound.COMMAND_FAIL);
+                        if (sender instanceof Player) {
+                            Player player = (Player) sender;
+                            plugin.playSound(player, EventSound.COMMAND_FAIL);
+                        }
                         return;
                     }
                 }

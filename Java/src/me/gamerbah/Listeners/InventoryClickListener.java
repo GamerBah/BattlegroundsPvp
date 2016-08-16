@@ -15,6 +15,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -63,6 +64,7 @@ public class InventoryClickListener implements Listener {
                                 .equals(kit.getItem().getItemMeta().getDisplayName())).forEach(kit -> {
                             kit.wearCheckLevel(player);
                             plugin.getServer().getScheduler().runTask(plugin, player::closeInventory);
+                            player.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_DIAMOND, 2, 0.85F);
                         });
                         event.setCancelled(true);
                     }

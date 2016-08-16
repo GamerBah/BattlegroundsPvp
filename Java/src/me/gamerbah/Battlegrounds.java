@@ -17,6 +17,7 @@ import me.gamerbah.Listeners.*;
 import me.gamerbah.PlayerEvents.*;
 import me.gamerbah.Utils.BoldColor;
 import me.gamerbah.Utils.EventSound;
+import me.gamerbah.Utils.KDRatio;
 import me.gamerbah.Utils.Kits.KitManager;
 import net.gpedro.integrations.slack.SlackApi;
 import net.md_5.bungee.api.ChatColor;
@@ -34,30 +35,26 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Battlegrounds extends JavaPlugin {
+    public static String incorrectUsage = BoldColor.RED.getColor() + "Oops! " + ChatColor.GRAY + "Try this: " + ChatColor.RED;
+    public static Map<UUID, Integer> killStreak = new HashMap<>();
+    public static Map<String, String> pendingTeams = new HashMap<>();
+    public static Map<String, String> currentTeams = new ConcurrentHashMap<>();
     @Getter
     private static Battlegrounds instance = null;
     @Getter
     private static MySQL sql = null;
-    private HashSet<PlayerData> playerData = new HashSet<>();
     @Getter
     private static HashSet<UUID> afk = new HashSet<>();
+    public SlackApi slackReports = null;
+    public SlackApi slackStaffRequests = null;
+    private HashSet<PlayerData> playerData = new HashSet<>();
     @Getter
     private List<String> filteredWords = new ArrayList<>();
     @Getter
     private HashMap<UUID, UUID> messagers = new HashMap<>();
 
-    public SlackApi slackReports = null;
-    public SlackApi slackStaffRequests = null;
-
-    public static String incorrectUsage = BoldColor.RED.getColor() + "Oops! " + ChatColor.GRAY + "Try this: " + ChatColor.RED;
-    public static Map<UUID, Integer> killStreak = new HashMap<>();
-    public static Map<String, String> pendingTeams = new HashMap<>();
-    public static Map<String, String> currentTeams = new ConcurrentHashMap<>();
-
-
     public void onEnable() {
         instance = this;
-
         registerCommands();
         registerListeners();
 
@@ -66,7 +63,16 @@ public class Battlegrounds extends JavaPlugin {
         // Reload player data on reload
         for (Player player : getServer().getOnlinePlayers()) {
             playerData.add(sql.getPlayerData(player.getUniqueId()));
+            PlayerData playerData = getPlayerData(player.getUniqueId());
+            ScoreboardListener scoreboardListener = new ScoreboardListener(this);
+            KDRatio kdRatio = new KDRatio(this);
             GlowAPI.setGlowing(player, null, getServer().getOnlinePlayers());
+            scoreboardListener.getRanks().put(player.getUniqueId(), playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase());
+            scoreboardListener.getKills().put(player.getUniqueId(), playerData.getKills());
+            scoreboardListener.getDeaths().put(player.getUniqueId(), playerData.getDeaths());
+            scoreboardListener.getKds().put(player.getUniqueId(), ChatColor.GRAY + "" + kdRatio.getRatio(player));
+            scoreboardListener.getSouls().put(player.getUniqueId(), playerData.getSouls());
+            scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
         }
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoUpdate(this), 120, 120);
@@ -85,9 +91,6 @@ public class Battlegrounds extends JavaPlugin {
         // Initialize SlackApi
         slackReports = new SlackApi("https://hooks.slack.com/services/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");
         slackStaffRequests = new SlackApi("https://hooks.slack.com/services/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");
-
-        ScoreboardListener scoreboardListener = new ScoreboardListener(this);
-        scoreboardListener.updateScoreboards();
     }
 
     public void onDisable() {
@@ -133,6 +136,7 @@ public class Battlegrounds extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerRespawn(this), this);
         getServer().getPluginManager().registerEvents(new PlayerInteract(this), this);
         getServer().getPluginManager().registerEvents(new KitManager(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerDeath(this), this);
     }
 
     public void playSound(Player player, EventSound eventSound) {
