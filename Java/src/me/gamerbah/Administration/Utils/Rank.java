@@ -17,7 +17,7 @@ public enum Rank {
     MASTER("Master", ChatColor.YELLOW, 8),
     CHAMPION("Champion", ChatColor.LIGHT_PURPLE, 6),
     ELITE("Elite", ChatColor.DARK_PURPLE, 4),
-    DEFAULT(null, null, 0);
+    DEFAULT("Default", ChatColor.GRAY, 0);
 
 
     private String name;

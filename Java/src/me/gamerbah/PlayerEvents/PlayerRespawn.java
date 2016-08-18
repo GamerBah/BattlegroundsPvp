@@ -56,7 +56,7 @@ public class PlayerRespawn implements Listener {
         if (KitManager.getPreviousKit().containsKey(player.getUniqueId())) {
             Kit kit = KitManager.getPreviousKit().get(player.getUniqueId());
             player.getInventory().setItem(1, new I(Material.BOOK)
-                    .name(ChatColor.GREEN + "Previous Kit: " + kit.getRarity().getColor() + kit.getName())
+                    .name(BoldColor.GREEN.getColor() + "Previous Kit: " + kit.getRarity().getColor() + kit.getName())
                     .lore(ChatColor.GRAY + "Equips your previous kit"));
         }
 

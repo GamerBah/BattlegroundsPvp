@@ -4,6 +4,7 @@ package me.gamerbah.Administration.Commands;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Data.PlayerData;
+import me.gamerbah.Utils.BoldColor;
 import me.gamerbah.Utils.EventSound;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
@@ -39,7 +40,13 @@ public class FlySpeedCommand implements CommandExecutor {
             return true;
         }
 
-        if (!args[0].matches("[0-9]") && Integer.parseInt(args[0]) > 10) {
+        if (!args[0].matches("[0-9]+")) {
+            player.sendMessage(ChatColor.RED + "Please select a number from 1 to 10!");
+            plugin.playSound(player, EventSound.COMMAND_FAIL);
+            return true;
+        }
+
+        if (Integer.parseInt(args[0]) > 10) {
             player.sendMessage(ChatColor.RED + "Please select a number from 1 to 10!");
             plugin.playSound(player, EventSound.COMMAND_FAIL);
             return true;
@@ -69,7 +76,7 @@ public class FlySpeedCommand implements CommandExecutor {
                 break;
         }
         player.setFlySpeed(speed);
-        player.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Success! " + ChatColor.GRAY + "Your fly speed was set to " + ChatColor.GREEN + "" + ChatColor.BOLD + args[0]);
+        player.sendMessage(BoldColor.GREEN.getColor() + "Success! " + ChatColor.GRAY + "Your fly speed was set to " + BoldColor.GREEN.getColor() + args[0]);
         plugin.playSound(player, EventSound.COMMAND_SUCCESS);
         return true;
     }

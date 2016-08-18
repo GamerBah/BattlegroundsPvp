@@ -20,6 +20,7 @@ public enum Query {
     UPDATE_PLAYER_TEAM_REQUESTS("UPDATE players SET teamRequests = ? WHERE id = ?"),
     UPDATE_PLAYER_PRIVATE_MESSAGING("UPDATE players SET privateMessaging = ? WHERE id = ?"),
     UPDATE_PLAYER_STEALTHY_JOIN("UPDATE players SET stealthyJoin = ? WHERE id = ?"),
+    UPDATE_PLAYER_ESSENCES("UPDATE players SET essences = ? WHERE id = ?"),
 
     // PUNISHMENT DATA
     CREATE_PUNISHMENT("INSERT IGNORE INTO punishment (uuid, name, type, time, expiration, enforcerUUID, reason) VALUES (?, ?, ?, ?, ?, ?, ?)"),

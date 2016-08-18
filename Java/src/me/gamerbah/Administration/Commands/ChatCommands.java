@@ -3,6 +3,7 @@ package me.gamerbah.Administration.Commands;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Data.PlayerData;
+import me.gamerbah.Utils.BoldColor;
 import me.gamerbah.Utils.EventSound;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -16,15 +17,13 @@ import java.util.UUID;
 
 public class ChatCommands implements CommandExecutor {
 
+    public static HashSet<UUID> cmdspies = new HashSet<>();
+    public static boolean chatSilenced = false;
     private Battlegrounds plugin;
 
     public ChatCommands(Battlegrounds plugin) {
         this.plugin = plugin;
     }
-
-    public static HashSet<UUID> cmdspies = new HashSet<>();
-
-    public static boolean chatSilenced = false;
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -46,7 +45,7 @@ public class ChatCommands implements CommandExecutor {
                     }
                 }
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    Bukkit.getServer().broadcastMessage(ChatColor.RED + "" + ChatColor.BOLD + "The chat has been cleared by " + player.getName() + "!");
+                    Bukkit.getServer().broadcastMessage(BoldColor.RED.getColor() + "The chat has been cleared by " + player.getName() + "!");
                     plugin.playSound(p, EventSound.COMMAND_SUCCESS);
                 }
             }
@@ -59,13 +58,13 @@ public class ChatCommands implements CommandExecutor {
             } else {
                 if (!chatSilenced) {
                     chatSilenced = true;
-                    Bukkit.getServer().broadcastMessage(ChatColor.RED + "" + ChatColor.BOLD + "The chat has been locked by " + player.getName() + "!");
+                    Bukkit.getServer().broadcastMessage(BoldColor.RED.getColor() + "The chat has been locked by " + player.getName() + "!");
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         plugin.playSound(p, EventSound.COMMAND_SUCCESS);
                     }
                 } else {
                     chatSilenced = false;
-                    Bukkit.getServer().broadcastMessage(ChatColor.RED + "" + ChatColor.BOLD + "All chat has been re-enabled!");
+                    Bukkit.getServer().broadcastMessage(BoldColor.GREEN.getColor() + "All chat has been re-enabled!");
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         plugin.playSound(p, EventSound.COMMAND_SUCCESS);
                     }
@@ -80,11 +79,11 @@ public class ChatCommands implements CommandExecutor {
             } else {
                 if (!cmdspies.contains(player.getUniqueId())) {
                     cmdspies.add(player.getUniqueId());
-                    player.sendMessage(ChatColor.YELLOW + "Command Spy " + ChatColor.GREEN + "" + ChatColor.BOLD + "ENABLED");
+                    player.sendMessage(ChatColor.YELLOW + "Command Spy " + BoldColor.GREEN.getColor() + "ENABLED");
                     plugin.playSound(player, EventSound.COMMAND_SUCCESS);
                 } else {
                     cmdspies.remove(player.getUniqueId());
-                    player.sendMessage(ChatColor.YELLOW + "Command Spy " + ChatColor.RED + "" + ChatColor.BOLD + "DISABLED");
+                    player.sendMessage(ChatColor.YELLOW + "Command Spy " + BoldColor.RED.getColor() + "DISABLED");
                     plugin.playSound(player, EventSound.COMMAND_SUCCESS);
                 }
             }

@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.PlayerEvents.PlayerMove;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,9 +21,9 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class CombatListener implements Listener {
-    private Battlegrounds plugin;
     @Getter
     private static HashMap<UUID, Integer> tagged = new HashMap<>();
+    private Battlegrounds plugin;
     private HashMap<UUID, Long> logged = new HashMap<>();
 
     public CombatListener(Battlegrounds plugin) {
@@ -155,6 +156,8 @@ public class CombatListener implements Listener {
                 event.setCancelled(true);
                 player.setFallDistance(0);
                 PlayerMove.getLaunched().remove(player);
+                player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_LARGE_BLAST, 1, 1);
+                player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 0.875F);
             }
         }
     }

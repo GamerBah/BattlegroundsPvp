@@ -47,7 +47,7 @@ public class MySQL {
         try (ResultSet result = executeQuery(Query.GET_PLAYER, uuid.toString())) {
             if (result.next()) {
                 PlayerData playerData = new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
-                        result.getString("name"), result.getString("challenges"), result.getString("achievements"),
+                        result.getString("name"), result.getString("challenges"), result.getString("achievements"), result.getString("essences"),
                         Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
                         result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"), new ArrayList<>());
 

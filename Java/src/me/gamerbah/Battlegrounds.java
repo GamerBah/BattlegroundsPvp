@@ -73,6 +73,7 @@ public class Battlegrounds extends JavaPlugin {
             scoreboardListener.getKds().put(player.getUniqueId(), ChatColor.GRAY + "" + kdRatio.getRatio(player));
             scoreboardListener.getSouls().put(player.getUniqueId(), playerData.getSouls());
             scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
+            respawn(player);
         }
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoUpdate(this), 120, 120);
@@ -137,6 +138,7 @@ public class Battlegrounds extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerInteract(this), this);
         getServer().getPluginManager().registerEvents(new KitManager(this), this);
         getServer().getPluginManager().registerEvents(new PlayerDeath(this), this);
+        getServer().getPluginManager().registerEvents(new ServerListPingListener(), this);
     }
 
     public void playSound(Player player, EventSound eventSound) {

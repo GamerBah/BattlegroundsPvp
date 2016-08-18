@@ -18,8 +18,9 @@ public class PlayerData {
     private final int id;
     @Getter
     private final UUID uuid;
+    private final MySQL sql = Battlegrounds.getSql();
     @Getter
-    private String name, challenges, achievements;
+    private String name, challenges, achievements, essences;
     @Getter
     private Rank rank;
     @Getter
@@ -28,8 +29,6 @@ public class PlayerData {
     private boolean dailyReward, teamRequests, privateMessaging, stealthyJoin;
     @Getter
     private List<Punishment> punishments;
-
-    private final MySQL sql = Battlegrounds.getSql();
 
     public void setName(String name) {
         sql.executeUpdate(UPDATE_PLAYER_NAME, this.name = name, id);
@@ -82,6 +81,10 @@ public class PlayerData {
 
     public void setStealthyJoin(boolean stealthyJoin) {
         sql.executeUpdate(UPDATE_PLAYER_STEALTHY_JOIN, this.stealthyJoin = stealthyJoin, id);
+    }
+
+    public void setEssences(String essences) {
+        sql.executeUpdate(UPDATE_PLAYER_ESSENCES, this.essences = essences, id);
     }
 
     public void addPunishment(Punishment punishment) {

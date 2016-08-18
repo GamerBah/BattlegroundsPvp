@@ -57,7 +57,7 @@ public class PlayerDeath implements Listener {
                 event.setDeathMessage(null);
             } else {
                 if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.FALL) {
-                    event.setDeathMessage("" + ChatColor.RED + player.getName() + ChatColor.GRAY + " fell to their death");
+                    event.setDeathMessage("" + ChatColor.RED + player.getName() + ChatColor.GRAY + " lost a fight with gravity");
                 } else if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
                     event.setDeathMessage("" + ChatColor.RED + player.getName() + ChatColor.GRAY + " tried to swim in lava");
                 } else if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.DROWNING) {

@@ -3,6 +3,7 @@ package me.gamerbah.Listeners;
 
 
 import lombok.Getter;
+import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Data.PlayerData;
 import me.gamerbah.Utils.BoldColor;
@@ -54,8 +55,13 @@ public class ScoreboardListener implements Listener {
         if (playerData != null) {
             objective.getScore(" ").setScore(10);
             // Rank
-            objective.getScore(BoldColor.WHITE.getColor() + "Rank: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()).setScore(9);
-            ranks.put(player.getUniqueId(), playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase());
+            if (playerData.getRank().equals(Rank.DEFAULT)) {
+                objective.getScore(BoldColor.WHITE.getColor() + "Rank: " + playerData.getRank().getColor() + playerData.getRank().getName()).setScore(9);
+                ranks.put(player.getUniqueId(), playerData.getRank().getColor() + playerData.getRank().getName());
+            } else {
+                objective.getScore(BoldColor.WHITE.getColor() + "Rank: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()).setScore(9);
+                ranks.put(player.getUniqueId(), playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase());
+            }
 
             objective.getScore("  ").setScore(8);
 
@@ -92,7 +98,11 @@ public class ScoreboardListener implements Listener {
         Objective objective = board.getObjective("Player Data");
         if (ranks.containsKey(player.getUniqueId())) {
             board.resetScores(BoldColor.WHITE.getColor() + "Rank: " + ranks.get(player.getUniqueId()));
-            objective.getScore(BoldColor.WHITE.getColor() + "Rank: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()).setScore(9);
+            if (playerData.getRank().equals(Rank.DEFAULT)) {
+                objective.getScore(BoldColor.WHITE.getColor() + "Rank: " + playerData.getRank().getColor() + playerData.getRank().getName()).setScore(9);
+            } else {
+                objective.getScore(BoldColor.WHITE.getColor() + "Rank: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()).setScore(9);
+            }
         }
         player.setScoreboard(board);
     }

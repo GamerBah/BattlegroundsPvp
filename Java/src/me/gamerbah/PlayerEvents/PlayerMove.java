@@ -6,6 +6,7 @@ import lombok.Getter;
 import me.gamerbah.Battlegrounds;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -35,6 +36,7 @@ public class PlayerMove implements Listener {
             }
             player.setVelocity(player.getLocation().getDirection().multiply(3));
             player.setVelocity(new Vector(player.getVelocity().getX(), 1.0D, player.getVelocity().getZ()));
+            player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_LAUNCH, 2, 0.3F);
             if (!launched.contains(player)) {
                 launched.add(player);
             }

@@ -33,6 +33,7 @@ public class AutoUpdate implements Runnable {
         }
 
         plugin.getServer().broadcastMessage(BoldColor.RED.getColor() + "SERVER: " + ChatColor.GRAY + "Reloading in 5 seconds for an update. Hang in there!");
+        plugin.getServer().broadcastMessage(ChatColor.GRAY + "(You'll get sent back to the spawn once the update is complete)");
 
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
             PluginUtil.unload(plugin);
@@ -50,7 +51,7 @@ public class AutoUpdate implements Runnable {
                 plugin.playSound(player, EventSound.COMMAND_SUCCESS);
             }
             plugin.getServer().broadcastMessage(BoldColor.RED.getColor() + "SERVER: " + ChatColor.GRAY
-                    + "Update was a " + ChatColor.GREEN + "" + ChatColor.BOLD + "success" + ChatColor.GRAY + "! Now go have fun!");
+                    + "Update was a " + BoldColor.GREEN.getColor() + "success" + ChatColor.GRAY + "! Now go have fun!");
         }, 100);
     }
 }
