@@ -28,14 +28,32 @@ public class EssenceMenu {
 
         Inventory inv = plugin.getServer().createInventory(null, 54, "Battle Essences");
 
+        int oneSlot = 0, threeSlot = 18, sixSlot = 36;
+
         for (int i = 0; i < amount; i++) {
             Essence.Type e = type.get(i);
-            if (e != null) {
-                inv.setItem(i, new I(Material.BLAZE_POWDER).name(e.getColor() + e.getDisplayName()).amount(e.getTime())
+            if (e.getTime() == 1) {
+                inv.setItem(oneSlot++, new I(Material.BLAZE_POWDER).name(e.getColor() + e.getDisplayName()).amount(1)
                         .lore(ChatColor.GRAY + "Grants a server-wide " + e.getColor() + e.getIncrease() + "% increase" + ChatColor.GRAY + " to")
                         .lore(ChatColor.GRAY + "the amount of Souls and Battle Coins players")
                         .lore(ChatColor.GRAY + "receive when they kill another player").lore(" ")
-                        .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + e.getTime() + (e.getTime() == 1 ? " Hour" : " Hours") + ChatColor.GRAY + " upon activation").lore(" ")
+                        .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "1 Hour" + ChatColor.GRAY + " upon activation").lore(" ")
+                        .lore(ChatColor.YELLOW + "Click to activate!"));
+            }
+            if (e.getTime() == 3) {
+                inv.setItem(threeSlot++, new I(Material.BLAZE_POWDER).name(e.getColor() + e.getDisplayName()).amount(3)
+                        .lore(ChatColor.GRAY + "Grants a server-wide " + e.getColor() + e.getIncrease() + "% increase" + ChatColor.GRAY + " to")
+                        .lore(ChatColor.GRAY + "the amount of Souls and Battle Coins players")
+                        .lore(ChatColor.GRAY + "receive when they kill another player").lore(" ")
+                        .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "3 Hours" + ChatColor.GRAY + " upon activation").lore(" ")
+                        .lore(ChatColor.YELLOW + "Click to activate!"));
+            }
+            if (e.getTime() == 6) {
+                inv.setItem(sixSlot++, new I(Material.BLAZE_POWDER).name(e.getColor() + e.getDisplayName()).amount(6)
+                        .lore(ChatColor.GRAY + "Grants a server-wide " + e.getColor() + e.getIncrease() + "% increase" + ChatColor.GRAY + " to")
+                        .lore(ChatColor.GRAY + "the amount of Souls and Battle Coins players")
+                        .lore(ChatColor.GRAY + "receive when they kill another player").lore(" ")
+                        .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "6 Hours" + ChatColor.GRAY + " upon activation").lore(" ")
                         .lore(ChatColor.YELLOW + "Click to activate!"));
             }
         }

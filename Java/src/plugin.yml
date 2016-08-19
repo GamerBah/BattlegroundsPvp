@@ -45,3 +45,7 @@ commands:
     description: Open options for a player
   ping:
     description: View the ping of yourself or another player
+  essence:
+    description:
+  essences:
+    description: View your Battle Essences
