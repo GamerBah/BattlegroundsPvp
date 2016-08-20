@@ -49,3 +49,5 @@ commands:
     description:
   essences:
     description: View your Battle Essences
+  thanks:
+    description: Thanks a player for activating an Essence

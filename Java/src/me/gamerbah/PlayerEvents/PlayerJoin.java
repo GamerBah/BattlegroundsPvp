@@ -23,10 +23,13 @@ public class PlayerJoin implements Listener {
 
     @EventHandler
     public void onLogin(AsyncPlayerPreLoginEvent event) {
-        PlayerData playerData = plugin.getPlayerData(event.getUniqueId());
-
-        if (playerData == null) {
+        if (plugin.getPlayerData(event.getUniqueId()) == null) {
             plugin.createPlayerData(event.getUniqueId(), event.getName());
+            plugin.getServer().getScheduler().runTaskLaterAsynchronously(plugin, () -> {
+                plugin.getPlayerData(event.getUniqueId()).setEssences("");
+                plugin.getPlayerData(event.getUniqueId()).setChallenges("");
+                plugin.getPlayerData(event.getUniqueId()).setAchievements("");
+            }, 2L);
         }
     }
 

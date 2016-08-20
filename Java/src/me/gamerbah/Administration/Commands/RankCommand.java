@@ -69,6 +69,8 @@ public class RankCommand implements CommandExecutor, TabCompleter {
                                     ? "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase() : playerData.getRank().getName()));
                             playerData.setRank(rank);
                             scoreboardListener.updateScoreboardRank((Player) target);
+                            ((Player) target).setPlayerListName((playerData.hasRank(Rank.WARRIOR) ? playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")
+                                    + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : ChatColor.GRAY) + target.getName());
                         } else {
                             playerData.setRank(rank);
                         }

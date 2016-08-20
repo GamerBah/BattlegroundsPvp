@@ -3,6 +3,7 @@ package me.gamerbah.Commands;
 
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Data.PlayerData;
+import me.gamerbah.Listeners.ScoreboardListener;
 import me.gamerbah.Utils.EventSound;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -22,6 +23,7 @@ public class ThanksCommand implements CommandExecutor {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
             return true;
@@ -52,6 +54,12 @@ public class ThanksCommand implements CommandExecutor {
             return true;
         }
 
+        if (plugin.getConfig().getString("essenceOwner").equals(player.getName())) {
+            player.sendMessage(ChatColor.RED + "You can't thank yourself!");
+            plugin.playSound(player, EventSound.COMMAND_FAIL);
+            return true;
+        }
+
         List<String> thanks = plugin.getConfig().getStringList("essenceThanks");
         if (thanks.contains(player.getName())) {
             player.sendMessage(ChatColor.RED + "You already thanked this player for their Battle Essence!");
@@ -61,7 +69,21 @@ public class ThanksCommand implements CommandExecutor {
 
         thanks.add(player.getName());
         plugin.getConfig().set("essenceThanks", thanks);
-        playerData.setSouls(playerData.getSouls() + 25);
+        ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
+        scoreboardListener.getSouls().put(player.getUniqueId(), playerData.getSouls());
+        playerData.setSouls(playerData.getSouls() + 20);
+        scoreboardListener.updateScoreboardSouls(player);
+        player.sendMessage(ChatColor.GRAY + "You thanked " + target.getName() + " for the Essence! " + ChatColor.AQUA + "[+20 Souls]");
+
+        if (!player.isOnline()) {
+            targetData.setSouls(targetData.getSouls() + 20);
+        } else {
+            Player t = plugin.getServer().getPlayer(target.getUniqueId());
+            scoreboardListener.getSouls().put(t.getUniqueId(), targetData.getSouls());
+            targetData.setSouls(targetData.getSouls() + 20);
+            scoreboardListener.updateScoreboardSouls(t);
+            t.sendMessage(ChatColor.GRAY + player.getName() + " thanked you for your Essence! " + ChatColor.AQUA + "[+20 Souls]");
+        }
 
         return false;
     }

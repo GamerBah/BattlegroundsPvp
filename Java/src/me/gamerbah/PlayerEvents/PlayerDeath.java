@@ -181,9 +181,8 @@ public class PlayerDeath implements Listener {
                 killerData.setCoins(killerData.getCoins() + coins);
                 scoreboardListener.updateScoreboardCoins(killer);
 
-                killer.sendMessage(ChatColor.DARK_AQUA + "[ +" + BoldColor.AQUA.getColor() + souls * (killstreak / 5) + " souls" + ChatColor.DARK_AQUA + " ] "
-                        + ChatColor.DARK_PURPLE + (coins != 0 ? "[ +" + BoldColor.PINK.getColor() + coins + " Coins" + ChatColor.DARK_PURPLE + " ]" : "")
-                        + (essence ? ChatColor.BLUE + "[" + eOwner + "'s Essence]" : ""));
+                killer.sendMessage(ChatColor.AQUA + "[+" + souls * (killstreak / 5) + " souls]" + ChatColor.LIGHT_PURPLE + (coins != 0 ? " [+" + coins + "Battle Coins]" : "")
+                        + (essence ? ChatColor.YELLOW + " [" + eOwner + "'s Essence]" : ""));
             } else {
                 scoreboardListener.getSouls().put(killer.getUniqueId(), killerData.getSouls());
                 killerData.setSouls(killerData.getSouls() + souls);
@@ -192,9 +191,8 @@ public class PlayerDeath implements Listener {
                 killerData.setCoins(killerData.getCoins() + coins);
                 scoreboardListener.updateScoreboardCoins(killer);
 
-                killer.sendMessage(ChatColor.DARK_AQUA + "[+" + BoldColor.AQUA.getColor() + souls + " souls" + ChatColor.DARK_AQUA + "] "
-                        + ChatColor.DARK_PURPLE + (coins != 0 ? "[+" + BoldColor.PINK.getColor() + coins + " Coins" + ChatColor.DARK_PURPLE + "]" : "")
-                        + (essence ? ChatColor.BLUE + "[" + eOwner + "'s Essence]" : ""));
+                killer.sendMessage(ChatColor.AQUA + "[+" + souls + " souls]" + ChatColor.LIGHT_PURPLE + (coins != 0 ? " [+" + coins + "Battle Coins]" : "")
+                        + (essence ? ChatColor.YELLOW + " [" + eOwner + "'s Essence]" : ""));
             }
         } else {
             Battlegrounds.killStreak.put(killer.getUniqueId(), 1);
@@ -206,9 +204,9 @@ public class PlayerDeath implements Listener {
             killerData.setCoins(killerData.getCoins() + coins);
             scoreboardListener.updateScoreboardCoins(killer);
 
-            killer.sendMessage(ChatColor.DARK_AQUA + "[+" + BoldColor.AQUA.getColor() + souls + " souls" + ChatColor.DARK_AQUA + "] "
-                    + ChatColor.DARK_PURPLE + (coins != 0 ? "[+" + BoldColor.PINK.getColor() + coins + " Coins" + ChatColor.DARK_PURPLE + "]" : "")
-                    + (essence ? ChatColor.BLUE + "[" + eOwner + "'s Essence]" : ""));
+            killer.sendMessage(ChatColor.AQUA + "[+" + souls + " souls]"
+                    + ChatColor.LIGHT_PURPLE + (coins != 0 ? " [+" + coins + "Battle Coins]" : "")
+                    + (essence ? ChatColor.YELLOW + " [" + eOwner + "'s Essence]" : ""));
         }
 
         if (Battlegrounds.killStreak.containsKey(player.getUniqueId())) {

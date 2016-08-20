@@ -44,7 +44,7 @@ public class KDRatio {
 
     public Double getRatio(Player player) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
-        double ratio = ((double) playerData.getKills() / (double) playerData.getDeaths());
+        double ratio = ((double) playerData.getKills() / (playerData.getDeaths() > 0 ? (double) playerData.getDeaths() : 1));
         return Math.round(ratio * 100.00D) / 100.00D;
     }
 }

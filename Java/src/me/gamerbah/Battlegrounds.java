@@ -122,6 +122,7 @@ public class Battlegrounds extends JavaPlugin {
         getCommand("options").setExecutor(new OptionsCommand(this));
         getCommand("essence").setExecutor(new EssenceCommand(this));
         getCommand("essences").setExecutor(new EssencesCommand(this));
+        getCommand("thanks").setExecutor(new ThanksCommand(this));
     }
 
     private void registerListeners() {

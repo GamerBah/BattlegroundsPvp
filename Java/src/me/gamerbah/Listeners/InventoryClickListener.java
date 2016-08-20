@@ -9,6 +9,7 @@ import me.gamerbah.Etc.Menus.EssenceMenu;
 import me.gamerbah.Etc.Menus.ReportGUI;
 import me.gamerbah.Etc.Menus.SettingsMenu;
 import me.gamerbah.Utils.BoldColor;
+import me.gamerbah.Utils.Donations.DonationMessages;
 import me.gamerbah.Utils.Donations.Essence;
 import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.Kits.KitManager;
@@ -237,7 +238,7 @@ public class InventoryClickListener implements Listener {
                     if (plugin.getConfig().getBoolean("essenceActive")) {
                         if (plugin.getConfig().get("essenceOwner").equals(player.getName())) {
                             player.closeInventory();
-                            player.sendMessage(ChatColor.RED + "You already a Battle Essence active!");
+                            player.sendMessage(ChatColor.RED + "You already have a Battle Essence active!");
                             plugin.playSound(player, EventSound.COMMAND_FAIL);
                         } else {
                             player.closeInventory();
@@ -250,6 +251,8 @@ public class InventoryClickListener implements Listener {
                         essence.activateEssence(player, Essence.typeFromName(name.substring(2, item.getItemMeta().getDisplayName().length())));
                         player.sendMessage(ChatColor.YELLOW + "You activated your " + name + ChatColor.YELLOW + " Battle Essence! Enjoy!");
                         player.sendMessage(BoldColor.GREEN.getColor() + "Thanks again for the purchase!");
+                        DonationMessages donationMessages = new DonationMessages(plugin);
+                        donationMessages.sendEssenceActivationMessage(Essence.typeFromName(name.substring(2, item.getItemMeta().getDisplayName().length())), player);
                     }
                 }
             }

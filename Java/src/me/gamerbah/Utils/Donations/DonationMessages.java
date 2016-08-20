@@ -42,4 +42,29 @@ public class DonationMessages {
         player.sendMessage(" ");
     }
 
+    public void sendEssenceActivationMessage(Essence.Type type, Player activator) {
+        TextComponent thanks = new TextComponent("    " + ChatColor.DARK_AQUA + "Click here to thank them!");
+        thanks.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.RED + "/thanks " + activator.getName()).create()));
+        thanks.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/thanks " + activator.getName()));
+
+        for (Player player : plugin.getServer().getOnlinePlayers()) {
+            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 2, 1);
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_SMALL_FALL, 0.75F, 0.2F), 10L);
+            player.sendMessage(" ");
+            player.sendMessage(type.getColor() + "\u00AB" + ChatColor.WHITE + "========================================" + type.getColor() + "\u00BB");
+            player.sendMessage(" ");
+            player.sendMessage("    " + BoldColor.GOLD.getColor() + (!player.getName().equals(plugin.getConfig().getString("essenceOwner"))
+                    ? activator.getName() : "You") + BoldColor.YELLOW.getColor() + " activated a Battle Essence!");
+            player.sendMessage(ChatColor.GRAY + "    All players will receive " + type.getColor() + type.getIncrease() + "% more " + ChatColor.GRAY + "Souls");
+            player.sendMessage(ChatColor.GRAY + "    and Battle Coins for " + ChatColor.RED + type.getTime() + (type.getTime() == 1 ? " Hour" : " Hours") + ChatColor.GRAY + "!");
+            player.sendMessage(" ");
+            if (!player.getName().equals(plugin.getConfig().getString("essenceOwner"))) {
+                player.spigot().sendMessage(thanks);
+                player.sendMessage(" ");
+            }
+            player.sendMessage(type.getColor() + "\u00AB" + ChatColor.WHITE + "========================================" + type.getColor() + "\u00BB");
+            player.sendMessage(" ");
+        }
+    }
+
 }
