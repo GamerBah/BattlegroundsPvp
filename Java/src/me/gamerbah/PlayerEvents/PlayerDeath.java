@@ -14,15 +14,16 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Location;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.inventivetalent.particle.ParticleEffect;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class PlayerDeath implements Listener {
 
@@ -37,7 +38,7 @@ public class PlayerDeath implements Listener {
         Player player = event.getEntity();
         Player killer = player.getKiller();
 
-        Location location = player.getLocation();
+        ParticleEffect.LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation(), 0, 0.2, 0, 1, 20, 100);
 
         player.setHealth(20);
         plugin.getServer().getScheduler().runTask(plugin, () ->
@@ -74,6 +75,13 @@ public class PlayerDeath implements Listener {
             return;
         }
 
+        PlayerData killerData = plugin.getPlayerData(killer.getUniqueId());
+        scoreboardListener.getKills().put(killer.getUniqueId(), killerData.getKills());
+        scoreboardListener.getKds().put(killer.getUniqueId(), ChatColor.GRAY + "" + kdRatio.getRatio(killer));
+        killerData.setKills(killerData.getKills() + 1);
+        scoreboardListener.updateScoreboardKills(killer);
+        scoreboardListener.updateScoreboardRatio(killer);
+
         TextComponentMessages tcm = new TextComponentMessages(plugin);
         TextComponent killerTCM = new TextComponent(killer.getName());
         killerTCM.setColor(ChatColor.GOLD);
@@ -85,40 +93,33 @@ public class PlayerDeath implements Listener {
         killedTCM.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, tcm.playerStats(player)));
         killedTCM.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/options " + player.getName()));
 
-        TextComponent wkb = new TextComponent(" was killed by ");
+        TextComponent wkb = new TextComponent(" killed ");
         wkb.setColor(ChatColor.GRAY);
         wkb.setHoverEvent(null);
 
         TextComponent tc = new TextComponent("");
 
         BaseComponent baseComponent = tc;
-        baseComponent.addExtra(killedTCM);
-        baseComponent.addExtra(wkb);
         baseComponent.addExtra(killerTCM);
+        baseComponent.addExtra(wkb);
+        baseComponent.addExtra(killedTCM);
 
         if (plugin.getServer().getOnlinePlayers().size() >= 15 || ChatCommands.chatSilenced) {
             event.setDeathMessage(null);
         } else {
+            event.setDeathMessage(null);
             plugin.getServer().spigot().broadcast(baseComponent);
         }
 
         if (killer.getHealth() % 2 == 0) {
-            player.sendMessage("" + ChatColor.RED + killer.getName() + ChatColor.YELLOW + " had " + ChatColor.RED + (((int) killer.getHealth()) / 2) + " hearts" + ChatColor.YELLOW + " left");
+            player.sendMessage("" + ChatColor.RED + killer.getName() + ChatColor.GRAY + " had " + ChatColor.RED + (((int) killer.getHealth()) / 2) + " hearts" + ChatColor.GRAY + " left");
         } else {
-            player.sendMessage("" + ChatColor.RED + killer.getName() + ChatColor.YELLOW + " had " + ChatColor.RED + (((int) killer.getHealth()) / 2) + ".5 hearts" + ChatColor.YELLOW + " left");
+            player.sendMessage("" + ChatColor.RED + killer.getName() + ChatColor.GRAY + " had " + ChatColor.RED + (((int) killer.getHealth()) / 2) + ".5 hearts" + ChatColor.GRAY + " left");
         }
 
         if (killer.getName().equals(player.getName())) {
             return;
         }
-
-        PlayerData killerData = plugin.getPlayerData(killer.getUniqueId());
-        scoreboardListener.getKills().put(killer.getUniqueId(), killerData.getKills());
-        scoreboardListener.getKds().put(killer.getUniqueId(), ChatColor.GRAY + "" + kdRatio.getRatio(killer));
-        killerData.setKills(playerData.getKills() + 1);
-        scoreboardListener.updateScoreboardKills(killer);
-        scoreboardListener.updateScoreboardRatio(killer);
-        killer.sendMessage(ChatColor.GRAY + "You killed " + ChatColor.RED + player.getName());
 
         /*if(playerData.getKills() == 1) {
             playerData.addAchievement(Achievement.FIRST_KILL);
@@ -145,30 +146,69 @@ public class PlayerDeath implements Listener {
             killer.setHealth(20);
         }
 
-        Random random = new Random();
-        int souls = random.nextInt(10 - 4 + 1) + 4;
+        int souls = ThreadLocalRandom.current().nextInt(2, 6 + 1);
+        int coins = 0;
+        if (ThreadLocalRandom.current().nextInt(1, 7 + 1) == 1) {
+            coins = ThreadLocalRandom.current().nextInt(1, 4 + 1);
+        }
+        String eOwner = "";
+        boolean essence = plugin.getConfig().getBoolean("essenceActive");
+        if (essence) {
+            switch (plugin.getConfig().getInt("essenceIncrease")) {
+                case 50:
+                    souls = (int) Math.ceil(souls * 1.5);
+                    coins = (int) Math.ceil(coins * 1.5);
+                case 100:
+                    souls = (int) Math.ceil(souls * 2);
+                    coins = (int) Math.ceil(coins * 2);
+                case 150:
+                    souls = (int) Math.ceil(souls * 2.5);
+                    coins = (int) Math.ceil(coins * 2.5);
+            }
+            eOwner = plugin.getConfig().getString("essenceOwner");
+        }
 
         if (Battlegrounds.killStreak.containsKey(killer.getUniqueId())) {
             Battlegrounds.killStreak.put(killer.getUniqueId(), Battlegrounds.killStreak.get(killer.getUniqueId()) + 1);
             int killstreak = Battlegrounds.killStreak.get(killer.getUniqueId());
             if (killstreak % 5 == 0) {
                 plugin.getServer().broadcastMessage(ChatColor.GOLD + killer.getName() + ChatColor.GRAY + " is on a " + BoldColor.RED.getColor() + killstreak + " killstreak!");
+
                 scoreboardListener.getSouls().put(killer.getUniqueId(), killerData.getSouls());
                 killerData.setSouls(killerData.getSouls() + (souls * (killstreak / 5)));
                 scoreboardListener.updateScoreboardSouls(killer);
-                killer.sendMessage(ChatColor.GRAY + "You gained " + BoldColor.AQUA.getColor() + souls * (killstreak / 5) + " souls");
+                scoreboardListener.getCoins().put(killer.getUniqueId(), killerData.getCoins());
+                killerData.setCoins(killerData.getCoins() + coins);
+                scoreboardListener.updateScoreboardCoins(killer);
+
+                killer.sendMessage(ChatColor.DARK_AQUA + "[ +" + BoldColor.AQUA.getColor() + souls * (killstreak / 5) + " souls" + ChatColor.DARK_AQUA + " ] "
+                        + ChatColor.DARK_PURPLE + (coins != 0 ? "[ +" + BoldColor.PINK.getColor() + coins + " Coins" + ChatColor.DARK_PURPLE + " ]" : "")
+                        + (essence ? ChatColor.BLUE + "[" + eOwner + "'s Essence]" : ""));
             } else {
                 scoreboardListener.getSouls().put(killer.getUniqueId(), killerData.getSouls());
                 killerData.setSouls(killerData.getSouls() + souls);
                 scoreboardListener.updateScoreboardSouls(killer);
-                killer.sendMessage(ChatColor.GRAY + "You gained " + BoldColor.AQUA.getColor() + souls + " souls");
+                scoreboardListener.getCoins().put(killer.getUniqueId(), killerData.getCoins());
+                killerData.setCoins(killerData.getCoins() + coins);
+                scoreboardListener.updateScoreboardCoins(killer);
+
+                killer.sendMessage(ChatColor.DARK_AQUA + "[+" + BoldColor.AQUA.getColor() + souls + " souls" + ChatColor.DARK_AQUA + "] "
+                        + ChatColor.DARK_PURPLE + (coins != 0 ? "[+" + BoldColor.PINK.getColor() + coins + " Coins" + ChatColor.DARK_PURPLE + "]" : "")
+                        + (essence ? ChatColor.BLUE + "[" + eOwner + "'s Essence]" : ""));
             }
         } else {
             Battlegrounds.killStreak.put(killer.getUniqueId(), 1);
+
             scoreboardListener.getSouls().put(killer.getUniqueId(), killerData.getSouls());
             killerData.setSouls(killerData.getSouls() + souls);
             scoreboardListener.updateScoreboardSouls(killer);
-            killer.sendMessage(ChatColor.GRAY + "You gained " + BoldColor.AQUA.getColor() + souls + " souls");
+            scoreboardListener.getCoins().put(killer.getUniqueId(), killerData.getCoins());
+            killerData.setCoins(killerData.getCoins() + coins);
+            scoreboardListener.updateScoreboardCoins(killer);
+
+            killer.sendMessage(ChatColor.DARK_AQUA + "[+" + BoldColor.AQUA.getColor() + souls + " souls" + ChatColor.DARK_AQUA + "] "
+                    + ChatColor.DARK_PURPLE + (coins != 0 ? "[+" + BoldColor.PINK.getColor() + coins + " Coins" + ChatColor.DARK_PURPLE + "]" : "")
+                    + (essence ? ChatColor.BLUE + "[" + eOwner + "'s Essence]" : ""));
         }
 
         if (Battlegrounds.killStreak.containsKey(player.getUniqueId())) {

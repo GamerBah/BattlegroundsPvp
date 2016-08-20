@@ -47,8 +47,8 @@ public class PlayerJoin implements Listener {
             }
         }
 
-        player.setPlayerListName((playerData.hasRank(Rank.ELITE) ? playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")
-                + (playerData.hasRank(Rank.ELITE) ? ChatColor.WHITE : ChatColor.GRAY) + player.getName());
+        player.setPlayerListName((playerData.hasRank(Rank.WARRIOR) ? playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")
+                + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : ChatColor.GRAY) + player.getName());
 
         plugin.respawn(player);
     }

@@ -1,4 +1,4 @@
-package me.gamerbah.Utils;/* Created by GamerBah on 8/17/2016 */
+package me.gamerbah.Utils.Donations;/* Created by GamerBah on 8/17/2016 */
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +16,7 @@ public class Essence {
         this.plugin = plugin;
     }
 
-    private static Type typeFromName(String string) {
+    public static Type typeFromName(String string) {
         for (Type type : Type.values()) {
             if (type.getDisplayName().equals(string)) {
                 return type;
@@ -58,6 +58,37 @@ public class Essence {
             }
         }
         return amount;
+    }
+
+    public void activateEssence(Player player, Type type) {
+        plugin.getConfig().set("essenceActive", true);
+        plugin.getConfig().set("essenceOwner", player.getName());
+        plugin.getConfig().set("essenceIncrease", type.getIncrease());
+        plugin.getConfig().set("essenceTimeRemaining", type.getTime() * 60 * 60);
+        PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
+        ArrayList<Type> essences = convertToArray(playerData.getEssences());
+        int amount = getEssenceAmount(player);
+        for (int i = 0; i < amount; i++) {
+            Essence.Type e = essences.get(i);
+            if (e.getDisplayName().equals(type.getDisplayName())) {
+                essences.remove(i);
+                amount--;
+                break;
+            }
+        }
+        playerData.setEssences("");
+        for (int i = 0; i < amount; i++) {
+            Essence.Type e = essences.get(i);
+            playerData.setEssences(playerData.getEssences() + e.getDisplayName() + ",");
+        }
+    }
+
+    public void removeActiveEssence() {
+        plugin.getConfig().set("essenceActive", false);
+        plugin.getConfig().set("essenceOwner", "");
+        plugin.getConfig().set("essenceIncrease", "");
+        plugin.getConfig().set("essenceTimeRemaining", "");
+        plugin.getConfig().set("essenceThanks", "");
     }
 
     @AllArgsConstructor

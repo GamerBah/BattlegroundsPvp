@@ -2,3 +2,9 @@ host: localhost:51204
 database: battlegrounds
 username: root
 password: password
+
+essenceActive: false
+essenceIncrease:
+essenceTimeRemaining:
+essenceOwner:
+essenceThanks:

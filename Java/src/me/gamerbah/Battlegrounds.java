@@ -16,6 +16,7 @@ import me.gamerbah.Data.Query;
 import me.gamerbah.Listeners.*;
 import me.gamerbah.PlayerEvents.*;
 import me.gamerbah.Utils.BoldColor;
+import me.gamerbah.Utils.Donations.DonationUpdater;
 import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.KDRatio;
 import me.gamerbah.Utils.Kits.KitManager;
@@ -76,7 +77,9 @@ public class Battlegrounds extends JavaPlugin {
             respawn(player);
         }
 
+        // Initialize Various Repeating Tasks
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoUpdate(this), 120, 120);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, new DonationUpdater(this), 0, 20);
 
         // Save Filter File
         File filterFile = new File(getDataFolder(), "filter.txt");
@@ -141,6 +144,9 @@ public class Battlegrounds extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new KitManager(this), this);
         getServer().getPluginManager().registerEvents(new PlayerDeath(this), this);
         getServer().getPluginManager().registerEvents(new ServerListPingListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerItemDrop(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerItemPickup(this), this);
+        getServer().getPluginManager().registerEvents(new SpawnProtectListener(this), this);
     }
 
     public void playSound(Player player, EventSound eventSound) {

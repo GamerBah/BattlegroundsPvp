@@ -4,8 +4,8 @@ package me.gamerbah.Administration.Commands;
 
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Data.PlayerData;
-import me.gamerbah.Utils.DonationMessages;
-import me.gamerbah.Utils.Essence;
+import me.gamerbah.Utils.Donations.DonationMessages;
+import me.gamerbah.Utils.Donations.Essence;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

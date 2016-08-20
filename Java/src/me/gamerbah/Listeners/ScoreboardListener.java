@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +51,11 @@ public class ScoreboardListener implements Listener {
         player.setScoreboard(board);
         Objective objective = board.registerNewObjective("Player Data", "dummy");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        board.registerNewTeam("Team");
+        Team team = board.registerNewTeam("Team");
+        team.addEntry(player.getName());
+        team.setAllowFriendlyFire(true);
+        team.setCanSeeFriendlyInvisibles(false);
+        team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
         objective.setDisplayName(BoldColor.GOLD.getColor() + "Battlegrounds");
         if (playerData != null) {
             objective.getScore(" ").setScore(10);

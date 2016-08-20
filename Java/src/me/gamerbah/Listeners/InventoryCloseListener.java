@@ -30,8 +30,6 @@ public class InventoryCloseListener implements Listener {
             }
             if (ReportCommand.getReportArray().containsKey(player.getUniqueId())) {
                 ReportCommand.getReportArray().remove(player.getUniqueId());
-            } else {
-                return;
             }
         }
     }

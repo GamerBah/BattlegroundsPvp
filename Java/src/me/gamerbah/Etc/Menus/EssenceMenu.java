@@ -4,7 +4,7 @@ package me.gamerbah.Etc.Menus;
 
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Data.PlayerData;
-import me.gamerbah.Utils.Essence;
+import me.gamerbah.Utils.Donations.Essence;
 import me.gamerbah.Utils.I;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;

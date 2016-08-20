@@ -6,7 +6,7 @@ import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Data.PlayerData;
 import me.gamerbah.Utils.BoldColor;
-import me.gamerbah.Utils.Essence;
+import me.gamerbah.Utils.Donations.Essence;
 import me.gamerbah.Utils.I;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
@@ -38,22 +38,28 @@ public class SettingsMenu {
                         + (amount == 1 ? " Essence" : "Essences")).lore(" ").lore(ChatColor.GRAY + "You can purchase Battle Essences at our store!")
                 .lore(ChatColor.YELLOW + "battlgroundspvp.enjin.com/store"));
         if (!playerData.isTeamRequests()) {
-            inv.setItem(20, new I(Material.INK_SACK).name(ChatColor.YELLOW + "Team Requests: " + BoldColor.RED.getColor() + "DISABLED").durability(8));
+            inv.setItem(20, new I(Material.INK_SACK).name(ChatColor.YELLOW + "Team Requests: " + BoldColor.RED.getColor() + "DISABLED").lore(" ")
+                    .lore(ChatColor.GRAY + "Enabling this will allow players").lore(ChatColor.GRAY + "to send you team requests").durability(8));
         } else {
-            inv.setItem(20, new I(Material.INK_SACK).name(ChatColor.YELLOW + "Team Requests: " + BoldColor.GREEN.getColor() + "ENABLED").durability(10));
+            inv.setItem(20, new I(Material.INK_SACK).name(ChatColor.YELLOW + "Team Requests: " + BoldColor.GREEN.getColor() + "ENABLED").lore(" ")
+                    .lore(ChatColor.GRAY + "Disabling this will prevent players").lore(ChatColor.GRAY + "from sending you team requests").durability(10));
         }
 
         if (!playerData.isPrivateMessaging()) {
-            inv.setItem(21, new I(Material.INK_SACK).name(ChatColor.YELLOW + "Private Messaging: " + BoldColor.RED.getColor() + "DISABLED").durability(8));
+            inv.setItem(21, new I(Material.INK_SACK).name(ChatColor.YELLOW + "Private Messaging: " + BoldColor.RED.getColor() + "DISABLED").lore(" ")
+                    .lore(ChatColor.GRAY + "Enabling this will allow players").lore(ChatColor.GRAY + "to privately message you").durability(8));
         } else {
-            inv.setItem(21, new I(Material.INK_SACK).name(ChatColor.YELLOW + "Private Messaging: " + BoldColor.GREEN.getColor() + "ENABLED").durability(10));
+            inv.setItem(21, new I(Material.INK_SACK).name(ChatColor.YELLOW + "Private Messaging: " + BoldColor.GREEN.getColor() + "ENABLED").lore(" ")
+                    .lore(ChatColor.GRAY + "Disabling this will prevent players").lore(ChatColor.GRAY + "from privately messaging you").durability(10));
         }
 
         if (playerData.hasRank(Rank.MODERATOR)) {
             if (!playerData.isStealthyJoin()) {
-                inv.setItem(22, new I(Material.INK_SACK).name(ChatColor.YELLOW + "Stealthy Join: " + BoldColor.RED.getColor() + "DISABLED").durability(8));
+                inv.setItem(22, new I(Material.INK_SACK).name(ChatColor.YELLOW + "Stealthy Join: " + BoldColor.RED.getColor() + "DISABLED").lore(" ")
+                        .lore(ChatColor.GRAY + "Enabling this will cause you to join").lore(ChatColor.GRAY + "the server without the notifications").durability(8));
             } else {
-                inv.setItem(22, new I(Material.INK_SACK).name(ChatColor.YELLOW + "Stealthy Join: " + BoldColor.GREEN.getColor() + "ENABLED").durability(10));
+                inv.setItem(22, new I(Material.INK_SACK).name(ChatColor.YELLOW + "Stealthy Join: " + BoldColor.GREEN.getColor() + "ENABLED").lore(" ")
+                        .lore(ChatColor.GRAY + "Disabling this will cause you to join").lore(ChatColor.GRAY + "the server with notifications").durability(10));
             }
         }
 

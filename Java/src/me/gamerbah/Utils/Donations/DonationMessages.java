@@ -1,8 +1,9 @@
-package me.gamerbah.Utils;
+package me.gamerbah.Utils.Donations;
 /* Created by GamerBah on 8/18/2016 */
 
 
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Utils.BoldColor;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.Sound;

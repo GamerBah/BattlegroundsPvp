@@ -82,7 +82,7 @@ public class PingCommand implements CommandExecutor {
         if (player == target) {
             player.sendMessage(ChatColor.GRAY + "Your connection to Battlegrounds is " + status + ChatColor.GRAY + "(" + ping + "ms)");
         } else {
-            player.sendMessage(ChatColor.RED + target.getName() + "'s connection to Battlegrounds is " + status + ChatColor.GRAY + "(" + ping + "ms)");
+            player.sendMessage(ChatColor.RED + target.getName() + ChatColor.GRAY + "'s connection to Battlegrounds is " + status + ChatColor.GRAY + "(" + ping + "ms)");
         }
 
         return true;

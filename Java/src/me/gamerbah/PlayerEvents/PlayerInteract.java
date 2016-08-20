@@ -70,17 +70,17 @@ public class PlayerInteract implements Listener {
                     kitSelectorInventory.setItem(i, legendaryLockedGlass);
                 }
 
-                int commonSlot = 35, rareSlot = 18, epicSlot = 9, legendarySlot = 0;
+                int commonSlot = 36, rareSlot = 18, epicSlot = 9, legendarySlot = 0;
 
                 for (Kit kit : KitManager.getKits()) {
                     if (kit.getRarity() == Rarity.COMMON) {
-                        kitSelectorInventory.setItem(++commonSlot, kit.getItem());
+                        kitSelectorInventory.setItem(commonSlot++, kit.getItem());
                     } else if (kit.getRarity() == Rarity.RARE) {
-                        kitSelectorInventory.setItem(++rareSlot, kit.getItem());
+                        kitSelectorInventory.setItem(rareSlot++, kit.getItem());
                     } else if (kit.getRarity() == Rarity.EPIC) {
-                        kitSelectorInventory.setItem(++epicSlot, kit.getItem());
+                        kitSelectorInventory.setItem(epicSlot++, kit.getItem());
                     } else if (kit.getRarity() == Rarity.LEGENDARY) {
-                        kitSelectorInventory.setItem(++legendarySlot, kit.getItem());
+                        kitSelectorInventory.setItem(legendarySlot++, kit.getItem());
                     }
                 }
                 player.openInventory(kitSelectorInventory);

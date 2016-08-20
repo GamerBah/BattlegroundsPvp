@@ -58,12 +58,12 @@ public class CombatListener implements Listener {
                 event.setCancelled(true);
             } else {
                 if (!tagged.containsKey(damaged.getUniqueId())) {
-                    damaged.sendMessage(ChatColor.GRAY + "You are now in combat with " + ChatColor.GOLD + damager.getName() + ChatColor.GRAY + ".");
+                    damaged.sendMessage(ChatColor.GRAY + "You're now in combat with " + ChatColor.RED + damager.getName());
                     tagged.put(damaged.getUniqueId(),
                             new BukkitRunnable() {
                                 public void run() {
                                     tagged.remove(damaged.getUniqueId());
-                                    damaged.sendMessage(ChatColor.GRAY + "You are no longer in combat.");
+                                    damaged.sendMessage(ChatColor.GRAY + "You're no longer in combat.");
                                 }
                             }.runTaskLater(plugin, 240).getTaskId());
                 } else {
@@ -72,18 +72,18 @@ public class CombatListener implements Listener {
                             new BukkitRunnable() {
                                 public void run() {
                                     tagged.remove(damaged.getUniqueId());
-                                    damaged.sendMessage(ChatColor.GRAY + "You are no longer in combat.");
+                                    damaged.sendMessage(ChatColor.GRAY + "You're no longer in combat.");
                                 }
                             }.runTaskLater(plugin, 240).getTaskId());
                 }
 
                 if (!tagged.containsKey(damager.getUniqueId())) {
-                    damager.sendMessage(ChatColor.GRAY + "You are now in combat with " + ChatColor.GOLD + damaged.getName() + ChatColor.GRAY + ".");
+                    damager.sendMessage(ChatColor.GRAY + "You're now in combat with " + ChatColor.RED + damaged.getName());
                     tagged.put(damager.getUniqueId(),
                             new BukkitRunnable() {
                                 public void run() {
                                     tagged.remove(damager.getUniqueId());
-                                    damager.sendMessage(ChatColor.GRAY + "You are no longer in combat.");
+                                    damager.sendMessage(ChatColor.GRAY + "You're no longer in combat.");
                                 }
                             }.runTaskLater(plugin, 240).getTaskId());
                 } else {
@@ -92,7 +92,7 @@ public class CombatListener implements Listener {
                             new BukkitRunnable() {
                                 public void run() {
                                     tagged.remove(damager.getUniqueId());
-                                    damager.sendMessage(ChatColor.GRAY + "You are no longer in combat.");
+                                    damager.sendMessage(ChatColor.GRAY + "You're no longer in combat");
                                 }
                             }.runTaskLater(plugin, 240).getTaskId());
                 }
@@ -115,11 +115,8 @@ public class CombatListener implements Listener {
     public void onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
 
-        if (tagged.containsKey(player.getUniqueId()) && (event.getMessage().toLowerCase().startsWith("/spawn")
-                || event.getMessage().toLowerCase().startsWith("/warp")
-                || event.getMessage().toLowerCase().startsWith("/spec")
-                || event.getMessage().toLowerCase().startsWith("/climaxpvp:"))) {
-            player.sendMessage(ChatColor.RED + " You cannot run that command during combat!");
+        if (tagged.containsKey(player.getUniqueId()) && (event.getMessage().toLowerCase().startsWith("/spawn"))) {
+            player.sendMessage(ChatColor.RED + "You cannot run that command during combat!");
             event.setCancelled(true);
         }
     }
@@ -157,7 +154,7 @@ public class CombatListener implements Listener {
                 player.setFallDistance(0);
                 PlayerMove.getLaunched().remove(player);
                 player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_LARGE_BLAST, 1, 1);
-                player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 0.875F);
+                player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.85F, 0.875F);
             }
         }
     }

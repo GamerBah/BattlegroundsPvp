@@ -93,7 +93,7 @@ public abstract class Kit implements Listener, CommandExecutor {
      */
     public void wearCheckLevel(Player player) {
         PlayerData playerData = Battlegrounds.getInstance().getPlayerData(player.getUniqueId());
-        if (!KitManager.isPlayerInKit(player) || (playerData.hasRank(Rank.ELITE) && player.getLocation().distance(player.getWorld().getSpawnLocation()) < 200)) {
+        if (!KitManager.isPlayerInKit(player) || (playerData.hasRank(Rank.WARRIOR) && player.getLocation().distance(player.getWorld().getSpawnLocation()) < 200)) {
             KitManager.getPlayersInKits().put(player.getUniqueId(), this);
 
             for (PotionEffect effect : player.getActivePotionEffects()) {

@@ -9,7 +9,7 @@ import me.gamerbah.Etc.Menus.EssenceMenu;
 import me.gamerbah.Etc.Menus.ReportGUI;
 import me.gamerbah.Etc.Menus.SettingsMenu;
 import me.gamerbah.Utils.BoldColor;
-import me.gamerbah.Utils.Essence;
+import me.gamerbah.Utils.Donations.Essence;
 import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.Kits.KitManager;
 import me.gamerbah.Utils.Teams.TeamMessages;
@@ -229,12 +229,28 @@ public class InventoryClickListener implements Listener {
 
             if (event.getClickedInventory().getName().equals("Battle Essences")) {
                 PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
+                Essence essence = new Essence(plugin);
                 ItemStack item = event.getCurrentItem();
                 event.setCancelled(true);
 
                 if (item.getType().equals(Material.BLAZE_POWDER)) {
-                    player.closeInventory();
-                    player.sendMessage(ChatColor.RED + "Battle Essences are not able to be activated yet! Sorry for the inconvenience!");
+                    if (plugin.getConfig().getBoolean("essenceActive")) {
+                        if (plugin.getConfig().get("essenceOwner").equals(player.getName())) {
+                            player.closeInventory();
+                            player.sendMessage(ChatColor.RED + "You already a Battle Essence active!");
+                            plugin.playSound(player, EventSound.COMMAND_FAIL);
+                        } else {
+                            player.closeInventory();
+                            player.sendMessage(ChatColor.RED + "Someone already has a Battle Essence active!");
+                            plugin.playSound(player, EventSound.COMMAND_FAIL);
+                        }
+                    } else {
+                        player.closeInventory();
+                        String name = item.getItemMeta().getDisplayName();
+                        essence.activateEssence(player, Essence.typeFromName(name.substring(2, item.getItemMeta().getDisplayName().length())));
+                        player.sendMessage(ChatColor.YELLOW + "You activated your " + name + ChatColor.YELLOW + " Battle Essence! Enjoy!");
+                        player.sendMessage(BoldColor.GREEN.getColor() + "Thanks again for the purchase!");
+                    }
                 }
             }
 

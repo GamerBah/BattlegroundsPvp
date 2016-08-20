@@ -71,14 +71,12 @@ public class TextComponentMessages {
             ratioColor = ChatColor.LIGHT_PURPLE;
         }
         BaseComponent[] component = new ComponentBuilder(
-                ChatColor.WHITE + "Name: " + playerData.getRank().getColor() + playerData.getRank().getName().toUpperCase()
-                        + " " + (playerData.hasRank(Rank.ELITE) ? ChatColor.WHITE : ChatColor.GRAY) + player.getName() + "\n\n"
-                        + ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "                 STATS                  \n\n"
-                        + ChatColor.WHITE + "Kills: " + ChatColor.GREEN + playerData.getKills() + "\n"
-                        + ChatColor.WHITE + "Deaths: " + ChatColor.RED + playerData.getDeaths() + "\n"
-                        + ChatColor.WHITE + "Kill Death Ratio: " + ratioColor + ratio
-                        + "\n\n" + ChatColor.AQUA + "Click to open player options...."
-        ).create();
+                playerData.getRank().getColor() + "" + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")
+                        + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : ChatColor.GRAY) + player.getName() + "\n\n"
+                        + ChatColor.GRAY + "Kills: " + ChatColor.GREEN + playerData.getKills() + "\n"
+                        + ChatColor.GRAY + "Deaths: " + ChatColor.RED + playerData.getDeaths() + "\n"
+                        + ChatColor.GRAY + "K/D Ratio: " + ratioColor + ratio
+                        + "\n\n" + ChatColor.YELLOW + "Click to open player options....").create();
 
         return component;
     }

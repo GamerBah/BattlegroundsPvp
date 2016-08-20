@@ -14,9 +14,9 @@ public enum Rank {
     MODERATOR("Mod", ChatColor.DARK_AQUA, 25),
     HELPER("Helper", ChatColor.GREEN, 15),
     WARLORD("Warlord", ChatColor.AQUA, 10),
-    MASTER("Master", ChatColor.YELLOW, 8),
-    CHAMPION("Champion", ChatColor.LIGHT_PURPLE, 6),
-    ELITE("Elite", ChatColor.DARK_PURPLE, 4),
+    CONQUEROR("Conqueror", ChatColor.YELLOW, 8),
+    GLADIATOR("Gladiator", ChatColor.LIGHT_PURPLE, 6),
+    WARRIOR("Warrior", ChatColor.DARK_PURPLE, 4),
     DEFAULT("Default", ChatColor.GRAY, 0);
 
 

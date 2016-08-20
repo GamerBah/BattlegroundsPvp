@@ -41,7 +41,7 @@ public class PlayerChat implements Listener {
 
         Rank rank = playerData.getRank();
 
-        if (playerData.hasRank(Rank.ELITE)) {
+        if (playerData.hasRank(Rank.WARRIOR)) {
             ChatColor color = rank.getColor();
             event.setFormat((color == null ? " " : color + " ") + ChatColor.BOLD + rank.getName().toUpperCase() + ChatColor.RESET + " %s" + ChatColor.GRAY + " \u00BB " + ChatColor.WHITE + "%s");
         } else {

@@ -4,6 +4,8 @@ package me.gamerbah.Utils.Kits;
 
 import lombok.Getter;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Kits.Bowman;
+import me.gamerbah.Kits.ExampleLegendary;
 import me.gamerbah.Kits.Standard;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
@@ -33,6 +35,8 @@ public class KitManager implements Listener {
     public KitManager(Battlegrounds plugin) {
         // Common Kits
         kits.add(new Standard());
+        kits.add(new Bowman());
+        kits.add(new ExampleLegendary());
 
         for (Kit kit : kits) {
             plugin.getServer().getPluginManager().registerEvents(kit, plugin);
