@@ -1,4 +1,4 @@
-package me.gamerbah.Utils;/* Created by GamerBah on 8/15/2016 */
+package me.gamerbah.Utils.Messages;/* Created by GamerBah on 8/15/2016 */
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

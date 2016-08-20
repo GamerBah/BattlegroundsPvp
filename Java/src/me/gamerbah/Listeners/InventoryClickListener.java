@@ -2,21 +2,26 @@ package me.gamerbah.Listeners;
 /* Created by GamerBah on 8/12/2016 */
 
 
+import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Commands.ReportCommand;
-import me.gamerbah.Data.PlayerData;
 import me.gamerbah.Etc.Menus.EssenceMenu;
 import me.gamerbah.Etc.Menus.ReportGUI;
 import me.gamerbah.Etc.Menus.SettingsMenu;
-import me.gamerbah.Utils.BoldColor;
+import me.gamerbah.Etc.Menus.TrailMenu;
 import me.gamerbah.Utils.Donations.DonationMessages;
 import me.gamerbah.Utils.Donations.Essence;
 import me.gamerbah.Utils.EventSound;
+import me.gamerbah.Utils.FireworkUtils;
 import me.gamerbah.Utils.Kits.KitManager;
+import me.gamerbah.Utils.Messages.BoldColor;
+import me.gamerbah.Utils.Rarity;
 import me.gamerbah.Utils.Teams.TeamMessages;
+import me.gamerbah.Utils.Trails.Trail;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -226,6 +231,11 @@ public class InventoryClickListener implements Listener {
                     }
                 }
 
+                if (item.getType().equals(Material.MAGMA_CREAM)) {
+                    TrailMenu trailMenu = new TrailMenu(plugin);
+                    trailMenu.openInventory(player);
+                }
+
             }
 
             if (event.getClickedInventory().getName().equals("Battle Essences")) {
@@ -253,8 +263,27 @@ public class InventoryClickListener implements Listener {
                         player.sendMessage(BoldColor.GREEN.getColor() + "Thanks again for the purchase!");
                         DonationMessages donationMessages = new DonationMessages(plugin);
                         donationMessages.sendEssenceActivationMessage(Essence.typeFromName(name.substring(2, item.getItemMeta().getDisplayName().length())), player);
+                        for (Location location : plugin.getFireworkBlocks()) {
+                            FireworkUtils.spawnRandomFirework(location);
+                        }
                     }
                 }
+            }
+
+            if (event.getClickedInventory().getName().equals("Particle Packs")) {
+                PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
+                ItemStack item = event.getCurrentItem();
+                event.setCancelled(true);
+
+                Trail.Type trail = Trail.typeFromName(item.getItemMeta().getDisplayName().substring(2, item.getItemMeta().getDisplayName().length()));
+                if (trail == null) {
+                    return;
+                }
+                playerData.setTrail(trail);
+                player.closeInventory();
+                player.sendMessage(ChatColor.GRAY + (trail.getRarity().equals(Rarity.COMMON)
+                        ? "You removed your active particle pack" : "You set your particle pack to " + trail.getRarity().getColor() + trail.getName()));
+                plugin.playSound(player, EventSound.COMMAND_SUCCESS);
             }
 
         } else {

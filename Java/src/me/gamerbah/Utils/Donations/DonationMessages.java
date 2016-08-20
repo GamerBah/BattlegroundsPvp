@@ -3,7 +3,7 @@ package me.gamerbah.Utils.Donations;
 
 
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Utils.BoldColor;
+import me.gamerbah.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.Sound;

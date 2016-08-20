@@ -3,11 +3,11 @@ package me.gamerbah.Administration.Commands;
 
 
 import lombok.Getter;
+import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Data.PlayerData;
-import me.gamerbah.Utils.BoldColor;
 import me.gamerbah.Utils.EventSound;
+import me.gamerbah.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.Command;

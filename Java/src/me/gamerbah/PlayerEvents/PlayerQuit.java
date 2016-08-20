@@ -2,11 +2,11 @@ package me.gamerbah.PlayerEvents;
 /* Created by GamerBah on 8/7/2016 */
 
 
+import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Commands.ReportCommand;
-import me.gamerbah.Data.PlayerData;
-import me.gamerbah.Utils.BoldColor;
 import me.gamerbah.Utils.EventSound;
+import me.gamerbah.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

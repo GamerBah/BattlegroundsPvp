@@ -1,11 +1,11 @@
 package me.gamerbah.Administration.Commands;
 /* Created by GamerBah on 8/10/2016 */
 
+import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Data.PlayerData;
-import me.gamerbah.Utils.BoldColor;
 import me.gamerbah.Utils.EventSound;
+import me.gamerbah.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

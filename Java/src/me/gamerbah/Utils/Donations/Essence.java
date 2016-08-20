@@ -2,8 +2,8 @@ package me.gamerbah.Utils.Donations;/* Created by GamerBah on 8/17/2016 */
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Data.PlayerData;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 

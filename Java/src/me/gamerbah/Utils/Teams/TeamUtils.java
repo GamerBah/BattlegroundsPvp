@@ -23,10 +23,6 @@ public class TeamUtils {
         }
     }
 
-    public boolean hasPendingRequest(Player target) {
-        return Battlegrounds.pendingTeams.containsKey(target.getName());
-    }
-
     public static void createTeam(Player target, Player sender) {
         Battlegrounds.currentTeams.put(target.getName(), sender.getName());
         removePendingRequest(target);
@@ -37,14 +33,22 @@ public class TeamUtils {
     public static void removeTeam(Player player, Player target) {
         if (Battlegrounds.currentTeams.get(target.getName()) == player.getName()) {
             Battlegrounds.currentTeams.remove(target.getName());
+            GlowAPI.setGlowing(player, null, target);
+            GlowAPI.setGlowing(target, null, player);
         }
         if (Battlegrounds.currentTeams.get(player.getName()) == target.getName()) {
             Battlegrounds.currentTeams.remove(player.getName());
+            GlowAPI.setGlowing(player, null, target);
+            GlowAPI.setGlowing(target, null, player);
         } else {
             return;
         }
         GlowAPI.setGlowing(player, null, target);
         GlowAPI.setGlowing(target, null, player);
+    }
+
+    public boolean hasPendingRequest(Player target) {
+        return Battlegrounds.pendingTeams.containsKey(target.getName());
     }
 
     public boolean isTeaming(Player target) {

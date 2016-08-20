@@ -2,7 +2,7 @@ package me.gamerbah.Utils.Teams;
 
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.EventSound;
-import me.gamerbah.Utils.TextComponentMessages;
+import me.gamerbah.Utils.Messages.TextComponentMessages;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.entity.Player;
 

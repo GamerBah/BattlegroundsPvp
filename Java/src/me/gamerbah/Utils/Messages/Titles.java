@@ -1,4 +1,4 @@
-package me.gamerbah.Utils;
+package me.gamerbah.Utils.Messages;
 /* Created by GamerBah on 8/16/2016 */
 
 

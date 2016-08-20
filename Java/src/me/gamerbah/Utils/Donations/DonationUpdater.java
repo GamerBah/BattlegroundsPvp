@@ -3,7 +3,10 @@ package me.gamerbah.Utils.Donations;
 
 
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 
 public class DonationUpdater implements Runnable {
     private Battlegrounds plugin;
@@ -23,7 +26,14 @@ public class DonationUpdater implements Runnable {
         if (timeRemaining > 0) {
             plugin.getConfig().set("essenceTimeRemaining", timeRemaining - 360);
         } else {
-            plugin.getServer().broadcastMessage(ChatColor.GOLD + "" + plugin.getConfig().get("essenceOwner") + "'s Battle Essence has expired!");
+            for (Player player : plugin.getServer().getOnlinePlayers()) {
+                player.sendMessage(BoldColor.GOLD.getColor() + "" + (plugin.getConfig().get("essenceOwner").equals(player.getName())
+                        ? "Your" : plugin.getConfig().get("essenceOwner") + "'s") + " Battle Essence has ended!");
+                if (!player.getName().equals(plugin.getConfig().get("essenceOwner"))) {
+                    player.sendMessage(ChatColor.GREEN + "Buy your own! " + ChatColor.YELLOW + "battlegroundspvp.enjin.com/store");
+                }
+                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.3F, 0.9F);
+            }
             essence.removeActiveEssence();
         }
     }

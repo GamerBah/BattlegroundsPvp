@@ -5,6 +5,7 @@ import me.gamerbah.Battlegrounds;
 import me.gamerbah.PlayerEvents.PlayerMove;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,6 +16,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -95,6 +97,77 @@ public class CombatListener implements Listener {
                                     damager.sendMessage(ChatColor.GRAY + "You're no longer in combat");
                                 }
                             }.runTaskLater(plugin, 240).getTaskId());
+                }
+            }
+        }
+        if (event.getDamager() instanceof Arrow && event.getEntity() instanceof Player) {
+            Arrow arrow = (Arrow) event.getDamager();
+            if (arrow.getShooter() instanceof Player) {
+                ProjectileSource shooter = arrow.getShooter();
+                Player damager = (Player) shooter;
+                Player damaged = (Player) event.getEntity();
+
+                if (damaged.getLocation().distance(damaged.getWorld().getSpawnLocation()) <= 10) {
+                    event.setCancelled(true);
+                    return;
+                }
+
+                if (Battlegrounds.currentTeams.containsKey(damaged.getName()) || Battlegrounds.currentTeams.containsKey(damager.getName())) {
+                    if (Battlegrounds.currentTeams.get(damaged.getName()) == damager.getName()
+                            || Battlegrounds.currentTeams.get(damager.getName()) == damaged.getName()) {
+                        if (plugin.getServer().getOnlinePlayers().size() >= 1) {
+                            event.setCancelled(true);
+                        } else {
+                            event.setCancelled(false);
+                        }
+                    } else {
+                        event.setCancelled(false);
+                    }
+                }
+
+                if (Battlegrounds.currentTeams.get(damaged.getName()) == damager.getName()
+                        || Battlegrounds.currentTeams.get(damager.getName()) == damaged.getName()) {
+                    event.setCancelled(true);
+                } else {
+                    if (!tagged.containsKey(damaged.getUniqueId())) {
+                        damaged.sendMessage(ChatColor.GRAY + "You're now in combat with " + ChatColor.RED + damager.getName());
+                        tagged.put(damaged.getUniqueId(),
+                                new BukkitRunnable() {
+                                    public void run() {
+                                        tagged.remove(damaged.getUniqueId());
+                                        damaged.sendMessage(ChatColor.GRAY + "You're no longer in combat.");
+                                    }
+                                }.runTaskLater(plugin, 240).getTaskId());
+                    } else {
+                        plugin.getServer().getScheduler().cancelTask(tagged.get(damaged.getUniqueId()));
+                        tagged.put(damaged.getUniqueId(),
+                                new BukkitRunnable() {
+                                    public void run() {
+                                        tagged.remove(damaged.getUniqueId());
+                                        damaged.sendMessage(ChatColor.GRAY + "You're no longer in combat.");
+                                    }
+                                }.runTaskLater(plugin, 240).getTaskId());
+                    }
+
+                    if (!tagged.containsKey(damager.getUniqueId())) {
+                        damager.sendMessage(ChatColor.GRAY + "You're now in combat with " + ChatColor.RED + damaged.getName());
+                        tagged.put(damager.getUniqueId(),
+                                new BukkitRunnable() {
+                                    public void run() {
+                                        tagged.remove(damager.getUniqueId());
+                                        damager.sendMessage(ChatColor.GRAY + "You're no longer in combat.");
+                                    }
+                                }.runTaskLater(plugin, 240).getTaskId());
+                    } else {
+                        plugin.getServer().getScheduler().cancelTask(tagged.get(damager.getUniqueId()));
+                        tagged.put(damager.getUniqueId(),
+                                new BukkitRunnable() {
+                                    public void run() {
+                                        tagged.remove(damager.getUniqueId());
+                                        damager.sendMessage(ChatColor.GRAY + "You're no longer in combat");
+                                    }
+                                }.runTaskLater(plugin, 240).getTaskId());
+                    }
                 }
             }
         }

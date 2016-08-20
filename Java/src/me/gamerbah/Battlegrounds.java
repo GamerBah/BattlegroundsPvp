@@ -4,22 +4,23 @@ package me.gamerbah;
 
 import lombok.Getter;
 import me.gamerbah.Administration.Commands.*;
+import me.gamerbah.Administration.Data.MySQL;
+import me.gamerbah.Administration.Data.PlayerData;
+import me.gamerbah.Administration.Data.Query;
 import me.gamerbah.Administration.Punishments.Commands.MuteCommand;
 import me.gamerbah.Administration.Punishments.Commands.UnmuteCommand;
 import me.gamerbah.Administration.Utils.AutoUpdate;
 import me.gamerbah.Administration.Utils.ChatFilter;
 import me.gamerbah.Administration.Utils.PlayerCommandPreProccess;
 import me.gamerbah.Commands.*;
-import me.gamerbah.Data.MySQL;
-import me.gamerbah.Data.PlayerData;
-import me.gamerbah.Data.Query;
 import me.gamerbah.Listeners.*;
 import me.gamerbah.PlayerEvents.*;
-import me.gamerbah.Utils.BoldColor;
 import me.gamerbah.Utils.Donations.DonationUpdater;
 import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.KDRatio;
 import me.gamerbah.Utils.Kits.KitManager;
+import me.gamerbah.Utils.Messages.BoldColor;
+import me.gamerbah.Utils.Trails.TrailRunnable;
 import net.gpedro.integrations.slack.SlackApi;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
@@ -53,6 +54,8 @@ public class Battlegrounds extends JavaPlugin {
     private List<String> filteredWords = new ArrayList<>();
     @Getter
     private HashMap<UUID, UUID> messagers = new HashMap<>();
+    @Getter
+    private ArrayList<Location> fireworkBlocks = new ArrayList<>();
 
     public void onEnable() {
         instance = this;
@@ -80,6 +83,7 @@ public class Battlegrounds extends JavaPlugin {
         // Initialize Various Repeating Tasks
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoUpdate(this), 120, 120);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new DonationUpdater(this), 0, 20);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, new TrailRunnable(this), 0, 2L);
 
         // Save Filter File
         File filterFile = new File(getDataFolder(), "filter.txt");
@@ -95,6 +99,16 @@ public class Battlegrounds extends JavaPlugin {
         // Initialize SlackApi
         slackReports = new SlackApi("https://hooks.slack.com/services/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");
         slackStaffRequests = new SlackApi("https://hooks.slack.com/services/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");
+
+        // Register Firework Blocks
+        fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), -5.5, 37.0, 0.5));
+        fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), -3.5, 37.0, -3.5));
+        fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), 0.5, 37.0, 6.5));
+        fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), 6.5, 37.0, 0.5));
+        fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), 4.5, 37.0, 4.5));
+        fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), 0.5, 37.0, -5.5));
+        fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), 4.5, 37.0, -3.5));
+        fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), -3.5, 37.0, 4.5));
     }
 
     public void onDisable() {

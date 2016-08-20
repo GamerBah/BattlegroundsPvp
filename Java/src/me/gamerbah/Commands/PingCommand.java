@@ -3,8 +3,8 @@ package me.gamerbah.Commands;
 
 
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Utils.BoldColor;
 import me.gamerbah.Utils.EventSound;
+import me.gamerbah.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

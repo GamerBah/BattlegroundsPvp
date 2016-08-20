@@ -4,10 +4,10 @@ package me.gamerbah.PlayerEvents;
 
 import me.gamerbah.Administration.Commands.ChatCommands;
 import me.gamerbah.Administration.Commands.StaffChatCommand;
+import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Data.PlayerData;
-import me.gamerbah.Utils.BoldColor;
+import me.gamerbah.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

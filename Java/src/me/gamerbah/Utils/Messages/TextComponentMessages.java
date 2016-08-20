@@ -1,8 +1,8 @@
-package me.gamerbah.Utils;// AUTHOR: gamer_000 (12/28/2015)
+package me.gamerbah.Utils.Messages;// AUTHOR: gamer_000 (12/28/2015)
 
+import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Data.PlayerData;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.entity.Player;

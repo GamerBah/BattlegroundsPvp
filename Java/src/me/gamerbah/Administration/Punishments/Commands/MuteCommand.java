@@ -2,10 +2,10 @@ package me.gamerbah.Administration.Punishments.Commands;
 /* Created by GamerBah on 8/7/2016 */
 
 
+import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Data.PlayerData;
 import me.gamerbah.Utils.EventSound;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

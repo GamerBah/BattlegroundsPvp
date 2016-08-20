@@ -3,10 +3,10 @@ package me.gamerbah.PlayerEvents;
 
 
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Utils.BoldColor;
 import me.gamerbah.Utils.I;
 import me.gamerbah.Utils.Kits.Kit;
 import me.gamerbah.Utils.Kits.KitManager;
+import me.gamerbah.Utils.Messages.BoldColor;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;

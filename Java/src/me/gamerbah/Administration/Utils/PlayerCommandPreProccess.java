@@ -3,8 +3,8 @@ package me.gamerbah.Administration.Utils;
 
 
 import me.gamerbah.Administration.Commands.ChatCommands;
+import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Data.PlayerData;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

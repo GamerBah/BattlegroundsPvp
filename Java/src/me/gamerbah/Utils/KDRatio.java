@@ -1,8 +1,8 @@
 package me.gamerbah.Utils;
 /* Created by GamerBah on 8/15/2016 */
 
+import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Data.PlayerData;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 

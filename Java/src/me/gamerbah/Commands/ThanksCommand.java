@@ -1,8 +1,8 @@
 package me.gamerbah.Commands;
 /* Created by GamerBah on 8/19/2016 */
 
+import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Data.PlayerData;
 import me.gamerbah.Listeners.ScoreboardListener;
 import me.gamerbah.Utils.EventSound;
 import net.md_5.bungee.api.ChatColor;

@@ -3,12 +3,13 @@ package me.gamerbah.PlayerEvents;
 
 
 import me.gamerbah.Administration.Commands.ChatCommands;
+import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Data.PlayerData;
 import me.gamerbah.Listeners.ScoreboardListener;
-import me.gamerbah.Utils.BoldColor;
 import me.gamerbah.Utils.KDRatio;
-import me.gamerbah.Utils.TextComponentMessages;
+import me.gamerbah.Utils.Messages.BoldColor;
+import me.gamerbah.Utils.Messages.TextComponentMessages;
+import me.gamerbah.Utils.Messages.Titles;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -146,9 +147,9 @@ public class PlayerDeath implements Listener {
             killer.setHealth(20);
         }
 
-        int souls = ThreadLocalRandom.current().nextInt(2, 6 + 1);
+        int souls = ThreadLocalRandom.current().nextInt(4, 12 + 1);
         int coins = 0;
-        if (ThreadLocalRandom.current().nextInt(1, 7 + 1) == 1) {
+        if (ThreadLocalRandom.current().nextInt(1, 8 + 1) == 1) {
             coins = ThreadLocalRandom.current().nextInt(1, 4 + 1);
         }
         String eOwner = "";
@@ -173,7 +174,6 @@ public class PlayerDeath implements Listener {
             int killstreak = Battlegrounds.killStreak.get(killer.getUniqueId());
             if (killstreak % 5 == 0) {
                 plugin.getServer().broadcastMessage(ChatColor.GOLD + killer.getName() + ChatColor.GRAY + " is on a " + BoldColor.RED.getColor() + killstreak + " killstreak!");
-
                 scoreboardListener.getSouls().put(killer.getUniqueId(), killerData.getSouls());
                 killerData.setSouls(killerData.getSouls() + (souls * (killstreak / 5)));
                 scoreboardListener.updateScoreboardSouls(killer);
@@ -181,7 +181,8 @@ public class PlayerDeath implements Listener {
                 killerData.setCoins(killerData.getCoins() + coins);
                 scoreboardListener.updateScoreboardCoins(killer);
 
-                killer.sendMessage(ChatColor.AQUA + "[+" + souls * (killstreak / 5) + " souls]" + ChatColor.LIGHT_PURPLE + (coins != 0 ? " [+" + coins + "Battle Coins]" : "")
+                Titles.sendActionBar(killer, ChatColor.AQUA + "[+" + souls * ((killstreak / 5) + 1) + " Souls]" + ChatColor.LIGHT_PURPLE
+                        + (coins != 0 ? " [+" + coins + (coins == 1 ? " Battle Coin]" : " Battle Coins]") : "")
                         + (essence ? ChatColor.YELLOW + " [" + eOwner + "'s Essence]" : ""));
             } else {
                 scoreboardListener.getSouls().put(killer.getUniqueId(), killerData.getSouls());
@@ -191,7 +192,8 @@ public class PlayerDeath implements Listener {
                 killerData.setCoins(killerData.getCoins() + coins);
                 scoreboardListener.updateScoreboardCoins(killer);
 
-                killer.sendMessage(ChatColor.AQUA + "[+" + souls + " souls]" + ChatColor.LIGHT_PURPLE + (coins != 0 ? " [+" + coins + "Battle Coins]" : "")
+                Titles.sendActionBar(killer, ChatColor.AQUA + "[+" + souls + " Souls]" + ChatColor.LIGHT_PURPLE
+                        + (coins != 0 ? " [+" + coins + (coins == 1 ? " Battle Coin]" : " Battle Coins]") : "")
                         + (essence ? ChatColor.YELLOW + " [" + eOwner + "'s Essence]" : ""));
             }
         } else {
@@ -204,8 +206,8 @@ public class PlayerDeath implements Listener {
             killerData.setCoins(killerData.getCoins() + coins);
             scoreboardListener.updateScoreboardCoins(killer);
 
-            killer.sendMessage(ChatColor.AQUA + "[+" + souls + " souls]"
-                    + ChatColor.LIGHT_PURPLE + (coins != 0 ? " [+" + coins + "Battle Coins]" : "")
+            Titles.sendActionBar(killer, ChatColor.AQUA + "[+" + souls + " Souls]"
+                    + ChatColor.LIGHT_PURPLE + (coins != 0 ? " [+" + coins + (coins == 1 ? " Battle Coin]" : " Battle Coins]") : "")
                     + (essence ? ChatColor.YELLOW + " [" + eOwner + "'s Essence]" : ""));
         }
 

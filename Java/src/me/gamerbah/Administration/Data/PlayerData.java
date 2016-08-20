@@ -1,4 +1,4 @@
-package me.gamerbah.Data;
+package me.gamerbah.Administration.Data;
 /* Created by GamerBah on 6/18/2016 */
 
 import lombok.AllArgsConstructor;
@@ -6,11 +6,12 @@ import lombok.Getter;
 import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Utils.Trails.Trail;
 
 import java.util.List;
 import java.util.UUID;
 
-import static me.gamerbah.Data.Query.*;
+import static me.gamerbah.Administration.Data.Query.*;
 
 @AllArgsConstructor
 public class PlayerData {
@@ -27,6 +28,8 @@ public class PlayerData {
     private int kills, deaths, souls, coins;
     @Getter
     private boolean dailyReward, teamRequests, privateMessaging, stealthyJoin;
+    @Getter
+    private Trail.Type trail;
     @Getter
     private List<Punishment> punishments;
 
@@ -85,6 +88,11 @@ public class PlayerData {
 
     public void setEssences(String essences) {
         sql.executeUpdate(UPDATE_PLAYER_ESSENCES, this.essences = essences, id);
+    }
+
+    public void setTrail(Trail.Type trail) {
+        sql.executeUpdate(UPDATE_PLAYER_TRAIL, trail.toString(), id);
+        this.trail = trail;
     }
 
     public void addPunishment(Punishment punishment) {

@@ -1,4 +1,4 @@
-package me.gamerbah.Data;
+package me.gamerbah.Administration.Data;
 
 import lombok.AllArgsConstructor;
 
@@ -21,6 +21,7 @@ public enum Query {
     UPDATE_PLAYER_PRIVATE_MESSAGING("UPDATE players SET privateMessaging = ? WHERE id = ?"),
     UPDATE_PLAYER_STEALTHY_JOIN("UPDATE players SET stealthyJoin = ? WHERE id = ?"),
     UPDATE_PLAYER_ESSENCES("UPDATE players SET essences = ? WHERE id = ?"),
+    UPDATE_PLAYER_TRAIL("UPDATE players SET trail = ? WHERE id = ?"),
 
     // PUNISHMENT DATA
     CREATE_PUNISHMENT("INSERT IGNORE INTO punishment (uuid, name, type, time, expiration, enforcerUUID, reason) VALUES (?, ?, ?, ?, ?, ?, ?)"),

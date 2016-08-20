@@ -2,12 +2,12 @@ package me.gamerbah.Etc.Menus;
 /* Created by GamerBah on 6/1/2016 */
 
 
+import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Data.PlayerData;
-import me.gamerbah.Utils.BoldColor;
 import me.gamerbah.Utils.Donations.Essence;
 import me.gamerbah.Utils.I;
+import me.gamerbah.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -31,8 +31,8 @@ public class SettingsMenu {
                 .lore(BoldColor.RED.getColor() + "COMING SOON!").flag(ItemFlag.HIDE_ATTRIBUTES));
         inv.setItem(12, new I(Material.GLOWSTONE_DUST).name(BoldColor.DARK_RED.getColor() + "???")
                 .lore(BoldColor.RED.getColor() + "COMING SOON!"));
-        inv.setItem(13, new I(Material.SEEDS).name(BoldColor.DARK_RED.getColor() + "???")
-                .lore(BoldColor.RED.getColor() + "COMING SOON!"));
+        inv.setItem(13, new I(Material.MAGMA_CREAM).name(ChatColor.AQUA + "Particle Packs")
+                .lore(ChatColor.GRAY + "Select cool trails to show off!"));
         inv.setItem(15, new I(Material.BLAZE_POWDER).name((amount == 0 ? ChatColor.RED + "Battle Essence" : ChatColor.GREEN + "Battle Essence"))
                 .amount(amount).lore(amount == 0 ? ChatColor.GRAY + "You don't have Battle Essence!" : ChatColor.GRAY + "You have " + ChatColor.AQUA + amount + ChatColor.GRAY + " Battle "
                         + (amount == 1 ? "Essence" : "Essences")).lore(" ").lore(ChatColor.GRAY + "You can purchase Battle Essences at our store!")

@@ -2,8 +2,8 @@ package me.gamerbah.Etc.Menus;
 /* Created by GamerBah on 8/17/2016 */
 
 
+import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Data.PlayerData;
 import me.gamerbah.Utils.Donations.Essence;
 import me.gamerbah.Utils.I;
 import net.md_5.bungee.api.ChatColor;
@@ -33,20 +33,24 @@ public class EssenceMenu {
         for (int i = 0; i < amount; i++) {
             Essence.Type e = type.get(i);
             if (e.getTime() == 1) {
-                inv.setItem(oneSlot++, new I(Material.BLAZE_POWDER).name(e.getColor() + e.getDisplayName()).amount(1)
-                        .lore(ChatColor.GRAY + "Grants a server-wide " + e.getColor() + e.getIncrease() + "% increase" + ChatColor.GRAY + " to")
-                        .lore(ChatColor.GRAY + "the amount of Souls and Battle Coins players")
-                        .lore(ChatColor.GRAY + "receive when they kill another player").lore(" ")
-                        .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "1 Hour" + ChatColor.GRAY + " upon activation").lore(" ")
-                        .lore(ChatColor.YELLOW + "Click to activate!"));
+                if (oneSlot < 18) {
+                    inv.setItem(oneSlot++, new I(Material.BLAZE_POWDER).name(e.getColor() + e.getDisplayName()).amount(1)
+                            .lore(ChatColor.GRAY + "Grants a server-wide " + e.getColor() + e.getIncrease() + "% increase" + ChatColor.GRAY + " to")
+                            .lore(ChatColor.GRAY + "the amount of Souls and Battle Coins players")
+                            .lore(ChatColor.GRAY + "receive when they kill another player").lore(" ")
+                            .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "1 Hour" + ChatColor.GRAY + " upon activation").lore(" ")
+                            .lore(ChatColor.YELLOW + "Click to activate!"));
+                }
             }
             if (e.getTime() == 3) {
-                inv.setItem(threeSlot++, new I(Material.BLAZE_POWDER).name(e.getColor() + e.getDisplayName()).amount(3)
-                        .lore(ChatColor.GRAY + "Grants a server-wide " + e.getColor() + e.getIncrease() + "% increase" + ChatColor.GRAY + " to")
-                        .lore(ChatColor.GRAY + "the amount of Souls and Battle Coins players")
-                        .lore(ChatColor.GRAY + "receive when they kill another player").lore(" ")
-                        .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "3 Hours" + ChatColor.GRAY + " upon activation").lore(" ")
-                        .lore(ChatColor.YELLOW + "Click to activate!"));
+                if (threeSlot < 36) {
+                    inv.setItem(threeSlot++, new I(Material.BLAZE_POWDER).name(e.getColor() + e.getDisplayName()).amount(3)
+                            .lore(ChatColor.GRAY + "Grants a server-wide " + e.getColor() + e.getIncrease() + "% increase" + ChatColor.GRAY + " to")
+                            .lore(ChatColor.GRAY + "the amount of Souls and Battle Coins players")
+                            .lore(ChatColor.GRAY + "receive when they kill another player").lore(" ")
+                            .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "3 Hours" + ChatColor.GRAY + " upon activation").lore(" ")
+                            .lore(ChatColor.YELLOW + "Click to activate!"));
+                }
             }
             if (e.getTime() == 6) {
                 inv.setItem(sixSlot++, new I(Material.BLAZE_POWDER).name(e.getColor() + e.getDisplayName()).amount(6)

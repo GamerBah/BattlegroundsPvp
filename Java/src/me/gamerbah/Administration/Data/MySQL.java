@@ -1,9 +1,10 @@
-package me.gamerbah.Data;
+package me.gamerbah.Administration.Data;
 /* Created by GamerBah on 7/6/2016 */
 
 import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Utils.Trails.Trail;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -49,7 +50,8 @@ public class MySQL {
                 PlayerData playerData = new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
                         result.getString("name"), result.getString("challenges"), result.getString("achievements"), result.getString("essences"),
                         Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
-                        result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"), new ArrayList<>());
+                        result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
+                        Trail.Type.valueOf(result.getString("trail")), new ArrayList<>());
 
                 ResultSet punishments = executeQuery(Query.GET_PUNISHMENT, uuid.toString());
                 if (punishments != null && punishments.next()) {
