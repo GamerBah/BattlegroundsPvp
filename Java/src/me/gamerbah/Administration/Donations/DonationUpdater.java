@@ -1,4 +1,4 @@
-package me.gamerbah.Utils.Donations;
+package me.gamerbah.Administration.Donations;
 /* Created by GamerBah on 8/19/2016 */
 
 
@@ -25,6 +25,7 @@ public class DonationUpdater implements Runnable {
 
         if (timeRemaining > 0) {
             plugin.getConfig().set("essenceTimeRemaining", timeRemaining - 360);
+            plugin.saveConfig();
         } else {
             for (Player player : plugin.getServer().getOnlinePlayers()) {
                 player.sendMessage(BoldColor.GOLD.getColor() + "" + (plugin.getConfig().get("essenceOwner").equals(player.getName())

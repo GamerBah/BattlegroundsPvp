@@ -1,7 +1,7 @@
 main: me.gamerbah.Battlegrounds
 name: Battlegrounds
 author: GamerBah
-version: 0.1.1a
+version: 0.2.1a
 commands:
   rank:
     description: Changes a players rank

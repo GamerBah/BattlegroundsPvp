@@ -53,5 +53,4 @@ public class PlayerQuit implements Listener {
                     + BoldColor.DARK_GRAY.getColor() + "] " + ChatColor.WHITE + event.getPlayer().getName());
         }
     }
-
 }

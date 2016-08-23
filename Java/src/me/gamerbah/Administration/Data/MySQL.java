@@ -1,10 +1,12 @@
 package me.gamerbah.Administration.Data;
 /* Created by GamerBah on 7/6/2016 */
 
+import me.gamerbah.Administration.Donations.Essence;
 import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.Trails.Trail;
+import org.bukkit.entity.Player;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -45,10 +47,10 @@ public class MySQL {
     }
 
     public PlayerData getPlayerData(UUID uuid) {
-        try (ResultSet result = executeQuery(Query.GET_PLAYER, uuid.toString())) {
+        try (ResultSet result = executeQuery(Query.GET_PLAYER_DATA, uuid.toString())) {
             if (result.next()) {
                 PlayerData playerData = new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
-                        result.getString("name"), result.getString("challenges"), result.getString("achievements"), result.getString("essences"),
+                        result.getString("name"), result.getString("challenges"), result.getString("achievements"),
                         Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
                         result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
                         Trail.Type.valueOf(result.getString("trail")), new ArrayList<>());
@@ -71,6 +73,19 @@ public class MySQL {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public int getEssenceAmount(Player player, Essence.Type type) {
+        try (ResultSet result = executeQuery(Query.GET_ESSENCE_AMOUNT, player.getUniqueId().toString(), type.toString())) {
+            if (result.next()) {
+                return result.getInt("amount");
+            }
+            result.getStatement().close();
+        } catch (SQLException e) {
+            plugin.getLogger().severe("Uh oh! Unable to get the essence data!");
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 

@@ -16,9 +16,7 @@ public class TeamUtils {
     }
 
     public static void removePendingRequest(Player target) {
-        if (Battlegrounds.pendingTeams.isEmpty() || !Battlegrounds.pendingTeams.containsKey(target.getName())) {
-            return;
-        } else {
+        if (!Battlegrounds.pendingTeams.isEmpty() || Battlegrounds.pendingTeams.containsKey(target.getName())) {
             Battlegrounds.pendingTeams.remove(target.getName());
         }
     }
@@ -31,12 +29,12 @@ public class TeamUtils {
     }
 
     public static void removeTeam(Player player, Player target) {
-        if (Battlegrounds.currentTeams.get(target.getName()) == player.getName()) {
+        if (Battlegrounds.currentTeams.get(target.getName()).equals(player.getName())) {
             Battlegrounds.currentTeams.remove(target.getName());
             GlowAPI.setGlowing(player, null, target);
             GlowAPI.setGlowing(target, null, player);
         }
-        if (Battlegrounds.currentTeams.get(player.getName()) == target.getName()) {
+        if (Battlegrounds.currentTeams.get(player.getName()).equals(target.getName())) {
             Battlegrounds.currentTeams.remove(player.getName());
             GlowAPI.setGlowing(player, null, target);
             GlowAPI.setGlowing(target, null, player);
@@ -53,7 +51,7 @@ public class TeamUtils {
 
     public boolean isTeaming(Player target) {
         for (Player sender : plugin.getServer().getOnlinePlayers()) {
-            if (Battlegrounds.currentTeams.containsKey(target.getName()) || Battlegrounds.currentTeams.containsValue(target.getName())) {
+            if (Battlegrounds.currentTeams.containsKey(target.getName()) || Battlegrounds.currentTeams.containsValue(sender.getName())) {
                 return true;
             }
         }

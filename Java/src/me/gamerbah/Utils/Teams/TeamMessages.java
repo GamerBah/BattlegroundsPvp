@@ -11,7 +11,7 @@ import static org.bukkit.ChatColor.*;
 public class TeamMessages {
 
     private Battlegrounds plugin;
-    TextComponentMessages tcm = new TextComponentMessages(plugin);
+    private TextComponentMessages tcm = new TextComponentMessages(plugin);
 
     public TeamMessages(Battlegrounds plugin) {
         this.plugin = plugin;

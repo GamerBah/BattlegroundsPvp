@@ -47,22 +47,6 @@ public abstract class Kit implements Listener, CommandExecutor {
      *
      * @param name  Name of the kit
      * @param item  Item representing the kit
-     * @param rarity Color of the kit
-     */
-    public Kit(String name, ItemStack item, Rarity rarity) {
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(rarity.getColor() + name);
-        item.setItemMeta(meta);
-        this.name = name;
-        this.item = item;
-        this.rarity = rarity;
-    }
-
-    /**
-     * Defines a kit
-     *
-     * @param name  Name of the kit
-     * @param item  Item representing the kit
      * @param lore  Lore of the kit
      * @param rarity Color of the kit
      */

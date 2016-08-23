@@ -118,26 +118,23 @@ public class TeamCommand implements CommandExecutor {
                             plugin.playSound(player, EventSound.COMMAND_FAIL);
                             player.sendMessage(ChatColor.RED + "That player is already on a team!");
                             return false;
-                        /*} else if (!plugin.getPlayerData(target.getUniqueId()).isTeamRequests()) {
+                        } else if (!plugin.getPlayerData(target.getUniqueId()).isTeamRequests()) {
                             plugin.playSound(player, EventSound.COMMAND_FAIL);
                             player.sendMessage(ChatColor.RED + "That player has chosen to not receive team requests!");
-                            return false;*/
+                            return false;
                         } else {
                             teamMessages.sendRequestMessage(player, target);
                             TeamUtils.createPendingRequest(target, player);
-                            plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (teamUtils.hasPendingRequest(target)) {
-                                        player.sendMessage(ChatColor.RED + "Your request to team with "
-                                                + ChatColor.GOLD + target.getName() + ChatColor.RED + " has expired!");
-                                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 2, 0.5F);
+                            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                                if (teamUtils.hasPendingRequest(target)) {
+                                    player.sendMessage(ChatColor.RED + "Your request to team with "
+                                            + ChatColor.GOLD + target.getName() + ChatColor.RED + " has expired!");
+                                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 2, 0.5F);
 
-                                        target.sendMessage(ChatColor.GOLD + player.getName() + "'s" + ChatColor.RED + " request to team with you has expired!");
-                                        target.playSound(target.getLocation(), Sound.BLOCK_NOTE_BASS, 2, 0.5F);
+                                    target.sendMessage(ChatColor.GOLD + player.getName() + "'s" + ChatColor.RED + " request to team with you has expired!");
+                                    target.playSound(target.getLocation(), Sound.BLOCK_NOTE_BASS, 2, 0.5F);
 
-                                        TeamUtils.removePendingRequest(target);
-                                    }
+                                    TeamUtils.removePendingRequest(target);
                                 }
                             }, 600L);
                         }

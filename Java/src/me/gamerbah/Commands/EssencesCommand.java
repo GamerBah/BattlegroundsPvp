@@ -2,9 +2,9 @@ package me.gamerbah.Commands;
 /* Created by GamerBah on 8/18/2016 */
 
 
+import me.gamerbah.Administration.Donations.Essence;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Etc.Menus.EssenceMenu;
-import me.gamerbah.Utils.Donations.Essence;
 import me.gamerbah.Utils.EventSound;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
@@ -33,8 +33,15 @@ public class EssencesCommand implements CommandExecutor {
             return true;
         }
 
-        Essence essence = new Essence(plugin);
-        if (essence.getEssenceAmount(player) == 0) {
+        int amount = 0;
+        for (Essence.Type eType : Essence.Type.values()) {
+            if (!plugin.getEssenceData(eType).containsKey(player.getUniqueId())) {
+                amount += 0;
+            } else {
+                amount += plugin.getEssenceData(eType).get(player.getUniqueId());
+            }
+        }
+        if (amount == 0) {
             player.sendMessage(ChatColor.RED + "You don't have any Battle Essences!");
             player.sendMessage(ChatColor.YELLOW + "Buy one from our store! " + ChatColor.GOLD + "battlegroundspvp.enjin.com/store");
             plugin.playSound(player, EventSound.COMMAND_FAIL);

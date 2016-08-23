@@ -1,6 +1,5 @@
 package me.gamerbah.Commands;
 
-import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.Messages.BoldColor;
@@ -26,7 +25,6 @@ public class ReplyCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
 
         // TODO: Add Mute Check
 
@@ -58,7 +56,7 @@ public class ReplyCommand implements CommandExecutor {
         }
 
         player.sendMessage(ChatColor.DARK_AQUA + "You" + ChatColor.RED + " \u00BB " + BoldColor.AQUA.getColor() + target.getName() + ChatColor.WHITE + ": " + ChatColor.AQUA + message.trim());
-        target.sendMessage(BoldColor.AQUA.getColor() + player.getName()  + ChatColor.RED + " \u00BB " + ChatColor.DARK_AQUA + "You" + ChatColor.WHITE + ": " + ChatColor.AQUA + message);
+        target.sendMessage(BoldColor.AQUA.getColor() + player.getName() + ChatColor.RED + " \u00BB " + ChatColor.DARK_AQUA + "You" + ChatColor.WHITE + ": " + ChatColor.AQUA + message);
 
         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 2, 2);
         target.playSound(target.getLocation(), Sound.BLOCK_NOTE_HARP, 2, 2);

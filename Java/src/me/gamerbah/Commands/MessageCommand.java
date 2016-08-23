@@ -1,6 +1,5 @@
 package me.gamerbah.Commands;
 
-import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.Messages.BoldColor;
@@ -26,7 +25,6 @@ public class MessageCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
 
         // TODO: Add Mute Check
 

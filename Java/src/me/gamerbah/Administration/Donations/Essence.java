@@ -1,13 +1,11 @@
-package me.gamerbah.Utils.Donations;/* Created by GamerBah on 8/17/2016 */
+package me.gamerbah.Administration.Donations;/* Created by GamerBah on 8/17/2016 */
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import me.gamerbah.Administration.Data.PlayerData;
+import me.gamerbah.Administration.Data.EssenceData;
 import me.gamerbah.Battlegrounds;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
 
 public class Essence {
     private Battlegrounds plugin;
@@ -25,70 +23,28 @@ public class Essence {
         return null;
     }
 
-    public static ArrayList<Type> convertToArray(String list) {
-        ArrayList<Type> essences = new ArrayList<>();
-        if (list == null) {
-            return essences;
-        }
-        char charArray[] = list.toCharArray();
-        int length = list.length();
-        int amount = 0;
-        for (int i = 0; i < length; i++) {
-            char c = charArray[i];
-            if (c == ',') {
-                amount++;
-            }
-        }
-        String split[] = list.split(",");
-        for (int i = 0; i < amount; i++) {
-            essences.add(typeFromName(split[i]));
-        }
-        return essences;
-    }
-
-    public int getEssenceAmount(Player player) {
-        PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
-        char charArray[] = playerData.getEssences().toCharArray();
-        int length = playerData.getEssences().length();
-        int amount = 0;
-        for (int i = 0; i < length; i++) {
-            char c = charArray[i];
-            if (c == ',') {
-                amount++;
-            }
-        }
-        return amount;
-    }
-
     public void activateEssence(Player player, Type type) {
         plugin.getConfig().set("essenceActive", true);
         plugin.getConfig().set("essenceOwner", player.getName());
         plugin.getConfig().set("essenceIncrease", type.getIncrease());
         plugin.getConfig().set("essenceTimeRemaining", type.getTime() * 60 * 60);
-        PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
-        ArrayList<Type> essences = convertToArray(playerData.getEssences());
-        int amount = getEssenceAmount(player);
-        for (int i = 0; i < amount; i++) {
-            Essence.Type e = essences.get(i);
-            if (e.getDisplayName().equals(type.getDisplayName())) {
-                essences.remove(i);
-                amount--;
-                break;
-            }
-        }
-        playerData.setEssences("");
-        for (int i = 0; i < amount; i++) {
-            Essence.Type e = essences.get(i);
-            playerData.setEssences(playerData.getEssences() + e.getDisplayName() + ",");
+        plugin.saveConfig();
+        EssenceData essenceData = new EssenceData(plugin);
+        int amount = plugin.getEssenceData(type).get(player.getUniqueId());
+        if (amount == 1) {
+            essenceData.removeEssence(player, type);
+        } else {
+            essenceData.setEssence(player, type, plugin.getEssenceData(type).get(player.getUniqueId()) - 1);
         }
     }
 
-    public void removeActiveEssence() {
+    void removeActiveEssence() {
         plugin.getConfig().set("essenceActive", false);
         plugin.getConfig().set("essenceOwner", "");
         plugin.getConfig().set("essenceIncrease", "");
         plugin.getConfig().set("essenceTimeRemaining", "");
         plugin.getConfig().set("essenceThanks", "");
+        plugin.saveConfig();
     }
 
     @AllArgsConstructor

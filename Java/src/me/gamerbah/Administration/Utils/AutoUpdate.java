@@ -20,7 +20,7 @@ public class AutoUpdate implements Runnable {
         this.plugin = plugin;
 
         if (!plugin.getServer().getUpdateFolderFile().exists()) {
-            plugin.getServer().getUpdateFolderFile().mkdir();
+            plugin.getServer().getUpdateFolderFile();
         }
 
         updateFile = new File(plugin.getServer().getUpdateFolderFile().getPath() + File.separator + "Battlegrounds.jar");
@@ -31,10 +31,8 @@ public class AutoUpdate implements Runnable {
         if (updateFile == null || !updateFile.exists()) {
             return;
         }
-
         plugin.getServer().broadcastMessage(BoldColor.RED.getColor() + "SERVER: " + ChatColor.GRAY + "Reloading in 5 seconds for an update. Hang in there!");
         plugin.getServer().broadcastMessage(ChatColor.GRAY + "(You'll get sent back to the spawn once the update is complete)");
-
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
             PluginUtil.unload(plugin);
 

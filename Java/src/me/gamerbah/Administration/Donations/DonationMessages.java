@@ -1,4 +1,4 @@
-package me.gamerbah.Utils.Donations;
+package me.gamerbah.Administration.Donations;
 /* Created by GamerBah on 8/18/2016 */
 
 

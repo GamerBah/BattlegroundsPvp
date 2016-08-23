@@ -5,7 +5,6 @@ package me.gamerbah.Etc.Menus;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Utils.Donations.Essence;
 import me.gamerbah.Utils.I;
 import me.gamerbah.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
@@ -24,8 +23,7 @@ public class SettingsMenu {
 
     public void openInventory(Player player) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
-        Essence essence = new Essence(plugin);
-        int amount = essence.getEssenceAmount(player);
+        int amount = plugin.getTotalEssenceAmount(player);
         Inventory inv = plugin.getServer().createInventory(null, 36, "Settings");
         inv.setItem(11, new I(Material.DIAMOND_SWORD).name(BoldColor.DARK_RED.getColor() + "???")
                 .lore(BoldColor.RED.getColor() + "COMING SOON!").flag(ItemFlag.HIDE_ATTRIBUTES));

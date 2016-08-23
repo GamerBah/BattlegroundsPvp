@@ -3,6 +3,7 @@ package me.gamerbah.Administration.Data;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import me.gamerbah.Administration.Donations.Essence;
 import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
@@ -21,7 +22,7 @@ public class PlayerData {
     private final UUID uuid;
     private final MySQL sql = Battlegrounds.getSql();
     @Getter
-    private String name, challenges, achievements, essences;
+    private String name, challenges, achievements;
     @Getter
     private Rank rank;
     @Getter
@@ -86,13 +87,13 @@ public class PlayerData {
         sql.executeUpdate(UPDATE_PLAYER_STEALTHY_JOIN, this.stealthyJoin = stealthyJoin, id);
     }
 
-    public void setEssences(String essences) {
-        sql.executeUpdate(UPDATE_PLAYER_ESSENCES, this.essences = essences, id);
-    }
-
     public void setTrail(Trail.Type trail) {
         sql.executeUpdate(UPDATE_PLAYER_TRAIL, trail.toString(), id);
         this.trail = trail;
+    }
+
+    public void addEssence(Essence.Type type) {
+
     }
 
     public void addPunishment(Punishment punishment) {

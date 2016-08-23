@@ -2,10 +2,11 @@ package me.gamerbah.Administration.Commands;
 /* Created by GamerBah on 8/18/2016 */
 
 
+import me.gamerbah.Administration.Data.EssenceData;
 import me.gamerbah.Administration.Data.PlayerData;
+import me.gamerbah.Administration.Donations.DonationMessages;
+import me.gamerbah.Administration.Donations.Essence;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Utils.Donations.DonationMessages;
-import me.gamerbah.Utils.Donations.Essence;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,8 +29,8 @@ public class EssenceCommand implements CommandExecutor {
             return true;
         }
 
-        if (args.length != 3) {
-            sender.sendMessage("<UUID> <Time> <Increase>");
+        if (args.length != 4) {
+            sender.sendMessage("Required Arguments: <uuid> <time> <increase> <amount>");
             return true;
         }
 
@@ -49,7 +50,12 @@ public class EssenceCommand implements CommandExecutor {
             return true;
         }
 
+        if (!args[3].matches("[0-9]+") || Integer.parseInt(args[3]) == 0) {
+            sender.sendMessage("Can only give amounts greater than 0!");
+            return true;
+        }
 
+        int amount = Integer.parseInt(args[3]);
         Essence.Type eType = null;
 
         for (Essence.Type type : Essence.Type.values()) {
@@ -63,11 +69,18 @@ public class EssenceCommand implements CommandExecutor {
             return true;
         }
 
-        playerData.setEssences(playerData.getEssences() + eType.getDisplayName() + ",");
+        EssenceData essenceData = new EssenceData(plugin);
+        if (!plugin.getEssenceData(eType).get(playerData.getUuid()).equals(0)) {
+            essenceData.setEssence(playerData.getUuid(), eType, plugin.getEssenceData(eType).get(playerData.getUuid()) + amount);
+        } else {
+            plugin.createEssenceData(playerData.getUuid(), eType, amount);
+        }
         sender.sendMessage("Success! Donation registered.");
         Player player = plugin.getServer().getPlayer(UUID.fromString(args[0]));
-        DonationMessages donationMessages = new DonationMessages(plugin);
-        donationMessages.sendEssensePurchaseMessage(player, eType);
+        if (player.isOnline()) {
+            DonationMessages donationMessages = new DonationMessages(plugin);
+            donationMessages.sendEssensePurchaseMessage(player, eType);
+        }
         return true;
     }
 }

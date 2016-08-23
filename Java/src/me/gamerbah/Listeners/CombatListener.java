@@ -43,8 +43,8 @@ public class CombatListener implements Listener {
             Player damaged = (Player) event.getEntity();
 
             if (Battlegrounds.currentTeams.containsKey(damaged.getName()) || Battlegrounds.currentTeams.containsKey(damager.getName())) {
-                if (Battlegrounds.currentTeams.get(damaged.getName()) == damager.getName()
-                        || Battlegrounds.currentTeams.get(damager.getName()) == damaged.getName()) {
+                if (Battlegrounds.currentTeams.get(damaged.getName()).equals(damager.getName())
+                        || Battlegrounds.currentTeams.get(damager.getName()).equals(damaged.getName())) {
                     if (plugin.getServer().getOnlinePlayers().size() >= 1) {
                         event.setCancelled(true);
                     } else {
@@ -55,8 +55,8 @@ public class CombatListener implements Listener {
                 }
             }
 
-            if (Battlegrounds.currentTeams.get(damaged.getName()) == damager.getName()
-                    || Battlegrounds.currentTeams.get(damager.getName()) == damaged.getName()) {
+            if (Battlegrounds.currentTeams.get(damaged.getName()).equals(damager.getName())
+                    || Battlegrounds.currentTeams.get(damager.getName()).equals(damaged.getName())) {
                 event.setCancelled(true);
             } else {
                 if (!tagged.containsKey(damaged.getUniqueId())) {
@@ -113,61 +113,64 @@ public class CombatListener implements Listener {
                 }
 
                 if (Battlegrounds.currentTeams.containsKey(damaged.getName()) || Battlegrounds.currentTeams.containsKey(damager.getName())) {
-                    if (Battlegrounds.currentTeams.get(damaged.getName()) == damager.getName()
-                            || Battlegrounds.currentTeams.get(damager.getName()) == damaged.getName()) {
+                    if (Battlegrounds.currentTeams.get(damaged.getName()).equals(damager.getName())
+                            || Battlegrounds.currentTeams.get(damager.getName()).equals(damaged.getName())) {
                         if (plugin.getServer().getOnlinePlayers().size() >= 1) {
                             event.setCancelled(true);
+                            return;
                         } else {
                             event.setCancelled(false);
+                            return;
                         }
                     } else {
                         event.setCancelled(false);
+                        return;
                     }
                 }
 
-                if (Battlegrounds.currentTeams.get(damaged.getName()) == damager.getName()
-                        || Battlegrounds.currentTeams.get(damager.getName()) == damaged.getName()) {
+                if (damager.getName().equals(damaged.getName())) {
                     event.setCancelled(true);
-                } else {
-                    if (!tagged.containsKey(damaged.getUniqueId())) {
-                        damaged.sendMessage(ChatColor.GRAY + "You're now in combat with " + ChatColor.RED + damager.getName());
-                        tagged.put(damaged.getUniqueId(),
-                                new BukkitRunnable() {
-                                    public void run() {
-                                        tagged.remove(damaged.getUniqueId());
-                                        damaged.sendMessage(ChatColor.GRAY + "You're no longer in combat.");
-                                    }
-                                }.runTaskLater(plugin, 240).getTaskId());
-                    } else {
-                        plugin.getServer().getScheduler().cancelTask(tagged.get(damaged.getUniqueId()));
-                        tagged.put(damaged.getUniqueId(),
-                                new BukkitRunnable() {
-                                    public void run() {
-                                        tagged.remove(damaged.getUniqueId());
-                                        damaged.sendMessage(ChatColor.GRAY + "You're no longer in combat.");
-                                    }
-                                }.runTaskLater(plugin, 240).getTaskId());
-                    }
+                    return;
+                }
 
-                    if (!tagged.containsKey(damager.getUniqueId())) {
-                        damager.sendMessage(ChatColor.GRAY + "You're now in combat with " + ChatColor.RED + damaged.getName());
-                        tagged.put(damager.getUniqueId(),
-                                new BukkitRunnable() {
-                                    public void run() {
-                                        tagged.remove(damager.getUniqueId());
-                                        damager.sendMessage(ChatColor.GRAY + "You're no longer in combat.");
-                                    }
-                                }.runTaskLater(plugin, 240).getTaskId());
-                    } else {
-                        plugin.getServer().getScheduler().cancelTask(tagged.get(damager.getUniqueId()));
-                        tagged.put(damager.getUniqueId(),
-                                new BukkitRunnable() {
-                                    public void run() {
-                                        tagged.remove(damager.getUniqueId());
-                                        damager.sendMessage(ChatColor.GRAY + "You're no longer in combat");
-                                    }
-                                }.runTaskLater(plugin, 240).getTaskId());
-                    }
+                if (!tagged.containsKey(damaged.getUniqueId())) {
+                    damaged.sendMessage(ChatColor.GRAY + "You're now in combat with " + ChatColor.RED + damager.getName());
+                    tagged.put(damaged.getUniqueId(),
+                            new BukkitRunnable() {
+                                public void run() {
+                                    tagged.remove(damaged.getUniqueId());
+                                    damaged.sendMessage(ChatColor.GRAY + "You're no longer in combat.");
+                                }
+                            }.runTaskLater(plugin, 240).getTaskId());
+                } else {
+                    plugin.getServer().getScheduler().cancelTask(tagged.get(damaged.getUniqueId()));
+                    tagged.put(damaged.getUniqueId(),
+                            new BukkitRunnable() {
+                                public void run() {
+                                    tagged.remove(damaged.getUniqueId());
+                                    damaged.sendMessage(ChatColor.GRAY + "You're no longer in combat.");
+                                }
+                            }.runTaskLater(plugin, 240).getTaskId());
+                }
+
+                if (!tagged.containsKey(damager.getUniqueId())) {
+                    damager.sendMessage(ChatColor.GRAY + "You're now in combat with " + ChatColor.RED + damaged.getName());
+                    tagged.put(damager.getUniqueId(),
+                            new BukkitRunnable() {
+                                public void run() {
+                                    tagged.remove(damager.getUniqueId());
+                                    damager.sendMessage(ChatColor.GRAY + "You're no longer in combat.");
+                                }
+                            }.runTaskLater(plugin, 240).getTaskId());
+                } else {
+                    plugin.getServer().getScheduler().cancelTask(tagged.get(damager.getUniqueId()));
+                    tagged.put(damager.getUniqueId(),
+                            new BukkitRunnable() {
+                                public void run() {
+                                    tagged.remove(damager.getUniqueId());
+                                    damager.sendMessage(ChatColor.GRAY + "You're no longer in combat");
+                                }
+                            }.runTaskLater(plugin, 240).getTaskId());
                 }
             }
         }

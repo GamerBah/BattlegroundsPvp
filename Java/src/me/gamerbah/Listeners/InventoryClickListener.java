@@ -3,14 +3,14 @@ package me.gamerbah.Listeners;
 
 
 import me.gamerbah.Administration.Data.PlayerData;
+import me.gamerbah.Administration.Donations.DonationMessages;
+import me.gamerbah.Administration.Donations.Essence;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Commands.ReportCommand;
 import me.gamerbah.Etc.Menus.EssenceMenu;
 import me.gamerbah.Etc.Menus.ReportGUI;
 import me.gamerbah.Etc.Menus.SettingsMenu;
 import me.gamerbah.Etc.Menus.TrailMenu;
-import me.gamerbah.Utils.Donations.DonationMessages;
-import me.gamerbah.Utils.Donations.Essence;
 import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.FireworkUtils;
 import me.gamerbah.Utils.Kits.KitManager;
@@ -223,8 +223,7 @@ public class InventoryClickListener implements Listener {
                     }
                 }
                 if (item.getType().equals(Material.BLAZE_POWDER)) {
-                    Essence essence = new Essence(plugin);
-                    if (essence.getEssenceAmount(player) == 0) {
+                    if (plugin.getTotalEssenceAmount(player) == 0) {
                         plugin.playSound(player, EventSound.COMMAND_FAIL);
                     } else {
                         essenceMenu.openInventory(player);

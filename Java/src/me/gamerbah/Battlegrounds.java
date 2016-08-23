@@ -7,6 +7,8 @@ import me.gamerbah.Administration.Commands.*;
 import me.gamerbah.Administration.Data.MySQL;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Data.Query;
+import me.gamerbah.Administration.Donations.DonationUpdater;
+import me.gamerbah.Administration.Donations.Essence;
 import me.gamerbah.Administration.Punishments.Commands.MuteCommand;
 import me.gamerbah.Administration.Punishments.Commands.UnmuteCommand;
 import me.gamerbah.Administration.Utils.AutoUpdate;
@@ -15,7 +17,6 @@ import me.gamerbah.Administration.Utils.PlayerCommandPreProccess;
 import me.gamerbah.Commands.*;
 import me.gamerbah.Listeners.*;
 import me.gamerbah.PlayerEvents.*;
-import me.gamerbah.Utils.Donations.DonationUpdater;
 import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.KDRatio;
 import me.gamerbah.Utils.Kits.KitManager;
@@ -51,6 +52,24 @@ public class Battlegrounds extends JavaPlugin {
     public SlackApi slackStaffRequests = null;
     private HashSet<PlayerData> playerData = new HashSet<>();
     @Getter
+    private HashMap<UUID, Integer> one50Essence = new HashMap<>();
+    @Getter
+    private HashMap<UUID, Integer> one100Essence = new HashMap<>();
+    @Getter
+    private HashMap<UUID, Integer> one150Essence = new HashMap<>();
+    @Getter
+    private HashMap<UUID, Integer> three50Essence = new HashMap<>();
+    @Getter
+    private HashMap<UUID, Integer> three100Essence = new HashMap<>();
+    @Getter
+    private HashMap<UUID, Integer> three150Essence = new HashMap<>();
+    @Getter
+    private HashMap<UUID, Integer> six50Essence = new HashMap<>();
+    @Getter
+    private HashMap<UUID, Integer> six100Essence = new HashMap<>();
+    @Getter
+    private HashMap<UUID, Integer> six150Essence = new HashMap<>();
+    @Getter
     private List<String> filteredWords = new ArrayList<>();
     @Getter
     private HashMap<UUID, UUID> messagers = new HashMap<>();
@@ -63,6 +82,9 @@ public class Battlegrounds extends JavaPlugin {
         registerListeners();
 
         sql = new MySQL(this);
+
+        // Save Default Configuration
+        saveDefaultConfig();
 
         // Reload player data on reload
         for (Player player : getServer().getOnlinePlayers()) {
@@ -78,6 +100,24 @@ public class Battlegrounds extends JavaPlugin {
             scoreboardListener.getSouls().put(player.getUniqueId(), playerData.getSouls());
             scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
             respawn(player);
+            if (!getOne50Essence().containsKey(player.getUniqueId()))
+                getOne50Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.ONE_HOUR_50_PERCENT));
+            if (!getOne100Essence().containsKey(player.getUniqueId()))
+                getOne100Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.ONE_HOUR_100_PERCENT));
+            if (!getOne150Essence().containsKey(player.getUniqueId()))
+                getOne150Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.ONE_HOUR_150_PERCENT));
+            if (!getThree50Essence().containsKey(player.getUniqueId()))
+                getThree50Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.THREE_HOUR_50_PERCENT));
+            if (!getThree100Essence().containsKey(player.getUniqueId()))
+                getThree100Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.THREE_HOUR_100_PERCENT));
+            if (!getThree150Essence().containsKey(player.getUniqueId()))
+                getThree150Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.THREE_HOUR_150_PERCENT));
+            if (!getSix50Essence().containsKey(player.getUniqueId()))
+                getSix50Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_50_PERCENT));
+            if (!getSix100Essence().containsKey(player.getUniqueId()))
+                getSix100Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_100_PERCENT));
+            if (!getSix150Essence().containsKey(player.getUniqueId()))
+                getSix150Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_150_PERCENT));
         }
 
         // Initialize Various Repeating Tasks
@@ -112,7 +152,6 @@ public class Battlegrounds extends JavaPlugin {
     }
 
     public void onDisable() {
-
     }
 
     private void registerCommands() {
@@ -147,11 +186,10 @@ public class Battlegrounds extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new CombatListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerMove(this), this);
         getServer().getPluginManager().registerEvents(new ScoreboardListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerFoodLevelChange(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerBlockPlace(this), this);
-        getServer().getPluginManager().registerEvents(new WeatherChangeListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerFoodLevelChange(), this);
+        getServer().getPluginManager().registerEvents(new WeatherChangeListener(), this);
         getServer().getPluginManager().registerEvents(new ItemSpawnListener(this), this);
-        getServer().getPluginManager().registerEvents(new InventoryCloseListener(this), this);
+        getServer().getPluginManager().registerEvents(new InventoryCloseListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerCommandPreProccess(this), this);
         getServer().getPluginManager().registerEvents(new ChatFilter(this), this);
         getServer().getPluginManager().registerEvents(new PlayerRespawn(this), this);
@@ -186,9 +224,37 @@ public class Battlegrounds extends JavaPlugin {
     }
 
     public void createPlayerData(UUID uuid, String name) {
-        sql.executeUpdate(Query.CREATE_PLAYER, uuid.toString(), name);
+        sql.executeUpdate(Query.CREATE_PLAYER_DATA, uuid.toString(), name);
         getServer().getScheduler().runTaskLater(this, () -> playerData.add(sql.getPlayerData(uuid)), 4L);
+    }
 
+    public HashMap<UUID, Integer> getEssenceData(Essence.Type type) {
+        switch (type) {
+            case ONE_HOUR_50_PERCENT:
+                return getOne50Essence();
+            case ONE_HOUR_100_PERCENT:
+                return getOne100Essence();
+            case ONE_HOUR_150_PERCENT:
+                return getOne150Essence();
+            case THREE_HOUR_50_PERCENT:
+                return getThree50Essence();
+            case THREE_HOUR_100_PERCENT:
+                return getThree100Essence();
+            case THREE_HOUR_150_PERCENT:
+                return getThree150Essence();
+            case SIX_HOUR_50_PERCENT:
+                return getSix50Essence();
+            case SIX_HOUR_100_PERCENT:
+                return getSix100Essence();
+            case SIX_HOUR_150_PERCENT:
+                return getSix150Essence();
+        }
+        return null;
+    }
+
+    public void createEssenceData(UUID uuid, Essence.Type type, int amount) {
+        sql.executeUpdate(Query.CREATE_ESSENCE_DATA, uuid.toString(), type.toString(), amount);
+        getServer().getScheduler().runTaskLater(this, () -> getEssenceData(type).put(uuid, amount), 4L);
     }
 
     public void sendNoPermission(Player player) {
@@ -206,6 +272,12 @@ public class Battlegrounds extends JavaPlugin {
     // Respawn at world spawn
     public void respawn(Player player) {
         respawn(player, player.getWorld().getSpawnLocation().add(0.5, 0, 0.5));
+    }
+
+    public int getTotalEssenceAmount(Player player) {
+        return (getOne50Essence().get(player.getUniqueId()) + getOne100Essence().get(player.getUniqueId()) + getOne150Essence().get(player.getUniqueId())
+                + getThree50Essence().get(player.getUniqueId()) + getThree100Essence().get(player.getUniqueId()) + getThree150Essence().get(player.getUniqueId())
+                + getSix50Essence().get(player.getUniqueId()) + getSix100Essence().get(player.getUniqueId()) + getSix150Essence().get(player.getUniqueId()));
     }
 
 }

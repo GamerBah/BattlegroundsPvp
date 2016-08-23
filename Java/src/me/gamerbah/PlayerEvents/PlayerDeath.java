@@ -98,9 +98,7 @@ public class PlayerDeath implements Listener {
         wkb.setColor(ChatColor.GRAY);
         wkb.setHoverEvent(null);
 
-        TextComponent tc = new TextComponent("");
-
-        BaseComponent baseComponent = tc;
+        BaseComponent baseComponent = new TextComponent("");
         baseComponent.addExtra(killerTCM);
         baseComponent.addExtra(wkb);
         baseComponent.addExtra(killedTCM);

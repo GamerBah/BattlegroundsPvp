@@ -52,6 +52,9 @@ public class TrailRunnable implements Runnable {
                     ParticleEffect.DRIP_LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.1, 0, 0.1, 0, 4, 25);
                 }
             } else {
+                if (plugin.getConfig().getBoolean("essenceActive")) {
+                    ParticleEffect.REDSTONE.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 1.25, 0), 0.2, 0.2, 0.2, 1, 5, 25);
+                }
                 if (playerData.getTrail().equals(Trail.Type.RAIN_STORM)) {
                     ParticleEffect.DRIP_WATER.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.1D, 0), 0.2, 0, 0.2, 0, 3, 25);
                     ParticleEffect.WATER_SPLASH.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.2D, 0), 0.1, 0, 0.1, 0, 10, 25);

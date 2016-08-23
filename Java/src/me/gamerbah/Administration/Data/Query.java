@@ -6,8 +6,9 @@ import lombok.AllArgsConstructor;
 public enum Query {
     
     // PLAYER DATA
-    CREATE_PLAYER("INSERT IGNORE INTO players (uuid, name) VALUES (?, ?)"),
-    GET_PLAYER("SELECT * FROM players WHERE uuid = ?"),
+    CREATE_PLAYER_DATA("INSERT IGNORE INTO players (uuid, name) VALUES (?, ?)"),
+    GET_PLAYER_DATA("SELECT * FROM players WHERE uuid = ?"),
+    UPDATE_PLAYER_DATA("UPDATE players SET rank = ?, kills = ?, deaths = ?, souls = ?, coins = ?, trail = ?, dailyReward = ?, teamRequests = ?, privateMessaging = ?, stealthyJoin = ?, challenges = ?, achievements = ?, essences = ? WHERE id = ?"),
     UPDATE_PLAYER_NAME("UPDATE players SET name = ? WHERE id = ?"),
     UPDATE_PLAYER_RANK("UPDATE players SET rank = ? WHERE id = ?"),
     UPDATE_PLAYER_KILLS("UPDATE players SET kills = ? WHERE id = ?"),
@@ -20,8 +21,13 @@ public enum Query {
     UPDATE_PLAYER_TEAM_REQUESTS("UPDATE players SET teamRequests = ? WHERE id = ?"),
     UPDATE_PLAYER_PRIVATE_MESSAGING("UPDATE players SET privateMessaging = ? WHERE id = ?"),
     UPDATE_PLAYER_STEALTHY_JOIN("UPDATE players SET stealthyJoin = ? WHERE id = ?"),
-    UPDATE_PLAYER_ESSENCES("UPDATE players SET essences = ? WHERE id = ?"),
     UPDATE_PLAYER_TRAIL("UPDATE players SET trail = ? WHERE id = ?"),
+
+    // DONATION DATA
+    CREATE_ESSENCE_DATA("INSERT INTO essences (uuid, type, amount) VALUES (?, ?, ?)"),
+    UPDATE_ESSENCE_AMOUNT("UPDATE essences SET amount = ? WHERE uuid = ? AND type = ?"),
+    GET_ESSENCE_AMOUNT("SELECT * FROM essences WHERE uuid = ? AND type = ?"),
+    DELETE_ESSENCE_DATA("DELETE FROM essences WHERE uuid = ? AND type = ?"),
 
     // PUNISHMENT DATA
     CREATE_PUNISHMENT("INSERT IGNORE INTO punishment (uuid, name, type, time, expiration, enforcerUUID, reason) VALUES (?, ?, ?, ?, ?, ?, ?)"),

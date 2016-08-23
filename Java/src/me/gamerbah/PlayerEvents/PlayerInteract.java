@@ -2,7 +2,6 @@ package me.gamerbah.PlayerEvents;
 /* Created by GamerBah on 8/13/2016 */
 
 
-import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Etc.Menus.SettingsMenu;
 import me.gamerbah.Utils.I;
@@ -35,7 +34,6 @@ public class PlayerInteract implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         ItemStack item = event.getItem();
 
         if (!player.getGameMode().equals(GameMode.CREATIVE) && !(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.RIGHT_CLICK_AIR))) {

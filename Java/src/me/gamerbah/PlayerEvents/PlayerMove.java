@@ -4,7 +4,10 @@ package me.gamerbah.PlayerEvents;
 
 import lombok.Getter;
 import me.gamerbah.Battlegrounds;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,14 +32,6 @@ public class PlayerMove implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
-
-        if (plugin.getConfig().getBoolean("essenceActive")) {
-            long duration = (plugin.getConfig().getInt("essenceTimeRemaining") / 360) * 20;
-            BukkitTask task = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () ->
-                    //ParticleEffect.FIREWORKS_SPARK.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 1, 0), 0.5, 0.5, 0.5, 0, 1, 25), 0L, 15L);
-                    ParticleEffect.REDSTONE.sendColor(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 1, 0), Color.TEAL), 0L, 15L);
-            plugin.getServer().getScheduler().runTaskLater(plugin, task::cancel, duration);
-        }
 
         if (event.getTo().getBlock().getType().equals(Material.GOLD_PLATE)) {
             if (player.getGameMode().equals(GameMode.CREATIVE)) {

@@ -3,6 +3,7 @@ package me.gamerbah.Utils.Messages;// AUTHOR: gamer_000 (12/28/2015)
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Utils.KDRatio;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.entity.Player;
@@ -16,13 +17,11 @@ public class TextComponentMessages {
     }
 
     public TextComponent centerTextSpacesLeft() {
-        TextComponent spaces = new TextComponent("                           ");
-        return spaces;
+        return new TextComponent("                           ");
     }
 
     public TextComponent centerTextSpacesMiddle() {
-        TextComponent spaces = new TextComponent("         ");
-        return spaces;
+        return new TextComponent("         ");
     }
 
     public TextComponent teamAcceptButton() {
@@ -47,38 +46,21 @@ public class TextComponentMessages {
 
     public BaseComponent[] playerStats(Player player) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
-        ChatColor ratioColor = ChatColor.GRAY;
+        KDRatio kdRatio = new KDRatio(plugin);
+        ChatColor ratioColor = kdRatio.getRatioColor(player);
         double ratio = ((double) playerData.getKills() / (double) playerData.getDeaths());
         ratio = Math.round(ratio * 100.00D) / 100.00D;
         if (playerData.getDeaths() == 0) {
             ratio = playerData.getKills();
         }
-        if (ratio < 0.25D) {
-            ratioColor = ChatColor.DARK_RED;
-        } else if (ratio >= 0.25D && ratio < 0.50D) {
-            ratioColor = ChatColor.RED;
-        } else if (ratio >= 0.50D && ratio < 0.75D) {
-            ratioColor = ChatColor.GOLD;
-        } else if (ratio >= 0.75D && ratio < 1.00D) {
-            ratioColor = ChatColor.YELLOW;
-        } else if (ratio >= 1.00D && ratio < 1.50D) {
-            ratioColor = ChatColor.DARK_GREEN;
-        } else if (ratio >= 1.50D && ratio < 2.50D) {
-            ratioColor = ChatColor.GREEN;
-        } else if (ratio >= 2.50D && ratio < 3.50D) {
-            ratioColor = ChatColor.AQUA;
-        } else if (ratio >= 3.50D) {
-            ratioColor = ChatColor.LIGHT_PURPLE;
-        }
-        BaseComponent[] component = new ComponentBuilder(
+
+        return new ComponentBuilder(
                 playerData.getRank().getColor() + "" + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")
                         + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : ChatColor.GRAY) + player.getName() + "\n\n"
                         + ChatColor.GRAY + "Kills: " + ChatColor.GREEN + playerData.getKills() + "\n"
                         + ChatColor.GRAY + "Deaths: " + ChatColor.RED + playerData.getDeaths() + "\n"
                         + ChatColor.GRAY + "K/D Ratio: " + ratioColor + ratio
                         + "\n\n" + ChatColor.YELLOW + "Click to open player options....").create();
-
-        return component;
     }
 
 }

@@ -51,14 +51,14 @@ import java.util.logging.Logger;
  *
  * @author rylinaux
  */
-public class PluginUtil {
+class PluginUtil {
 
     /**
      * Enable a plugin.
      *
      * @param plugin the plugin to enable
      */
-    public static void enable(Plugin plugin) {
+    static void enable(Plugin plugin) {
         if (plugin != null && !plugin.isEnabled())
             Bukkit.getPluginManager().enablePlugin(plugin);
     }
@@ -66,7 +66,7 @@ public class PluginUtil {
     /**
      * Enable all plugins.
      */
-    public static void enableAll() {
+    static void enableAll() {
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
             enable(plugin);
     }
@@ -76,7 +76,7 @@ public class PluginUtil {
      *
      * @param plugin the plugin to disable
      */
-    public static void disable(Plugin plugin) {
+    static void disable(Plugin plugin) {
         if (plugin != null && plugin.isEnabled())
             Bukkit.getPluginManager().disablePlugin(plugin);
     }
@@ -84,7 +84,7 @@ public class PluginUtil {
     /**
      * Disable all plugins.
      */
-    public static void disableAll() {
+    static void disableAll() {
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
             disable(plugin);
         }
@@ -97,7 +97,7 @@ public class PluginUtil {
      * @param includeVersions whether to include the version
      * @return the formatted name
      */
-    public static String getFormattedName(Plugin plugin, boolean includeVersions) {
+    static String getFormattedName(Plugin plugin, boolean includeVersions) {
         ChatColor color = plugin.isEnabled() ? ChatColor.GREEN : ChatColor.RED;
         String pluginName = color + plugin.getName();
         if (includeVersions)
@@ -112,7 +112,7 @@ public class PluginUtil {
      * @param start the index to start at
      * @return the plugin
      */
-    public static Plugin getPluginByName(String[] args, int start) {
+    static Plugin getPluginByName(String[] args, int start) {
         return getPluginByName(consolidateStrings(args, start));
     }
 
@@ -122,7 +122,7 @@ public class PluginUtil {
      * @param name the name of the plugin
      * @return the plugin
      */
-    public static Plugin getPluginByName(String name) {
+    static Plugin getPluginByName(String name) {
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
             if (name.equalsIgnoreCase(plugin.getName()))
                 return plugin;
@@ -144,7 +144,7 @@ public class PluginUtil {
      *
      * @param name plugin's name
      */
-    public static void load(String name) {
+    static void load(String name) {
 
         Plugin target;
 
@@ -197,7 +197,7 @@ public class PluginUtil {
      *
      * @param plugin the plugin to reload
      */
-    public static void reload(Plugin plugin) {
+    static void reload(Plugin plugin) {
         if (plugin != null) {
             unload(plugin);
             load(plugin);
@@ -207,7 +207,7 @@ public class PluginUtil {
     /**
      * Reload all plugins.
      */
-    public static void reloadAll() {
+    static void reloadAll() {
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
             reload(plugin);
         }
@@ -218,7 +218,7 @@ public class PluginUtil {
      *
      * @param plugin the plugin to unload
      */
-    public static void unload(Plugin plugin) {
+    static void unload(Plugin plugin) {
 
         String name = plugin.getName();
 
