@@ -1,24 +1,28 @@
-package me.gamerbah.Utils.Trails;
+package me.gamerbah.Administration.Runnables;
 /* Created by GamerBah on 8/20/2016 */
 
 
+import com.connorlinfoot.titleapi.TitleAPI;
+import lombok.Getter;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Utils.EventSound;
+import me.gamerbah.Utils.Trails.Trail;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.inventivetalent.particle.ParticleEffect;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class TrailRunnable implements Runnable {
 
+    @Getter
+    private static HashMap<Player, Integer> still = new HashMap<>();
     private Battlegrounds plugin;
     private Map<Player, Location> playerLocations = new HashMap<>();
-    private List<Player> still = new ArrayList<>();
 
     public TrailRunnable(Battlegrounds plugin) {
         this.plugin = plugin;
@@ -33,23 +37,36 @@ public class TrailRunnable implements Runnable {
             if (player.getLocation().getX() == playerLocations.get(player).getX()
                     && player.getLocation().getY() == playerLocations.get(player).getY()
                     && player.getLocation().getZ() == playerLocations.get(player).getZ()) {
-                if (!still.contains(player)) {
+                if (!still.containsKey(player)) {
                     playerLocations.put(player, player.getLocation());
-                    still.add(player);
+                    still.put(player, -1);
                 }
             } else {
                 playerLocations.put(player, player.getLocation());
                 still.remove(player);
+                plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                    if (plugin.getAfk().contains(player.getUniqueId())) {
+                        if (!still.containsKey(player)) {
+                            TitleAPI.clearTitle(player);
+                            player.sendMessage(ChatColor.GRAY + "You are no longer AFK");
+                            plugin.playSound(player, EventSound.COMMAND_CLICK);
+                            plugin.getAfk().remove(player.getUniqueId());
+                            plugin.respawn(player);
+                        }
+                    }
+                }, 3L);
             }
 
-            if (still.contains(player)) {
-                if (playerData.getTrail().equals(Trail.Type.RAIN_STORM)) {
-                    ParticleEffect.CLOUD.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.25, 0.1, 0.25, 0, 6, 25);
-                    ParticleEffect.DRIP_WATER.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.15, 0, 0.15, 0, 2, 25);
-                }
-                if (playerData.getTrail().equals(Trail.Type.LAVA_RAIN)) {
-                    ParticleEffect.SMOKE_LARGE.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.25D, 0), 0.25, 0.1, 0.25, 0, 8, 25);
-                    ParticleEffect.DRIP_LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.1, 0, 0.1, 0, 4, 25);
+            if (still.containsKey(player)) {
+                if (!plugin.getAfk().contains(player.getUniqueId())) {
+                    if (playerData.getTrail().equals(Trail.Type.RAIN_STORM)) {
+                        ParticleEffect.CLOUD.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.25, 0.1, 0.25, 0, 6, 25);
+                        ParticleEffect.DRIP_WATER.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.15, 0, 0.15, 0, 2, 25);
+                    }
+                    if (playerData.getTrail().equals(Trail.Type.LAVA_RAIN)) {
+                        ParticleEffect.SMOKE_LARGE.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.25D, 0), 0.25, 0.1, 0.25, 0, 8, 25);
+                        ParticleEffect.DRIP_LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.1, 0, 0.1, 0, 4, 25);
+                    }
                 }
             } else {
                 if (plugin.getConfig().getBoolean("essenceActive")) {

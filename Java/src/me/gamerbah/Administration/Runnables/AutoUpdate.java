@@ -1,5 +1,6 @@
-package me.gamerbah.Administration.Utils;
+package me.gamerbah.Administration.Runnables;
 
+import me.gamerbah.Administration.Utils.PluginUtil;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.Messages.BoldColor;

@@ -37,6 +37,10 @@ public class PlayerQuit implements Listener {
             ReportCommand.getReportArray().remove(player.getUniqueId());
         }
 
+        if (plugin.getAfk().contains(player.getUniqueId())) {
+            plugin.getAfk().remove(player.getUniqueId());
+        }
+
         if (plugin.getServer().getOnlinePlayers().size() < 10) {
             plugin.getServer().getOnlinePlayers().stream().filter(players -> Battlegrounds.currentTeams.containsKey(players.getName())
                     || Battlegrounds.currentTeams.containsValue(players.getName())).forEach(players -> {

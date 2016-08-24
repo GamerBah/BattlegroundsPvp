@@ -51,14 +51,14 @@ import java.util.logging.Logger;
  *
  * @author rylinaux
  */
-class PluginUtil {
+public class PluginUtil {
 
     /**
      * Enable a plugin.
      *
      * @param plugin the plugin to enable
      */
-    static void enable(Plugin plugin) {
+    private static void enable(Plugin plugin) {
         if (plugin != null && !plugin.isEnabled())
             Bukkit.getPluginManager().enablePlugin(plugin);
     }
@@ -66,7 +66,7 @@ class PluginUtil {
     /**
      * Enable all plugins.
      */
-    static void enableAll() {
+    private static void enableAll() {
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
             enable(plugin);
     }
@@ -76,7 +76,7 @@ class PluginUtil {
      *
      * @param plugin the plugin to disable
      */
-    static void disable(Plugin plugin) {
+    private static void disable(Plugin plugin) {
         if (plugin != null && plugin.isEnabled())
             Bukkit.getPluginManager().disablePlugin(plugin);
     }
@@ -84,7 +84,7 @@ class PluginUtil {
     /**
      * Disable all plugins.
      */
-    static void disableAll() {
+    private static void disableAll() {
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
             disable(plugin);
         }
@@ -97,7 +97,7 @@ class PluginUtil {
      * @param includeVersions whether to include the version
      * @return the formatted name
      */
-    static String getFormattedName(Plugin plugin, boolean includeVersions) {
+    private static String getFormattedName(Plugin plugin, boolean includeVersions) {
         ChatColor color = plugin.isEnabled() ? ChatColor.GREEN : ChatColor.RED;
         String pluginName = color + plugin.getName();
         if (includeVersions)
@@ -144,7 +144,7 @@ class PluginUtil {
      *
      * @param name plugin's name
      */
-    static void load(String name) {
+    public static void load(String name) {
 
         Plugin target;
 
@@ -218,7 +218,7 @@ class PluginUtil {
      *
      * @param plugin the plugin to unload
      */
-    static void unload(Plugin plugin) {
+    public static void unload(Plugin plugin) {
 
         String name = plugin.getName();
 

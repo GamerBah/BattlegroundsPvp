@@ -2,6 +2,7 @@ package me.gamerbah;
 /* Created by GamerBah on 8/7/2016 */
 
 
+import com.connorlinfoot.titleapi.TitleAPI;
 import lombok.Getter;
 import me.gamerbah.Administration.Commands.*;
 import me.gamerbah.Administration.Data.MySQL;
@@ -11,7 +12,9 @@ import me.gamerbah.Administration.Donations.DonationUpdater;
 import me.gamerbah.Administration.Donations.Essence;
 import me.gamerbah.Administration.Punishments.Commands.MuteCommand;
 import me.gamerbah.Administration.Punishments.Commands.UnmuteCommand;
-import me.gamerbah.Administration.Utils.AutoUpdate;
+import me.gamerbah.Administration.Runnables.AFKRunnable;
+import me.gamerbah.Administration.Runnables.AutoUpdate;
+import me.gamerbah.Administration.Runnables.TrailRunnable;
 import me.gamerbah.Administration.Utils.ChatFilter;
 import me.gamerbah.Administration.Utils.PlayerCommandPreProccess;
 import me.gamerbah.Commands.*;
@@ -21,7 +24,6 @@ import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.KDRatio;
 import me.gamerbah.Utils.Kits.KitManager;
 import me.gamerbah.Utils.Messages.BoldColor;
-import me.gamerbah.Utils.Trails.TrailRunnable;
 import net.gpedro.integrations.slack.SlackApi;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
@@ -100,6 +102,7 @@ public class Battlegrounds extends JavaPlugin {
             scoreboardListener.getSouls().put(player.getUniqueId(), playerData.getSouls());
             scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
             respawn(player);
+            TitleAPI.clearTitle(player);
             if (!getOne50Essence().containsKey(player.getUniqueId()))
                 getOne50Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.ONE_HOUR_50_PERCENT));
             if (!getOne100Essence().containsKey(player.getUniqueId()))
@@ -123,7 +126,8 @@ public class Battlegrounds extends JavaPlugin {
         // Initialize Various Repeating Tasks
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoUpdate(this), 120, 120);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new DonationUpdater(this), 0, 20);
-        getServer().getScheduler().scheduleSyncRepeatingTask(this, new TrailRunnable(this), 0, 2L);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, new TrailRunnable(this), 0, 2);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, new AFKRunnable(this), 0, 20);
 
         // Save Filter File
         File filterFile = new File(getDataFolder(), "filter.txt");

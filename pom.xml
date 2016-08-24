@@ -50,6 +50,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.inventivetalent.packetlistener</groupId>
+            <artifactId>api</artifactId>
+            <version>3.4.4</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.inventivetalent</groupId>
             <artifactId>particleapi</artifactId>
             <version>2.1.1</version>
@@ -77,12 +83,6 @@
             <groupId>org.inventivetalent</groupId>
             <artifactId>playerversion</artifactId>
             <version>1.2.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.inventivetalent</groupId>
-            <artifactId>api</artifactId>
-            <version>RELEASE</version>
         </dependency>
 
     </dependencies>
