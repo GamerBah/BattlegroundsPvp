@@ -9,6 +9,7 @@ import me.gamerbah.Utils.Trails.Trail;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -49,23 +50,11 @@ public class MySQL {
     public PlayerData getPlayerData(UUID uuid) {
         try (ResultSet result = executeQuery(Query.GET_PLAYER_DATA, uuid.toString())) {
             if (result.next()) {
-                PlayerData playerData = new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
+                return new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
                         result.getString("name"), result.getString("challenges"), result.getString("achievements"),
                         Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
                         result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
-                        Trail.Type.valueOf(result.getString("trail")), new ArrayList<>());
-
-                ResultSet punishments = executeQuery(Query.GET_PUNISHMENT, uuid.toString());
-                if (punishments != null && punishments.next()) {
-                    String name = playerData.getName();
-                    Punishment.PunishType type = Punishment.PunishType.valueOf(punishments.getString("type"));
-                    long time = punishments.getLong("time");
-                    long expiration = punishments.getLong("expiration");
-                    UUID enforcerUUID = UUID.fromString(punishments.getString("enforcerUUID"));
-                    String reason = punishments.getString("reason");
-                    playerData.getPunishments().add(new Punishment(uuid, name, type, time, expiration, enforcerUUID, reason));
-                }
-                return playerData;
+                        Trail.Type.valueOf(result.getString("trail")));
             }
             result.getStatement().close();
         } catch (SQLException e) {
@@ -86,6 +75,38 @@ public class MySQL {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public Punishment getPunishment(UUID uuid, Punishment.Type type, LocalDateTime date) {
+        try (ResultSet result = executeQuery(Query.GET_PUNISHMENT, uuid.toString(), type.toString(), date.toString())) {
+            if (result.next()) {
+                return new Punishment(result.getInt("id"), UUID.fromString(result.getString("uuid")), result.getString("name"), Punishment.Type.valueOf(result.getString("type")),
+                        LocalDateTime.parse(result.getString("date")), result.getInt("duration"), LocalDateTime.parse(result.getString("expiration")), UUID.fromString(result.getString("enforcer")),
+                        Punishment.Reason.valueOf(result.getString("reason")), result.getBoolean("pardoned"));
+            }
+            result.getStatement().close();
+        } catch (SQLException e) {
+            plugin.getLogger().severe("Uh oh! Unable to get the punishment!");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<Punishment> getAllPunishments(Player player) {
+        try (ResultSet result = executeQuery(Query.GET_ALL_PUNISHMENTS, player.getUniqueId().toString())) {
+            ArrayList<Punishment> punishments = new ArrayList<>();
+            while (result.next()) {
+                punishments.add(new Punishment(result.getInt("id"), UUID.fromString(result.getString("uuid")), result.getString("name"), Punishment.Type.valueOf(result.getString("type")),
+                        LocalDateTime.parse(result.getString("date")), result.getInt("duration"), LocalDateTime.parse(result.getString("expiration")), UUID.fromString(result.getString("enforcer")),
+                        Punishment.Reason.valueOf(result.getString("reason")), result.getBoolean("pardoned")));
+            }
+            result.getStatement().close();
+            return punishments;
+        } catch (SQLException e) {
+            plugin.getLogger().severe("Uh oh! Unable to get punishments!");
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

@@ -12,6 +12,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class AFKCommand implements CommandExecutor {
     private Battlegrounds plugin;
@@ -40,12 +42,15 @@ public class AFKCommand implements CommandExecutor {
             player.sendMessage(ChatColor.GRAY + "You are no longer AFK");
             plugin.playSound(player, EventSound.COMMAND_CLICK);
             TitleAPI.clearTitle(player);
+            player.removePotionEffect(PotionEffectType.INVISIBILITY);
         } else {
             Battlegrounds.getAfk().add(player.getUniqueId());
             plugin.respawn(player, player.getWorld().getSpawnLocation().add(0.5, 8, 0.5));
+            player.getInventory().clear();
             player.sendMessage(ChatColor.GRAY + "You are now AFK");
             plugin.playSound(player, EventSound.COMMAND_CLICK);
             TitleAPI.sendTitle(player, 10, 1728000, 20, BoldColor.AQUA.getColor() + "You are AFK!", ChatColor.YELLOW + "Move to start playing again!");
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1728000, 1, true, false));
         }
         return false;
     }

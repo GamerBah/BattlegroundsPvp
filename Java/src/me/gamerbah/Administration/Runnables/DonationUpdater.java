@@ -1,7 +1,8 @@
-package me.gamerbah.Administration.Donations;
+package me.gamerbah.Administration.Runnables;
 /* Created by GamerBah on 8/19/2016 */
 
 
+import me.gamerbah.Administration.Donations.Essence;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
@@ -24,7 +25,7 @@ public class DonationUpdater implements Runnable {
         int timeRemaining = plugin.getConfig().getInt("essenceTimeRemaining");
 
         if (timeRemaining > 0) {
-            plugin.getConfig().set("essenceTimeRemaining", timeRemaining - 360);
+            plugin.getConfig().set("essenceTimeRemaining", timeRemaining - 1);
             plugin.saveConfig();
         } else {
             for (Player player : plugin.getServer().getOnlinePlayers()) {

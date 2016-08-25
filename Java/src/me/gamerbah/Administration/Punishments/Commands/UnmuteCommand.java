@@ -3,7 +3,6 @@ package me.gamerbah.Administration.Punishments.Commands;
 
 
 import me.gamerbah.Administration.Data.PlayerData;
-import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.EventSound;
@@ -12,9 +11,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class UnmuteCommand implements CommandExecutor {
 
@@ -52,7 +48,7 @@ public class UnmuteCommand implements CommandExecutor {
             return true;
         }
 
-        if (targetData.getPunishments() != null && targetData.getPunishments().size() != 0) {
+        /*if (targetData.getPunishments() != null && targetData.getPunishments().size() != 0) {
             Set<Punishment> remove = new HashSet<>();
             targetData.getPunishments().stream()
                     .filter(punishment -> punishment.getExpiration() == -1 || System.currentTimeMillis() <= (punishment.getTime() + punishment.getExpiration()))
@@ -69,7 +65,7 @@ public class UnmuteCommand implements CommandExecutor {
                             plugin.getServer().getOfflinePlayer(targetData.getUuid()).getName() + "."));
         } else {
             player.sendMessage(ChatColor.RED + "That player isn't muted!");
-        }
+        }*/
 
         return true;
     }

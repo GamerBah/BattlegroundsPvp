@@ -1,10 +1,16 @@
 package me.gamerbah.Commands;
 
 import lombok.Getter;
+import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Etc.Menus.ReportGUI;
+import me.gamerbah.Etc.Menus.ReportMenu;
 import me.gamerbah.Utils.EventSound;
+import me.gamerbah.Utils.Time;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,13 +22,13 @@ import java.util.UUID;
 
 public class ReportCommand implements CommandExecutor {
 
-    private Battlegrounds plugin;
     @Getter
     private static HashMap<UUID, Integer> cooldown = new HashMap<>();
     @Getter
     private static HashMap<UUID, String> reportBuilders = new HashMap<>();
     @Getter
     private static HashMap<UUID, ArrayList<String>> reportArray = new HashMap<>();
+    private Battlegrounds plugin;
 
     public ReportCommand(Battlegrounds plugin) {
         this.plugin = plugin;
@@ -35,6 +41,23 @@ public class ReportCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
+
+        if (plugin.getPlayerPunishments().containsKey(player.getUniqueId())) {
+            ArrayList<Punishment> punishments = plugin.getPlayerPunishments().get(player.getUniqueId());
+            for (int i = 0; i < punishments.size(); i++) {
+                Punishment punishment = punishments.get(i);
+                if (!punishment.isPardoned()) {
+                    BaseComponent baseComponent = new TextComponent(ChatColor.RED + "You are muted! " + ChatColor.GRAY + "(Hover to view details)");
+                    baseComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GRAY + "Muted by: "
+                            + ChatColor.WHITE + plugin.getServer().getPlayer(punishment.getEnforcer()).getName() + "\n" + ChatColor.GRAY + "Reason: "
+                            + ChatColor.WHITE + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Time Remaining: " + ChatColor.WHITE +
+                            Time.toString(Time.punishmentTimeRemaining(punishment.getExpiration()), true)).create()));
+                    player.spigot().sendMessage(baseComponent);
+                    plugin.playSound(player, EventSound.COMMAND_FAIL);
+                    return true;
+                }
+            }
+        }
 
         if (args.length < 1) {
             player.sendMessage(plugin.incorrectUsage + "/report <player>");
@@ -63,10 +86,10 @@ public class ReportCommand implements CommandExecutor {
         }
 
         if (!cooldown.containsKey(player.getUniqueId())) {
-            ReportGUI reportGUI = new ReportGUI(plugin);
+            ReportMenu reportMenu = new ReportMenu(plugin);
             reportBuilders.put(player.getUniqueId(), null);
             reportArray.put(player.getUniqueId(), new ArrayList<>());
-            reportGUI.openInventory(player, reported);
+            reportMenu.openInventory(player, reported);
         } else {
             plugin.playSound(player, EventSound.COMMAND_FAIL);
             player.sendMessage(ChatColor.RED + "You must wait " + ChatColor.YELLOW

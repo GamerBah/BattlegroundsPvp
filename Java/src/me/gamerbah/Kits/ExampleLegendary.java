@@ -10,6 +10,7 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -17,7 +18,7 @@ import org.bukkit.potion.PotionEffectType;
 public class ExampleLegendary extends Kit {
 
     public ExampleLegendary() {
-        super("Example Legendary", new ItemStack(Material.ENCHANTED_BOOK), ChatColor.GRAY + "An Example of a Legendary Kit", Rarity.LEGENDARY);
+        super("Example Legendary", new I(Material.ENCHANTED_BOOK).lore(ChatColor.GRAY + "An Example of a Legendary Kit").flag(ItemFlag.HIDE_ATTRIBUTES), Rarity.LEGENDARY);
     }
 
     protected void wear(Player player) {

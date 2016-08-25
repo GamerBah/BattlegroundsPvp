@@ -8,13 +8,11 @@ import me.gamerbah.Administration.Commands.*;
 import me.gamerbah.Administration.Data.MySQL;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Data.Query;
-import me.gamerbah.Administration.Donations.DonationUpdater;
 import me.gamerbah.Administration.Donations.Essence;
 import me.gamerbah.Administration.Punishments.Commands.MuteCommand;
 import me.gamerbah.Administration.Punishments.Commands.UnmuteCommand;
-import me.gamerbah.Administration.Runnables.AFKRunnable;
-import me.gamerbah.Administration.Runnables.AutoUpdate;
-import me.gamerbah.Administration.Runnables.TrailRunnable;
+import me.gamerbah.Administration.Punishments.Punishment;
+import me.gamerbah.Administration.Runnables.*;
 import me.gamerbah.Administration.Utils.ChatFilter;
 import me.gamerbah.Administration.Utils.PlayerCommandPreProccess;
 import me.gamerbah.Commands.*;
@@ -36,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -53,6 +52,8 @@ public class Battlegrounds extends JavaPlugin {
     public SlackApi slackReports = null;
     public SlackApi slackStaffRequests = null;
     private HashSet<PlayerData> playerData = new HashSet<>();
+    @Getter
+    private HashMap<UUID, ArrayList<Punishment>> playerPunishments = new HashMap<>();
     @Getter
     private HashMap<UUID, Integer> one50Essence = new HashMap<>();
     @Getter
@@ -102,6 +103,7 @@ public class Battlegrounds extends JavaPlugin {
             scoreboardListener.getSouls().put(player.getUniqueId(), playerData.getSouls());
             scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
             respawn(player);
+            reloadPunishments(player);
             TitleAPI.clearTitle(player);
             if (!getOne50Essence().containsKey(player.getUniqueId()))
                 getOne50Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.ONE_HOUR_50_PERCENT));
@@ -128,6 +130,7 @@ public class Battlegrounds extends JavaPlugin {
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new DonationUpdater(this), 0, 20);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new TrailRunnable(this), 0, 2);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new AFKRunnable(this), 0, 20);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, new PunishmentRunnable(this), 0, 20L);
 
         // Save Filter File
         File filterFile = new File(getDataFolder(), "filter.txt");
@@ -259,6 +262,41 @@ public class Battlegrounds extends JavaPlugin {
     public void createEssenceData(UUID uuid, Essence.Type type, int amount) {
         sql.executeUpdate(Query.CREATE_ESSENCE_DATA, uuid.toString(), type.toString(), amount);
         getServer().getScheduler().runTaskLater(this, () -> getEssenceData(type).put(uuid, amount), 4L);
+    }
+
+    private Punishment getPunishment(UUID uuid, Punishment.Type type, LocalDateTime date) {
+        ArrayList<Punishment> punishments = playerPunishments.get(uuid);
+        Optional<Punishment> punishmentStream = punishments.stream().filter(punishment -> punishment.getUuid().equals(uuid)
+                && punishment.getType().equals(type) && punishment.getDate().equals(date)).findFirst();
+
+        if (punishmentStream.isPresent()) {
+            return punishmentStream.get();
+        } else {
+            Punishment punishment = sql.getPunishment(uuid, type, date);
+            if (punishment != null) {
+                punishments.add(punishment);
+                playerPunishments.put(uuid, punishments);
+                return getPunishment(uuid, type, date);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    public void createPunishment(UUID uuid, String name, Punishment.Type type, LocalDateTime date, Integer duration, UUID enforcer, Punishment.Reason reason) {
+        sql.executeUpdate(Query.CREATE_PUNISHMENT, uuid.toString(), name, type.toString(), date.toString(), duration,
+                date.plusSeconds(duration).toString().replace(" ", "T"), enforcer.toString(), reason.toString());
+        getServer().getScheduler().runTaskLater(this, () -> {
+            ArrayList<Punishment> punishments = playerPunishments.get(uuid);
+            punishments.add(sql.getPunishment(uuid, type, date));
+            playerPunishments.put(uuid, punishments);
+        }, 10L);
+    }
+
+    public void reloadPunishments(Player player) {
+        if (!sql.getAllPunishments(player).isEmpty()) {
+            playerPunishments.put(player.getUniqueId(), sql.getAllPunishments(player));
+        }
     }
 
     public void sendNoPermission(Player player) {

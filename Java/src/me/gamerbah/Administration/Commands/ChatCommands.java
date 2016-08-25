@@ -45,7 +45,8 @@ public class ChatCommands implements CommandExecutor {
                     }
                 }
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    Bukkit.getServer().broadcastMessage(BoldColor.RED.getColor() + "The chat has been cleared by " + player.getName() + "!");
+                    p.sendMessage(BoldColor.RED.getColor() + "The chat has been cleared by " + player.getName() + "!");
+                    p.sendMessage(" ");
                     plugin.playSound(p, EventSound.COMMAND_SUCCESS);
                 }
             }
@@ -58,14 +59,18 @@ public class ChatCommands implements CommandExecutor {
             } else {
                 if (!chatSilenced) {
                     chatSilenced = true;
-                    Bukkit.getServer().broadcastMessage(BoldColor.RED.getColor() + "The chat has been locked by " + player.getName() + "!");
                     for (Player p : Bukkit.getOnlinePlayers()) {
+                        p.sendMessage(" ");
+                        p.sendMessage(BoldColor.RED.getColor() + "The chat has been locked by " + player.getName() + "!");
+                        p.sendMessage(" ");
                         plugin.playSound(p, EventSound.COMMAND_SUCCESS);
                     }
                 } else {
                     chatSilenced = false;
-                    Bukkit.getServer().broadcastMessage(BoldColor.GREEN.getColor() + "All chat has been re-enabled!");
                     for (Player p : Bukkit.getOnlinePlayers()) {
+                        p.sendMessage(" ");
+                        p.sendMessage(BoldColor.GREEN.getColor() + "All chat has been re-enabled!");
+                        p.sendMessage(" ");
                         plugin.playSound(p, EventSound.COMMAND_SUCCESS);
                     }
                 }

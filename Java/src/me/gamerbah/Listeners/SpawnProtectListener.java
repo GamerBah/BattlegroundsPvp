@@ -1,7 +1,6 @@
 package me.gamerbah.Listeners;
 
 import me.gamerbah.Battlegrounds;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -12,7 +11,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 
 public class SpawnProtectListener implements Listener {
     private Battlegrounds plugin;
@@ -50,20 +48,6 @@ public class SpawnProtectListener implements Listener {
 
         if (location.distance(location.getWorld().getSpawnLocation()) <= 10) {
             event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-        Location location = player.getLocation();
-
-        if (Battlegrounds.getAfk().contains(player.getUniqueId())) {
-            if (location.distance(location.getWorld().getSpawnLocation()) >= 9) {
-                plugin.respawn(player);
-                player.sendMessage(ChatColor.RED + "You are AFK, so you are not able to leave the spawn!");
-                player.sendMessage(ChatColor.YELLOW + "If you wish to leave, use " + ChatColor.GREEN + "/afk");
-            }
         }
     }
 

@@ -5,14 +5,23 @@ package me.gamerbah.PlayerEvents;
 import me.gamerbah.Administration.Commands.ChatCommands;
 import me.gamerbah.Administration.Commands.StaffChatCommand;
 import me.gamerbah.Administration.Data.PlayerData;
+import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.Messages.BoldColor;
+import me.gamerbah.Utils.Time;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+
+import java.util.ArrayList;
 
 public class PlayerChat implements Listener {
 
@@ -37,7 +46,23 @@ public class PlayerChat implements Listener {
 
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
 
-        // TODO: Mute Check
+        if (plugin.getPlayerPunishments().containsKey(player.getUniqueId())) {
+            ArrayList<Punishment> punishments = plugin.getPlayerPunishments().get(player.getUniqueId());
+            for (int i = 0; i < punishments.size(); i++) {
+                Punishment punishment = punishments.get(i);
+                if (!punishment.isPardoned()) {
+                    event.setCancelled(true);
+                    BaseComponent baseComponent = new TextComponent(ChatColor.RED + "You are muted! " + ChatColor.GRAY + "(Hover to view details)");
+                    baseComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GRAY + "Muted by: "
+                            + ChatColor.WHITE + plugin.getServer().getPlayer(punishment.getEnforcer()).getName() + "\n" + ChatColor.GRAY + "Reason: "
+                            + ChatColor.WHITE + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Time Remaining: " + ChatColor.WHITE +
+                            Time.toString(Time.punishmentTimeRemaining(punishment.getExpiration()), true)).create()));
+                    player.spigot().sendMessage(baseComponent);
+                    plugin.playSound(player, EventSound.COMMAND_FAIL);
+                    return;
+                }
+            }
+        }
 
         Rank rank = playerData.getRank();
 

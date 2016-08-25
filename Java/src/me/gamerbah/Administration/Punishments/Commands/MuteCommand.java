@@ -7,13 +7,21 @@ import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.EventSound;
+import me.gamerbah.Utils.Time;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class MuteCommand implements CommandExecutor {
     private Battlegrounds plugin;
@@ -48,35 +56,58 @@ public class MuteCommand implements CommandExecutor {
             OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(targetData.getUuid());
             Player target = Bukkit.getPlayer(targetData.getUuid());
 
-            if (targetData == null) {
-                player.sendMessage(ChatColor.RED + "That player hasn't ever joined!");
+            Punishment.Reason reason = null;
+            for (Punishment.Reason type : Punishment.Reason.values()) {
+                if (args[1].equalsIgnoreCase(type.toString())) {
+                    reason = type;
+                    break;
+                }
+            }
+
+            if (reason == null) {
+                player.sendMessage(ChatColor.RED + "Unknown reason!");
+                plugin.playSound(player, EventSound.COMMAND_FAIL);
                 return true;
             }
 
-            String reason = "";
-            for (int i = 1; i < args.length; i++) {
-                reason += args[i] + " ";
+            ArrayList<Punishment> punishments = plugin.getPlayerPunishments().get(target.getUniqueId());
+
+            for (int i = 0; i < punishments.size(); i++) {
+                Punishment punishment = punishments.get(i);
+                if (punishment.getType().equals(Punishment.Type.MUTE)) {
+                    if (!punishment.isPardoned()) {
+                        BaseComponent baseComponent = new TextComponent(ChatColor.RED + "That player is already muted!");
+                        baseComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GRAY + "Muted by: "
+                                + ChatColor.WHITE + plugin.getServer().getPlayer(punishment.getEnforcer()).getName() + "\n" + ChatColor.GRAY + "Reason: "
+                                + ChatColor.WHITE + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Time Remaining: " + ChatColor.WHITE +
+                                Time.toString(Time.punishmentTimeRemaining(punishment.getExpiration()), true)).create()));
+                        player.spigot().sendMessage(baseComponent);
+                        plugin.playSound(player, EventSound.COMMAND_FAIL);
+                        return true;
+                    }
+                }
             }
-            reason = reason.trim();
 
-            final String finalReason = reason;
-            targetData.addPunishment(new Punishment(targetData.getUuid(), target.getName(), Punishment.PunishType.MUTE, System.currentTimeMillis(), -1, playerData.getUuid(), reason));
+            plugin.createPunishment(targetData.getUuid(), targetData.getName(), Punishment.Type.MUTE, LocalDateTime.now(), reason.getLength(), player.getUniqueId(), reason);
 
+            final int finalTime = reason.getLength() * 1000;
+            final String finalName = reason.getName();
             if (target != null) {
-                plugin.getServer().getOnlinePlayers().stream().filter(staff ->
-                        plugin.getPlayerData(staff.getUniqueId()).hasRank(Rank.HELPER)).forEach(staff ->
-                        staff.sendMessage("" + ChatColor.RED + player.getName() + " permanently muted "
-                                + ChatColor.GRAY + plugin.getServer().getPlayer(targetData.getUuid()).getName() + ChatColor.RED + " for " + finalReason));
-                target.sendMessage(ChatColor.RED + "You were permanently muted by " + player.getName() + " for " + reason + "\n"
-                        + "Appeal on ...");
+                BaseComponent baseComponent = new TextComponent(ChatColor.RED + player.getName() + " muted " + ChatColor.RED + plugin.getServer().getPlayer(targetData.getUuid()).getName());
+                baseComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GRAY + "Reason: "
+                        + ChatColor.WHITE + finalName + "\n" + ChatColor.GRAY + "Time: " + ChatColor.WHITE + Time.toString(finalTime, false)).create()));
+
+                plugin.getServer().getOnlinePlayers().stream().filter(staff -> plugin.getPlayerData(staff.getUniqueId()).hasRank(Rank.HELPER)).forEach(staff -> staff.spigot().sendMessage(baseComponent));
+
+                target.sendMessage(ChatColor.GOLD + player.getName() + ChatColor.RED + " muted you for " + ChatColor.GOLD + Time.toString(finalTime, true)
+                        + ChatColor.RED + " for " + ChatColor.GOLD + finalName);
             } else {
-                plugin.getServer().getOnlinePlayers().stream().filter(staff ->
-                        plugin.getPlayerData(staff.getUniqueId()).hasRank(Rank.HELPER)).forEach(staff ->
-                        staff.sendMessage("" + ChatColor.RED + player.getName() + " permanently muted "
-                                + ChatColor.GRAY + offlinePlayer.getName() + ChatColor.RED + " for " + finalReason));
-                player.sendMessage(ChatColor.GREEN + "Offline player " + ChatColor.GOLD + offlinePlayer.getName()
-                        + ChatColor.GREEN + " successfully muted.");
-            }
+                BaseComponent baseComponent = new TextComponent(ChatColor.RED + player.getName() + " muted " + ChatColor.RED + offlinePlayer.getName());
+                baseComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GRAY + "Reason: "
+                        + ChatColor.WHITE + finalName + "\n" + ChatColor.GRAY + "Time: " + ChatColor.WHITE + Time.toString(finalTime, false)).create()));
+
+                plugin.getServer().getOnlinePlayers().stream().filter(staff -> plugin.getPlayerData(staff.getUniqueId()).hasRank(Rank.HELPER)).forEach(staff -> staff.spigot().sendMessage(baseComponent));
+        }
         }
 
         return true;

@@ -12,6 +12,7 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffectType;
 import org.inventivetalent.particle.ParticleEffect;
 
 import java.util.HashMap;
@@ -52,6 +53,7 @@ public class TrailRunnable implements Runnable {
                             plugin.playSound(player, EventSound.COMMAND_CLICK);
                             plugin.getAfk().remove(player.getUniqueId());
                             plugin.respawn(player);
+                            player.removePotionEffect(PotionEffectType.INVISIBILITY);
                         }
                     }
                 }, 3L);

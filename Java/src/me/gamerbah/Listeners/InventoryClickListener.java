@@ -8,7 +8,7 @@ import me.gamerbah.Administration.Donations.Essence;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Commands.ReportCommand;
 import me.gamerbah.Etc.Menus.EssenceMenu;
-import me.gamerbah.Etc.Menus.ReportGUI;
+import me.gamerbah.Etc.Menus.ReportMenu;
 import me.gamerbah.Etc.Menus.SettingsMenu;
 import me.gamerbah.Etc.Menus.TrailMenu;
 import me.gamerbah.Utils.EventSound;
@@ -80,7 +80,7 @@ public class InventoryClickListener implements Listener {
 
             if (event.getClickedInventory().getName().contains("Reporting:")) {
                 ItemStack item = event.getCurrentItem();
-                ReportGUI reportGUI = new ReportGUI(plugin);
+                ReportMenu reportMenu = new ReportMenu(plugin);
                 String targetName = inventory.getName().replace("Reporting: ", "");
                 Player target = plugin.getServer().getPlayerExact(targetName);
                 int slot = event.getSlot();
@@ -97,8 +97,8 @@ public class InventoryClickListener implements Listener {
                             message = rm.get(i);
                         }
                     }
-                    reportGUI.setWool(inventory, target, message);
-                    inventory.setItem(slot, reportGUI.setSelected(item));
+                    reportMenu.setWool(inventory, target, message);
+                    inventory.setItem(slot, reportMenu.setSelected(item));
                 }
                 if (item.getType().equals(Material.ENCHANTED_BOOK)) {
                     rm.remove(item.getItemMeta().getDisplayName().replace(ChatColor.GREEN + "", ""));
@@ -111,8 +111,8 @@ public class InventoryClickListener implements Listener {
                             message = rm.get(i);
                         }
                     }
-                    reportGUI.setWool(inventory, target, message);
-                    inventory.setItem(slot, reportGUI.setUnSelected(item));
+                    reportMenu.setWool(inventory, target, message);
+                    inventory.setItem(slot, reportMenu.setUnSelected(item));
                 }
                 if (item.getType().equals(Material.WOOL)) {
                     if (item.getDurability() == 5) {
@@ -130,7 +130,7 @@ public class InventoryClickListener implements Listener {
                             plugin.playSound(player, EventSound.COMMAND_FAIL);
                             player.sendMessage(BoldColor.RED.getColor() + "Oops! " + ChatColor.GRAY + "You tried to report a player without selecting any report options!");
                         } else {
-                            reportGUI.report(player, target, message);
+                            reportMenu.report(player, target, message);
                             player.closeInventory();
                         }
                     }
@@ -146,7 +146,7 @@ public class InventoryClickListener implements Listener {
             if (event.getClickedInventory().getName().contains("Options")) {
                 Player target = plugin.getServer().getPlayerExact(event.getClickedInventory().getName().substring(12));
                 if (event.getCurrentItem().getType().equals(Material.BARRIER)) {
-                    ReportGUI reportGUI = new ReportGUI(plugin);
+                    ReportMenu reportMenu = new ReportMenu(plugin);
                     if (target == player) {
                         player.sendMessage(ChatColor.RED + "You can't report yourself! Unless you have something to tell us.... *gives suspicious look*");
                         player.closeInventory();
@@ -154,7 +154,7 @@ public class InventoryClickListener implements Listener {
                     }
                     ReportCommand.getReportBuilders().put(player.getUniqueId(), null);
                     ReportCommand.getReportArray().put(player.getUniqueId(), new ArrayList<>());
-                    reportGUI.openInventory(player, target);
+                    reportMenu.openInventory(player, target);
                 }
 
                 if (event.getCurrentItem().getType().equals(Material.FEATHER)) {

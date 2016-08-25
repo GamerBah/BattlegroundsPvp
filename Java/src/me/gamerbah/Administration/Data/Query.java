@@ -30,9 +30,11 @@ public enum Query {
     DELETE_ESSENCE_DATA("DELETE FROM essences WHERE uuid = ? AND type = ?"),
 
     // PUNISHMENT DATA
-    CREATE_PUNISHMENT("INSERT IGNORE INTO punishment (uuid, name, type, time, expiration, enforcerUUID, reason) VALUES (?, ?, ?, ?, ?, ?, ?)"),
-    GET_PUNISHMENT("SELECT * FROM punishment WHERE uuid = ?"),
-    UPDATE_PUNISHMENT_TIME("UPDATE punishment SET expiration = ? WHERE uuid = ? AND type = ? AND time = ?"),
+    CREATE_PUNISHMENT("INSERT INTO punishment (uuid, name, type, date, duration, expiration, enforcer, reason) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"),
+    UPDATE_PUNISHMENT_PARDONED("UPDATE punishment SET pardoned = ? WHERE uuid = ? AND type = ? AND date = ?"),
+    GET_PUNISHMENT("SELECT * FROM punishment WHERE uuid = ? AND type = ? AND date = ?"),
+    GET_ALL_PUNISHMENTS("SELECT * FROM punishment WHERE uuid = ?"),
+    REMOVE_PUNISHMENT("DELETE FROM punishment WHERE uuid = ? AND type = ? AND date = ?"),
     
     // GLOBAL STATS
     CREATE_STATS("INSERT IGNORE INTO stats (type) VALUES (?)"),

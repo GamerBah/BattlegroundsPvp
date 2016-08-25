@@ -9,15 +9,19 @@ import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.Time;
 import net.gpedro.integrations.slack.SlackMessage;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class StaffReqCommand implements CommandExecutor {
 
@@ -37,19 +41,20 @@ public class StaffReqCommand implements CommandExecutor {
         Player player = (Player) sender;
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
 
-        for (Punishment punishment : playerData.getPunishments().stream().filter(punishment1 -> punishment1.getType().equals(Punishment.PunishType.MUTE)).collect(Collectors.toSet())) {
-            PlayerData punisherData = plugin.getPlayerData(punishment.getEnforcerUUID());
-            if (System.currentTimeMillis() <= (punishment.getTime() + punishment.getExpiration())) {
-                player.sendMessage(ChatColor.RED + "You were temporarily muted by " + plugin.getServer().getOfflinePlayer(punisherData.getUuid()).getName()
-                        + " for " + punishment.getReason() + ".\n"
-                        + "You have " + Time.toString(punishment.getTime() + punishment.getExpiration() - System.currentTimeMillis()) + " left in your mute.\n"
-                        + "Appeal on forum.climaxmc.net if you believe that this is in error!");
-                return true;
-            } else if (punishment.getExpiration() == -1) {
-                player.sendMessage(ChatColor.RED + "You were permanently muted by " + plugin.getServer().getOfflinePlayer(punisherData.getUuid()).getName()
-                        + " for " + punishment.getReason() + ".\n"
-                        + "Appeal on forum.climaxmc.net if you believe that this is in error!");
-                return true;
+        if (plugin.getPlayerPunishments().containsKey(player.getUniqueId())) {
+            ArrayList<Punishment> punishments = plugin.getPlayerPunishments().get(player.getUniqueId());
+            for (int i = 0; i < punishments.size(); i++) {
+                Punishment punishment = punishments.get(i);
+                if (!punishment.isPardoned()) {
+                    BaseComponent baseComponent = new TextComponent(ChatColor.RED + "You are muted! " + ChatColor.GRAY + "(Hover to view details)");
+                    baseComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GRAY + "Muted by: "
+                            + ChatColor.WHITE + plugin.getServer().getPlayer(punishment.getEnforcer()).getName() + "\n" + ChatColor.GRAY + "Reason: "
+                            + ChatColor.WHITE + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Time Remaining: " + ChatColor.WHITE +
+                            Time.toString(Time.punishmentTimeRemaining(punishment.getExpiration()), true)).create()));
+                    player.spigot().sendMessage(baseComponent);
+                    plugin.playSound(player, EventSound.COMMAND_FAIL);
+                    return true;
+                }
             }
         }
 

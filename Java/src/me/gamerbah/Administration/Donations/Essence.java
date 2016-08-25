@@ -38,7 +38,7 @@ public class Essence {
         }
     }
 
-    void removeActiveEssence() {
+    public void removeActiveEssence() {
         plugin.getConfig().set("essenceActive", false);
         plugin.getConfig().set("essenceOwner", "");
         plugin.getConfig().set("essenceIncrease", "");

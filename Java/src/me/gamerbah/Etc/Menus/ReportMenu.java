@@ -19,11 +19,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportGUI implements Listener {
+public class ReportMenu implements Listener {
 
     private Battlegrounds plugin;
 
-    public ReportGUI(Battlegrounds plugin) {
+    public ReportMenu(Battlegrounds plugin) {
         this.plugin = plugin;
     }
 

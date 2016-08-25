@@ -3,13 +3,10 @@ package me.gamerbah.Administration.Data;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import me.gamerbah.Administration.Donations.Essence;
-import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.Trails.Trail;
 
-import java.util.List;
 import java.util.UUID;
 
 import static me.gamerbah.Administration.Data.Query.*;
@@ -31,8 +28,6 @@ public class PlayerData {
     private boolean dailyReward, teamRequests, privateMessaging, stealthyJoin;
     @Getter
     private Trail.Type trail;
-    @Getter
-    private List<Punishment> punishments;
 
     public void setName(String name) {
         sql.executeUpdate(UPDATE_PLAYER_NAME, this.name = name, id);
@@ -90,20 +85,5 @@ public class PlayerData {
     public void setTrail(Trail.Type trail) {
         sql.executeUpdate(UPDATE_PLAYER_TRAIL, trail.toString(), id);
         this.trail = trail;
-    }
-
-    public void addEssence(Essence.Type type) {
-
-    }
-
-    public void addPunishment(Punishment punishment) {
-        punishments.add(punishment);
-        sql.executeUpdate(Query.CREATE_PUNISHMENT, uuid.toString(), name, punishment.getType().name(), punishment.getTime(),
-                punishment.getExpiration(), punishment.getEnforcerUUID().toString(), punishment.getReason());
-    }
-
-    public void removePunishment(Punishment punishment) {
-        punishments.remove(punishment);
-        sql.executeUpdate(Query.UPDATE_PUNISHMENT_TIME, 0, uuid.toString(), punishment.getType().name(), punishment.getTime());
     }
 }

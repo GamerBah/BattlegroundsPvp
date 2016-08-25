@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public enum Time {
     SECONDS(1000, 's'),
@@ -25,7 +27,14 @@ public enum Time {
         return null;
     }
 
-    public static String toString(long milliseconds) {
+    public static long punishmentTimeRemaining(LocalDateTime expiration) {
+        int hourNow = LocalDateTime.now().getHour(), minuteNow = LocalDateTime.now().getMinute(), secondNow = LocalDateTime.now().getSecond();
+        int hourExp = expiration.getHour(), minuteExp = expiration.getMinute(), secondExp = expiration.getSecond();
+        long millseconds = ((hourExp - hourNow) * 60 * 60 * 1000) + ((minuteExp - minuteNow) * 60 * 1000) + ((secondExp - secondNow) * 1000);
+        return millseconds;
+    }
+
+    public static String toString(long milliseconds, boolean shortened) {
         long seconds = (milliseconds / SECONDS.milliseconds) % 60;
         long minutes = (milliseconds / MINUTES.milliseconds) % 60;
         long hours = (milliseconds / HOURS.milliseconds) % 24;
@@ -53,18 +62,34 @@ public enum Time {
             wl = " week";
         } else wl = " weeks";
 
-        if (weeks <= 0) {
-            if (days <= 0) {
-                if (hours <= 0) {
-                    if (minutes <= 0) {
-                        return seconds + sl;
+        if (shortened) {
+            if (weeks <= 0) {
+                if (days <= 0) {
+                    if (hours <= 0) {
+                        if (minutes <= 0) {
+                            return seconds + sl;
+                        }
+                        return minutes + " min" + (seconds == 0 ? "" : ", " + seconds + " sec");
                     }
-                    return minutes + ml + " and " + seconds + sl;
+                    return hours + (hours == 1 ? " hr" : " hrs") + (minutes == 0 ? "" : ", " + minutes + " min");
                 }
-                return hours + hl + " and " + minutes + ml;
+                return days + dl + ", " + (hours == 1 ? " hr" : " hrs") + ", " + minutes + " min";
             }
-            return days + dl + ", " + hours + hl + " and " + minutes + ml;
+            return weeks + wl + ", " + days + dl;
+        } else {
+            if (weeks <= 0) {
+                if (days <= 0) {
+                    if (hours <= 0) {
+                        if (minutes <= 0) {
+                            return seconds + sl;
+                        }
+                        return minutes + ml + (seconds == 0 ? "" : " and " + seconds + sl);
+                    }
+                    return hours + hl + (minutes == 0 ? "" : " and " + minutes + ml);
+                }
+                return days + dl + ", " + hours + hl + " and " + minutes + ml;
+            }
+            return weeks + wl + " and " + days + dl;
         }
-        return weeks + wl + " and " + days + dl;
     }
 }

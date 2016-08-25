@@ -8,6 +8,7 @@ import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -55,6 +56,11 @@ public class PlayerJoin implements Listener {
             plugin.getSix100Essence().put(player.getUniqueId(), plugin.getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_100_PERCENT));
         if (!plugin.getSix150Essence().containsKey(player.getUniqueId()))
             plugin.getSix150Essence().put(player.getUniqueId(), plugin.getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_150_PERCENT));
+        if (!plugin.getPlayerPunishments().containsKey(player.getUniqueId())) {
+            if (!plugin.getSql().getAllPunishments(player).isEmpty()) {
+                plugin.getPlayerPunishments().put(player.getUniqueId(), plugin.getSql().getAllPunishments(player));
+            }
+        }
 
         if (!player.hasPlayedBefore()) {
             event.setJoinMessage(BoldColor.GOLD.getColor() + "New! " + BoldColor.DARK_GRAY.getColor() + "[" + BoldColor.GREEN.getColor() + "+"
@@ -71,6 +77,7 @@ public class PlayerJoin implements Listener {
         player.setPlayerListName((playerData.hasRank(Rank.WARRIOR) ? playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")
                 + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : ChatColor.GRAY) + player.getName());
 
+        player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(20);
         plugin.respawn(player);
     }
 

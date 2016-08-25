@@ -4,6 +4,7 @@ import lombok.Data;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Utils.I;
 import me.gamerbah.Utils.Rarity;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,11 +13,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
-
-import java.util.ArrayList;
 
 /**
  * Represents a kit
@@ -31,12 +28,9 @@ public abstract class Kit implements Listener, CommandExecutor {
     private String name = "";
     /**
      * Item representing the kit
+     * Contains lore and display name
      */
-    private ItemStack item = new ItemStack(Material.AIR);
-    /**
-     * Lore of the kit
-     */
-    private String lore = "";
+    private I item = new I(Material.AIR);
     /**
      * Type of the kit
      */
@@ -47,19 +41,12 @@ public abstract class Kit implements Listener, CommandExecutor {
      *
      * @param name  Name of the kit
      * @param item  Item representing the kit
-     * @param lore  Lore of the kit
      * @param rarity Color of the kit
      */
-    public Kit(String name, ItemStack item, String lore, Rarity rarity) {
-        ItemMeta meta = item.getItemMeta();
-        ArrayList<String> lores = new ArrayList<>();
-        lores.add(lore);
-        meta.setLore(lores);
-        meta.setDisplayName(rarity.getColor() + name);
-        item.setItemMeta(meta);
+    public Kit(String name, I item, Rarity rarity) {
+        item.name(rarity.getColor() + name);
         this.name = name;
         this.item = item;
-        this.lore = lore;
         this.rarity = rarity;
     }
 
