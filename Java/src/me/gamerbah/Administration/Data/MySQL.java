@@ -48,7 +48,24 @@ public class MySQL {
     }
 
     public PlayerData getPlayerData(UUID uuid) {
-        try (ResultSet result = executeQuery(Query.GET_PLAYER_DATA, uuid.toString())) {
+        try (ResultSet result = executeQuery(Query.GET_PLAYER_DATA_FROM_UUID, uuid.toString())) {
+            if (result.next()) {
+                return new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
+                        result.getString("name"), result.getString("challenges"), result.getString("achievements"),
+                        Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
+                        result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
+                        Trail.Type.valueOf(result.getString("trail")));
+            }
+            result.getStatement().close();
+        } catch (SQLException e) {
+            plugin.getLogger().severe("Uh oh! Unable to get the player data!");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public PlayerData getPlayerData(String name) {
+        try (ResultSet result = executeQuery(Query.GET_PLAYER_DATA_FROM_UUID, name)) {
             if (result.next()) {
                 return new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
                         result.getString("name"), result.getString("challenges"), result.getString("achievements"),
@@ -92,8 +109,25 @@ public class MySQL {
         return null;
     }
 
-    public ArrayList<Punishment> getAllPunishments(Player player) {
-        try (ResultSet result = executeQuery(Query.GET_ALL_PUNISHMENTS, player.getUniqueId().toString())) {
+    public ArrayList<Punishment> getAllPunishments(UUID uuid) {
+        try (ResultSet result = executeQuery(Query.GET_ALL_PUNISHMENTS, uuid.toString())) {
+            ArrayList<Punishment> punishments = new ArrayList<>();
+            while (result.next()) {
+                punishments.add(new Punishment(result.getInt("id"), UUID.fromString(result.getString("uuid")), result.getString("name"), Punishment.Type.valueOf(result.getString("type")),
+                        LocalDateTime.parse(result.getString("date")), result.getInt("duration"), LocalDateTime.parse(result.getString("expiration")), UUID.fromString(result.getString("enforcer")),
+                        Punishment.Reason.valueOf(result.getString("reason")), result.getBoolean("pardoned")));
+            }
+            result.getStatement().close();
+            return punishments;
+        } catch (SQLException e) {
+            plugin.getLogger().severe("Uh oh! Unable to get punishments!");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<Punishment> getAllPunishments() {
+        try (ResultSet result = executeQuery(Query.GET_PUNISHMENTS)) {
             ArrayList<Punishment> punishments = new ArrayList<>();
             while (result.next()) {
                 punishments.add(new Punishment(result.getInt("id"), UUID.fromString(result.getString("uuid")), result.getString("name"), Punishment.Type.valueOf(result.getString("type")),

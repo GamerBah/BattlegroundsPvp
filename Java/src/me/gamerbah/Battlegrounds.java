@@ -9,7 +9,9 @@ import me.gamerbah.Administration.Data.MySQL;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Data.Query;
 import me.gamerbah.Administration.Donations.Essence;
+import me.gamerbah.Administration.Punishments.Commands.BanCommand;
 import me.gamerbah.Administration.Punishments.Commands.MuteCommand;
+import me.gamerbah.Administration.Punishments.Commands.UnbanCommand;
 import me.gamerbah.Administration.Punishments.Commands.UnmuteCommand;
 import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Runnables.*;
@@ -103,7 +105,6 @@ public class Battlegrounds extends JavaPlugin {
             scoreboardListener.getSouls().put(player.getUniqueId(), playerData.getSouls());
             scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
             respawn(player);
-            reloadPunishments(player);
             TitleAPI.clearTitle(player);
             if (!getOne50Essence().containsKey(player.getUniqueId()))
                 getOne50Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.ONE_HOUR_50_PERCENT));
@@ -124,6 +125,8 @@ public class Battlegrounds extends JavaPlugin {
             if (!getSix150Essence().containsKey(player.getUniqueId()))
                 getSix150Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_150_PERCENT));
         }
+
+        reloadPunishments();
 
         // Initialize Various Repeating Tasks
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoUpdate(this), 120, 120);
@@ -183,6 +186,9 @@ public class Battlegrounds extends JavaPlugin {
         getCommand("essence").setExecutor(new EssenceCommand(this));
         getCommand("essences").setExecutor(new EssencesCommand(this));
         getCommand("thanks").setExecutor(new ThanksCommand(this));
+        getCommand("punish").setExecutor(new PunishCommand(this));
+        getCommand("ban").setExecutor(new BanCommand(this));
+        getCommand("unban").setExecutor(new UnbanCommand(this));
     }
 
     private void registerListeners() {
@@ -224,6 +230,22 @@ public class Battlegrounds extends JavaPlugin {
             if (dbPlayerData != null) {
                 playerData.add(dbPlayerData);
                 return getPlayerData(uuid);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    public PlayerData getPlayerData(String name) {
+        Optional<PlayerData> playerDataStream = playerData.stream().filter(playerData -> playerData.getName().equals(name)).findFirst();
+
+        if (playerDataStream.isPresent()) {
+            return playerDataStream.get();
+        } else {
+            PlayerData dbPlayerData = sql.getPlayerData(name);
+            if (dbPlayerData != null) {
+                playerData.add(dbPlayerData);
+                return getPlayerData(name);
             } else {
                 return null;
             }
@@ -293,9 +315,11 @@ public class Battlegrounds extends JavaPlugin {
         }, 10L);
     }
 
-    public void reloadPunishments(Player player) {
-        if (!sql.getAllPunishments(player).isEmpty()) {
-            playerPunishments.put(player.getUniqueId(), sql.getAllPunishments(player));
+    public void reloadPunishments() {
+        if (!sql.getAllPunishments().isEmpty()) {
+            for (Punishment punishment : sql.getAllPunishments()) {
+                playerPunishments.put(punishment.getUuid(), sql.getAllPunishments(punishment.getUuid()));
+            }
         }
     }
 

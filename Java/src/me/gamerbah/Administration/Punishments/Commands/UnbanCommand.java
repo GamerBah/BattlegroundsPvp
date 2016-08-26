@@ -1,5 +1,5 @@
 package me.gamerbah.Administration.Punishments.Commands;
-/* Created by GamerBah on 8/10/2016 */
+/* Created by GamerBah on 8/26/2016 */
 
 
 import me.gamerbah.Administration.Data.PlayerData;
@@ -9,7 +9,6 @@ import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.EventSound;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,11 +16,11 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class UnmuteCommand implements CommandExecutor {
+public class UnbanCommand implements CommandExecutor {
 
     private Battlegrounds plugin;
 
-    public UnmuteCommand(Battlegrounds plugin) {
+    public UnbanCommand(Battlegrounds plugin) {
         this.plugin = plugin;
     }
 
@@ -34,13 +33,13 @@ public class UnmuteCommand implements CommandExecutor {
         Player player = (Player) sender;
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
 
-        if (!playerData.hasRank(Rank.HELPER)) {
+        if (!playerData.hasRank(Rank.ADMIN)) {
             plugin.sendNoPermission(player);
             return true;
         }
 
         if (args.length != 1) {
-            player.sendMessage(ChatColor.RED + "/unmute <player>");
+            player.sendMessage(ChatColor.RED + "/unban <player>");
             plugin.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }
@@ -50,13 +49,6 @@ public class UnmuteCommand implements CommandExecutor {
 
         if (targetData == null) {
             player.sendMessage(ChatColor.RED + "That player is not online or doesn't exist!");
-            plugin.playSound(player, EventSound.COMMAND_FAIL);
-            return true;
-        }
-
-        if (targetData == playerData) {
-            player.sendMessage(ChatColor.RED + "You can't unmute yourself!");
-            plugin.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }
 
@@ -65,7 +57,7 @@ public class UnmuteCommand implements CommandExecutor {
         Punishment p = null;
         for (int i = 0; i < punishments.size(); i++) {
             Punishment punishment = punishments.get(i);
-            if (punishment.getType().equals(Punishment.Type.MUTE)) {
+            if (punishment.getType().equals(Punishment.Type.BAN)) {
                 if (!punishment.isPardoned()) {
                     p = punishment;
                     Battlegrounds.getSql().executeUpdate(Query.UPDATE_PUNISHMENT_PARDONED, true, targetData.getUuid().toString(), punishment.getType().toString(), punishment.getDate().toString());
@@ -81,15 +73,8 @@ public class UnmuteCommand implements CommandExecutor {
         }
 
         plugin.getServer().getOnlinePlayers().stream().filter(staff -> plugin.getPlayerData(staff.getUniqueId()).hasRank(Rank.HELPER)).forEach(staff ->
-                staff.sendMessage(ChatColor.RED + player.getName() + " unmuted " + targetData.getName()));
-
-        Player target = Bukkit.getPlayer(targetData.getUuid());
-        if (target != null) {
-            target.sendMessage(ChatColor.RED + " \nYou were unmuted by " + ChatColor.GOLD + player.getName());
-            target.sendMessage(ChatColor.GRAY + p.getReason().getMessage() + "\n ");
-        }
+                staff.sendMessage(ChatColor.RED + player.getName() + " unbanned " + targetData.getName()));
 
         return true;
     }
-
 }

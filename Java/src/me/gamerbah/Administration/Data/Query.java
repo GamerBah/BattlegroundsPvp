@@ -7,7 +7,8 @@ public enum Query {
     
     // PLAYER DATA
     CREATE_PLAYER_DATA("INSERT IGNORE INTO players (uuid, name) VALUES (?, ?)"),
-    GET_PLAYER_DATA("SELECT * FROM players WHERE uuid = ?"),
+    GET_PLAYER_DATA_FROM_UUID("SELECT * FROM players WHERE uuid = ?"),
+    GET_PLAYER_DATA_FROM_NAME("SELECT * FROM players WHERE name = ?"),
     UPDATE_PLAYER_DATA("UPDATE players SET rank = ?, kills = ?, deaths = ?, souls = ?, coins = ?, trail = ?, dailyReward = ?, teamRequests = ?, privateMessaging = ?, stealthyJoin = ?, challenges = ?, achievements = ?, essences = ? WHERE id = ?"),
     UPDATE_PLAYER_NAME("UPDATE players SET name = ? WHERE id = ?"),
     UPDATE_PLAYER_RANK("UPDATE players SET rank = ? WHERE id = ?"),
@@ -34,6 +35,7 @@ public enum Query {
     UPDATE_PUNISHMENT_PARDONED("UPDATE punishment SET pardoned = ? WHERE uuid = ? AND type = ? AND date = ?"),
     GET_PUNISHMENT("SELECT * FROM punishment WHERE uuid = ? AND type = ? AND date = ?"),
     GET_ALL_PUNISHMENTS("SELECT * FROM punishment WHERE uuid = ?"),
+    GET_PUNISHMENTS("SELECT * FROM punishment"),
     REMOVE_PUNISHMENT("DELETE FROM punishment WHERE uuid = ? AND type = ? AND date = ?"),
     
     // GLOBAL STATS

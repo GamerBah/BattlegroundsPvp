@@ -1,9 +1,12 @@
-package me.gamerbah.Commands;
+package me.gamerbah.Administration.Commands;
 /* Created by GamerBah on 8/25/2016 */
 
+import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Etc.Menus.PunishMenu;
 import me.gamerbah.Utils.EventSound;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -37,6 +40,25 @@ public class PunishCommand implements CommandExecutor {
             return true;
         }
 
+        @SuppressWarnings("deprecation")
+        PlayerData targetData = plugin.getPlayerData(plugin.getServer().getOfflinePlayer(args[0]).getUniqueId());
+
+        if (targetData == null) {
+            player.sendMessage(ChatColor.RED + "That player has never joined before!");
+            plugin.playSound(player, EventSound.COMMAND_FAIL);
+            return true;
+        }
+
+        if (args.length == 1) {
+            OfflinePlayer target = plugin.getServer().getOfflinePlayer(targetData.getUuid());
+            if (target == null) {
+                player.sendMessage(ChatColor.RED + "That player isn't online!");
+                plugin.playSound(player, EventSound.COMMAND_FAIL);
+                return true;
+            }
+            PunishMenu punishMenu = new PunishMenu(plugin);
+            punishMenu.openInventory(player, target);
+        }
 
         return false;
     }

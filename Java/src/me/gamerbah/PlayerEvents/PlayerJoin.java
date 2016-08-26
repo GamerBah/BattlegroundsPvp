@@ -56,11 +56,6 @@ public class PlayerJoin implements Listener {
             plugin.getSix100Essence().put(player.getUniqueId(), plugin.getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_100_PERCENT));
         if (!plugin.getSix150Essence().containsKey(player.getUniqueId()))
             plugin.getSix150Essence().put(player.getUniqueId(), plugin.getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_150_PERCENT));
-        if (!plugin.getPlayerPunishments().containsKey(player.getUniqueId())) {
-            if (!plugin.getSql().getAllPunishments(player).isEmpty()) {
-                plugin.getPlayerPunishments().put(player.getUniqueId(), plugin.getSql().getAllPunishments(player));
-            }
-        }
 
         if (!player.hasPlayedBefore()) {
             event.setJoinMessage(BoldColor.GOLD.getColor() + "New! " + BoldColor.DARK_GRAY.getColor() + "[" + BoldColor.GREEN.getColor() + "+"

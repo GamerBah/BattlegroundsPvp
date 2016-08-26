@@ -7,10 +7,7 @@ import me.gamerbah.Administration.Donations.DonationMessages;
 import me.gamerbah.Administration.Donations.Essence;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Commands.ReportCommand;
-import me.gamerbah.Etc.Menus.EssenceMenu;
-import me.gamerbah.Etc.Menus.ReportMenu;
-import me.gamerbah.Etc.Menus.SettingsMenu;
-import me.gamerbah.Etc.Menus.TrailMenu;
+import me.gamerbah.Etc.Menus.*;
 import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.FireworkUtils;
 import me.gamerbah.Utils.Kits.KitManager;
@@ -20,10 +17,7 @@ import me.gamerbah.Utils.Teams.TeamMessages;
 import me.gamerbah.Utils.Trails.Trail;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -283,6 +277,24 @@ public class InventoryClickListener implements Listener {
                 player.sendMessage(ChatColor.GRAY + (trail.getRarity().equals(Rarity.COMMON)
                         ? "You removed your active particle pack" : "You set your particle pack to " + trail.getRarity().getColor() + trail.getName()));
                 plugin.playSound(player, EventSound.COMMAND_SUCCESS);
+            }
+
+            if (event.getClickedInventory().getName().contains("Punishing:")) {
+                ItemStack item = event.getCurrentItem();
+                event.setCancelled(true);
+                PunishMenu punishMenu = new PunishMenu(plugin);
+                String targetName = inventory.getName().replace("Punishing: ", "");
+                PlayerData targetData = plugin.getPlayerData(targetName);
+                if (targetData == null) {
+                    return;
+                }
+                OfflinePlayer target = plugin.getServer().getOfflinePlayer(targetData.getUuid());
+                if (item.getType().equals(Material.BOOK)) {
+                    punishMenu.openMuteMenu(player, target);
+                }
+                if (item.getType().equals(Material.BARRIER)) {
+                    punishMenu.openBanMenu(player, target);
+                }
             }
 
         } else {
