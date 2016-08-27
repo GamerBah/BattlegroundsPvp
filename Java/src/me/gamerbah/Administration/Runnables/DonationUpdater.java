@@ -25,8 +25,10 @@ public class DonationUpdater implements Runnable {
         int timeRemaining = plugin.getConfig().getInt("essenceTimeRemaining");
 
         if (timeRemaining > 0) {
-            plugin.getConfig().set("essenceTimeRemaining", timeRemaining - 1);
-            plugin.saveConfig();
+            if (!plugin.getConfig().getBoolean("developmentMode")) {
+                plugin.getConfig().set("essenceTimeRemaining", timeRemaining - 1);
+                plugin.saveConfig();
+            }
         } else {
             for (Player player : plugin.getServer().getOnlinePlayers()) {
                 player.sendMessage(BoldColor.GOLD.getColor() + "" + (plugin.getConfig().get("essenceOwner").equals(player.getName())

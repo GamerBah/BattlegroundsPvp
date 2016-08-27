@@ -57,3 +57,6 @@ commands:
     description: Bans a player from the server
   unban:
     description: Removes a player's active ban
+  devmode:
+    description: Puts the in a Staff-only development mode
+    aliases: [developmentmode]

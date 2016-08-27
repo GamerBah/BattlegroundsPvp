@@ -92,8 +92,8 @@ public class PunishMenu {
                             .lore(ChatColor.GRAY + "Active: " + (punishment.isPardoned() ? ChatColor.RED + "No" : ChatColor.GREEN + "Yes")));
                 }
             }
-            player.openInventory(inv);
         }
+        player.openInventory(inv);
     }
 
     public void openBanMenu(Player player, OfflinePlayer target) {

@@ -60,16 +60,19 @@ public class UnmuteCommand implements CommandExecutor {
             return true;
         }
 
-        ArrayList<Punishment> punishments = plugin.getPlayerPunishments().get(targetData.getUuid());
-
         Punishment p = null;
-        for (int i = 0; i < punishments.size(); i++) {
-            Punishment punishment = punishments.get(i);
-            if (punishment.getType().equals(Punishment.Type.MUTE)) {
-                if (!punishment.isPardoned()) {
-                    p = punishment;
-                    Battlegrounds.getSql().executeUpdate(Query.UPDATE_PUNISHMENT_PARDONED, true, targetData.getUuid().toString(), punishment.getType().toString(), punishment.getDate().toString());
-                    punishment.setPardoned(true);
+        if (plugin.getPlayerPunishments().containsKey(targetData.getUuid())) {
+            ArrayList<Punishment> punishments = plugin.getPlayerPunishments().get(targetData.getUuid());
+            if (punishments != null) {
+                for (int i = 0; i < punishments.size(); i++) {
+                    Punishment punishment = punishments.get(i);
+                    if (punishment.getType().equals(Punishment.Type.MUTE)) {
+                        if (!punishment.isPardoned()) {
+                            p = punishment;
+                            Battlegrounds.getSql().executeUpdate(Query.UPDATE_PUNISHMENT_PARDONED, true, targetData.getUuid().toString(), punishment.getType().toString(), punishment.getDate().toString());
+                            punishment.setPardoned(true);
+                        }
+                    }
                 }
             }
         }

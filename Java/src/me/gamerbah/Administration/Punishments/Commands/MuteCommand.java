@@ -75,22 +75,25 @@ public class MuteCommand implements CommandExecutor {
             return true;
         }
 
-        ArrayList<Punishment> punishments = plugin.getPlayerPunishments().get(target.getUniqueId());
-
-        for (int i = 0; i < punishments.size(); i++) {
-            Punishment punishment = punishments.get(i);
-            if (punishment.getType().equals(Punishment.Type.MUTE)) {
-                if (!punishment.isPardoned()) {
-                    PlayerData enforcerData = plugin.getPlayerData(punishment.getEnforcer());
-                    BaseComponent baseComponent = new TextComponent(ChatColor.RED + "That player is already muted!");
-                    baseComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GRAY + "Muted by: "
-                            + enforcerData.getRank().getColor() + "" + ChatColor.BOLD + enforcerData.getRank().getName().toUpperCase()
-                            + ChatColor.WHITE + " " + enforcerData.getName() + "\n" + ChatColor.GRAY + "Reason: "
-                            + ChatColor.GOLD + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Time Remaining: " + ChatColor.YELLOW +
-                            Time.toString(Time.punishmentTimeRemaining(punishment.getExpiration()), true)).create()));
-                    player.spigot().sendMessage(baseComponent);
-                    plugin.playSound(player, EventSound.COMMAND_FAIL);
-                    return true;
+        if (plugin.getPlayerPunishments().containsKey(targetData.getUuid())) {
+            ArrayList<Punishment> punishments = plugin.getPlayerPunishments().get(targetData.getUuid());
+            if (punishments != null) {
+                for (int i = 0; i < punishments.size(); i++) {
+                    Punishment punishment = punishments.get(i);
+                    if (punishment.getType().equals(Punishment.Type.MUTE)) {
+                        if (!punishment.isPardoned()) {
+                            PlayerData enforcerData = plugin.getPlayerData(punishment.getEnforcer());
+                            BaseComponent baseComponent = new TextComponent(ChatColor.RED + "That player is already muted!");
+                            baseComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GRAY + "Muted by: "
+                                    + enforcerData.getRank().getColor() + "" + ChatColor.BOLD + enforcerData.getRank().getName().toUpperCase()
+                                    + ChatColor.WHITE + " " + enforcerData.getName() + "\n" + ChatColor.GRAY + "Reason: "
+                                    + ChatColor.GOLD + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Time Remaining: " + ChatColor.YELLOW +
+                                    Time.toString(Time.punishmentTimeRemaining(punishment.getExpiration()), true)).create()));
+                            player.spigot().sendMessage(baseComponent);
+                            plugin.playSound(player, EventSound.COMMAND_FAIL);
+                            return true;
+                        }
+                    }
                 }
             }
         }

@@ -30,14 +30,16 @@ public class PunishmentRunnable implements Runnable {
                     LocalDateTime expiration = punishments.get(i).getExpiration();
                     Punishment.Type type = punishments.get(i).getType();
                     if (!punishments.get(i).isPardoned()) {
-                        if (expiration.isBefore(LocalDateTime.now())) {
-                            Battlegrounds.getSql().executeUpdate(Query.UPDATE_PUNISHMENT_PARDONED, true, player.getUniqueId().toString(), type.toString(), date.toString());
-                            punishments.get(i).setPardoned(true);
-                            if (type.equals(Punishment.Type.MUTE)) {
-                                player.sendMessage(ChatColor.RED + " \nYou are now able to chat again");
-                                player.sendMessage(ChatColor.GRAY + punishments.get(i).getReason().getMessage() + "\n ");
+                        if (!punishments.get(i).getType().equals(Punishment.Type.BAN)) {
+                            if (expiration.isBefore(LocalDateTime.now())) {
+                                Battlegrounds.getSql().executeUpdate(Query.UPDATE_PUNISHMENT_PARDONED, true, player.getUniqueId().toString(), type.toString(), date.toString());
+                                punishments.get(i).setPardoned(true);
+                                if (type.equals(Punishment.Type.MUTE)) {
+                                    player.sendMessage(ChatColor.RED + " \nYou are now able to chat again");
+                                    player.sendMessage(ChatColor.GRAY + punishments.get(i).getReason().getMessage() + "\n ");
+                                }
+                                plugin.playSound(player, EventSound.COMMAND_SUCCESS);
                             }
-                            plugin.playSound(player, EventSound.COMMAND_SUCCESS);
                         }
                     }
                 }

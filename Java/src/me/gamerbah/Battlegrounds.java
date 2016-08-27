@@ -189,6 +189,7 @@ public class Battlegrounds extends JavaPlugin {
         getCommand("punish").setExecutor(new PunishCommand(this));
         getCommand("ban").setExecutor(new BanCommand(this));
         getCommand("unban").setExecutor(new UnbanCommand(this));
+        getCommand("devmode").setExecutor(new DevModeCommand(this));
     }
 
     private void registerListeners() {
@@ -209,7 +210,7 @@ public class Battlegrounds extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerInteract(this), this);
         getServer().getPluginManager().registerEvents(new KitManager(this), this);
         getServer().getPluginManager().registerEvents(new PlayerDeath(this), this);
-        getServer().getPluginManager().registerEvents(new ServerListPingListener(), this);
+        getServer().getPluginManager().registerEvents(new ServerListPingListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerItemDrop(this), this);
         getServer().getPluginManager().registerEvents(new PlayerItemPickup(this), this);
         getServer().getPluginManager().registerEvents(new SpawnProtectListener(this), this);
@@ -312,7 +313,7 @@ public class Battlegrounds extends JavaPlugin {
             ArrayList<Punishment> punishments = playerPunishments.get(uuid);
             punishments.add(sql.getPunishment(uuid, type, date));
             playerPunishments.put(uuid, punishments);
-        }, 10L);
+        }, 20L);
     }
 
     public void reloadPunishments() {
