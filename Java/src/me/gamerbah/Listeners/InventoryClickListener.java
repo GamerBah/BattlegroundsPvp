@@ -43,9 +43,10 @@ public class InventoryClickListener implements Listener {
 
         if (!player.getGameMode().equals(GameMode.CREATIVE)) {
             if (event.getSlotType() == null || event.getCurrentItem() == null
-                    || event.getCurrentItem().getType() == null) {
+                    || event.getCurrentItem().getType() == null || event.getCurrentItem().getItemMeta() == null) {
                 return;
             }
+
             if (inventory == player.getInventory()) {
                 event.setCancelled(true);
             }
@@ -279,6 +280,21 @@ public class InventoryClickListener implements Listener {
                 plugin.playSound(player, EventSound.COMMAND_SUCCESS);
             }
 
+            if (event.getClickedInventory().getName().contains("Punish Menu")) {
+                ItemStack item = event.getCurrentItem();
+                event.setCancelled(true);
+                PunishMenu punishMenu = new PunishMenu(plugin);
+                String targetName = item.getItemMeta().getDisplayName().substring(2, item.getItemMeta().getDisplayName().length());
+                PlayerData targetData = plugin.getPlayerData(targetName);
+                if (targetData == null) {
+                    return;
+                }
+                OfflinePlayer target = plugin.getServer().getOfflinePlayer(targetData.getUuid());
+                if (item.getType().equals(Material.SKULL_ITEM)) {
+                    punishMenu.openInventory(player, target);
+                }
+            }
+
             if (event.getClickedInventory().getName().contains("Punishing:")) {
                 ItemStack item = event.getCurrentItem();
                 event.setCancelled(true);
@@ -297,7 +313,9 @@ public class InventoryClickListener implements Listener {
                 }
             }
 
-        } else {
+        } else
+
+        {
             event.setCancelled(false);
         }
     }

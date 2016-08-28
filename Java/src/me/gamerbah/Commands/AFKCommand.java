@@ -50,7 +50,7 @@ public class AFKCommand implements CommandExecutor {
             player.sendMessage(ChatColor.GRAY + "You are now AFK");
             plugin.playSound(player, EventSound.COMMAND_CLICK);
             TitleAPI.sendTitle(player, 10, 1728000, 20, BoldColor.AQUA.getColor() + "You are AFK!", ChatColor.YELLOW + "Move to start playing again!");
-            player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1728000, 1, true, false));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, true, false));
         }
         return false;
     }

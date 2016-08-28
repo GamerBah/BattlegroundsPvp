@@ -46,8 +46,11 @@ public class PlayerMove implements Listener {
             if (!launched.contains(player)) {
                 launched.add(player);
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> launched.remove(player), 50L);
-                BukkitTask task = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () ->
-                        ParticleEffect.FIREWORKS_SPARK.send(Bukkit.getOnlinePlayers(), player.getLocation(), 0, 0.5, 0, 0.05D, 5, 30), 0L, 1L);
+                BukkitTask task = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+                    if (launched.contains(player)) {
+                        ParticleEffect.FIREWORKS_SPARK.send(Bukkit.getOnlinePlayers(), player.getLocation(), 0, 0.5, 0, 0.05D, 5, 30);
+                    }
+                }, 0L, 1L);
                 plugin.getServer().getScheduler().runTaskLater(plugin, task::cancel, 20);
             }
         }

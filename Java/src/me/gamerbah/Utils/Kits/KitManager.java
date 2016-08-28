@@ -4,9 +4,16 @@ package me.gamerbah.Utils.Kits;
 
 import lombok.Getter;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Kits.Bowman;
-import me.gamerbah.Kits.ExampleLegendary;
-import me.gamerbah.Kits.Standard;
+import me.gamerbah.Kits.Common.Bowman;
+import me.gamerbah.Kits.Common.Scout;
+import me.gamerbah.Kits.Common.Tank;
+import me.gamerbah.Kits.Common.Warrior;
+import me.gamerbah.Kits.Epic.Enderknight;
+import me.gamerbah.Kits.Epic.GlassCannon;
+import me.gamerbah.Kits.Epic.Sniper;
+import me.gamerbah.Kits.Legendary.UltraTank;
+import me.gamerbah.Kits.Rare.Breaker;
+import me.gamerbah.Kits.Rare.HonorGuard;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
@@ -34,9 +41,22 @@ public class KitManager implements Listener {
 
     public KitManager(Battlegrounds plugin) {
         // Common Kits
-        kits.add(new Standard());
+        kits.add(new Warrior());
         kits.add(new Bowman());
-        kits.add(new ExampleLegendary());
+        kits.add(new Tank());
+        kits.add(new Scout());
+
+        // Rare Kits
+        kits.add(new Breaker());
+        kits.add(new HonorGuard());
+
+        // Epic Kits
+        kits.add(new GlassCannon());
+        kits.add(new Sniper());
+        kits.add(new Enderknight());
+
+        // Legendary Kits
+        kits.add(new UltraTank());
 
         for (Kit kit : kits) {
             plugin.getServer().getPluginManager().registerEvents(kit, plugin);

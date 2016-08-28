@@ -6,7 +6,7 @@ import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.I;
 import me.gamerbah.Utils.Rarity;
-import org.bukkit.ChatColor;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,6 +22,10 @@ import org.bukkit.potion.PotionEffect;
  */
 @Data
 public abstract class Kit implements Listener, CommandExecutor {
+    /**
+     * ID of the kit
+     */
+    private int id;
     /**
      * Name of the kit
      */
@@ -43,8 +47,9 @@ public abstract class Kit implements Listener, CommandExecutor {
      * @param item  Item representing the kit
      * @param rarity Color of the kit
      */
-    public Kit(String name, I item, Rarity rarity) {
-        item.name(rarity.getColor() + name);
+    public Kit(Integer id, String name, I item, Rarity rarity) {
+        this.id = id;
+        item.name(rarity.getColor() + (rarity.equals(Rarity.EPIC) || rarity.equals(Rarity.LEGENDARY) ? "" + ChatColor.BOLD : "") + name);
         this.name = name;
         this.item = item;
         this.rarity = rarity;

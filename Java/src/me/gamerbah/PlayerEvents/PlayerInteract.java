@@ -93,7 +93,7 @@ public class PlayerInteract implements Listener {
                     player.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_DIAMOND, 2, 0.85F);
                 }
             } else if (item.getType().equals(Material.DIAMOND)) {
-                player.sendMessage(ChatColor.RED + "Challenges are being fixed at the moment!");
+                player.sendMessage(ChatColor.RED + "Challenges aren't finished yet!");
                 player.playSound(player.getLocation(), Sound.ENTITY_CAT_AMBIENT, 1, 1);
             }
         }

@@ -29,8 +29,8 @@ public class PunishCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            player.sendMessage(ChatColor.RED + "Still working on this!\n" + ChatColor.RED + "For now use /punish <player>");
-            plugin.playSound(player, EventSound.COMMAND_FAIL);
+            PunishMenu punishMenu = new PunishMenu(plugin);
+            punishMenu.openPlayersInventory(player);
             return true;
         }
 
@@ -41,7 +41,7 @@ public class PunishCommand implements CommandExecutor {
         }
 
         @SuppressWarnings("deprecation")
-        PlayerData targetData = plugin.getPlayerData(plugin.getServer().getOfflinePlayer(args[0]).getUniqueId());
+        PlayerData targetData = plugin.getPlayerData(args[0]);
 
         if (targetData == null) {
             player.sendMessage(ChatColor.RED + "That player has never joined before!");

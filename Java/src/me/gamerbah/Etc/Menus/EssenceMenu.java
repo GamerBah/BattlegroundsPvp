@@ -67,7 +67,7 @@ public class EssenceMenu {
                             .lore(ChatColor.GRAY + "Grants a server-wide " + e.getColor() + e.getIncrease() + "% increase" + ChatColor.GRAY + " to")
                             .lore(ChatColor.GRAY + "the amount of Souls and Battle Coins players")
                             .lore(ChatColor.GRAY + "receive when they kill another player").lore(" ")
-                            .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "3 Hour" + ChatColor.GRAY + " upon activation").lore(" ")
+                            .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "3 Hours" + ChatColor.GRAY + " upon activation").lore(" ")
                             .lore(ChatColor.YELLOW + "Click to activate!"));
                 }
             }
@@ -78,7 +78,7 @@ public class EssenceMenu {
                         .lore(ChatColor.GRAY + "Grants a server-wide " + e.getColor() + e.getIncrease() + "% increase" + ChatColor.GRAY + " to")
                         .lore(ChatColor.GRAY + "the amount of Souls and Battle Coins players")
                         .lore(ChatColor.GRAY + "receive when they kill another player").lore(" ")
-                        .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "3 Hour" + ChatColor.GRAY + " upon activation").lore(" ")
+                        .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "3 Hours" + ChatColor.GRAY + " upon activation").lore(" ")
                         .lore(ChatColor.YELLOW + "Click to activate!"));
             }
             }
@@ -89,7 +89,7 @@ public class EssenceMenu {
                         .lore(ChatColor.GRAY + "Grants a server-wide " + e.getColor() + e.getIncrease() + "% increase" + ChatColor.GRAY + " to")
                         .lore(ChatColor.GRAY + "the amount of Souls and Battle Coins players")
                         .lore(ChatColor.GRAY + "receive when they kill another player").lore(" ")
-                        .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "3 Hour" + ChatColor.GRAY + " upon activation").lore(" ")
+                        .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "3 Hours" + ChatColor.GRAY + " upon activation").lore(" ")
                         .lore(ChatColor.YELLOW + "Click to activate!"));
             }
         }
@@ -101,7 +101,7 @@ public class EssenceMenu {
                         .lore(ChatColor.GRAY + "Grants a server-wide " + e.getColor() + e.getIncrease() + "% increase" + ChatColor.GRAY + " to")
                         .lore(ChatColor.GRAY + "the amount of Souls and Battle Coins players")
                         .lore(ChatColor.GRAY + "receive when they kill another player").lore(" ")
-                        .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "6 Hour" + ChatColor.GRAY + " upon activation").lore(" ")
+                        .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "6 Hours" + ChatColor.GRAY + " upon activation").lore(" ")
                         .lore(ChatColor.YELLOW + "Click to activate!"));
             }
         }
@@ -112,7 +112,7 @@ public class EssenceMenu {
                         .lore(ChatColor.GRAY + "Grants a server-wide " + e.getColor() + e.getIncrease() + "% increase" + ChatColor.GRAY + " to")
                         .lore(ChatColor.GRAY + "the amount of Souls and Battle Coins players")
                         .lore(ChatColor.GRAY + "receive when they kill another player").lore(" ")
-                        .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "6 Hour" + ChatColor.GRAY + " upon activation").lore(" ")
+                        .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "6 Hours" + ChatColor.GRAY + " upon activation").lore(" ")
                         .lore(ChatColor.YELLOW + "Click to activate!"));
             }
         }
@@ -123,7 +123,7 @@ public class EssenceMenu {
                         .lore(ChatColor.GRAY + "Grants a server-wide " + e.getColor() + e.getIncrease() + "% increase" + ChatColor.GRAY + " to")
                         .lore(ChatColor.GRAY + "the amount of Souls and Battle Coins players")
                         .lore(ChatColor.GRAY + "receive when they kill another player").lore(" ")
-                        .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "6 Hour" + ChatColor.GRAY + " upon activation").lore(" ")
+                        .lore(ChatColor.GRAY + "Lasts for " + ChatColor.RED + "6 Hours" + ChatColor.GRAY + " upon activation").lore(" ")
                         .lore(ChatColor.YELLOW + "Click to activate!"));
             }
         }

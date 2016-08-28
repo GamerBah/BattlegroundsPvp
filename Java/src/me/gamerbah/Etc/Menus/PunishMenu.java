@@ -4,6 +4,7 @@ package me.gamerbah.Etc.Menus;
 
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Punishments.Punishment;
+import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.I;
 import me.gamerbah.Utils.Messages.BoldColor;
@@ -14,6 +15,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -27,7 +30,24 @@ public class PunishMenu {
         this.plugin = plugin;
     }
 
-    public void openPlayersInventory(Player player, Player target) {
+    public void openPlayersInventory(Player p) {
+        Inventory inv = plugin.getServer().createInventory(null, 54, "Punish Menu");
+        for (int i = 0; i < plugin.getServer().getOnlinePlayers().size(); i++) {
+            PlayerData playerData;
+            for (Player player : plugin.getServer().getOnlinePlayers()) {
+                if (!player.equals(p)) {
+                    playerData = plugin.getPlayerData(player.getUniqueId());
+                    ItemStack head = new I(Material.SKULL_ITEM).durability(3).name(playerData.getRank().getColor() + player.getName())
+                            .lore(ChatColor.GRAY + "Rank: " + playerData.getRank().getColor() + (playerData.getRank().equals(Rank.DEFAULT) ? "" : "" + ChatColor.BOLD) + playerData.getRank().getName());
+                    SkullMeta meta = (SkullMeta) head.getItemMeta();
+                    meta.setOwner(player.getName());
+                    head.setItemMeta(meta);
+
+                    inv.setItem(i++, head);
+                }
+            }
+            p.openInventory(inv);
+        }
     }
 
     public void openInventory(Player player, OfflinePlayer target) {
