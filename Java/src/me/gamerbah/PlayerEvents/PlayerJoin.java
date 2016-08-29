@@ -59,8 +59,8 @@ public class PlayerJoin implements Listener {
         if (plugin.getConfig().getBoolean("developmentMode")) {
             if (plugin.getPlayerData(event.getUniqueId()) == null || !plugin.getPlayerData(event.getUniqueId()).hasRank(Rank.HELPER)) {
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, ChatColor.RED + "You were not able to join the server because it is in\n" + BoldColor.GOLD.getColor()
-                        + "DEVELOPMENT MODE\n\n" + ChatColor.AQUA + "This means that we are fixing bugs, or found another issue we needed to take care of\n\n"
-                        + ChatColor.GRAY + "We put the server into Development mode in order to reduce the risk of\n§7corrupting player data, etc. The server should be open shortly!");
+                        + "MAINTENANCE MODE\n\n" + ChatColor.AQUA + "This means that we are fixing bugs, or found another issue we needed to take care of\n\n"
+                        + ChatColor.GRAY + "We put the server into Maintenance Mode in order to reduce the risk of\n§7corrupting player data, etc. The server should be open shortly!");
             }
         }
 

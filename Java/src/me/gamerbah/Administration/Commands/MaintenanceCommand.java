@@ -12,11 +12,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class DevModeCommand implements CommandExecutor {
+public class MaintenanceCommand implements CommandExecutor {
 
     private Battlegrounds plugin;
 
-    public DevModeCommand(Battlegrounds plugin) {
+    public MaintenanceCommand(Battlegrounds plugin) {
         this.plugin = plugin;
     }
 
@@ -49,19 +49,19 @@ public class DevModeCommand implements CommandExecutor {
                 PlayerData playerData1 = plugin.getPlayerData(players.getUniqueId());
                 if (!playerData1.hasRank(Rank.HELPER)) {
                     players.kickPlayer(ChatColor.RED + "You were kicked because the server was put into\n" + BoldColor.GOLD.getColor()
-                            + "DEVELOPMENT MODE\n\n" + ChatColor.AQUA + "This means that we are fixing bugs, or found another issue we needed to take care of\n\n"
-                            + ChatColor.GRAY + "We put the server into Development mode in order to reduce the risk of\n§7corrupting player data, etc. The server should be open shortly!");
+                            + "MAINTENANCE MODE\n\n" + ChatColor.AQUA + "This means that we are fixing bugs, or found another issue we needed to take care of\n\n"
+                            + ChatColor.GRAY + "We put the server into Maintenance Mode in order to reduce the risk of\n§7corrupting player data, etc. The server should be open shortly!");
                 }
                 plugin.playSound(players, EventSound.COMMAND_SUCCESS);
             }
             plugin.getConfig().set("developmentMode", true);
             plugin.saveConfig();
-            plugin.getServer().broadcastMessage(BoldColor.RED.getColor() + "\nSERVER HAS BEEN PUT INTO " + BoldColor.GOLD.getColor() + "DEVELOPMENT MODE\n ");
+            plugin.getServer().broadcastMessage(BoldColor.RED.getColor() + "\nSERVER HAS BEEN PUT INTO " + BoldColor.GOLD.getColor() + "MAINTENANCE MODE\n ");
         } else {
             plugin.getConfig().set("developmentMode", false);
             plugin.saveConfig();
             for (Player players : plugin.getServer().getOnlinePlayers()) {
-                players.sendMessage(BoldColor.RED.getColor() + "\nSERVER IS NO LONGER IN " + BoldColor.GOLD.getColor() + "DEVELOPMENT MODE\n ");
+                players.sendMessage(BoldColor.RED.getColor() + "\nSERVER IS NO LONGER IN " + BoldColor.GOLD.getColor() + "MAINTENANCE MODE\n ");
                 plugin.playSound(players, EventSound.COMMAND_SUCCESS);
             }
         }

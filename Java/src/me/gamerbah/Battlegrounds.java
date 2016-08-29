@@ -189,7 +189,7 @@ public class Battlegrounds extends JavaPlugin {
         getCommand("punish").setExecutor(new PunishCommand(this));
         getCommand("ban").setExecutor(new BanCommand(this));
         getCommand("unban").setExecutor(new UnbanCommand(this));
-        getCommand("devmode").setExecutor(new DevModeCommand(this));
+        getCommand("maintenance").setExecutor(new MaintenanceCommand(this));
         getCommand("slots").setExecutor(new SlotsCommand(this));
         getCommand("dailyreward").setExecutor(new DailyRewardCommand(this));
     }
