@@ -7,6 +7,7 @@ import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.Trails.Trail;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static me.gamerbah.Administration.Data.Query.*;
@@ -19,7 +20,7 @@ public class PlayerData {
     private final UUID uuid;
     private final MySQL sql = Battlegrounds.getSql();
     @Getter
-    private String name, challenges, achievements;
+    private String name;
     @Getter
     private Rank rank;
     @Getter
@@ -28,6 +29,8 @@ public class PlayerData {
     private boolean dailyReward, teamRequests, privateMessaging, stealthyJoin;
     @Getter
     private Trail.Type trail;
+    @Getter
+    private LocalDateTime dailyRewardLast;
 
     public void setName(String name) {
         sql.executeUpdate(UPDATE_PLAYER_NAME, this.name = name, id);
@@ -58,14 +61,6 @@ public class PlayerData {
         sql.executeUpdate(UPDATE_PLAYER_COINS, this.coins = coins, id);
     }
 
-    public void setChallenges(String challenges) {
-        sql.executeUpdate(UPDATE_PLAYER_CHALLENGES, this.challenges = challenges, id);
-    }
-
-    public void setAchievements(String achievements) {
-        sql.executeUpdate(UPDATE_PLAYERS_ACHIEVEMENTS, this.achievements = achievements, id);
-    }
-
     public void setDailyReward(boolean dailyReward) {
         sql.executeUpdate(UPDATE_PLAYER_DAILY_REWARD, this.dailyReward = dailyReward, id);
     }
@@ -85,5 +80,9 @@ public class PlayerData {
     public void setTrail(Trail.Type trail) {
         sql.executeUpdate(UPDATE_PLAYER_TRAIL, trail.toString(), id);
         this.trail = trail;
+    }
+
+    public void setDailyRewardLast(LocalDateTime date) {
+        sql.executeUpdate(UPDATE_PLAYER_DAILY_REWARD_LAST, this.dailyRewardLast = date, id);
     }
 }

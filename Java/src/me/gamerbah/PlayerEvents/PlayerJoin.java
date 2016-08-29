@@ -8,8 +8,10 @@ import me.gamerbah.Administration.Donations.Essence;
 import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,6 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -33,8 +36,7 @@ public class PlayerJoin implements Listener {
         if (plugin.getPlayerData(event.getUniqueId()) == null) {
             plugin.createPlayerData(event.getUniqueId(), event.getName());
             plugin.getServer().getScheduler().runTaskLaterAsynchronously(plugin, () -> {
-                plugin.getPlayerData(event.getUniqueId()).setChallenges("");
-                plugin.getPlayerData(event.getUniqueId()).setAchievements("");
+                plugin.getPlayerData(event.getUniqueId()).setDailyRewardLast(LocalDateTime.now());
             }, 2L);
         }
 
@@ -61,30 +63,36 @@ public class PlayerJoin implements Listener {
                         + ChatColor.GRAY + "We put the server into Development mode in order to reduce the risk of\n§7corrupting player data, etc. The server should be open shortly!");
             }
         }
+
+        PlayerData playerData = plugin.getPlayerData(event.getUniqueId());
+        if (LocalDateTime.now().minusSeconds(86400).isAfter(playerData.getDailyRewardLast())) {
+            playerData.setDailyReward(false);
+        }
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
+
         if (!plugin.getOne50Essence().containsKey(player.getUniqueId()))
-            plugin.getOne50Essence().put(player.getUniqueId(), plugin.getSql().getEssenceAmount(player, Essence.Type.ONE_HOUR_50_PERCENT));
+            plugin.getOne50Essence().put(player.getUniqueId(), Battlegrounds.getSql().getEssenceAmount(player, Essence.Type.ONE_HOUR_50_PERCENT));
         if (!plugin.getOne100Essence().containsKey(player.getUniqueId()))
-            plugin.getOne100Essence().put(player.getUniqueId(), plugin.getSql().getEssenceAmount(player, Essence.Type.ONE_HOUR_100_PERCENT));
+            plugin.getOne100Essence().put(player.getUniqueId(), Battlegrounds.getSql().getEssenceAmount(player, Essence.Type.ONE_HOUR_100_PERCENT));
         if (!plugin.getOne150Essence().containsKey(player.getUniqueId()))
-            plugin.getOne150Essence().put(player.getUniqueId(), plugin.getSql().getEssenceAmount(player, Essence.Type.ONE_HOUR_150_PERCENT));
+            plugin.getOne150Essence().put(player.getUniqueId(), Battlegrounds.getSql().getEssenceAmount(player, Essence.Type.ONE_HOUR_150_PERCENT));
         if (!plugin.getThree50Essence().containsKey(player.getUniqueId()))
-            plugin.getThree50Essence().put(player.getUniqueId(), plugin.getSql().getEssenceAmount(player, Essence.Type.THREE_HOUR_50_PERCENT));
+            plugin.getThree50Essence().put(player.getUniqueId(), Battlegrounds.getSql().getEssenceAmount(player, Essence.Type.THREE_HOUR_50_PERCENT));
         if (!plugin.getThree100Essence().containsKey(player.getUniqueId()))
-            plugin.getThree100Essence().put(player.getUniqueId(), plugin.getSql().getEssenceAmount(player, Essence.Type.THREE_HOUR_100_PERCENT));
+            plugin.getThree100Essence().put(player.getUniqueId(), Battlegrounds.getSql().getEssenceAmount(player, Essence.Type.THREE_HOUR_100_PERCENT));
         if (!plugin.getThree150Essence().containsKey(player.getUniqueId()))
-            plugin.getThree150Essence().put(player.getUniqueId(), plugin.getSql().getEssenceAmount(player, Essence.Type.THREE_HOUR_150_PERCENT));
+            plugin.getThree150Essence().put(player.getUniqueId(), Battlegrounds.getSql().getEssenceAmount(player, Essence.Type.THREE_HOUR_150_PERCENT));
         if (!plugin.getSix50Essence().containsKey(player.getUniqueId()))
-            plugin.getSix50Essence().put(player.getUniqueId(), plugin.getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_50_PERCENT));
+            plugin.getSix50Essence().put(player.getUniqueId(), Battlegrounds.getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_50_PERCENT));
         if (!plugin.getSix100Essence().containsKey(player.getUniqueId()))
-            plugin.getSix100Essence().put(player.getUniqueId(), plugin.getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_100_PERCENT));
+            plugin.getSix100Essence().put(player.getUniqueId(), Battlegrounds.getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_100_PERCENT));
         if (!plugin.getSix150Essence().containsKey(player.getUniqueId()))
-            plugin.getSix150Essence().put(player.getUniqueId(), plugin.getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_150_PERCENT));
+            plugin.getSix150Essence().put(player.getUniqueId(), Battlegrounds.getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_150_PERCENT));
 
         if (!player.hasPlayedBefore()) {
             event.setJoinMessage(BoldColor.GOLD.getColor() + "New! " + BoldColor.DARK_GRAY.getColor() + "[" + BoldColor.GREEN.getColor() + "+"
@@ -95,12 +103,27 @@ public class PlayerJoin implements Listener {
             if (playerData.isStealthyJoin()) {
                 event.setJoinMessage(null);
             } else {
-                event.setJoinMessage(BoldColor.DARK_GRAY.getColor() + "[" + BoldColor.GREEN.getColor() + "+"
-                        + BoldColor.DARK_GRAY.getColor() + "] " + ChatColor.WHITE + event.getPlayer().getName());
+                if (!player.getName().equals(playerData.getName())) {
+                    String oldName = playerData.getName();
+                    playerData.setName(player.getName());
+                    event.setJoinMessage(BoldColor.DARK_GRAY.getColor() + "[" + BoldColor.GREEN.getColor() + "+"
+                            + BoldColor.DARK_GRAY.getColor() + "] " + ChatColor.WHITE + event.getPlayer().getName() + ChatColor.GRAY + " (" + oldName + ")");
+                } else {
+                    event.setJoinMessage(BoldColor.DARK_GRAY.getColor() + "[" + BoldColor.GREEN.getColor() + "+"
+                            + BoldColor.DARK_GRAY.getColor() + "] " + ChatColor.WHITE + event.getPlayer().getName());
+                }
             }
             TitleAPI.sendTitle(player, 5, 60, 15, BoldColor.GREEN.getColor() + "Welcome Back!", ChatColor.GRAY
                     + (plugin.getConfig().getBoolean("essenceActive") ? plugin.getConfig().getString("essenceOwner") + " has a " + ChatColor.AQUA + plugin.getConfig().getInt("essenceIncrease")
                     + "% Battle Essence " + ChatColor.GRAY + "active!" : ""));
+
+            BaseComponent baseComponent = new TextComponent(BoldColor.YELLOW + "Click here to claim your " + BoldColor.AQUA + "Daily Reward");
+            baseComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.RED + "/dailyreward").create()));
+            baseComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dailyreward"));
+            if (!playerData.isDailyReward()) {
+                player.spigot().sendMessage(baseComponent);
+                plugin.playSound(player, EventSound.COMMAND_SUCCESS);
+            }
         }
 
         player.setPlayerListName((playerData.hasRank(Rank.WARRIOR) ? playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")

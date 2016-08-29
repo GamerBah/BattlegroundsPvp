@@ -32,7 +32,7 @@ public class TeamCommand implements CommandExecutor {
         TeamMessages teamMessages = new TeamMessages(plugin);
         if (args.length > 1 || args.length == 0) {
             plugin.playSound(player, EventSound.COMMAND_FAIL);
-            player.sendMessage(plugin.incorrectUsage + "/team <[player]/accept/deny/leave>");
+            player.sendMessage(Battlegrounds.incorrectUsage + "/team <[player]/accept/deny/leave>");
         } else {
             if (args[0].equalsIgnoreCase("accept")) {
                 if (plugin.getServer().getOnlinePlayers().size() >= 1) {

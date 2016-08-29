@@ -51,10 +51,9 @@ public class MySQL {
         try (ResultSet result = executeQuery(Query.GET_PLAYER_DATA_FROM_UUID, uuid.toString())) {
             if (result.next()) {
                 return new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
-                        result.getString("name"), result.getString("challenges"), result.getString("achievements"),
-                        Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
+                        result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
                         result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
-                        Trail.Type.valueOf(result.getString("trail")));
+                        Trail.Type.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")));
             }
             result.getStatement().close();
         } catch (SQLException e) {
@@ -68,10 +67,9 @@ public class MySQL {
         try (ResultSet result = executeQuery(Query.GET_PLAYER_DATA_FROM_UUID, name)) {
             if (result.next()) {
                 return new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
-                        result.getString("name"), result.getString("challenges"), result.getString("achievements"),
-                        Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
+                        result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
                         result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
-                        Trail.Type.valueOf(result.getString("trail")));
+                        Trail.Type.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")));
             }
             result.getStatement().close();
         } catch (SQLException e) {

@@ -35,7 +35,7 @@ public class PunishCommand implements CommandExecutor {
         }
 
         if (args.length > 1) {
-            player.sendMessage(plugin.incorrectUsage + "/punish [player]");
+            player.sendMessage(Battlegrounds.incorrectUsage + "/punish [player]");
             plugin.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }

@@ -95,6 +95,11 @@ public class PlayerInteract implements Listener {
             } else if (item.getType().equals(Material.DIAMOND)) {
                 player.sendMessage(ChatColor.RED + "Challenges aren't finished yet!");
                 player.playSound(player.getLocation(), Sound.ENTITY_CAT_AMBIENT, 1, 1);
+            } else if (item.getType().equals(Material.ENDER_PEARL)) {
+                if (player.getLocation().distance(player.getWorld().getSpawnLocation()) < 12) {
+                    event.setCancelled(true);
+                    player.getInventory().setItem(1, new I(Material.ENDER_PEARL).name(Rarity.EPIC.getColor() + "Enderpearl").amount(5));
+                }
             }
         }
     }

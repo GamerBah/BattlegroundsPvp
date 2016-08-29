@@ -190,6 +190,8 @@ public class Battlegrounds extends JavaPlugin {
         getCommand("ban").setExecutor(new BanCommand(this));
         getCommand("unban").setExecutor(new UnbanCommand(this));
         getCommand("devmode").setExecutor(new DevModeCommand(this));
+        getCommand("slots").setExecutor(new SlotsCommand(this));
+        getCommand("dailyreward").setExecutor(new DailyRewardCommand(this));
     }
 
     private void registerListeners() {
@@ -214,6 +216,7 @@ public class Battlegrounds extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerItemDrop(this), this);
         getServer().getPluginManager().registerEvents(new PlayerItemPickup(this), this);
         getServer().getPluginManager().registerEvents(new SpawnProtectListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerSwapHands(this), this);
     }
 
     public void playSound(Player player, EventSound eventSound) {

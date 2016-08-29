@@ -59,14 +59,8 @@ public class ReportCommand implements CommandExecutor {
             }
         }
 
-        if (args.length < 1) {
-            player.sendMessage(plugin.incorrectUsage + "/report <player>");
-            plugin.playSound(player, EventSound.COMMAND_FAIL);
-            return true;
-        }
-
-        if (args.length > 1) {
-            player.sendMessage(plugin.incorrectUsage + "/report <player>");
+        if (args.length != 1) {
+            player.sendMessage(Battlegrounds.incorrectUsage + "/report <player>");
             plugin.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }

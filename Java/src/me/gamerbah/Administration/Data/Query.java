@@ -23,6 +23,7 @@ public enum Query {
     UPDATE_PLAYER_PRIVATE_MESSAGING("UPDATE players SET privateMessaging = ? WHERE id = ?"),
     UPDATE_PLAYER_STEALTHY_JOIN("UPDATE players SET stealthyJoin = ? WHERE id = ?"),
     UPDATE_PLAYER_TRAIL("UPDATE players SET trail = ? WHERE id = ?"),
+    UPDATE_PLAYER_DAILY_REWARD_LAST("UPDATE players SET dailyRewardLast = ? WHERE id = ?"),
 
     // DONATION DATA
     CREATE_ESSENCE_DATA("INSERT INTO essences (uuid, type, amount) VALUES (?, ?, ?)"),

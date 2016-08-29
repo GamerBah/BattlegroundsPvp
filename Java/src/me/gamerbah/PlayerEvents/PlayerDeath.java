@@ -177,11 +177,6 @@ public class PlayerDeath implements Listener {
             return;
         }
 
-        /*if(playerData.getKills() == 1) {
-            playerData.addAchievement(Achievement.FIRST_KILL);
-            killer.sendMessage("You got the achievement: Fresh from the Pile");
-        }*/
-
         /*for (Challenge challenge : Challenge.values()) {
             if (plugin.getChallengesFiles().challengeIsStarted(killer, challenge)) {
                 plugin.getChallengesFiles().addChallengeKill(killer, challenge);

@@ -39,7 +39,7 @@ public class PingCommand implements CommandExecutor {
                 return true;
             }
         } else if (args.length > 2) {
-            player.sendMessage(plugin.incorrectUsage + "/ping [player]");
+            player.sendMessage(Battlegrounds.incorrectUsage + "/ping [player]");
             plugin.playSound(player, EventSound.COMMAND_FAIL);
         }
 

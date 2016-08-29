@@ -5,11 +5,13 @@ package me.gamerbah.Listeners;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Donations.DonationMessages;
 import me.gamerbah.Administration.Donations.Essence;
+import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Commands.ReportCommand;
 import me.gamerbah.Etc.Menus.*;
 import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.FireworkUtils;
+import me.gamerbah.Utils.I;
 import me.gamerbah.Utils.Kits.KitManager;
 import me.gamerbah.Utils.Messages.BoldColor;
 import me.gamerbah.Utils.Rarity;
@@ -36,6 +38,16 @@ public class InventoryClickListener implements Listener {
         this.plugin = plugin;
     }
 
+    public static int selectedInInventory(Inventory inventory) {
+        int found = 0;
+        for (ItemStack item : inventory.getContents()) {
+            if (item != null && item.getDurability() == 10)
+                found += item.getAmount();
+        }
+        return found;
+
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryClick(InventoryClickEvent event) {
         Inventory inventory = event.getInventory();
@@ -45,6 +57,10 @@ public class InventoryClickListener implements Listener {
             if (event.getSlotType() == null || event.getCurrentItem() == null
                     || event.getCurrentItem().getType() == null || event.getCurrentItem().getItemMeta() == null) {
                 return;
+            }
+
+            if (KitManager.isPlayerInKit(player)) {
+                event.setCancelled(true);
             }
 
             if (inventory == player.getInventory()) {
@@ -313,10 +329,80 @@ public class InventoryClickListener implements Listener {
                 }
             }
 
+            if (event.getInventory().getName().equals("\"K-Slots\" Machine")) {
+                ItemStack item = event.getCurrentItem();
+                event.setCancelled(true);
+                PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
+                if (item.getType().equals(Material.INK_SACK)) {
+                    if (item.getDurability() == 8) {
+                        if (event.getSlot() == 12) {
+                            if (!playerData.hasRank(Rank.WARRIOR)) {
+                                return;
+                            }
+                        }
+                        if (event.getSlot() == 14) {
+                            if (!playerData.hasRank(Rank.GLADIATOR)) {
+                                return;
+                            }
+                        }
+                        if (event.getSlot() == 16) {
+                            if (!playerData.hasRank(Rank.CONQUEROR)) {
+                                return;
+                            }
+                        }
+                        inventory.setItem(event.getSlot(), new I(Material.INK_SACK).name(BoldColor.GREEN.getColor() + "ACTIVE")
+                                .lore(ChatColor.GRAY + "This slot will be rolled").lore(" ")
+                                .lore(ChatColor.YELLOW + "Click to Disable!")
+                                .durability(10));
+                        inventory.setItem(31, new I(Material.WOOL).name((playerData.getSouls() >= 400 * selectedInInventory(inventory)
+                                ? BoldColor.GREEN.getColor() + "Click to Roll!" : BoldColor.RED.getColor() + "Need More Souls!"))
+                                .lore(ChatColor.GRAY + "Cost: " + ChatColor.AQUA + 400 * selectedInInventory(inventory) + " Souls")
+                                .durability(5));
+                        plugin.playSound(player, EventSound.COMMAND_CLICK);
+                        player.openInventory(inventory);
+                    }
+                    if (item.getDurability() == 10) {
+                        if (event.getSlot() != 10) {
+                            inventory.setItem(event.getSlot(), new I(Material.INK_SACK).name(BoldColor.RED.getColor() + "DISABLED")
+                                    .lore(ChatColor.GRAY + "This slot will not be rolled").lore(" ")
+                                    .lore(ChatColor.YELLOW + "Click to Activate!")
+                                    .durability(8));
+                            inventory.setItem(31, new I(Material.WOOL).name((playerData.getSouls() >= 400 * selectedInInventory(inventory)
+                                    ? BoldColor.GREEN.getColor() + "Click to Roll!" : BoldColor.RED.getColor() + "Need More Souls!"))
+                                    .lore(ChatColor.GRAY + "Cost: " + ChatColor.AQUA + 400 * selectedInInventory(inventory) + " Souls")
+                                    .durability(5));
+                            plugin.playSound(player, EventSound.COMMAND_CLICK);
+                            player.openInventory(inventory);
+                        }
+                    }
+                }
+
+                if (item.getType().equals(Material.WOOL)) {
+                    if (playerData.getSouls() < 400 * selectedInInventory(inventory)) {
+                        plugin.playSound(player, EventSound.COMMAND_FAIL);
+                    } else {
+                        KSlotsMenu kSlotsMenu = new KSlotsMenu(plugin);
+                        kSlotsMenu.beginSlots(player, selectedInInventory(inventory));
+                    }
+                }
+                if (item.getType().equals(Material.END_CRYSTAL)) {
+                    if (playerData.getSouls() < 400 * selectedInInventory(inventory)) {
+                        plugin.playSound(player, EventSound.COMMAND_FAIL);
+                        player.closeInventory();
+                        player.sendMessage(ChatColor.RED + "You don't have enough Souls to use the machine again!");
+                    } else {
+                        KSlotsMenu kSlotsMenu = new KSlotsMenu(plugin);
+                        kSlotsMenu.openInventory(player);
+                    }
+                }
+            }
+
         } else
 
         {
             event.setCancelled(false);
         }
     }
+
+
 }

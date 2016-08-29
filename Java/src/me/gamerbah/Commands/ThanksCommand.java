@@ -33,7 +33,7 @@ public class ThanksCommand implements CommandExecutor {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
 
         if (args.length != 1) {
-            player.sendMessage(plugin.incorrectUsage + "/thanks <player>");
+            player.sendMessage(Battlegrounds.incorrectUsage + "/thanks <player>");
             plugin.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }

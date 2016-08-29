@@ -9,6 +9,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.text.Normalizer;
+import java.util.Iterator;
+import java.util.regex.Matcher;
+
 public class ChatFilter implements Listener {
     private Battlegrounds plugin;
 
@@ -22,20 +26,37 @@ public class ChatFilter implements Listener {
             return;
         }
 
-        String[] message = event.getMessage().split(" ");
-        String finalMessage = "";
+        event.setMessage(censor(event.getMessage()));
+    }
 
-        for (String word : message) {
-            for (String filteredWord : plugin.getFilteredWords()) {
-                if (word.toLowerCase().contains(filteredWord.toLowerCase().trim())) {
-                    word = StringUtils.repeat("*", word.length());
-                }
+    public String censor(String message) {
+        String messageToSend = message;
+        String message_lower = message.toLowerCase();
+        Iterator iter = plugin.getFilteredWords().iterator();
+        while (iter.hasNext()) {
+            String swear = (String) iter.next();
+            if (message_lower.contains(swear)) {
+                messageToSend = messageToSend.replaceAll("(?i)" + swear, Matcher.quoteReplacement(StringUtils.repeat("*", swear.length())));
             }
-
-            finalMessage += word + " ";
         }
 
-        event.setMessage(finalMessage.trim());
+        String[] outwords = messageToSend.split(" ");
+        for (int i = 0; i < outwords.length; i++) {
+            while (iter.hasNext()) {
+                String swearWord = (String) iter.next();
+
+                String testWord = outwords[i].toLowerCase();
+                testWord = Normalizer.normalize(testWord, Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+                testWord = testWord.replaceAll("[^a-z]", " ").trim();
+
+                if (swearWord.equals(testWord)) {
+                    outwords[i] = StringUtils.repeat("*", swearWord.length());
+                }
+            }
+        }
+
+        messageToSend = StringUtils.join(outwords, " ");
+        return messageToSend;
     }
 
 }

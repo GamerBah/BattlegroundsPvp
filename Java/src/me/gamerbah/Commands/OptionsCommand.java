@@ -27,7 +27,7 @@ public class OptionsCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            player.sendMessage(plugin.incorrectUsage + "/options <player>");
+            player.sendMessage(Battlegrounds.incorrectUsage + "/options <player>");
             plugin.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }
