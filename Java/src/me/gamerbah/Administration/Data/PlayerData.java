@@ -83,6 +83,7 @@ public class PlayerData {
     }
 
     public void setDailyRewardLast(LocalDateTime date) {
-        sql.executeUpdate(UPDATE_PLAYER_DAILY_REWARD_LAST, this.dailyRewardLast = date, id);
+        sql.executeUpdate(UPDATE_PLAYER_DAILY_REWARD_LAST, date.toString().replace(" ", "T"), id);
+        this.dailyRewardLast = date;
     }
 }

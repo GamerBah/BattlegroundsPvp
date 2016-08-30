@@ -117,12 +117,14 @@ public class PlayerJoin implements Listener {
                     + (plugin.getConfig().getBoolean("essenceActive") ? plugin.getConfig().getString("essenceOwner") + " has a " + ChatColor.AQUA + plugin.getConfig().getInt("essenceIncrease")
                     + "% Battle Essence " + ChatColor.GRAY + "active!" : ""));
 
-            BaseComponent baseComponent = new TextComponent(BoldColor.YELLOW + "Click here to claim your " + BoldColor.AQUA + "Daily Reward");
+            BaseComponent baseComponent = new TextComponent(BoldColor.YELLOW.getColor() + "Click here to claim your " + BoldColor.AQUA.getColor() + "Daily Reward");
             baseComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.RED + "/dailyreward").create()));
             baseComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/dailyreward"));
             if (!playerData.isDailyReward()) {
-                player.spigot().sendMessage(baseComponent);
-                plugin.playSound(player, EventSound.COMMAND_SUCCESS);
+                plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                    player.spigot().sendMessage(baseComponent);
+                    plugin.playSound(player, EventSound.COMMAND_SUCCESS);
+                }, 5L);
             }
         }
 

@@ -192,6 +192,7 @@ public class Battlegrounds extends JavaPlugin {
         getCommand("maintenance").setExecutor(new MaintenanceCommand(this));
         getCommand("slots").setExecutor(new SlotsCommand(this));
         getCommand("dailyreward").setExecutor(new DailyRewardCommand(this));
+        getCommand("skull").setExecutor(new SkullCommand(this));
     }
 
     private void registerListeners() {
