@@ -2,6 +2,7 @@ package me.gamerbah.PlayerEvents;
 /* Created by GamerBah on 8/13/2016 */
 
 
+import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Etc.Menus.SettingsMenu;
 import me.gamerbah.Utils.I;
@@ -70,15 +71,32 @@ public class PlayerInteract implements Listener {
 
                 int commonSlot = 36, rareSlot = 18, epicSlot = 9, legendarySlot = 0;
 
+                PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
                 for (Kit kit : KitManager.getKits()) {
                     if (kit.getRarity() == Rarity.COMMON) {
-                        kitSelectorInventory.setItem(commonSlot++, kit.getItem());
+                        if (playerData.getOwnedKits().contains(kit.getId() + ",")) {
+                            kitSelectorInventory.setItem(commonSlot++, kit.getItem());
+                        } else {
+                            commonSlot++;
+                        }
                     } else if (kit.getRarity() == Rarity.RARE) {
-                        kitSelectorInventory.setItem(rareSlot++, kit.getItem());
+                        if (playerData.getOwnedKits().contains(kit.getId() + ",")) {
+                            kitSelectorInventory.setItem(rareSlot++, kit.getItem());
+                        } else {
+                            rareSlot++;
+                        }
                     } else if (kit.getRarity() == Rarity.EPIC) {
-                        kitSelectorInventory.setItem(epicSlot++, kit.getItem());
+                        if (playerData.getOwnedKits().contains(kit.getId() + ",")) {
+                            kitSelectorInventory.setItem(epicSlot++, kit.getItem());
+                        } else {
+                            epicSlot++;
+                        }
                     } else if (kit.getRarity() == Rarity.LEGENDARY) {
-                        kitSelectorInventory.setItem(legendarySlot++, kit.getItem());
+                        if (playerData.getOwnedKits().contains(kit.getId() + ",")) {
+                            kitSelectorInventory.setItem(legendarySlot++, kit.getItem());
+                        } else {
+                            legendarySlot++;
+                        }
                     }
                 }
                 player.openInventory(kitSelectorInventory);

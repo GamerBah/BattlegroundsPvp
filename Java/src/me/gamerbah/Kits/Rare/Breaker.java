@@ -16,7 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 public class Breaker extends Kit {
 
     public Breaker() {
-        super(1, "Breaker", new I(Material.ARROW)
+        super(19, "Breaker", new I(Material.ARROW)
                 .lore(" ")
                 .lore("§a§lKit Contents:")
                 .lore("§7   ● §fIron Helmet §7(Projectile Prot. II)")

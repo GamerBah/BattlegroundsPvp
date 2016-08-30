@@ -18,6 +18,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.inventivetalent.tabapi.TabAPI;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -130,6 +131,9 @@ public class PlayerJoin implements Listener {
 
         player.setPlayerListName((playerData.hasRank(Rank.WARRIOR) ? playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")
                 + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : ChatColor.GRAY) + player.getName());
+
+        TabAPI.setHeader(player, ChatColor.AQUA + "You are playing on", BoldColor.GOLD.getColor() + "BATTLEGROUNDS");
+        TabAPI.setFooter(player, ChatColor.RED + "Visit our store!", ChatColor.YELLOW + "battlegroundspvp.enjin.com/store");
 
         player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(20);
         plugin.respawn(player);

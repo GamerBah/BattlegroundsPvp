@@ -15,7 +15,7 @@ import org.bukkit.potion.PotionEffectType;
 public class HonorGuard extends Kit {
 
     public HonorGuard() {
-        super(2, "Honor Guard", new I(Material.SHIELD)
+        super(20, "Honor Guard", new I(Material.SHIELD)
                 .lore(" ")
                 .lore("§a§lKit Contents:")
                 .lore("§7   ● §fIron Helmet")

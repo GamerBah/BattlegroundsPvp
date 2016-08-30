@@ -53,7 +53,7 @@ public class MySQL {
                 return new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
                         result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
                         result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
-                        Trail.Type.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")));
+                        Trail.Type.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")), result.getString("ownedKits"));
             }
             result.getStatement().close();
         } catch (SQLException e) {
@@ -69,7 +69,7 @@ public class MySQL {
                 return new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
                         result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
                         result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
-                        Trail.Type.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")));
+                        Trail.Type.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")), result.getString("ownedKits"));
             }
             result.getStatement().close();
         } catch (SQLException e) {

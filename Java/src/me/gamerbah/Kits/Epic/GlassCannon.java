@@ -16,7 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 public class GlassCannon extends Kit {
 
     public GlassCannon() {
-        super(1, "Glass Cannon", new I(Material.STAINED_GLASS)
+        super(37, "Glass Cannon", new I(Material.STAINED_GLASS)
                 .lore(" ")
                 .lore("§a§lKit Contents:")
                 .lore("§7   ● Leather Helmet")

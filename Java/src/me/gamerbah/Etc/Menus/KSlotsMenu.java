@@ -5,6 +5,7 @@ package me.gamerbah.Etc.Menus;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Listeners.ScoreboardListener;
 import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.I;
 import me.gamerbah.Utils.Kits.Kit;
@@ -64,6 +65,11 @@ public class KSlotsMenu {
     }
 
     public void beginSlots(Player player, int slots) {
+        PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
+        ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
+        scoreboardListener.getSouls().put(player.getUniqueId(), playerData.getSouls());
+        playerData.setSouls(playerData.getSouls() - slots * 400);
+        scoreboardListener.updateScoreboardSouls(player);
         Inventory inventory = player.getOpenInventory().getTopInventory();
         inventory.clear();
         inventory.setItem(9, new I(Material.STAINED_GLASS_PANE).name(" ").durability(15));
@@ -98,8 +104,10 @@ public class KSlotsMenu {
                     player.openInventory(inventory);
                 }
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.5F, 1F);
+                Kit finalKit = KitManager.getKits().get(0);
                 for (Kit kit : kits) {
                     if (kit.getItem().equals(inventory.getItem(10))) {
+                        finalKit = kit;
                         if (kit.getRarity().equals(Rarity.EPIC)) {
                             plugin.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
                         }
@@ -108,10 +116,21 @@ public class KSlotsMenu {
                         }
                     }
                 }
+                if (!playerData.getOwnedKits().contains(finalKit.getId() + ",")) {
+                    playerData.setOwnedKits(playerData.getOwnedKits() + finalKit.getId() + ",");
+                    player.sendMessage(ChatColor.DARK_AQUA + "You unlocked the " + finalKit.getRarity().getColor() + finalKit.getName() + ChatColor.DARK_AQUA + " kit!");
+                } else {
+                    int coins = ThreadLocalRandom.current().nextInt(5, 8 + 1);
+                    player.sendMessage(ChatColor.GRAY + "You already have the " + finalKit.getRarity().getColor() + finalKit.getName()
+                            + ChatColor.GRAY + " kit, so you got " + BoldColor.PINK.getColor() + coins + " Battle Coins");
+                    scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
+                    playerData.setCoins(playerData.getCoins() + coins);
+                    scoreboardListener.updateScoreboardCoins(player);
+                }
                 if (slots == 1) {
                     inventory.setItem(31, new I(Material.END_CRYSTAL).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
                 }
-            }, 120L);
+            }, 160L);
         }
 
         if (slots > 1) {
@@ -126,8 +145,10 @@ public class KSlotsMenu {
             plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                 plugin.getServer().getScheduler().cancelTask(slot);
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.5F, 1F);
+                Kit finalKit = KitManager.getKits().get(0);
                 for (Kit kit : kits) {
                     if (kit.getItem().equals(inventory.getItem(12))) {
+                        finalKit = kit;
                         if (kit.getRarity().equals(Rarity.EPIC)) {
                             plugin.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
                         }
@@ -136,10 +157,24 @@ public class KSlotsMenu {
                         }
                     }
                 }
+                if (!playerData.getOwnedKits().contains(finalKit.getId() + ",")) {
+                    playerData.setOwnedKits(playerData.getOwnedKits() + finalKit.getId() + ",");
+                    player.sendMessage(ChatColor.DARK_AQUA + "You unlocked the " + finalKit.getRarity().getColor() + finalKit.getName() + ChatColor.DARK_AQUA + " kit!");
+                } else {
+                    int coins = ThreadLocalRandom.current().nextInt(5, 8 + 1);
+                    player.sendMessage(ChatColor.GRAY + "You already have the " + finalKit.getRarity().getColor() + finalKit.getName()
+                            + ChatColor.GRAY + " kit, so you got " + BoldColor.PINK.getColor() + coins + " Battle Coins");
+                    scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
+                    playerData.setCoins(playerData.getCoins() + coins);
+                    scoreboardListener.updateScoreboardCoins(player);
+                }
+                if (slots == 1) {
+                    inventory.setItem(31, new I(Material.END_CRYSTAL).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
+                }
                 if (slots == 2) {
                     inventory.setItem(31, new I(Material.END_CRYSTAL).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
                 }
-            }, 135L);
+            }, 175L);
         }
 
         if (slots > 2) {
@@ -154,8 +189,10 @@ public class KSlotsMenu {
             plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                 plugin.getServer().getScheduler().cancelTask(slot);
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.5F, 1F);
+                Kit finalKit = KitManager.getKits().get(0);
                 for (Kit kit : kits) {
                     if (kit.getItem().equals(inventory.getItem(14))) {
+                        finalKit = kit;
                         if (kit.getRarity().equals(Rarity.EPIC)) {
                             plugin.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
                         }
@@ -164,10 +201,24 @@ public class KSlotsMenu {
                         }
                     }
                 }
+                if (!playerData.getOwnedKits().contains(finalKit.getId() + ",")) {
+                    playerData.setOwnedKits(playerData.getOwnedKits() + finalKit.getId() + ",");
+                    player.sendMessage(ChatColor.DARK_AQUA + "You unlocked the " + finalKit.getRarity().getColor() + finalKit.getName() + ChatColor.DARK_AQUA + " kit!");
+                } else {
+                    int coins = ThreadLocalRandom.current().nextInt(5, 8 + 1);
+                    player.sendMessage(ChatColor.GRAY + "You already have the " + finalKit.getRarity().getColor() + finalKit.getName()
+                            + ChatColor.GRAY + " kit, so you got " + BoldColor.PINK.getColor() + coins + " Battle Coins");
+                    scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
+                    playerData.setCoins(playerData.getCoins() + coins);
+                    scoreboardListener.updateScoreboardCoins(player);
+                }
+                if (slots == 1) {
+                    inventory.setItem(31, new I(Material.END_CRYSTAL).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
+                }
                 if (slots == 3) {
                     inventory.setItem(31, new I(Material.END_CRYSTAL).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
                 }
-            }, 150L);
+            }, 190L);
         }
 
         if (slots > 3) {
@@ -182,8 +233,10 @@ public class KSlotsMenu {
             plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                 plugin.getServer().getScheduler().cancelTask(slot);
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.5F, 1F);
+                Kit finalKit = KitManager.getKits().get(0);
                 for (Kit kit : kits) {
                     if (kit.getItem().equals(inventory.getItem(16))) {
+                        finalKit = kit;
                         if (kit.getRarity().equals(Rarity.EPIC)) {
                             plugin.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
                         }
@@ -192,10 +245,24 @@ public class KSlotsMenu {
                         }
                     }
                 }
+                if (!playerData.getOwnedKits().contains(finalKit.getId() + ",")) {
+                    playerData.setOwnedKits(playerData.getOwnedKits() + finalKit.getId() + ",");
+                    player.sendMessage(ChatColor.DARK_AQUA + "You unlocked the " + finalKit.getRarity().getColor() + finalKit.getName() + ChatColor.DARK_AQUA + " kit!");
+                } else {
+                    int coins = ThreadLocalRandom.current().nextInt(5, 8 + 1);
+                    player.sendMessage(ChatColor.GRAY + "You already have the " + finalKit.getRarity().getColor() + finalKit.getName()
+                            + ChatColor.GRAY + " kit, so you got " + BoldColor.PINK.getColor() + coins + " Battle Coins");
+                    scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
+                    playerData.setCoins(playerData.getCoins() + coins);
+                    scoreboardListener.updateScoreboardCoins(player);
+                }
+                if (slots == 1) {
+                    inventory.setItem(31, new I(Material.END_CRYSTAL).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
+                }
                 if (slots == 4) {
                     inventory.setItem(31, new I(Material.END_CRYSTAL).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
                 }
-            }, 165L);
+            }, 205L);
         }
 
     }

@@ -31,6 +31,8 @@ public class PlayerData {
     private Trail.Type trail;
     @Getter
     private LocalDateTime dailyRewardLast;
+    @Getter
+    private String ownedKits;
 
     public void setName(String name) {
         sql.executeUpdate(UPDATE_PLAYER_NAME, this.name = name, id);
@@ -85,5 +87,9 @@ public class PlayerData {
     public void setDailyRewardLast(LocalDateTime date) {
         sql.executeUpdate(UPDATE_PLAYER_DAILY_REWARD_LAST, date.toString().replace(" ", "T"), id);
         this.dailyRewardLast = date;
+    }
+
+    public void setOwnedKits(String list) {
+        sql.executeUpdate(UPDATE_PLAYER_OWNED_KITS, this.ownedKits = list, id);
     }
 }

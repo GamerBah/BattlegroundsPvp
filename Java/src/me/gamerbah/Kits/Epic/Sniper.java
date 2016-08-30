@@ -16,7 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 public class Sniper extends Kit {
 
     public Sniper() {
-        super(2, "Sniper", new I(Material.BOW).enchantment(Enchantment.ARROW_KNOCKBACK)
+        super(38, "Sniper", new I(Material.BOW).enchantment(Enchantment.ARROW_KNOCKBACK)
                 .lore(" ")
                 .lore("§a§lKit Contents:")
                 .lore("§7   ● Chain Helmet")

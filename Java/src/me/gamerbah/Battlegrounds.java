@@ -162,6 +162,7 @@ public class Battlegrounds extends JavaPlugin {
     }
 
     public void onDisable() {
+        sql.closeConnection();
     }
 
     private void registerCommands() {

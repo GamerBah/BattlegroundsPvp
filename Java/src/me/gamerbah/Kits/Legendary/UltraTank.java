@@ -16,7 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 public class UltraTank extends Kit {
 
     public UltraTank() {
-        super(1, "Ultra Tank", new I(Material.DIAMOND_CHESTPLATE).enchantment(Enchantment.PROTECTION_ENVIRONMENTAL)
+        super(46, "Ultra Tank", new I(Material.DIAMOND_CHESTPLATE).enchantment(Enchantment.PROTECTION_ENVIRONMENTAL)
                 .lore(" ")
                 .lore("§a§lKit Contents:")
                 .lore("§7   ● §bDiamond Helmet §7(Protection I)")

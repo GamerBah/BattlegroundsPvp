@@ -16,7 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 public class Enderknight extends Kit {
 
     public Enderknight() {
-        super(3, "Enderknight", new I(Material.ENDER_PEARL)
+        super(39, "Enderknight", new I(Material.ENDER_PEARL)
                 .lore(" ")
                 .lore("§a§lKit Contents:")
                 .lore("§7   ● Chain Helmet")
