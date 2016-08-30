@@ -80,6 +80,8 @@ public class Battlegrounds extends JavaPlugin {
     private HashMap<UUID, UUID> messagers = new HashMap<>();
     @Getter
     private ArrayList<Location> fireworkBlocks = new ArrayList<>();
+    @Getter
+    private ArrayList<Location> launchers = new ArrayList<>();
 
     public void onEnable() {
         instance = this;
@@ -134,6 +136,7 @@ public class Battlegrounds extends JavaPlugin {
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new TrailRunnable(this), 0, 2);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new AFKRunnable(this), 0, 20);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new PunishmentRunnable(this), 0, 20L);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, new WorldParticlesRunnable(this), 0, 2L);
 
         // Save Filter File
         File filterFile = new File(getDataFolder(), "filter.txt");
@@ -159,6 +162,16 @@ public class Battlegrounds extends JavaPlugin {
         fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), 0.5, 37.0, -5.5));
         fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), 4.5, 37.0, -3.5));
         fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), -3.5, 37.0, 4.5));
+
+        // Register Launcher Blocks
+        launchers.add(new Location(getServer().getWorld("Colosseum"), 8, 27.15, 0));
+        launchers.add(new Location(getServer().getWorld("Colosseum"), 6, 27.15, 6));
+        launchers.add(new Location(getServer().getWorld("Colosseum"), 0, 27.15, 8));
+        launchers.add(new Location(getServer().getWorld("Colosseum"), -8, 27.15, 0));
+        launchers.add(new Location(getServer().getWorld("Colosseum"), -6, 27.15, -6));
+        launchers.add(new Location(getServer().getWorld("Colosseum"), 0, 27.15, -8));
+        launchers.add(new Location(getServer().getWorld("Colosseum"), 6, 27.15, -6));
+        launchers.add(new Location(getServer().getWorld("Colosseum"), -6, 27.15, 6));
     }
 
     public void onDisable() {
