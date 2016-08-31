@@ -35,7 +35,7 @@ public class ChatFilter implements Listener {
         Iterator iter = plugin.getFilteredWords().iterator();
         while (iter.hasNext()) {
             String swear = (String) iter.next();
-            if (message_lower.contains(swear)) {
+            if (message_lower.contains(" " + swear + " ") || message_lower.endsWith(" " + swear) || message_lower.startsWith(swear + " ") || message.equals(swear)) {
                 messageToSend = messageToSend.replaceAll("(?i)" + swear, Matcher.quoteReplacement(StringUtils.repeat("*", swear.length())));
             }
         }
@@ -43,9 +43,9 @@ public class ChatFilter implements Listener {
         String[] outwords = messageToSend.split(" ");
         for (int i = 0; i < outwords.length; i++) {
             while (iter.hasNext()) {
-                String swearWord = (String) iter.next();
+                String swearWord = " " + iter.next() + " ";
 
-                String testWord = outwords[i].toLowerCase();
+                String testWord = " " + outwords[i].toLowerCase() + " ";
                 testWord = Normalizer.normalize(testWord, Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
                 testWord = testWord.replaceAll("[^a-z]", " ").trim();
 

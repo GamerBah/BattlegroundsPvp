@@ -46,12 +46,12 @@ public class TrailRunnable implements Runnable {
                 playerLocations.put(player, player.getLocation());
                 still.remove(player);
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                    if (plugin.getAfk().contains(player.getUniqueId())) {
+                    if (Battlegrounds.getAfk().contains(player.getUniqueId())) {
                         if (!still.containsKey(player)) {
                             TitleAPI.clearTitle(player);
                             player.sendMessage(ChatColor.GRAY + "You are no longer AFK");
                             plugin.playSound(player, EventSound.COMMAND_CLICK);
-                            plugin.getAfk().remove(player.getUniqueId());
+                            Battlegrounds.getAfk().remove(player.getUniqueId());
                             plugin.respawn(player);
                             player.removePotionEffect(PotionEffectType.INVISIBILITY);
                         }
@@ -60,7 +60,11 @@ public class TrailRunnable implements Runnable {
             }
 
             if (still.containsKey(player)) {
-                if (!plugin.getAfk().contains(player.getUniqueId())) {
+                if (!Battlegrounds.getAfk().contains(player.getUniqueId())) {
+                    // Rare
+
+
+                    // Epic
                     if (playerData.getTrail().equals(Trail.Type.RAIN_STORM)) {
                         ParticleEffect.CLOUD.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.25, 0.1, 0.25, 0, 6, 25);
                         ParticleEffect.DRIP_WATER.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.15, 0, 0.15, 0, 2, 25);
@@ -69,6 +73,10 @@ public class TrailRunnable implements Runnable {
                         ParticleEffect.SMOKE_LARGE.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.25D, 0), 0.25, 0.1, 0.25, 0, 8, 25);
                         ParticleEffect.DRIP_LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.1, 0, 0.1, 0, 4, 25);
                     }
+
+                    // Legendary
+                    /* Flame Warrior Helix is in HelixRunnable.java */
+
                 }
             } else {
                 if (plugin.getConfig().getBoolean("essenceActive")) {
@@ -81,6 +89,12 @@ public class TrailRunnable implements Runnable {
                 if (playerData.getTrail().equals(Trail.Type.LAVA_RAIN)) {
                     ParticleEffect.DRIP_LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.1D, 0), 0.2, 0, 0.2, 0, 3, 25);
                     ParticleEffect.LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.1D, 0), 0.1, 0, 0.1, 0, 1, 25);
+                }
+                if (playerData.getTrail().equals(Trail.Type.FLAME_WARRIOR)) {
+                    ParticleEffect.FLAME.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.1, 0), 0, 0, 0, 0, 1, 25);
+                    ParticleEffect.FLAME.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.2, 0), 0, 0, 0, 0, 1, 25);
+                    ParticleEffect.FLAME.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.3, 0), 0, 0, 0, 0, 1, 25);
+                    ParticleEffect.SMOKE_LARGE.send(Bukkit.getOnlinePlayers(), player.getLocation(), 0.1, 0.5, 0.1, 0, 5, 25);
                 }
             }
         }
