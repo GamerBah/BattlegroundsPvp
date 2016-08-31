@@ -6,6 +6,7 @@ import com.connorlinfoot.titleapi.TitleAPI;
 import lombok.Getter;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Listeners.CombatListener;
 import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.Trails.Trail;
 import net.md_5.bungee.api.ChatColor;
@@ -61,22 +62,24 @@ public class TrailRunnable implements Runnable {
 
             if (still.containsKey(player)) {
                 if (!Battlegrounds.getAfk().contains(player.getUniqueId())) {
-                    // Rare
+                    if (!CombatListener.getTagged().containsKey(player.getUniqueId())) {
+                        // Rare
 
 
-                    // Epic
-                    if (playerData.getTrail().equals(Trail.Type.RAIN_STORM)) {
-                        ParticleEffect.CLOUD.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.25, 0.1, 0.25, 0, 6, 25);
-                        ParticleEffect.DRIP_WATER.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.15, 0, 0.15, 0, 2, 25);
-                    }
-                    if (playerData.getTrail().equals(Trail.Type.LAVA_RAIN)) {
-                        ParticleEffect.SMOKE_LARGE.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.25D, 0), 0.25, 0.1, 0.25, 0, 8, 25);
-                        ParticleEffect.DRIP_LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.1, 0, 0.1, 0, 4, 25);
-                    }
+                        // Epic
+                        if (playerData.getTrail().equals(Trail.Type.RAIN_STORM)) {
+                            ParticleEffect.CLOUD.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.25, 0.1, 0.25, 0, 6, 25);
+                            ParticleEffect.DRIP_WATER.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.15, 0, 0.15, 0, 2, 25);
+                        }
+                        if (playerData.getTrail().equals(Trail.Type.LAVA_RAIN)) {
+                            ParticleEffect.SMOKE_LARGE.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.25D, 0), 0.25, 0.1, 0.25, 0, 8, 25);
+                            ParticleEffect.DRIP_LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.1, 0, 0.1, 0, 4, 25);
+                        }
 
-                    // Legendary
+                        // Legendary
                     /* Flame Warrior Helix is in HelixRunnable.java */
 
+                    }
                 }
             } else {
                 if (plugin.getConfig().getBoolean("essenceActive")) {

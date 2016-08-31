@@ -35,8 +35,21 @@ public class ChatFilter implements Listener {
         Iterator iter = plugin.getFilteredWords().iterator();
         while (iter.hasNext()) {
             String swear = (String) iter.next();
-            if (message_lower.contains(" " + swear + " ") || message_lower.endsWith(" " + swear) || message_lower.startsWith(swear + " ") || message.equals(swear)) {
+            if (message_lower.contains(" " + swear + " ") || message_lower.endsWith(" " + swear) || message_lower.startsWith(swear + " ")
+                    || message_lower.equals(swear) || message_lower.contains(swear + swear)) {
                 messageToSend = messageToSend.replaceAll("(?i)" + swear, Matcher.quoteReplacement(StringUtils.repeat("*", swear.length())));
+            }
+            if (message_lower.contains(swear + "ing")) {
+                messageToSend = messageToSend.replaceAll("(?i)" + swear + "ing", Matcher.quoteReplacement(StringUtils.repeat("*", swear.length() + 3)));
+            }
+            if (message_lower.contains(swear + "hole") || message_lower.contains(swear + "head")) {
+                messageToSend = messageToSend.replaceAll("(?i)" + swear, Matcher.quoteReplacement(StringUtils.repeat("*", swear.length())));
+            }
+            if (message_lower.contains(swear + "er") || message_lower.contains(swear + "es")) {
+                messageToSend = messageToSend.replaceAll("(?i)" + swear, Matcher.quoteReplacement(StringUtils.repeat("*", swear.length())));
+            }
+            if (message_lower.contains(swear + "s")) {
+                messageToSend = messageToSend.replaceAll("(?i)" + swear + "s", Matcher.quoteReplacement(StringUtils.repeat("*", swear.length() + 1)));
             }
         }
 
