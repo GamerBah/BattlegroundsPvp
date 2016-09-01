@@ -17,10 +17,10 @@ public class AFKRunnable implements Runnable {
     public void run() {
         for (Player player : plugin.getServer().getOnlinePlayers()) {
             if (TrailRunnable.getStill().containsKey(player)) {
-                if (TrailRunnable.getStill().get(player) < 300) {
+                if (TrailRunnable.getStill().get(player) < 600) {
                     TrailRunnable.getStill().put(player, TrailRunnable.getStill().get(player) + 1);
                 }
-                if (TrailRunnable.getStill().get(player) == 300) {
+                if (TrailRunnable.getStill().get(player) == 600) {
                     if (!plugin.getAfk().contains(player.getUniqueId())) {
                         player.chat("/afk");
                     }
