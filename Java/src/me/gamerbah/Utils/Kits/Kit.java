@@ -1,6 +1,7 @@
 package me.gamerbah.Utils.Kits;
 
 import lombok.Data;
+import me.gamerbah.Administration.Commands.FreezeCommand;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
@@ -94,7 +95,9 @@ public abstract class Kit implements Listener, CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (command.getName().equalsIgnoreCase(getName().replaceAll("\\s+", ""))) {
-                wearCheckLevel(player);
+                if (!FreezeCommand.frozenPlayers.contains(player) && !FreezeCommand.frozen) {
+                    wearCheckLevel(player);
+                }
             }
         }
         return false;

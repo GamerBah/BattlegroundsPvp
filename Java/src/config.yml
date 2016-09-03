@@ -1,10 +1,11 @@
-host: localhost:51204
-database: battlegrounds
-username: root
-password: password
+host: 69.162.95.98:3306
+database: brethenn40012DB
+username: brethenn40012
+password: qNdP61mDfV9c
 
 essenceActive: false
 essenceIncrease:
+essenceTime:
 essenceTimeRemaining:
 essenceOwner:
 essenceThanks:

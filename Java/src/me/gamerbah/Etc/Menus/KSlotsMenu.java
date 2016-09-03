@@ -39,7 +39,7 @@ public class KSlotsMenu {
         inv.setItem(15, new I(Material.STAINED_GLASS_PANE).name(" ").durability(15));
         inv.setItem(17, new I(Material.STAINED_GLASS_PANE).name(" ").durability(15));
 
-        inv.setItem(31, new I(Material.WOOL).name(BoldColor.GREEN.getColor() + "Click to Roll!")
+        inv.setItem(31, new I(Material.WOOL).name((playerData.getSouls() >= 400 ? BoldColor.GREEN.getColor() + "Click to Roll!" : BoldColor.RED.getColor() + "Need more souls!"))
                 .lore(ChatColor.GRAY + "Cost: " + ChatColor.AQUA + "400 Souls")
                 .durability(5));
         inv.setItem(10, new I(Material.INK_SACK).name(BoldColor.GREEN.getColor() + "ACTIVE")

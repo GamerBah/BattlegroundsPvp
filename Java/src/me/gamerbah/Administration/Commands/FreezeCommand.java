@@ -42,7 +42,7 @@ public class FreezeCommand implements CommandExecutor {
         Player player = (Player) sender;
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
 
-        if (!playerData.hasRank(Rank.MODERATOR)) {
+        if (!playerData.hasRank(Rank.MODERATOR) && !player.isOp()) {
             plugin.sendNoPermission(player);
             return true;
         }
@@ -61,6 +61,9 @@ public class FreezeCommand implements CommandExecutor {
                     plugin.playSound(player, EventSound.COMMAND_SUCCESS);
                     if (!pData.hasRank(Rank.MODERATOR)) {
                         p.setWalkSpeed(0F);
+                        p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, -50, true, false));
+                        p.setFoodLevel(6);
+                        player.setSaturation(0);
                     }
                 }
             } else {
@@ -69,7 +72,7 @@ public class FreezeCommand implements CommandExecutor {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     PlayerData pData = plugin.getPlayerData(p.getUniqueId());
                     if (!pData.hasRank(Rank.MODERATOR)) {
-                        plugin.respawn(p, p.getWorld().getSpawnLocation());
+                        plugin.respawn(p);
                         p.setWalkSpeed(0.2F);
                     }
                     plugin.playSound(player, EventSound.COMMAND_SUCCESS);

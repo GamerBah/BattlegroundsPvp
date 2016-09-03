@@ -23,7 +23,7 @@ public class GlassCannon extends Kit {
                 .lore("§7   ● Leather Chestplate")
                 .lore("§7   ● Leather Leggings")
                 .lore("§7   ● Leather Boots")
-                .lore("§7   ● Wooden Sword (Sharpness IV)")
+                .lore("§7   ● Wooden Sword (Sharpness V)")
                 .flag(ItemFlag.HIDE_ATTRIBUTES), Rarity.EPIC);
     }
 
@@ -33,13 +33,14 @@ public class GlassCannon extends Kit {
         }
         player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1, true, false));
         player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 0, true, false));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0, false, false));
 
         player.getInventory().setHelmet(new I(Material.LEATHER_HELMET).name(Rarity.EPIC.getColor() + "Glass Cannon Helmet").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
         player.getInventory().setChestplate(new I(Material.LEATHER_CHESTPLATE).name(Rarity.EPIC.getColor() + "Glass Cannon Chestplate").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
         player.getInventory().setLeggings(new I(Material.LEATHER_LEGGINGS).name(Rarity.EPIC.getColor() + "Glass Cannon Leggings").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
         player.getInventory().setBoots(new I(Material.LEATHER_BOOTS).name(Rarity.EPIC.getColor() + "Glass Cannon Boots").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
-        ItemStack sword = new ItemStack(new I(Material.WOOD_SWORD).name(Rarity.EPIC.getColor() + "Glass Cannon Sword").enchantment(Enchantment.DAMAGE_ALL, 4).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        ItemStack sword = new ItemStack(new I(Material.WOOD_SWORD).name(Rarity.EPIC.getColor() + "Glass Cannon Sword").enchantment(Enchantment.DAMAGE_ALL, 5).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
         player.getInventory().addItem(sword);
     }

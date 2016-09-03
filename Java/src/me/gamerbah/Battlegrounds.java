@@ -30,7 +30,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.inventivetalent.glow.GlowAPI;
 
 import java.io.File;
 import java.io.IOException;
@@ -99,7 +98,7 @@ public class Battlegrounds extends JavaPlugin {
             PlayerData playerData = getPlayerData(player.getUniqueId());
             ScoreboardListener scoreboardListener = new ScoreboardListener(this);
             KDRatio kdRatio = new KDRatio(this);
-            GlowAPI.setGlowing(player, null, getServer().getOnlinePlayers());
+            //GlowAPI.setGlowing(player, null, getServer().getOnlinePlayers());
             scoreboardListener.getRanks().put(player.getUniqueId(), playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase());
             scoreboardListener.getKills().put(player.getUniqueId(), playerData.getKills());
             scoreboardListener.getDeaths().put(player.getUniqueId(), playerData.getDeaths());
@@ -275,7 +274,7 @@ public class Battlegrounds extends JavaPlugin {
 
     public void createPlayerData(UUID uuid, String name) {
         sql.executeUpdate(Query.CREATE_PLAYER_DATA, uuid.toString(), name);
-        getServer().getScheduler().runTaskLater(this, () -> playerData.add(sql.getPlayerData(uuid)), 4L);
+        getServer().getScheduler().runTaskLater(this, () -> playerData.add(sql.getPlayerData(uuid)), 5L);
     }
 
     public HashMap<UUID, Integer> getEssenceData(Essence.Type type) {
@@ -304,7 +303,7 @@ public class Battlegrounds extends JavaPlugin {
 
     public void createEssenceData(UUID uuid, Essence.Type type, int amount) {
         sql.executeUpdate(Query.CREATE_ESSENCE_DATA, uuid.toString(), type.toString(), amount);
-        getServer().getScheduler().runTaskLater(this, () -> getEssenceData(type).put(uuid, amount), 4L);
+        getServer().getScheduler().runTaskLater(this, () -> getEssenceData(type).put(uuid, amount), 5L);
     }
 
     private Punishment getPunishment(UUID uuid, Punishment.Type type, LocalDateTime date) {
@@ -333,7 +332,7 @@ public class Battlegrounds extends JavaPlugin {
             ArrayList<Punishment> punishments = playerPunishments.get(uuid);
             punishments.add(sql.getPunishment(uuid, type, date));
             playerPunishments.put(uuid, punishments);
-        }, 20L);
+        }, 40L);
     }
 
     public void reloadPunishments() {

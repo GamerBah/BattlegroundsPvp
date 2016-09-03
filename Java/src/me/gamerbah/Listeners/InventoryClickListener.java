@@ -285,9 +285,12 @@ public class InventoryClickListener implements Listener {
                 ItemStack item = event.getCurrentItem();
                 event.setCancelled(true);
 
-                Trail.Type trail = Trail.typeFromName(item.getItemMeta().getDisplayName().substring(4, item.getItemMeta().getDisplayName().length()));
+                Trail.Type trail = Trail.typeFromName(item.getItemMeta().getDisplayName().substring(2, item.getItemMeta().getDisplayName().length()));
                 if (trail == null) {
-                    return;
+                    trail = Trail.typeFromName(item.getItemMeta().getDisplayName().substring(4, item.getItemMeta().getDisplayName().length()));
+                    if (trail == null) {
+                        return;
+                    }
                 }
                 playerData.setTrail(trail);
                 player.closeInventory();

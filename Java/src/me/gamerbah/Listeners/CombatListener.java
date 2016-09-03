@@ -42,9 +42,19 @@ public class CombatListener implements Listener {
             Player damager = (Player) event.getDamager();
             Player damaged = (Player) event.getEntity();
 
-            if (Battlegrounds.currentTeams.containsKey(damaged.getName()) || Battlegrounds.currentTeams.containsKey(damager.getName())) {
-                if (Battlegrounds.currentTeams.get(damaged.getName()).equals(damager.getName())
-                        || Battlegrounds.currentTeams.get(damager.getName()).equals(damaged.getName())) {
+            if (Battlegrounds.currentTeams.containsKey(damaged.getName())) {
+                if (Battlegrounds.currentTeams.get(damaged.getName()).equals(damager.getName())) {
+                    if (plugin.getServer().getOnlinePlayers().size() >= 1) {
+                        event.setCancelled(true);
+                        return;
+                    }
+                } else {
+                    event.setCancelled(false);
+                }
+            }
+
+            if (Battlegrounds.currentTeams.containsKey(damager.getName())) {
+                if (Battlegrounds.currentTeams.get(damager.getName()).equals(damaged.getName())) {
                     if (plugin.getServer().getOnlinePlayers().size() >= 1) {
                         event.setCancelled(true);
                         return;

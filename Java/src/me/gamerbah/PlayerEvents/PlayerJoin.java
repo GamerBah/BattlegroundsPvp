@@ -3,7 +3,9 @@ package me.gamerbah.PlayerEvents;
 
 
 import com.connorlinfoot.titleapi.TitleAPI;
+import me.gamerbah.Administration.Commands.FreezeCommand;
 import me.gamerbah.Administration.Data.PlayerData;
+import me.gamerbah.Administration.Donations.DonationMessages;
 import me.gamerbah.Administration.Donations.Essence;
 import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
@@ -18,6 +20,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.inventivetalent.tabapi.TabAPI;
 
 import java.time.LocalDateTime;
@@ -51,7 +55,7 @@ public class PlayerJoin implements Listener {
                         event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, ChatColor.RED + "You were banned by " + ChatColor.GOLD + playerData.getName()
                                 + ChatColor.RED + " for " + ChatColor.GOLD + punishment.getReason().getName() + "\n" + ChatColor.AQUA
                                 + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(PST)'")) + "\n\n" + ChatColor.YELLOW
-                                + punishment.getReason().getMessage() + "\n\n" + ChatColor.GRAY + "Appeal your ban on the forums: battlegroundspvp.enjin.com/forums");
+                                + punishment.getReason().getMessage() + "\n\n" + ChatColor.GRAY + "Appeal your ban on the forums: battlegroundspvp.com/forums");
                     }
                 }
             }
@@ -66,8 +70,10 @@ public class PlayerJoin implements Listener {
         }
 
         PlayerData playerData = plugin.getPlayerData(event.getUniqueId());
-        if (LocalDateTime.now().minusSeconds(86400).isAfter(playerData.getDailyRewardLast())) {
-            playerData.setDailyReward(false);
+        if (playerData != null) {
+            if (LocalDateTime.now().minusSeconds(86400).isAfter(playerData.getDailyRewardLast())) {
+                playerData.setDailyReward(false);
+            }
         }
     }
 
@@ -125,18 +131,33 @@ public class PlayerJoin implements Listener {
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                     player.spigot().sendMessage(baseComponent);
                     plugin.playSound(player, EventSound.COMMAND_SUCCESS);
-                }, 5L);
+                }, 2L);
             }
+        }
+
+        if (FreezeCommand.frozen || FreezeCommand.frozenPlayers.contains(player)) {
+            player.setWalkSpeed(0F);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, -50, true, false));
+            player.setFoodLevel(6);
+            player.setSaturation(0);
         }
 
         player.setPlayerListName((playerData.hasRank(Rank.WARRIOR) ? playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")
                 + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : ChatColor.GRAY) + player.getName());
 
         TabAPI.setHeader(player, ChatColor.AQUA + "You are playing on", BoldColor.GOLD.getColor() + "BATTLEGROUNDS");
-        TabAPI.setFooter(player, ChatColor.RED + "Visit our store!", ChatColor.YELLOW + "battlegroundspvp.enjin.com/store");
+        TabAPI.setFooter(player, ChatColor.RED + "Visit our store!", ChatColor.YELLOW + "battlegroundspvp.com/store");
 
         player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(20);
         plugin.respawn(player);
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            if (plugin.getConfig().getBoolean("essenceActive")) {
+                DonationMessages donationMessages = new DonationMessages(plugin);
+                if (!plugin.getConfig().getStringList("essenceThanks").contains(player.getName())) {
+                    donationMessages.sendActiveEssenceMessage(player);
+                }
+            }
+        }, 2L);
     }
 
 }

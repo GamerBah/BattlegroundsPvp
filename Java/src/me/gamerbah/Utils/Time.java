@@ -69,11 +69,11 @@ public enum Time {
                         if (minutes <= 0) {
                             return seconds + sl;
                         }
-                        return minutes + " min" + (seconds == 0 ? "" : ", " + seconds + " sec");
+                        return minutes + " min" + (seconds == 0 ? "" : " " + seconds + " sec");
                     }
-                    return hours + (hours == 1 ? " hr" : " hrs") + (minutes == 0 ? "" : ", " + minutes + " min");
+                    return hours + (hours == 1 ? " hr" : " hrs") + (minutes == 0 ? "" : " " + minutes + " min");
                 }
-                return days + dl + ", " + (hours == 1 ? " hr" : " hrs") + ", " + minutes + " min";
+                return days + dl + ", " + (hours == 1 ? " hr" : " hrs") + " " + minutes + " min";
             }
             return weeks + wl + ", " + days + dl;
         } else {

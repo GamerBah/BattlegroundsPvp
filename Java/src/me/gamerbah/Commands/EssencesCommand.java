@@ -43,7 +43,7 @@ public class EssencesCommand implements CommandExecutor {
         }
         if (amount == 0) {
             player.sendMessage(ChatColor.RED + "You don't have any Battle Essences!");
-            player.sendMessage(ChatColor.YELLOW + "Buy one from our store! " + ChatColor.GOLD + "battlegroundspvp.enjin.com/store");
+            player.sendMessage(ChatColor.YELLOW + "Buy one from our store! " + ChatColor.GOLD + "battlegroundspvp.com/store");
             plugin.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }

@@ -75,7 +75,7 @@ public class ThanksCommand implements CommandExecutor {
         scoreboardListener.updateScoreboardSouls(player);
         player.sendMessage(ChatColor.GRAY + "You thanked " + target.getName() + " for the Essence! " + ChatColor.AQUA + "[+20 Souls]");
 
-        if (!player.isOnline()) {
+        if (!target.isOnline()) {
             targetData.setSouls(targetData.getSouls() + 20);
         } else {
             Player t = plugin.getServer().getPlayer(target.getUniqueId());

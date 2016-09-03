@@ -35,7 +35,7 @@ public class SettingsMenu {
         inv.setItem(15, new I(Material.BLAZE_POWDER).name((amount == 0 ? ChatColor.RED + "Battle Essence" : ChatColor.GREEN + "Battle Essence"))
                 .amount(amount).lore(amount == 0 ? ChatColor.GRAY + "You don't have Battle Essence!" : ChatColor.GRAY + "You have " + ChatColor.AQUA + amount + ChatColor.GRAY + " Battle "
                         + (amount == 1 ? "Essence" : "Essences")).lore(" ").lore(ChatColor.GRAY + "You can purchase Battle Essences at our store!")
-                .lore(ChatColor.YELLOW + "battlgroundspvp.enjin.com/store"));
+                .lore(ChatColor.YELLOW + "battlegroundspvp.com/store"));
         inv.setItem(24, new I(Material.EMERALD).name(ChatColor.AQUA + "Achievements").lore(ChatColor.GRAY + "View your completed achievements"));
 
         if (!playerData.isTeamRequests()) {

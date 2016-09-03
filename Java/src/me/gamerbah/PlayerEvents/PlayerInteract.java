@@ -2,6 +2,7 @@ package me.gamerbah.PlayerEvents;
 /* Created by GamerBah on 8/13/2016 */
 
 
+import me.gamerbah.Administration.Commands.FreezeCommand;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Etc.Menus.SettingsMenu;
@@ -43,6 +44,11 @@ public class PlayerInteract implements Listener {
 
         if (event.getAction() == Action.PHYSICAL && event.getClickedBlock().getType() == Material.SOIL) {
             event.setCancelled(true);
+        }
+
+        if (FreezeCommand.frozen || FreezeCommand.frozenPlayers.contains(player)) {
+            event.setCancelled(true);
+            return;
         }
 
         if (item != null) {

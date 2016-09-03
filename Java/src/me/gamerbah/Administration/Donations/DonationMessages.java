@@ -2,8 +2,10 @@ package me.gamerbah.Administration.Donations;
 /* Created by GamerBah on 8/18/2016 */
 
 
+import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.Messages.BoldColor;
+import me.gamerbah.Utils.Time;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.Sound;
@@ -65,6 +67,35 @@ public class DonationMessages {
             player.sendMessage(type.getColor() + "\u00AB" + ChatColor.WHITE + "========================================" + type.getColor() + "\u00BB");
             player.sendMessage(" ");
         }
+    }
+
+    public void sendActiveEssenceMessage(Player player) {
+        PlayerData playerData = plugin.getPlayerData(plugin.getConfig().getString("essenceOwner"));
+        TextComponent thanks = new TextComponent("    " + ChatColor.DARK_AQUA + "Click here to thank them!");
+        thanks.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.RED + "/thanks " + playerData.getName()).create()));
+        thanks.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/thanks " + playerData.getName()));
+
+        Essence.Type type = Essence.Type.ONE_HOUR_50_PERCENT;
+        for (Essence.Type essence : Essence.Type.values()) {
+            if (essence.getTime() == plugin.getConfig().getInt("essenceTime") && essence.getIncrease() == plugin.getConfig().getInt("essenceIncrease")) {
+                type = essence;
+            }
+        }
+
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 2, 1);
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_SMALL_FALL, 0.75F, 0.2F), 10L);
+        player.sendMessage(type.getColor() + "\u00AB" + ChatColor.WHITE + "========================================" + type.getColor() + "\u00BB");
+        player.sendMessage(" ");
+        player.sendMessage("    " + BoldColor.GOLD.getColor() + (!player.getName().equals(plugin.getConfig().getString("essenceOwner"))
+                ? playerData.getName() + BoldColor.YELLOW.getColor() + " has an active Battle Essence!" : "Your " + plugin.getConfig().getInt("essenceIncrease") + "% Battle Essence is still active!"));
+        player.sendMessage(ChatColor.GRAY + "    All players receive " + type.getColor() + type.getIncrease() + "% more " + ChatColor.GRAY + "Souls");
+        player.sendMessage(ChatColor.GRAY + "    and Battle Coins for " + ChatColor.RED + Time.toString(plugin.getConfig().getInt("essenceTimeRemaining") * 1000, true) + ChatColor.GRAY + "!");
+        player.sendMessage(" ");
+        if (!player.getName().equals(plugin.getConfig().getString("essenceOwner"))) {
+            player.spigot().sendMessage(thanks);
+            player.sendMessage(" ");
+        }
+        player.sendMessage(type.getColor() + "\u00AB" + ChatColor.WHITE + "========================================" + type.getColor() + "\u00BB");
     }
 
 }

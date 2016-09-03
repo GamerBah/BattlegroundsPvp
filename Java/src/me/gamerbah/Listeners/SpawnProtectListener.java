@@ -67,7 +67,7 @@ public class SpawnProtectListener implements Listener {
         Entity entity = event.getEntity();
         Location location = entity.getLocation();
 
-        if (location.distance(location.getWorld().getSpawnLocation()) <= 11) {
+        if (location.distance(location.getWorld().getSpawnLocation()) <= 12) {
             entity.remove();
         }
     }

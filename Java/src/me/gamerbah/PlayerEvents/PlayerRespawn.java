@@ -2,6 +2,7 @@ package me.gamerbah.PlayerEvents;
 /* Created by GamerBah on 8/9/2016 */
 
 
+import me.gamerbah.Administration.Commands.FreezeCommand;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.I;
 import me.gamerbah.Utils.Kits.Kit;
@@ -16,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class PlayerRespawn implements Listener {
 
@@ -47,6 +49,13 @@ public class PlayerRespawn implements Listener {
         player.setAllowFlight(false);
         for (PotionEffect effect : player.getActivePotionEffects()) {
             player.removePotionEffect(effect.getType());
+        }
+
+        if (FreezeCommand.frozenPlayers.contains(player) || FreezeCommand.frozen) {
+            player.setWalkSpeed(0F);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, -50, true, false));
+            player.setFoodLevel(6);
+            player.setSaturation(0);
         }
 
         player.getInventory().setItem(0, new I(Material.NETHER_STAR)

@@ -34,16 +34,16 @@ public class WorldParticlesRunnable implements Runnable {
                 if (location != null) {
                     if (i <= 10) {
                         location = location.add(0, 0, round(i / 5.5 / 10, 1));
-                        ParticleEffect.FIREWORKS_SPARK.send(Bukkit.getOnlinePlayers(), location, 0, 0, 0, 0, 1, 25);
+                        ParticleEffect.FIREWORKS_SPARK.send(Bukkit.getServer().getOnlinePlayers(), location, 0, 0, 0, 0, 1, 25);
                     } else if (i <= 20 && i > 10) {
                         location = location.add(round((i - 10) / 5.5 / 10, 1), 0, 0);
-                        ParticleEffect.FIREWORKS_SPARK.send(Bukkit.getOnlinePlayers(), location, 0, 0, 0, 0, 1, 25);
+                        ParticleEffect.FIREWORKS_SPARK.send(Bukkit.getServer().getOnlinePlayers(), location, 0, 0, 0, 0, 1, 25);
                     } else if (i <= 30 && i > 20) {
                         location = location.add(0, 0, round(-(i - 20) / 5.5 / 10, 1));
-                        ParticleEffect.FIREWORKS_SPARK.send(Bukkit.getOnlinePlayers(), location, 0, 0, 0, 0, 1, 25);
+                        ParticleEffect.FIREWORKS_SPARK.send(Bukkit.getServer().getOnlinePlayers(), location, 0, 0, 0, 0, 1, 25);
                     } else if (i <= 40 && i > 30) {
                         location = location.add(round(-(i - 30) / 5.5 / 10, 1), 0, 0);
-                        ParticleEffect.FIREWORKS_SPARK.send(Bukkit.getOnlinePlayers(), location, 0, 0, 0, 0, 1, 25);
+                        ParticleEffect.FIREWORKS_SPARK.send(Bukkit.getServer().getOnlinePlayers(), location, 0, 0, 0, 0, 1, 25);
                     } else if (i > 40) {
                         i -= 40;
                     }

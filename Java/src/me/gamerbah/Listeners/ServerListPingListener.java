@@ -18,7 +18,7 @@ public class ServerListPingListener implements Listener {
     public void onServerPing(ServerListPingEvent event) {
         if (!plugin.getConfig().getBoolean("developmentMode")) {
             event.setMotd("           §7\u00AB  §f\u00AB  §7\u00AB   §6§lBATTLEGROUNDS   §7\u00BB  §f\u00BB  §7\u00BB\n" +
-                    "               §e§lCLOSED ALPHA §c§lCOMING SOON!");
+                    "              §e§lCLOSED ALPHA §a§lIN PROGRESS!");
         } else {
             event.setMotd("           §7\u00AB  §4\u00AB  §7\u00AB   §6§lBATTLEGROUNDS   §7\u00BB  §4\u00BB  §7\u00BB\n" +
                     "                   §c§lIN DEVELOPMENT MODE");
