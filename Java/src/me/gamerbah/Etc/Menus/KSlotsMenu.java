@@ -93,8 +93,8 @@ public class KSlotsMenu {
                     Kit kit = kits.get(ThreadLocalRandom.current().nextInt(0, kits.size()));
                     inventory.setItem(10, kit.getItem());
                     player.openInventory(inventory);
-                    plugin.playSound(player, EventSound.COMMAND_SUCCESS);
-                    plugin.playSound(player, EventSound.COMMAND_CLICK);
+                    Battlegrounds.playSound(player, EventSound.COMMAND_SUCCESS);
+                    Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
                 }
             }, 0L, 2L);
 
@@ -109,10 +109,10 @@ public class KSlotsMenu {
                     if (kit.getItem().equals(inventory.getItem(10))) {
                         finalKit = kit;
                         if (kit.getRarity().equals(Rarity.EPIC)) {
-                            plugin.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
+                            Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
                         }
                         if (kit.getRarity().equals(Rarity.LEGENDARY)) {
-                            plugin.playSound(player, EventSound.ITEM_RECEIVE_LEGENDARY);
+                            Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_LEGENDARY);
                         }
                     }
                 }
@@ -150,10 +150,10 @@ public class KSlotsMenu {
                     if (kit.getItem().equals(inventory.getItem(12))) {
                         finalKit = kit;
                         if (kit.getRarity().equals(Rarity.EPIC)) {
-                            plugin.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
+                            Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
                         }
                         if (kit.getRarity().equals(Rarity.LEGENDARY)) {
-                            plugin.playSound(player, EventSound.ITEM_RECEIVE_LEGENDARY);
+                            Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_LEGENDARY);
                         }
                     }
                 }
@@ -194,10 +194,10 @@ public class KSlotsMenu {
                     if (kit.getItem().equals(inventory.getItem(14))) {
                         finalKit = kit;
                         if (kit.getRarity().equals(Rarity.EPIC)) {
-                            plugin.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
+                            Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
                         }
                         if (kit.getRarity().equals(Rarity.LEGENDARY)) {
-                            plugin.playSound(player, EventSound.ITEM_RECEIVE_LEGENDARY);
+                            Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_LEGENDARY);
                         }
                     }
                 }
@@ -238,10 +238,10 @@ public class KSlotsMenu {
                     if (kit.getItem().equals(inventory.getItem(16))) {
                         finalKit = kit;
                         if (kit.getRarity().equals(Rarity.EPIC)) {
-                            plugin.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
+                            Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
                         }
                         if (kit.getRarity().equals(Rarity.LEGENDARY)) {
-                            plugin.playSound(player, EventSound.ITEM_RECEIVE_LEGENDARY);
+                            Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_LEGENDARY);
                         }
                     }
                 }

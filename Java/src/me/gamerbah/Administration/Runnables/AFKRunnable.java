@@ -21,7 +21,7 @@ public class AFKRunnable implements Runnable {
                     TrailRunnable.getStill().put(player, TrailRunnable.getStill().get(player) + 1);
                 }
                 if (TrailRunnable.getStill().get(player) == 600) {
-                    if (!plugin.getAfk().contains(player.getUniqueId())) {
+                    if (!Battlegrounds.getAfk().contains(player.getUniqueId())) {
                         player.chat("/afk");
                     }
                 }

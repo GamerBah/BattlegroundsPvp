@@ -45,7 +45,7 @@ public class MessageCommand implements CommandExecutor {
                             + ChatColor.WHITE + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Time Remaining: " + ChatColor.WHITE +
                             Time.toString(Time.punishmentTimeRemaining(punishment.getExpiration()), true)).create()));
                     player.spigot().sendMessage(baseComponent);
-                    plugin.playSound(player, EventSound.COMMAND_FAIL);
+                    Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
                     return true;
                 }
             }
@@ -60,7 +60,7 @@ public class MessageCommand implements CommandExecutor {
 
         if (!plugin.getPlayerData(target.getUniqueId()).isPrivateMessaging()) {
             player.sendMessage(ChatColor.RED + "That player isn't accepting private messages!");
-            plugin.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }
 
@@ -71,7 +71,7 @@ public class MessageCommand implements CommandExecutor {
 
         if (Battlegrounds.getAfk().contains(target.getUniqueId())) {
             player.sendMessage(ChatColor.AQUA + target.getName() + " is AFK, so they might not see your message");
-            plugin.playSound(player, EventSound.COMMAND_NEEDS_CONFIRMATION);
+            Battlegrounds.playSound(player, EventSound.COMMAND_NEEDS_CONFIRMATION);
         }
 
         player.sendMessage(ChatColor.DARK_AQUA + "You" + ChatColor.RED + " \u00BB " + BoldColor.AQUA.getColor() + target.getName() + ChatColor.WHITE + ": " + ChatColor.AQUA + message.trim());

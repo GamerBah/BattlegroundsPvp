@@ -47,7 +47,7 @@ public class AutoUpdate implements Runnable {
             PluginUtil.load("Battlegrounds");
 
             for (Player player : plugin.getServer().getOnlinePlayers()) {
-                plugin.playSound(player, EventSound.COMMAND_SUCCESS);
+                Battlegrounds.playSound(player, EventSound.COMMAND_SUCCESS);
             }
             plugin.getServer().broadcastMessage(BoldColor.RED.getColor() + "SERVER: " + ChatColor.GRAY
                     + "Update was a " + BoldColor.GREEN.getColor() + "success" + ChatColor.GRAY + "! Now go have fun!");

@@ -36,16 +36,16 @@ public class PunishCommand implements CommandExecutor {
 
         if (args.length > 1) {
             player.sendMessage(Battlegrounds.incorrectUsage + "/punish [player]");
-            plugin.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }
 
         @SuppressWarnings("deprecation")
-        PlayerData targetData = plugin.getPlayerData(args[0]);
+        PlayerData targetData = Battlegrounds.getSql().getPlayerData(args[0]);
 
         if (targetData == null) {
             player.sendMessage(ChatColor.RED + "That player has never joined before!");
-            plugin.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }
 
@@ -53,7 +53,7 @@ public class PunishCommand implements CommandExecutor {
             OfflinePlayer target = plugin.getServer().getOfflinePlayer(targetData.getUuid());
             if (target == null) {
                 player.sendMessage(ChatColor.RED + "That player isn't online!");
-                plugin.playSound(player, EventSound.COMMAND_FAIL);
+                Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
                 return true;
             }
             PunishMenu punishMenu = new PunishMenu(plugin);

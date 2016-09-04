@@ -9,7 +9,6 @@ public enum Query {
     CREATE_PLAYER_DATA("INSERT IGNORE INTO players (uuid, name) VALUES (?, ?)"),
     GET_PLAYER_DATA_FROM_UUID("SELECT * FROM players WHERE uuid = ?"),
     GET_PLAYER_DATA_FROM_NAME("SELECT * FROM players WHERE name = ?"),
-    UPDATE_PLAYER_DATA("UPDATE players SET rank = ?, kills = ?, deaths = ?, souls = ?, coins = ?, trail = ?, dailyReward = ?, teamRequests = ?, privateMessaging = ?, stealthyJoin = ?, challenges = ?, achievements = ?, essences = ? WHERE id = ?"),
     UPDATE_PLAYER_NAME("UPDATE players SET name = ? WHERE id = ?"),
     UPDATE_PLAYER_RANK("UPDATE players SET rank = ? WHERE id = ?"),
     UPDATE_PLAYER_KILLS("UPDATE players SET kills = ? WHERE id = ?"),

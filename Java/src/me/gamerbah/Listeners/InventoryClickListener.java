@@ -138,7 +138,7 @@ public class InventoryClickListener implements Listener {
                         }
                         if (message == null) {
                             player.closeInventory();
-                            plugin.playSound(player, EventSound.COMMAND_FAIL);
+                            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
                             player.sendMessage(BoldColor.RED.getColor() + "Oops! " + ChatColor.GRAY + "You tried to report a player without selecting any report options!");
                         } else {
                             reportMenu.report(player, target, message);
@@ -148,7 +148,7 @@ public class InventoryClickListener implements Listener {
                     if (item.getDurability() == 14) {
                         player.closeInventory();
                         player.sendMessage(ChatColor.RED + "Report cancelled.");
-                        plugin.playSound(player, EventSound.COMMAND_CLICK);
+                        Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
                     }
                 }
                 event.setCancelled(true);
@@ -203,39 +203,39 @@ public class InventoryClickListener implements Listener {
                         if (!playerData.isStealthyJoin()) {
                             playerData.setStealthyJoin(true);
                             settingsMenu.openInventory(player);
-                            plugin.playSound(player, EventSound.COMMAND_CLICK);
+                            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
                         } else {
                             playerData.setStealthyJoin(false);
-                            plugin.playSound(player, EventSound.COMMAND_CLICK);
+                            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
                             settingsMenu.openInventory(player);
                         }
                     }
                     if (item.getItemMeta().getDisplayName().contains("Messaging")) {
                         if (!playerData.isPrivateMessaging()) {
                             playerData.setPrivateMessaging(true);
-                            plugin.playSound(player, EventSound.COMMAND_CLICK);
+                            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
                             settingsMenu.openInventory(player);
                         } else {
                             playerData.setPrivateMessaging(false);
-                            plugin.playSound(player, EventSound.COMMAND_CLICK);
+                            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
                             settingsMenu.openInventory(player);
                         }
                     }
                     if (item.getItemMeta().getDisplayName().contains("Requests")) {
                         if (!playerData.isTeamRequests()) {
                             playerData.setTeamRequests(true);
-                            plugin.playSound(player, EventSound.COMMAND_CLICK);
+                            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
                             settingsMenu.openInventory(player);
                         } else {
                             playerData.setTeamRequests(false);
-                            plugin.playSound(player, EventSound.COMMAND_CLICK);
+                            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
                             settingsMenu.openInventory(player);
                         }
                     }
                 }
                 if (item.getType().equals(Material.BLAZE_POWDER)) {
                     if (plugin.getTotalEssenceAmount(player) == 0) {
-                        plugin.playSound(player, EventSound.COMMAND_FAIL);
+                        Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
                     } else {
                         essenceMenu.openInventory(player);
                     }
@@ -259,11 +259,11 @@ public class InventoryClickListener implements Listener {
                         if (plugin.getConfig().get("essenceOwner").equals(player.getName())) {
                             player.closeInventory();
                             player.sendMessage(ChatColor.RED + "You already have a Battle Essence active!");
-                            plugin.playSound(player, EventSound.COMMAND_FAIL);
+                            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
                         } else {
                             player.closeInventory();
                             player.sendMessage(ChatColor.RED + "Someone already has a Battle Essence active!");
-                            plugin.playSound(player, EventSound.COMMAND_FAIL);
+                            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
                         }
                     } else {
                         player.closeInventory();
@@ -296,7 +296,7 @@ public class InventoryClickListener implements Listener {
                 player.closeInventory();
                 player.sendMessage(ChatColor.GRAY + (trail.getRarity().equals(Rarity.COMMON)
                         ? "You removed your active particle pack" : "You set your particle pack to " + trail.getRarity().getColor() + trail.getName()));
-                plugin.playSound(player, EventSound.COMMAND_SUCCESS);
+                Battlegrounds.playSound(player, EventSound.COMMAND_SUCCESS);
             }
 
             if (event.getClickedInventory().getName().contains("Punish Menu")) {
@@ -361,7 +361,7 @@ public class InventoryClickListener implements Listener {
                                 ? BoldColor.GREEN.getColor() + "Click to Roll!" : BoldColor.RED.getColor() + "Need More Souls!"))
                                 .lore(ChatColor.GRAY + "Cost: " + ChatColor.AQUA + 400 * selectedInInventory(inventory) + " Souls")
                                 .durability(5));
-                        plugin.playSound(player, EventSound.COMMAND_CLICK);
+                        Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
                         player.openInventory(inventory);
                     }
                     if (item.getDurability() == 10) {
@@ -374,7 +374,7 @@ public class InventoryClickListener implements Listener {
                                     ? BoldColor.GREEN.getColor() + "Click to Roll!" : BoldColor.RED.getColor() + "Need More Souls!"))
                                     .lore(ChatColor.GRAY + "Cost: " + ChatColor.AQUA + 400 * selectedInInventory(inventory) + " Souls")
                                     .durability(5));
-                            plugin.playSound(player, EventSound.COMMAND_CLICK);
+                            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
                             player.openInventory(inventory);
                         }
                     }
@@ -382,7 +382,7 @@ public class InventoryClickListener implements Listener {
 
                 if (item.getType().equals(Material.WOOL)) {
                     if (playerData.getSouls() < 400 * selectedInInventory(inventory)) {
-                        plugin.playSound(player, EventSound.COMMAND_FAIL);
+                        Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
                     } else {
                         KSlotsMenu kSlotsMenu = new KSlotsMenu(plugin);
                         kSlotsMenu.beginSlots(player, selectedInInventory(inventory));
@@ -390,7 +390,7 @@ public class InventoryClickListener implements Listener {
                 }
                 if (item.getType().equals(Material.END_CRYSTAL)) {
                     if (playerData.getSouls() < 400 * selectedInInventory(inventory)) {
-                        plugin.playSound(player, EventSound.COMMAND_FAIL);
+                        Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
                         player.closeInventory();
                         player.sendMessage(ChatColor.RED + "You don't have enough Souls to use the machine again!");
                     } else {

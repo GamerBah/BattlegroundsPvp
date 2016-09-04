@@ -47,7 +47,7 @@ public class ChatCommands implements CommandExecutor {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     p.sendMessage(BoldColor.RED.getColor() + "The chat has been cleared by " + player.getName() + "!");
                     p.sendMessage(" ");
-                    plugin.playSound(p, EventSound.COMMAND_SUCCESS);
+                    Battlegrounds.playSound(p, EventSound.COMMAND_SUCCESS);
                 }
             }
         }
@@ -63,7 +63,7 @@ public class ChatCommands implements CommandExecutor {
                         p.sendMessage(" ");
                         p.sendMessage(BoldColor.RED.getColor() + "The chat has been locked by " + player.getName() + "!");
                         p.sendMessage(" ");
-                        plugin.playSound(p, EventSound.COMMAND_SUCCESS);
+                        Battlegrounds.playSound(p, EventSound.COMMAND_SUCCESS);
                     }
                 } else {
                     chatSilenced = false;
@@ -71,7 +71,7 @@ public class ChatCommands implements CommandExecutor {
                         p.sendMessage(" ");
                         p.sendMessage(BoldColor.GREEN.getColor() + "All chat has been re-enabled!");
                         p.sendMessage(" ");
-                        plugin.playSound(p, EventSound.COMMAND_SUCCESS);
+                        Battlegrounds.playSound(p, EventSound.COMMAND_SUCCESS);
                     }
                 }
             }
@@ -85,11 +85,11 @@ public class ChatCommands implements CommandExecutor {
                 if (!cmdspies.contains(player.getUniqueId())) {
                     cmdspies.add(player.getUniqueId());
                     player.sendMessage(ChatColor.YELLOW + "Command Spy " + BoldColor.GREEN.getColor() + "ENABLED");
-                    plugin.playSound(player, EventSound.COMMAND_SUCCESS);
+                    Battlegrounds.playSound(player, EventSound.COMMAND_SUCCESS);
                 } else {
                     cmdspies.remove(player.getUniqueId());
                     player.sendMessage(ChatColor.YELLOW + "Command Spy " + BoldColor.RED.getColor() + "DISABLED");
-                    plugin.playSound(player, EventSound.COMMAND_SUCCESS);
+                    Battlegrounds.playSound(player, EventSound.COMMAND_SUCCESS);
                 }
             }
         }

@@ -41,7 +41,7 @@ public class UnmuteCommand implements CommandExecutor {
 
         if (args.length != 1) {
             player.sendMessage(ChatColor.RED + "/unmute <player>");
-            plugin.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }
 
@@ -50,13 +50,13 @@ public class UnmuteCommand implements CommandExecutor {
 
         if (targetData == null) {
             player.sendMessage(ChatColor.RED + "That player is not online or doesn't exist!");
-            plugin.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }
 
         if (targetData == playerData) {
             player.sendMessage(ChatColor.RED + "You can't unmute yourself!");
-            plugin.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }
 
@@ -79,7 +79,7 @@ public class UnmuteCommand implements CommandExecutor {
 
         if (p == null) {
             player.sendMessage(ChatColor.RED + "That player isn't muted!");
-            plugin.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }
 

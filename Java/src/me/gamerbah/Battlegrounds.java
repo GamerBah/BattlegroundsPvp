@@ -54,6 +54,7 @@ public class Battlegrounds extends JavaPlugin {
     public SlackApi slackStaffRequests = null;
     public SlackApi slackDonations = null;
     public SlackApi slackPunishments = null;
+    @Getter
     private HashSet<PlayerData> playerData = new HashSet<>();
     @Getter
     private HashMap<UUID, ArrayList<Punishment>> playerPunishments = new HashMap<>();
@@ -83,6 +84,11 @@ public class Battlegrounds extends JavaPlugin {
     private ArrayList<Location> fireworkBlocks = new ArrayList<>();
     @Getter
     private ArrayList<Location> launchers = new ArrayList<>();
+
+    public static void playSound(Player player, EventSound eventSound) {
+        player.playSound(player.getLocation(), eventSound.getSound1(), eventSound.getVol1(), eventSound.getPtch1());
+        player.playSound(player.getLocation(), eventSound.getSound2(), eventSound.getVol2(), eventSound.getPtch2());
+    }
 
     public void onEnable() {
         instance = this;
@@ -236,11 +242,6 @@ public class Battlegrounds extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerItemPickup(this), this);
         getServer().getPluginManager().registerEvents(new SpawnProtectListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerSwapHands(this), this);
-    }
-
-    public void playSound(Player player, EventSound eventSound) {
-        player.playSound(player.getLocation(), eventSound.getSound1(), eventSound.getVol1(), eventSound.getPtch1());
-        player.playSound(player.getLocation(), eventSound.getSound2(), eventSound.getVol2(), eventSound.getPtch2());
     }
 
     public PlayerData getPlayerData(UUID uuid) {

@@ -53,7 +53,7 @@ public class ReportCommand implements CommandExecutor {
                             + ChatColor.WHITE + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Time Remaining: " + ChatColor.WHITE +
                             Time.toString(Time.punishmentTimeRemaining(punishment.getExpiration()), true)).create()));
                     player.spigot().sendMessage(baseComponent);
-                    plugin.playSound(player, EventSound.COMMAND_FAIL);
+                    Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
                     return true;
                 }
             }
@@ -61,7 +61,7 @@ public class ReportCommand implements CommandExecutor {
 
         if (args.length != 1) {
             player.sendMessage(Battlegrounds.incorrectUsage + "/report <player>");
-            plugin.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }
 
@@ -69,13 +69,13 @@ public class ReportCommand implements CommandExecutor {
 
         if (reported == null) {
             player.sendMessage(ChatColor.RED + "That player isn't online!");
-            plugin.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }
 
         if (reported == player) {
             player.sendMessage(ChatColor.RED + "You can't report yourself! Unless you have something to tell us.... *gives suspicious look*");
-            plugin.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }
 
@@ -85,7 +85,7 @@ public class ReportCommand implements CommandExecutor {
             reportArray.put(player.getUniqueId(), new ArrayList<>());
             reportMenu.openInventory(player, reported);
         } else {
-            plugin.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
             player.sendMessage(ChatColor.RED + "You must wait " + ChatColor.YELLOW
                     + cooldown.get(player.getUniqueId()) + " seconds " + ChatColor.RED + "before you report another player!");
             return false;

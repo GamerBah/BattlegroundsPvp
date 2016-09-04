@@ -51,7 +51,7 @@ public class TrailRunnable implements Runnable {
                         if (!still.containsKey(player)) {
                             TitleAPI.clearTitle(player);
                             player.sendMessage(ChatColor.GRAY + "You are no longer AFK");
-                            plugin.playSound(player, EventSound.COMMAND_CLICK);
+                            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
                             Battlegrounds.getAfk().remove(player.getUniqueId());
                             plugin.respawn(player);
                             player.removePotionEffect(PotionEffectType.INVISIBILITY);

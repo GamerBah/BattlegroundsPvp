@@ -5,6 +5,7 @@ import me.gamerbah.Administration.Commands.FreezeCommand;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.I;
 import me.gamerbah.Utils.Rarity;
 import net.md_5.bungee.api.ChatColor;
@@ -95,8 +96,12 @@ public abstract class Kit implements Listener, CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (command.getName().equalsIgnoreCase(getName().replaceAll("\\s+", ""))) {
-                if (!FreezeCommand.frozenPlayers.contains(player) && !FreezeCommand.frozen) {
+                if (!FreezeCommand.frozenPlayers.contains(player) && !FreezeCommand.frozen && Battlegrounds.getSql().getPlayerData(player.getUniqueId()).getOwnedKits().contains(this.getId() + ",")) {
                     wearCheckLevel(player);
+                }
+                if (!Battlegrounds.getSql().getPlayerData(player.getUniqueId()).getOwnedKits().contains(this.getId() + ",")) {
+                    player.sendMessage(ChatColor.RED + "You haven't unlocked this kit yet!");
+                    Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
                 }
             }
         }

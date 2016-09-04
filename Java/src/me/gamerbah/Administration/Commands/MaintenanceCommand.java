@@ -36,7 +36,7 @@ public class MaintenanceCommand implements CommandExecutor {
 
         if (args.length != 1) {
             player.sendMessage(ChatColor.RED + "Code required.");
-            plugin.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }
 
@@ -52,7 +52,7 @@ public class MaintenanceCommand implements CommandExecutor {
                             + "MAINTENANCE MODE\n\n" + ChatColor.AQUA + "This means that we are fixing bugs, or found another issue we needed to take care of\n\n"
                             + ChatColor.GRAY + "We put the server into Maintenance Mode in order to reduce the risk of\n§7corrupting player data, etc. The server should be open shortly!");
                 }
-                plugin.playSound(players, EventSound.COMMAND_SUCCESS);
+                Battlegrounds.playSound(players, EventSound.COMMAND_SUCCESS);
             }
             plugin.getConfig().set("developmentMode", true);
             plugin.saveConfig();
@@ -62,7 +62,7 @@ public class MaintenanceCommand implements CommandExecutor {
             plugin.saveConfig();
             for (Player players : plugin.getServer().getOnlinePlayers()) {
                 players.sendMessage(BoldColor.RED.getColor() + "\nSERVER IS NO LONGER IN " + BoldColor.GOLD.getColor() + "MAINTENANCE MODE\n ");
-                plugin.playSound(players, EventSound.COMMAND_SUCCESS);
+                Battlegrounds.playSound(players, EventSound.COMMAND_SUCCESS);
             }
         }
 

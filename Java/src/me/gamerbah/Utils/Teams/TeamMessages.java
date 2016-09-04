@@ -18,10 +18,10 @@ public class TeamMessages {
     }
 
     public void sendRequestMessage(Player sender, Player target) {
-        plugin.playSound(sender, EventSound.TEAM_REQUEST);
+        Battlegrounds.playSound(sender, EventSound.TEAM_REQUEST);
         sender.sendMessage(WHITE + "   \u00AB " + GREEN + "Your request to team has been sent to " + YELLOW + target.getName() + WHITE + " \u00BB");
 
-        plugin.playSound(target, EventSound.TEAM_REQUEST);
+        Battlegrounds.playSound(target, EventSound.TEAM_REQUEST);
         target.sendMessage(" ");
         target.sendMessage(GOLD + "   \u00AB " + WHITE + "========================================" + GOLD + " \u00BB");
         target.sendMessage(" ");
@@ -37,18 +37,18 @@ public class TeamMessages {
     }
 
     public void sendAcceptMessage(Player target, Player sender) {
-        plugin.playSound(sender, EventSound.TEAM_REQUEST_ACCEPT);
+        Battlegrounds.playSound(sender, EventSound.TEAM_REQUEST_ACCEPT);
         sender.sendMessage(GREEN + "   \u00AB " + AQUA + target.getName() + YELLOW + " has " + GREEN + "accepted " + YELLOW + "your request to team!" + GREEN + " \u00BB");
 
-        plugin.playSound(target, EventSound.TEAM_REQUEST_ACCEPT);
+        Battlegrounds.playSound(target, EventSound.TEAM_REQUEST_ACCEPT);
         target.sendMessage(GREEN + "   \u00AB " + YELLOW + "You have " + GREEN + "accepted " + AQUA + sender.getName() + YELLOW + "'s request to team!" + GREEN + " \u00BB");
     }
 
     public void sendDeclineMessage(Player target, Player sender) {
-        plugin.playSound(sender, EventSound.TEAM_REQUEST_DENY);
+        Battlegrounds.playSound(sender, EventSound.TEAM_REQUEST_DENY);
         sender.sendMessage(RED + "   \u00AB " + AQUA + target.getName() + YELLOW + " has " + RED + "declined " + YELLOW + "your request to team!" + RED + " \u00BB");
 
-        plugin.playSound(target, EventSound.TEAM_REQUEST_DENY);
+        Battlegrounds.playSound(target, EventSound.TEAM_REQUEST_DENY);
         target.sendMessage(RED + "   \u00AB " + YELLOW + "You have " + RED + "declined " + AQUA + sender.getName() + YELLOW + "'s request to team!" + RED + " \u00BB");
     }
 }

@@ -29,7 +29,7 @@ public class EssencesCommand implements CommandExecutor {
         Player player = (Player) sender;
         if (args.length != 0) {
             player.sendMessage(Battlegrounds.incorrectUsage + "/essences");
-            plugin.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }
 
@@ -44,7 +44,7 @@ public class EssencesCommand implements CommandExecutor {
         if (amount == 0) {
             player.sendMessage(ChatColor.RED + "You don't have any Battle Essences!");
             player.sendMessage(ChatColor.YELLOW + "Buy one from our store! " + ChatColor.GOLD + "battlegroundspvp.com/store");
-            plugin.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
             return true;
         }
 

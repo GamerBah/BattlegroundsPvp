@@ -45,7 +45,7 @@ public class PlayerQuit implements Listener {
         if (plugin.getServer().getOnlinePlayers().size() < 10) {
             plugin.getServer().getOnlinePlayers().stream().filter(players -> Battlegrounds.currentTeams.containsKey(players.getName())
                     || Battlegrounds.currentTeams.containsValue(players.getName())).forEach(players -> {
-                plugin.playSound(player, EventSound.COMMAND_NEEDS_CONFIRMATION);
+                Battlegrounds.playSound(player, EventSound.COMMAND_NEEDS_CONFIRMATION);
                 players.sendMessage(ChatColor.RED + "Since there are less than 10 players online, your team has been suspended!");
                 players.sendMessage(ChatColor.GRAY + "It will resume once there are 10 players online again");
             });

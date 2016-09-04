@@ -52,7 +52,7 @@ public class PlayerCommandPreProccess implements Listener {
         if (Battlegrounds.getAfk().contains(player.getUniqueId()) && !StringUtils.startsWithIgnoreCase(command, "/afk") && !StringUtils.startsWithIgnoreCase(command, "/spawn")) {
             Battlegrounds.getAfk().remove(player.getUniqueId());
             player.sendMessage(ChatColor.GRAY + "You are no longer AFK");
-            plugin.playSound(player, EventSound.COMMAND_CLICK);
+            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
             TitleAPI.clearTitle(player);
             player.removePotionEffect(PotionEffectType.INVISIBILITY);
             plugin.respawn(player);
