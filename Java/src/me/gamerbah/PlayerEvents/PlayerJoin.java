@@ -109,6 +109,10 @@ public class PlayerJoin implements Listener {
         } else {
             if (playerData.isStealthyJoin()) {
                 event.setJoinMessage(null);
+                plugin.getServer().getOnlinePlayers().stream().filter(staff ->
+                        plugin.getPlayerData(staff.getUniqueId()).hasRank(Rank.ADMIN)).forEach(staff ->
+                        staff.sendMessage(BoldColor.DARK_GRAY.getColor() + "[" + BoldColor.GREEN.getColor() + "+"
+                                + BoldColor.DARK_GRAY.getColor() + "] " + ChatColor.WHITE + event.getPlayer().getName()));
             } else {
                 if (!player.getName().equals(playerData.getName())) {
                     String oldName = playerData.getName();

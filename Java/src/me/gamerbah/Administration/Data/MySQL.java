@@ -39,6 +39,34 @@ public class MySQL {
 
     }
 
+    public boolean isConnected() {
+        final String CHECK_SQL_QUERY = "SELECT 1";
+        boolean isConnected = false;
+        try {
+            final PreparedStatement statement = connection.prepareStatement(CHECK_SQL_QUERY);
+            isConnected = true;
+            statement.closeOnCompletion();
+        } catch (SQLException | NullPointerException e) {
+            try {
+                String host = plugin.getConfig().getString("host");
+                String database = plugin.getConfig().getString("database");
+                String username = plugin.getConfig().getString("username");
+                String password = plugin.getConfig().getString("password");
+                String url = "jdbc:mysql://" + host + "/" + database;
+                connection = DriverManager.getConnection(url, username, password);
+                if (connection != null) {
+                    plugin.getLogger().info("Reconnected to the database...");
+                    isConnected = true;
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                plugin.getLogger().severe("Failed to reconnect to the database! Check that the host and database names are correct, as well as username and password!");
+                plugin.getServer().getPluginManager().disablePlugin(plugin);
+            }
+        }
+        return isConnected;
+    }
+
     public void closeConnection() {
         try {
             connection.close();
@@ -148,18 +176,20 @@ public class MySQL {
      * @param query MySQL query to execute
      */
     public void executeUpdate(Query query, Object... parameters) {
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
-                int i = 1;
-                for (Object parameter : parameters) {
-                    preparedStatement.setObject(i++, parameter);
+        if (isConnected()) {
+            plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+                    int i = 1;
+                    for (Object parameter : parameters) {
+                        preparedStatement.setObject(i++, parameter);
+                    }
+                    preparedStatement.executeUpdate();
+                } catch (SQLException e) {
+                    plugin.getLogger().severe("Could not execute MySQL query: " + e.getMessage());
+                    e.printStackTrace();
                 }
-                preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                plugin.getLogger().severe("Could not execute MySQL query: " + e.getMessage());
-                e.printStackTrace();
-            }
-        });
+            });
+        }
     }
 
     /**
@@ -169,16 +199,19 @@ public class MySQL {
      * @return Result of MySQL query
      */
     public ResultSet executeQuery(Query query, Object... parameters) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
-            int i = 1;
-            for (Object parameter : parameters) {
-                preparedStatement.setObject(i++, parameter);
+        if (isConnected()) {
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
+                int i = 1;
+                for (Object parameter : parameters) {
+                    preparedStatement.setObject(i++, parameter);
+                }
+                return preparedStatement.executeQuery();
+            } catch (SQLException e) {
+                plugin.getLogger().severe("Could not execute MySQL query: " + e.getMessage());
+                return null;
             }
-            return preparedStatement.executeQuery();
-        } catch (SQLException e) {
-            plugin.getLogger().severe("Could not execute MySQL query: " + e.getMessage());
-            return null;
         }
+        return null;
     }
 }

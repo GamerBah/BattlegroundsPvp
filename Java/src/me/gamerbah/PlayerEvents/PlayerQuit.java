@@ -3,6 +3,7 @@ package me.gamerbah.PlayerEvents;
 
 
 import me.gamerbah.Administration.Data.PlayerData;
+import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Commands.ReportCommand;
 import me.gamerbah.Utils.EventSound;
@@ -52,6 +53,10 @@ public class PlayerQuit implements Listener {
 
         if (playerData.isStealthyJoin()) {
             event.setQuitMessage(null);
+            plugin.getServer().getOnlinePlayers().stream().filter(staff ->
+                    plugin.getPlayerData(staff.getUniqueId()).hasRank(Rank.ADMIN)).forEach(staff ->
+                    staff.sendMessage(BoldColor.DARK_GRAY.getColor() + "[" + BoldColor.RED.getColor() + "-"
+                            + BoldColor.DARK_GRAY.getColor() + "] " + ChatColor.WHITE + event.getPlayer().getName()));
         } else {
             event.setQuitMessage(BoldColor.DARK_GRAY.getColor() + "[" + BoldColor.RED.getColor() + "-"
                     + BoldColor.DARK_GRAY.getColor() + "] " + ChatColor.WHITE + event.getPlayer().getName());
