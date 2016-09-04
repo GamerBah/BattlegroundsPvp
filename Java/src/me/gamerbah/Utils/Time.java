@@ -30,8 +30,7 @@ public enum Time {
     public static long punishmentTimeRemaining(LocalDateTime expiration) {
         int hourNow = LocalDateTime.now().getHour(), minuteNow = LocalDateTime.now().getMinute(), secondNow = LocalDateTime.now().getSecond();
         int hourExp = expiration.getHour(), minuteExp = expiration.getMinute(), secondExp = expiration.getSecond();
-        long millseconds = ((hourExp - hourNow) * 60 * 60 * 1000) + ((minuteExp - minuteNow) * 60 * 1000) + ((secondExp - secondNow) * 1000);
-        return millseconds;
+        return ((hourExp - hourNow) * 60 * 60 * 1000) + ((minuteExp - minuteNow) * 60 * 1000) + ((secondExp - secondNow) * 1000);
     }
 
     public static String toString(long milliseconds, boolean shortened) {

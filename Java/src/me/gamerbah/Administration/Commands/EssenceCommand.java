@@ -7,6 +7,7 @@ import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Donations.DonationMessages;
 import me.gamerbah.Administration.Donations.Essence;
 import me.gamerbah.Battlegrounds;
+import net.gpedro.integrations.slack.SlackMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -77,6 +78,8 @@ public class EssenceCommand implements CommandExecutor {
         }
         sender.sendMessage("Success! Donation registered.");
         Player player = plugin.getServer().getPlayer(UUID.fromString(args[0]));
+
+        plugin.slackDonations.call(new SlackMessage(">>> _*" + player.getName() + "* purchased a *" + eType.getTime() + " hour (+" + eType.getIncrease() + "%) Battle Essence!"));
         if (player.isOnline()) {
             DonationMessages donationMessages = new DonationMessages(plugin);
             donationMessages.sendEssensePurchaseMessage(player, eType);

@@ -52,6 +52,8 @@ public class Battlegrounds extends JavaPlugin {
     private static HashSet<UUID> afk = new HashSet<>();
     public SlackApi slackReports = null;
     public SlackApi slackStaffRequests = null;
+    public SlackApi slackDonations = null;
+    public SlackApi slackPunishments = null;
     private HashSet<PlayerData> playerData = new HashSet<>();
     @Getter
     private HashMap<UUID, ArrayList<Punishment>> playerPunishments = new HashMap<>();
@@ -94,7 +96,6 @@ public class Battlegrounds extends JavaPlugin {
 
         // Reload player data on reload
         for (Player player : getServer().getOnlinePlayers()) {
-            playerData.add(sql.getPlayerData(player.getUniqueId()));
             PlayerData playerData = getPlayerData(player.getUniqueId());
             ScoreboardListener scoreboardListener = new ScoreboardListener(this);
             KDRatio kdRatio = new KDRatio(this);
@@ -152,6 +153,8 @@ public class Battlegrounds extends JavaPlugin {
         // Initialize SlackApi
         slackReports = new SlackApi("https://hooks.slack.com/services/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");
         slackStaffRequests = new SlackApi("https://hooks.slack.com/services/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");
+        slackDonations = new SlackApi("https://hooks.slack.com/services/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");
+        slackPunishments = new SlackApi("https://hooks.slack.com/services/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");
 
         // Register Firework Blocks
         fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), -5.5, 37.0, 0.5));

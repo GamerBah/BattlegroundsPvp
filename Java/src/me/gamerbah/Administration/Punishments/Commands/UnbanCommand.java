@@ -8,6 +8,7 @@ import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.EventSound;
+import net.gpedro.integrations.slack.SlackMessage;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -63,6 +64,7 @@ public class UnbanCommand implements CommandExecutor {
                             p = punishment;
                             Battlegrounds.getSql().executeUpdate(Query.UPDATE_PUNISHMENT_PARDONED, true, targetData.getUuid().toString(), punishment.getType().toString(), punishment.getDate().toString());
                             punishment.setPardoned(true);
+                            plugin.slackPunishments.call(new SlackMessage(">>> _*" + player.getName() + "* unbanned *" + targetData.getName() + "*_\n*Reason for Ban:* _" + p.getReason().getName() + "_"));
                         }
                     }
                 }

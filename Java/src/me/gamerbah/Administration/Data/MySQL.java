@@ -92,7 +92,7 @@ public class MySQL {
     }
 
     public PlayerData getPlayerData(String name) {
-        try (ResultSet result = executeQuery(Query.GET_PLAYER_DATA_FROM_UUID, name)) {
+        try (ResultSet result = executeQuery(Query.GET_PLAYER_DATA_FROM_NAME, name)) {
             if (result.next()) {
                 return new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
                         result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),

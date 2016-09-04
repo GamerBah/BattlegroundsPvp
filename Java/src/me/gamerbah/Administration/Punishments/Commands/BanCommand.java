@@ -7,6 +7,7 @@ import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.EventSound;
+import net.gpedro.integrations.slack.SlackMessage;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -99,6 +100,7 @@ public class BanCommand implements CommandExecutor {
         }
 
         plugin.createPunishment(targetData.getUuid(), targetData.getName(), Punishment.Type.BAN, LocalDateTime.now(), -1, player.getUniqueId(), reason);
+        plugin.slackPunishments.call(new SlackMessage(">>> _*" + player.getName() + "* banned *" + targetData.getName() + "*_\n*Reason:* _" + reason.getName() + "_"));
 
         final String finalName = reason.getName();
         if (target != null) {

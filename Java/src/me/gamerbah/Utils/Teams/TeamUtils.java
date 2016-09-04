@@ -40,8 +40,6 @@ public class TeamUtils {
                             Battlegrounds.currentTeams.remove(player.getName());
                             //GlowAPI.setGlowing(player, null, target);
                             //GlowAPI.setGlowing(target, null, player);
-                        } else {
-                            return;
                         }
                         //GlowAPI.setGlowing(player, null, target);
                         //GlowAPI.setGlowing(target, null, player);

@@ -38,8 +38,8 @@ public class PlayerQuit implements Listener {
             ReportCommand.getReportArray().remove(player.getUniqueId());
         }
 
-        if (plugin.getAfk().contains(player.getUniqueId())) {
-            plugin.getAfk().remove(player.getUniqueId());
+        if (Battlegrounds.getAfk().contains(player.getUniqueId())) {
+            Battlegrounds.getAfk().remove(player.getUniqueId());
         }
 
         if (plugin.getServer().getOnlinePlayers().size() < 10) {

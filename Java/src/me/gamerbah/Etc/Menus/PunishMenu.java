@@ -104,7 +104,7 @@ public class PunishMenu {
                 Punishment punishment = punishments.get(i);
                 if (punishment.getType().equals(Punishment.Type.MUTE)) {
                     PlayerData playerData = plugin.getPlayerData(punishment.getEnforcer());
-                    inv.setItem(a++, new I(Material.MAP).name(ChatColor.AQUA + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(PST)'")))
+                    inv.setItem(a++, new I(Material.MAP).name(ChatColor.AQUA + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(CST)'")))
                             .lore(ChatColor.GRAY + "Muted by: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()
                                     + ChatColor.WHITE + " " + playerData.getName())
                             .lore(ChatColor.GRAY + "Reason: " + ChatColor.GOLD + punishment.getReason().getName())
@@ -135,7 +135,7 @@ public class PunishMenu {
                 Punishment punishment = punishments.get(i);
                 if (punishment.getType().equals(Punishment.Type.BAN)) {
                     PlayerData playerData = plugin.getPlayerData(punishment.getEnforcer());
-                    inv.setItem(a++, new I(Material.MAP).name(ChatColor.AQUA + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(PST)'")))
+                    inv.setItem(a++, new I(Material.MAP).name(ChatColor.AQUA + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(CST)'")))
                             .lore(ChatColor.GRAY + "Banned by: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()
                                     + ChatColor.WHITE + " " + playerData.getName())
                             .lore(ChatColor.GRAY + "Reason: " + ChatColor.GOLD + punishment.getReason().getName())
