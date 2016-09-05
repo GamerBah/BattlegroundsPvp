@@ -76,7 +76,7 @@ public class PingCommand implements CommandExecutor {
             status = BoldColor.RED.getColor() + "AWFUL! ";
         }
         if (ping > 450) {
-            status = BoldColor.DARK_RED.getColor() + "NON-EXISTENT! ";
+            status = BoldColor.DARK_RED.getColor() + "RIP. ";
         }
 
         if (player == target) {

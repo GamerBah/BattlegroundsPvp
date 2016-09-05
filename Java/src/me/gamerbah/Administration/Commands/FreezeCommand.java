@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -25,6 +24,7 @@ import java.util.List;
 
 public class FreezeCommand implements CommandExecutor {
     public static boolean frozen = false;
+    public static boolean reloadFreeze = false;
     public static List<Player> frozenPlayers = new ArrayList<>();
 
     private Battlegrounds plugin;
@@ -161,17 +161,4 @@ public class FreezeCommand implements CommandExecutor {
             event.setCancelled(true);
         }
     }
-
-    @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
-        if (frozen || frozenPlayers.contains(event.getPlayer())) {
-            if (event.getFrom().getY() < event.getTo().getY()) {
-                PlayerData pData = plugin.getPlayerData(event.getPlayer().getUniqueId());
-                if (!pData.hasRank(Rank.MODERATOR)) {
-                    event.getPlayer().teleport(event.getFrom());
-                }
-            }
-        }
-    }
-
 }

@@ -4,6 +4,7 @@ package me.gamerbah.Administration.Utils;
 
 import com.connorlinfoot.titleapi.TitleAPI;
 import me.gamerbah.Administration.Commands.ChatCommands;
+import me.gamerbah.Administration.Commands.FreezeCommand;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Runnables.TrailRunnable;
 import me.gamerbah.Battlegrounds;
@@ -28,6 +29,13 @@ public class PlayerCommandPreProccess implements Listener {
         Player player = event.getPlayer();
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         String command = event.getMessage();
+
+        if (FreezeCommand.reloadFreeze) {
+            event.setCancelled(true);
+            player.sendMessage(ChatColor.RED + "No commands are available during an update!");
+            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+            return;
+        }
 
         if (StringUtils.startsWithIgnoreCase(command, "/me")
                 || StringUtils.startsWithIgnoreCase(command, "/minecraft:")

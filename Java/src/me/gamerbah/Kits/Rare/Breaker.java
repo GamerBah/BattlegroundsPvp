@@ -22,7 +22,7 @@ public class Breaker extends Kit {
                 .lore("§7   ● §fIron Helmet §7(Projectile Prot. II)")
                 .lore("§7   ● §fIron Chestplate")
                 .lore("§7   ● §fIron Leggings")
-                .lore("§7   ● §fIron Boots")
+                .lore("§7   ● §fIron Boots §7(Projectile Prot. I)")
                 .lore("§7   ● §fIron Sword §7(Sharpness I)")
                 .flag(ItemFlag.HIDE_ATTRIBUTES), Rarity.RARE);
     }
@@ -37,7 +37,7 @@ public class Breaker extends Kit {
         player.getInventory().setHelmet(new I(Material.IRON_HELMET).name(Rarity.RARE.getColor() + "Breaker Helmet").enchantment(Enchantment.PROTECTION_PROJECTILE, 2).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
         player.getInventory().setChestplate(new I(Material.IRON_CHESTPLATE).name(Rarity.RARE.getColor() + "Breaker Chestplate").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
         player.getInventory().setLeggings(new I(Material.IRON_LEGGINGS).name(Rarity.RARE.getColor() + "Breaker Leggings").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
-        player.getInventory().setBoots(new I(Material.IRON_BOOTS).name(Rarity.RARE.getColor() + "Breaker Boots").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        player.getInventory().setBoots(new I(Material.IRON_BOOTS).name(Rarity.RARE.getColor() + "Breaker Boots").enchantment(Enchantment.PROTECTION_PROJECTILE, 1).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
         ItemStack sword = new ItemStack(new I(Material.IRON_SWORD).name(Rarity.RARE.getColor() + "Breaker Sword").enchantment(Enchantment.DAMAGE_ALL, 1).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 

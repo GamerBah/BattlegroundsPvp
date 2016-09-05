@@ -23,7 +23,7 @@ public class Enderknight extends Kit {
                 .lore("§7   ● Chain Chestplate")
                 .lore("§7   ● Chain Leggings")
                 .lore("§7   ● Chain Boots")
-                .lore("§7   ● §fIron Sword §7(Sharpness I, Knockback I)")
+                .lore("§7   ● §fIron Sword §7(Knockback I)")
                 .lore("§7   ● §5Enderpearl §7x5")
                 .flag(ItemFlag.HIDE_ATTRIBUTES), Rarity.EPIC);
     }
@@ -40,7 +40,7 @@ public class Enderknight extends Kit {
         player.getInventory().setLeggings(new I(Material.CHAINMAIL_LEGGINGS).name(Rarity.EPIC.getColor() + "Enderknight Leggings").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
         player.getInventory().setBoots(new I(Material.CHAINMAIL_BOOTS).name(Rarity.EPIC.getColor() + "Enderknight Boots").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
-        ItemStack sword = new ItemStack(new I(Material.IRON_SWORD).name(Rarity.EPIC.getColor() + "Enderknight Sword").enchantment(Enchantment.DAMAGE_ALL, 1).enchantment(Enchantment.KNOCKBACK, 1).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        ItemStack sword = new ItemStack(new I(Material.IRON_SWORD).name(Rarity.EPIC.getColor() + "Enderknight Sword").enchantment(Enchantment.KNOCKBACK, 1).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
         player.getInventory().addItem(sword);
         player.getInventory().addItem(new I(Material.ENDER_PEARL).name(Rarity.EPIC.getColor() + "Enderpearl").amount(5));

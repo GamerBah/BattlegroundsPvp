@@ -23,7 +23,7 @@ public class Sniper extends Kit {
                 .lore("§7   ● Chaim Chestplate")
                 .lore("§7   ● Chain Leggings")
                 .lore("§7   ● Chain Boots")
-                .lore("§7   ● Bow (Power II, Punch I)")
+                .lore("§7   ● Bow (Power II)")
                 .lore("§7   ● Stone Sword")
                 .flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_ENCHANTS), Rarity.EPIC);
     }
@@ -40,7 +40,7 @@ public class Sniper extends Kit {
         player.getInventory().setLeggings(new I(Material.CHAINMAIL_LEGGINGS).name(Rarity.EPIC.getColor() + "Sniper Leggings").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
         player.getInventory().setBoots(new I(Material.CHAINMAIL_BOOTS).name(Rarity.EPIC.getColor() + "Sniper Boots").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
-        ItemStack bow = new ItemStack(new I(Material.BOW).name(Rarity.EPIC.getColor() + "Sniper Bow").enchantment(Enchantment.ARROW_DAMAGE, 2).enchantment(Enchantment.ARROW_KNOCKBACK, 1).enchantment(Enchantment.ARROW_INFINITE).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        ItemStack bow = new ItemStack(new I(Material.BOW).name(Rarity.EPIC.getColor() + "Sniper Bow").enchantment(Enchantment.ARROW_DAMAGE, 2).enchantment(Enchantment.ARROW_INFINITE).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
         ItemStack sword = new ItemStack(new I(Material.STONE_SWORD).name(Rarity.EPIC.getColor() + "Sniper Sword").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
         player.getInventory().addItem(bow);

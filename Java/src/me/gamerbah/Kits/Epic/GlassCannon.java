@@ -20,7 +20,7 @@ public class GlassCannon extends Kit {
                 .lore(" ")
                 .lore("§a§lKit Contents:")
                 .lore("§7   ● Leather Helmet")
-                .lore("§7   ● Leather Chestplate")
+                .lore("§7   ● Leather Chestplate (Protection I)")
                 .lore("§7   ● Leather Leggings")
                 .lore("§7   ● Leather Boots")
                 .lore("§7   ● Wooden Sword (Sharpness V)")
@@ -36,7 +36,7 @@ public class GlassCannon extends Kit {
         player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0, false, false));
 
         player.getInventory().setHelmet(new I(Material.LEATHER_HELMET).name(Rarity.EPIC.getColor() + "Glass Cannon Helmet").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
-        player.getInventory().setChestplate(new I(Material.LEATHER_CHESTPLATE).name(Rarity.EPIC.getColor() + "Glass Cannon Chestplate").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        player.getInventory().setChestplate(new I(Material.LEATHER_CHESTPLATE).name(Rarity.EPIC.getColor() + "Glass Cannon Chestplate").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
         player.getInventory().setLeggings(new I(Material.LEATHER_LEGGINGS).name(Rarity.EPIC.getColor() + "Glass Cannon Leggings").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
         player.getInventory().setBoots(new I(Material.LEATHER_BOOTS).name(Rarity.EPIC.getColor() + "Glass Cannon Boots").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 

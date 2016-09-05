@@ -20,7 +20,7 @@ public class Tank extends Kit {
                 .lore(" ")
                 .lore("§a§lKit Contents:")
                 .lore("§7   ● §bDiamond Helmet")
-                .lore("§7   ● §bDiamond Chestplate")
+                .lore("§7   ● §fIron Chestplate §7(Protection II)")
                 .lore("§7   ● §bDiamond Leggings")
                 .lore("§7   ● §bDiamond Boots")
                 .lore("§7   ● Wooden Sword (Sharpness I)")
@@ -39,7 +39,7 @@ public class Tank extends Kit {
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 0, false, false));
 
         player.getInventory().setHelmet(new I(Material.DIAMOND_HELMET).name(Rarity.COMMON.getColor() + "Tank Chestplate").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
-        player.getInventory().setChestplate(new I(Material.DIAMOND_CHESTPLATE).name(Rarity.COMMON.getColor() + "Tank Chestplate").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        player.getInventory().setChestplate(new I(Material.IRON_CHESTPLATE).name(Rarity.COMMON.getColor() + "Tank Chestplate").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
         player.getInventory().setLeggings(new I(Material.DIAMOND_LEGGINGS).name(Rarity.COMMON.getColor() + "Tank Leggings").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
         player.getInventory().setBoots(new I(Material.DIAMOND_BOOTS).name(Rarity.COMMON.getColor() + "Tank Boots").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 

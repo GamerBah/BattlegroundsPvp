@@ -19,8 +19,8 @@ public class Scout extends Kit {
                 .lore(" ")
                 .lore("§a§lKit Contents:")
                 .lore("§7   ● Leather Helmet")
-                .lore("§7   ● Leather Chestplate")
-                .lore("§7   ● Leather Leggings")
+                .lore("§7   ● §fIron Chestplate")
+                .lore("§7   ● Chain Leggings")
                 .lore("§7   ● Leather Boots")
                 .lore("§7   ● §6Gold Sword")
                 .lore(" ")
@@ -38,8 +38,8 @@ public class Scout extends Kit {
         player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0, false, false));
 
         player.getInventory().setHelmet(new I(Material.LEATHER_HELMET).name(Rarity.COMMON.getColor() + "Scout Helmet").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
-        player.getInventory().setChestplate(new I(Material.LEATHER_CHESTPLATE).name(Rarity.COMMON.getColor() + "Scout Chestplate").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
-        player.getInventory().setLeggings(new I(Material.LEATHER_LEGGINGS).name(Rarity.COMMON.getColor() + "Scout Leggings").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        player.getInventory().setChestplate(new I(Material.IRON_CHESTPLATE).name(Rarity.COMMON.getColor() + "Scout Chestplate").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        player.getInventory().setLeggings(new I(Material.CHAINMAIL_LEGGINGS).name(Rarity.COMMON.getColor() + "Scout Leggings").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
         player.getInventory().setBoots(new I(Material.LEATHER_BOOTS).name(Rarity.COMMON.getColor() + "Scout Boots").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
         ItemStack sword = new ItemStack(new I(Material.GOLD_SWORD).name(Rarity.COMMON.getColor() + "Scout Sword").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));

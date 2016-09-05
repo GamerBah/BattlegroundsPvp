@@ -20,8 +20,8 @@ public class UltraTank extends Kit {
                 .lore(" ")
                 .lore("§a§lKit Contents:")
                 .lore("§7   ● §bDiamond Helmet §7(Protection I)")
-                .lore("§7   ● §bDiamond Chestplate §7(Protection I)")
-                .lore("§7   ● §bDiamond Leggings §7(Protection I)")
+                .lore("§7   ● §bDiamond Chestplate")
+                .lore("§7   ● §bDiamond Leggings")
                 .lore("§7   ● §bDiamond Boots §7(Protection I)")
                 .lore("§7   ● Wooden Sword (Sharpness II)")
                 .lore(" ")
@@ -39,8 +39,8 @@ public class UltraTank extends Kit {
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 1, false, false));
 
         player.getInventory().setHelmet(new I(Material.DIAMOND_HELMET).name(Rarity.LEGENDARY.getColor() + "Ultra Tank Chestplate").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
-        player.getInventory().setChestplate(new I(Material.DIAMOND_CHESTPLATE).name(Rarity.LEGENDARY.getColor() + "Ultra Tank Chestplate").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
-        player.getInventory().setLeggings(new I(Material.DIAMOND_LEGGINGS).name(Rarity.LEGENDARY.getColor() + "Ultra Tank Leggings").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        player.getInventory().setChestplate(new I(Material.DIAMOND_CHESTPLATE).name(Rarity.LEGENDARY.getColor() + "Ultra Tank Chestplate").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        player.getInventory().setLeggings(new I(Material.DIAMOND_LEGGINGS).name(Rarity.LEGENDARY.getColor() + "Ultra Tank Leggings").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
         player.getInventory().setBoots(new I(Material.DIAMOND_BOOTS).name(Rarity.LEGENDARY.getColor() + "Ultra Tank Boots").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
         ItemStack sword = new ItemStack(new I(Material.WOOD_SWORD).name(Rarity.LEGENDARY.getColor() + "Ultra Tank Sword").enchantment(Enchantment.DAMAGE_ALL, 2).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));

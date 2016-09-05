@@ -44,8 +44,10 @@ public class PlayerDeath implements Listener {
         ParticleEffect.LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation(), 0, 0.2, 0, 1, 20, 100);
 
         player.setHealth(20);
-        plugin.getServer().getScheduler().runTask(plugin, () ->
-                plugin.respawn(player));
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
+            plugin.respawn(player);
+            player.getInventory().setHeldItemSlot(4);
+        });
 
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         KDRatio kdRatio = new KDRatio(plugin);
@@ -197,7 +199,7 @@ public class PlayerDeath implements Listener {
             killer.setHealth(20);
         }
 
-        int souls = ThreadLocalRandom.current().nextInt(4, 12 + 1);
+        int souls = ThreadLocalRandom.current().nextInt(4, 9 + 1);
         int coins = 0;
         if (ThreadLocalRandom.current().nextInt(1, 8 + 1) == 1) {
             coins = ThreadLocalRandom.current().nextInt(1, 4 + 1);

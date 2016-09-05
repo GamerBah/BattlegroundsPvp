@@ -79,7 +79,7 @@ public class EssenceCommand implements CommandExecutor {
         sender.sendMessage("Success! Donation registered.");
         Player player = plugin.getServer().getPlayer(UUID.fromString(args[0]));
 
-        plugin.slackDonations.call(new SlackMessage(">>> _*" + player.getName() + "* purchased a *" + eType.getTime() + " hour (+" + eType.getIncrease() + "%) Battle Essence!"));
+        plugin.slackDonations.call(new SlackMessage(">>> _*" + player.getName() + "* purchased a *" + eType.getTime() + " hour (+" + eType.getIncrease() + "%) Battle Essence!*_"));
         if (player.isOnline()) {
             DonationMessages donationMessages = new DonationMessages(plugin);
             donationMessages.sendEssensePurchaseMessage(player, eType);

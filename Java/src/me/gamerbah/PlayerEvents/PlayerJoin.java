@@ -8,6 +8,7 @@ import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Donations.DonationMessages;
 import me.gamerbah.Administration.Donations.Essence;
 import me.gamerbah.Administration.Punishments.Punishment;
+import me.gamerbah.Administration.Runnables.AutoUpdate;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.EventSound;
@@ -67,6 +68,11 @@ public class PlayerJoin implements Listener {
                         + "MAINTENANCE MODE\n\n" + ChatColor.AQUA + "This means that we are fixing bugs, or found another issue we needed to take care of\n\n"
                         + ChatColor.GRAY + "We put the server into Maintenance Mode in order to reduce the risk of\n§7corrupting player data, etc. The server should be open shortly!");
             }
+        }
+
+        if (AutoUpdate.updating) {
+            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, BoldColor.YELLOW.getColor() + "SERVER IS UPDATING!\n"
+                    + ChatColor.RED + "To prevent your data from being corrupted, you didn't connect\n\n" + ChatColor.GRAY + "You should be able to join in a few seconds! Hang in there!");
         }
 
         PlayerData playerData = plugin.getPlayerData(event.getUniqueId());
@@ -139,11 +145,13 @@ public class PlayerJoin implements Listener {
             }
         }
 
-        if (FreezeCommand.frozen || FreezeCommand.frozenPlayers.contains(player)) {
+        if ((FreezeCommand.frozen && !playerData.hasRank(Rank.MODERATOR)) || FreezeCommand.frozenPlayers.contains(player) || FreezeCommand.reloadFreeze) {
             player.setWalkSpeed(0F);
             player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, -50, true, false));
             player.setFoodLevel(6);
             player.setSaturation(0);
+        } else {
+            player.setWalkSpeed(0.2F);
         }
 
         player.setPlayerListName((playerData.hasRank(Rank.WARRIOR) ? playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")
