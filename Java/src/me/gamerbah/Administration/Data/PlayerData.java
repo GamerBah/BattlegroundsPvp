@@ -6,6 +6,7 @@ import lombok.Getter;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.Trails.Trail;
+import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class PlayerData {
     @Getter
     private Rank rank;
     @Getter
-    private int kills, deaths, souls, coins;
+    private int kills, deaths, souls, coins, killstreaksEnded, revengeKills, highestKillstreak;
     @Getter
     private boolean dailyReward, teamRequests, privateMessaging, stealthyJoin;
     @Getter
@@ -32,7 +33,7 @@ public class PlayerData {
     @Getter
     private LocalDateTime dailyRewardLast;
     @Getter
-    private String ownedKits;
+    private String ownedKits, lastKilledBy, title;
 
     public void setName(String name) {
         sql.executeUpdate(UPDATE_PLAYER_NAME, this.name = name, id);
@@ -91,5 +92,29 @@ public class PlayerData {
 
     public void setOwnedKits(String list) {
         sql.executeUpdate(UPDATE_PLAYER_OWNED_KITS, this.ownedKits = list, id);
+    }
+
+    public void setLastKilledBy(Player player) {
+        sql.executeUpdate(UPDATE_PLAYER_LAST_KILLED_BY, this.lastKilledBy = player.getUniqueId().toString(), id);
+    }
+
+    public void setLastKilledBy(String uuid) {
+        sql.executeUpdate(UPDATE_PLAYER_LAST_KILLED_BY, this.lastKilledBy = uuid, id);
+    }
+
+    public void setKillstreaksEnded(int amount) {
+        sql.executeUpdate(UPDATE_PLAYER_KILLSTREAKS_ENDED, this.killstreaksEnded = amount, id);
+    }
+
+    public void setRevengeKills(int amount) {
+        sql.executeUpdate(UPDATE_PLAYER_REVENGE_KILLS, this.revengeKills = amount, id);
+    }
+
+    public void setHighestKillstreak(int amount) {
+        sql.executeUpdate(UPDATE_PLAYER_HIGHEST_KILLSTREAK, this.highestKillstreak = amount, id);
+    }
+
+    public void setTitle(String masteryTitle) {
+        sql.executeUpdate(UPDATE_PLAYER_TITLE, this.title = masteryTitle, id);
     }
 }

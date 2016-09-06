@@ -122,6 +122,7 @@ public class KSlotsMenu {
                             }
                         }
                     }
+                    usingSlots.remove(player);
                     if (!playerData.getOwnedKits().contains(finalKit.getId() + ",")) {
                         playerData.setOwnedKits(playerData.getOwnedKits() + finalKit.getId() + ",");
                         player.sendMessage(ChatColor.DARK_AQUA + "You unlocked the " + finalKit.getRarity().getColor() + finalKit.getName() + ChatColor.DARK_AQUA + " kit!");

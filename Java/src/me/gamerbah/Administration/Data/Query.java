@@ -24,6 +24,11 @@ public enum Query {
     UPDATE_PLAYER_TRAIL("UPDATE players SET trail = ? WHERE id = ?"),
     UPDATE_PLAYER_DAILY_REWARD_LAST("UPDATE players SET dailyRewardLast = ? WHERE id = ?"),
     UPDATE_PLAYER_OWNED_KITS("UPDATE players SET ownedKits = ? WHERE id = ?"),
+    UPDATE_PLAYER_LAST_KILLED_BY("UPDATE players SET lastKilledBy = ? WHERE id = ?"),
+    UPDATE_PLAYER_KILLSTREAKS_ENDED("UPDATE players SET killstreaksEnded = ? WHERE id = ?"),
+    UPDATE_PLAYER_REVENGE_KILLS("UPDATE players SET revengeKills = ? WHERE id = ?"),
+    UPDATE_PLAYER_HIGHEST_KILLSTREAK("UPDATE players SET highestKillstreak = ? WHERE id = ?"),
+    UPDATE_PLAYER_TITLE("UPDATE players SET title = ? WHERE id = ?"),
 
     // DONATION DATA
     CREATE_ESSENCE_DATA("INSERT INTO essences (uuid, type, amount) VALUES (?, ?, ?)"),

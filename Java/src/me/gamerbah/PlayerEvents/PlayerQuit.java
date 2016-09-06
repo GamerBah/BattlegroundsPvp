@@ -51,6 +51,8 @@ public class PlayerQuit implements Listener {
             });
         }
 
+        playerData.setLastKilledBy("NONE");
+
         if (playerData.isStealthyJoin()) {
             event.setQuitMessage(null);
             plugin.getServer().getOnlinePlayers().stream().filter(staff ->

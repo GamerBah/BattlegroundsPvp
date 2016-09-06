@@ -4,6 +4,8 @@ package me.gamerbah.PlayerEvents;
 
 import lombok.Getter;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Utils.I;
+import me.gamerbah.Utils.Rarity;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -12,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 import org.inventivetalent.particle.ParticleEffect;
@@ -52,6 +55,17 @@ public class PlayerMove implements Listener {
                     }
                 }, 0L, 1L);
                 plugin.getServer().getScheduler().runTaskLater(plugin, task::cancel, 20);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onTeleport(PlayerTeleportEvent event) {
+        Player player = event.getPlayer();
+        if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.ENDER_PEARL)) {
+            if (event.getTo().distance(player.getWorld().getSpawnLocation()) <= 15 || event.getTo().distance(player.getWorld().getSpawnLocation()) >= 59) {
+                event.setCancelled(true);
+                player.getInventory().addItem(new I(Material.ENDER_PEARL).name(Rarity.EPIC.getColor() + "Enderpearl"));
             }
         }
     }

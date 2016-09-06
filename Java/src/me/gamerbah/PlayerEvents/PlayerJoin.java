@@ -43,6 +43,7 @@ public class PlayerJoin implements Listener {
             plugin.createPlayerData(event.getUniqueId(), event.getName());
             plugin.getServer().getScheduler().runTaskLaterAsynchronously(plugin, () -> {
                 plugin.getPlayerData(event.getUniqueId()).setDailyRewardLast(LocalDateTime.now());
+                plugin.getPlayerData(event.getUniqueId()).setLastKilledBy(event.getUniqueId().toString());
             }, 2L);
         }
 
@@ -171,5 +172,4 @@ public class PlayerJoin implements Listener {
             }
         }, 2L);
     }
-
 }

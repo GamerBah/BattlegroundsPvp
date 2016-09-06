@@ -8,7 +8,7 @@ import me.gamerbah.Utils.I;
 import me.gamerbah.Utils.Kits.Kit;
 import me.gamerbah.Utils.Kits.KitManager;
 import me.gamerbah.Utils.Messages.BoldColor;
-import org.bukkit.ChatColor;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -16,6 +16,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -59,23 +61,26 @@ public class PlayerRespawn implements Listener {
         }
 
         player.getInventory().setItem(0, new I(Material.NETHER_STAR)
-                .name(BoldColor.AQUA.getColor() + "Kit Selector")
+                .name(BoldColor.AQUA.getColor() + "Kit Selector" + ChatColor.GRAY + " (Right-Click)")
                 .lore(ChatColor.GRAY + "Choose which kit you'll use!"));
 
         if (KitManager.getPreviousKit().containsKey(player.getUniqueId())) {
             Kit kit = KitManager.getPreviousKit().get(player.getUniqueId());
             player.getInventory().setItem(1, new I(Material.BOOK)
-                    .name(BoldColor.GREEN.getColor() + "Previous Kit: " + kit.getRarity().getColor() + kit.getName())
+                    .name(BoldColor.GREEN.getColor() + "Previous Kit: " + kit.getRarity().getColor() + kit.getName() + ChatColor.GRAY + " (Right-Click)")
                     .lore(ChatColor.GRAY + "Equips your previous kit"));
         }
 
-        player.getInventory().setItem(7, new I(Material.DIAMOND)
-                .name(BoldColor.YELLOW.getColor() + "Challenges")
-                .lore(ChatColor.GRAY + "View your challenges, start")
-                .lore(ChatColor.GRAY + "new ones, and receive rewards!"));
+        ItemStack head = new I(Material.SKULL_ITEM).durability(3).name(BoldColor.YELLOW.getColor() + "Player Profile" + ChatColor.GRAY + " (Right-Click)")
+                .lore(ChatColor.GRAY + "View your unlocked cosmetics,\n" + ChatColor.GRAY + "achievements, and more!");
+        SkullMeta meta = (SkullMeta) head.getItemMeta();
+        meta.setOwner(player.getName());
+        head.setItemMeta(meta);
+
+        player.getInventory().setItem(7, head);
 
         player.getInventory().setItem(8, new I(Material.REDSTONE_COMPARATOR)
-                .name(BoldColor.RED.getColor() + "Settings")
+                .name(BoldColor.RED.getColor() + "Settings" + ChatColor.GRAY + " (Right-Click)")
                 .lore(ChatColor.GRAY + "Change your personal settings!"));
 
     }

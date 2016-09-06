@@ -5,6 +5,7 @@ package me.gamerbah.PlayerEvents;
 import me.gamerbah.Administration.Commands.FreezeCommand;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Etc.Menus.ProfileMenu;
 import me.gamerbah.Etc.Menus.SettingsMenu;
 import me.gamerbah.Utils.I;
 import me.gamerbah.Utils.Kits.Kit;
@@ -116,9 +117,9 @@ public class PlayerInteract implements Listener {
                     KitManager.getPreviousKit().get(player.getUniqueId()).wearCheckLevel(player);
                     player.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_DIAMOND, 2, 0.85F);
                 }
-            } else if (item.getType().equals(Material.DIAMOND)) {
-                player.sendMessage(ChatColor.RED + "Challenges aren't finished yet!");
-                player.playSound(player.getLocation(), Sound.ENTITY_CAT_AMBIENT, 1, 1);
+            } else if (item.getType().equals(Material.SKULL_ITEM)) {
+                ProfileMenu profileMenu = new ProfileMenu(plugin);
+                profileMenu.openInventory(player);
             } else if (item.getType().equals(Material.ENDER_PEARL)) {
                 if (player.getLocation().distance(player.getWorld().getSpawnLocation()) < 12) {
                     event.setCancelled(true);

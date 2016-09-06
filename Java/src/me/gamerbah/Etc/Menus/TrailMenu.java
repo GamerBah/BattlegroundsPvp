@@ -53,7 +53,8 @@ public class TrailMenu {
             }
         }
 
-        inv.setItem(22, Trail.Type.NONE.getItem());
+        inv.setItem(26, Trail.Type.NONE.getItem());
+        inv.setItem(22, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
         player.openInventory(inv);
     }
 }

@@ -76,6 +76,9 @@ public class TeamCommand implements CommandExecutor {
                                 teammate = plugin.getServer().getPlayer(possibleTeammate);
                             }
                         }
+                        if (teammate == null) {
+                            teammate = plugin.getServer().getPlayer(Battlegrounds.currentTeams.get(player.getName()));
+                        }
                         if (teammate != null) {
                             Battlegrounds.playSound(player, EventSound.TEAM_DISBAND);
                             teammate.sendMessage(ChatColor.RED + player.getName() + "has left the team. Therefore, the team has been disbanded!");
@@ -84,15 +87,6 @@ public class TeamCommand implements CommandExecutor {
                         Battlegrounds.playSound(player, EventSound.TEAM_DISBAND);
                         player.sendMessage(ChatColor.RED + "You have left the team. Therefore, the team has been disbanded!");
                         TeamUtils.removeTeam(player, teammate);
-                    } else if (Battlegrounds.currentTeams.values().contains(player.getName())) {
-                        Battlegrounds.currentTeams.keySet().stream().filter(key -> Battlegrounds.currentTeams.get(key).equalsIgnoreCase(player.getName())).forEach(key -> {
-                            Player teammate = Bukkit.getServer().getPlayer(Battlegrounds.currentTeams.get(key));
-                            Battlegrounds.playSound(teammate, EventSound.TEAM_DISBAND);
-                            Battlegrounds.playSound(player, EventSound.TEAM_DISBAND);
-                            teammate.sendMessage(ChatColor.RED + player.getName() + " has left the team. Therefore, the team has been disbanded!");
-                            player.sendMessage(ChatColor.RED + "You have left the team. Therefore, the team has been disbanded!");
-                            TeamUtils.removeTeam(player, teammate);
-                        });
                     }
                 }
             } else {

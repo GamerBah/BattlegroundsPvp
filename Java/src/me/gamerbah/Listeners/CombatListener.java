@@ -1,6 +1,7 @@
 package me.gamerbah.Listeners;
 
 import lombok.Getter;
+import me.gamerbah.Administration.Runnables.AutoUpdate;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.PlayerEvents.PlayerMove;
 import org.bukkit.ChatColor;
@@ -117,9 +118,23 @@ public class CombatListener implements Listener {
                     return;
                 }
 
-                if (Battlegrounds.currentTeams.containsKey(damaged.getName()) || Battlegrounds.currentTeams.containsKey(damager.getName())) {
-                    if (Battlegrounds.currentTeams.get(damaged.getName()).equals(damager.getName())
-                            || Battlegrounds.currentTeams.get(damager.getName()).equals(damaged.getName())) {
+                if (Battlegrounds.currentTeams.containsKey(damaged.getName())) {
+                    if (Battlegrounds.currentTeams.get(damaged.getName()).equals(damager.getName())) {
+                        if (plugin.getServer().getOnlinePlayers().size() >= 1) {
+                            event.setCancelled(true);
+                            return;
+                        } else {
+                            event.setCancelled(false);
+                            return;
+                        }
+                    } else {
+                        event.setCancelled(false);
+                        return;
+                    }
+                }
+
+                if (Battlegrounds.currentTeams.containsKey(damager.getName())) {
+                    if (Battlegrounds.currentTeams.get(damager.getName()).equals(damaged.getName())) {
                         if (plugin.getServer().getOnlinePlayers().size() >= 1) {
                             event.setCancelled(true);
                             return;
@@ -237,6 +252,9 @@ public class CombatListener implements Listener {
                 PlayerMove.getLaunched().remove(player);
                 player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_LARGE_BLAST, 1, 1);
                 player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.85F, 0.875F);
+            }
+            if (AutoUpdate.updating) {
+                event.setCancelled(true);
             }
         }
     }
