@@ -58,7 +58,7 @@ public class PlayerChat implements Listener {
                             + ChatColor.WHITE + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Time Remaining: " + ChatColor.WHITE +
                             Time.toString(Time.punishmentTimeRemaining(punishment.getExpiration()), true)).create()));
                     player.spigot().sendMessage(baseComponent);
-                    Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                     return;
                 }
             }

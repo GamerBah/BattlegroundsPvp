@@ -22,22 +22,37 @@ public class AchievementMenu {
     public void openInventory(Player player) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         Inventory inv = plugin.getServer().createInventory(null, 45, "Achievement Selection");
-        inv.setItem(10, new I(Material.GOLD_SWORD).name(BoldColor.RED.getColor() + "Combat Achievements")
-                .lore(ChatColor.GRAY + "View Achievements related to Kills and Deaths").flag(ItemFlag.HIDE_ATTRIBUTES));
-        inv.setItem(11, new I(Material.DIAMOND).name(BoldColor.YELLOW.getColor() + "Challenge Achievements")
-                .lore(ChatColor.GRAY + "View Achievements related to Challenges"));
-        inv.setItem(12, new I(Material.BUCKET).name(BoldColor.GREEN.getColor() + "Collection Achievements")
-                .lore(ChatColor.GRAY + "View Achievements related to Cosmetics and Kit Collection"));
-        inv.setItem(13, new I(Material.SKULL_ITEM).durability(3).name(BoldColor.GOLD.getColor() + "Recruitment Achievements")
-                .lore(ChatColor.GRAY + "View Achievements related to Recruitment and Friends"));
-        inv.setItem(14, new I(Material.NAME_TAG).name(BoldColor.DARK_GREEN.getColor() + "???")
+        inv.setItem(10, new I(Material.GOLD_SWORD).flag(ItemFlag.HIDE_ATTRIBUTES)
+                .name(BoldColor.RED.getColor() + "Combat Achievements")
+                .lore(ChatColor.GRAY + "View Achievements related")
+                .lore(ChatColor.GRAY + "to Kills and Deaths"));
+        inv.setItem(11, new I(Material.DIAMOND)
+                .name(BoldColor.YELLOW.getColor() + "Challenge Achievements")
+                .lore(ChatColor.GRAY + "View Achievements related")
+                .lore(ChatColor.GRAY + "to Daily Challenges"));
+        inv.setItem(12, new I(Material.BUCKET)
+                .name(BoldColor.GREEN.getColor() + "Collection Achievements")
+                .lore(ChatColor.GRAY + "View Achievements related to")
+                .lore(ChatColor.GRAY + "Cosmetics and Kit Collection"));
+        inv.setItem(13, new I(Material.SKULL_ITEM).durability(3)
+                .name(BoldColor.PURPLE.getColor() + "Recruitment Achievements")
+                .lore(ChatColor.GRAY + "View Achievements related")
+                .lore(ChatColor.GRAY + "to Recruitment and Friends"));
+        inv.setItem(14, new I(Material.NAME_TAG)
+                .name(BoldColor.DARK_GREEN.getColor() + "???")
                 .lore(BoldColor.RED.getColor() + "COMING SOON!"));
-        inv.setItem(15, new I(Material.DIAMOND_BOOTS).name(BoldColor.PINK.getColor() + "???")
-                .lore(BoldColor.RED.getColor() + "COMING SOON!").flag(ItemFlag.HIDE_ATTRIBUTES));
-        inv.setItem(16, new I(Material.BLAZE_POWDER).name(BoldColor.AQUA.getColor() + "???")
+        inv.setItem(15, new I(Material.DIAMOND_BOOTS).flag(ItemFlag.HIDE_ATTRIBUTES)
+                .name(BoldColor.PINK.getColor() + "???")
+                .lore(BoldColor.RED.getColor() + "COMING SOON!"));
+        inv.setItem(16, new I(Material.BLAZE_POWDER)
+                .name(BoldColor.AQUA.getColor() + "???")
                 .lore(BoldColor.RED.getColor() + "COMING SOON!"));
 
-        inv.setItem(31, new I(Material.BARRIER).name(ChatColor.RED + "Remove your Mastery Title").lore(ChatColor.GRAY + "Removes your equipped Mastery Title"));
+        inv.setItem(22, new I(Material.END_CRYSTAL)
+                .name(BoldColor.GOLD.getColor() + "Achievement Mastery")
+                .lore(ChatColor.GRAY + "Click to view your Achievement")
+                .lore(ChatColor.GRAY + "Mastery Titles and Particle Packs"));
+        inv.setItem(40, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
 
         player.openInventory(inv);
     }
@@ -158,7 +173,7 @@ public class AchievementMenu {
                     i += 9;
                 }
             }
-            inv.setItem(48, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
+            inv.setItem(49, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
         }
         player.openInventory(inv);
     }

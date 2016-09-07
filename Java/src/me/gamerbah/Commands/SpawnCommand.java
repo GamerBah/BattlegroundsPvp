@@ -38,7 +38,7 @@ public class SpawnCommand implements CommandExecutor {
         if (Battlegrounds.getAfk().contains(player.getUniqueId())) {
             Battlegrounds.getAfk().remove(player.getUniqueId());
             player.sendMessage(ChatColor.GRAY + "You are no longer AFK");
-            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+            Battlegrounds.playSound(player, EventSound.CLICK);
             TitleAPI.clearTitle(player);
         }
         plugin.respawn(player);

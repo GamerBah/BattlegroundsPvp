@@ -101,7 +101,7 @@ public class InventoryClickListener implements Listener {
                 ArrayList<String> rm = ReportCommand.getReportArray().get(player.getUniqueId());
 
                 if (item.getType().equals(Material.BOOK)) {
-                    Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                    Battlegrounds.playSound(player, EventSound.CLICK);
                     rm.add(item.getItemMeta().getDisplayName().replace(ChatColor.RED + "", ""));
                     int size = ReportCommand.getReportArray().get(player.getUniqueId()).size();
                     for (int i = 0; i <= size - 1; i++) {
@@ -141,7 +141,7 @@ public class InventoryClickListener implements Listener {
                         }
                         if (message == null) {
                             player.closeInventory();
-                            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+                            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                             player.sendMessage(BoldColor.RED.getColor() + "Oops! " + ChatColor.GRAY + "You tried to report a player without selecting any report options!");
                         } else {
                             reportMenu.report(player, target, message);
@@ -151,7 +151,7 @@ public class InventoryClickListener implements Listener {
                     if (item.getDurability() == 14) {
                         player.closeInventory();
                         player.sendMessage(ChatColor.RED + "Report cancelled.");
-                        Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                        Battlegrounds.playSound(player, EventSound.CLICK);
                     }
                 }
                 event.setCancelled(true);
@@ -205,32 +205,32 @@ public class InventoryClickListener implements Listener {
                         if (!playerData.isStealthyJoin()) {
                             playerData.setStealthyJoin(true);
                             settingsMenu.openInventory(player);
-                            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                            Battlegrounds.playSound(player, EventSound.CLICK);
                         } else {
                             playerData.setStealthyJoin(false);
-                            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                            Battlegrounds.playSound(player, EventSound.CLICK);
                             settingsMenu.openInventory(player);
                         }
                     }
                     if (item.getItemMeta().getDisplayName().contains("Messaging")) {
                         if (!playerData.isPrivateMessaging()) {
                             playerData.setPrivateMessaging(true);
-                            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                            Battlegrounds.playSound(player, EventSound.CLICK);
                             settingsMenu.openInventory(player);
                         } else {
                             playerData.setPrivateMessaging(false);
-                            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                            Battlegrounds.playSound(player, EventSound.CLICK);
                             settingsMenu.openInventory(player);
                         }
                     }
                     if (item.getItemMeta().getDisplayName().contains("Requests")) {
                         if (!playerData.isTeamRequests()) {
                             playerData.setTeamRequests(true);
-                            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                            Battlegrounds.playSound(player, EventSound.CLICK);
                             settingsMenu.openInventory(player);
                         } else {
                             playerData.setTeamRequests(false);
-                            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                            Battlegrounds.playSound(player, EventSound.CLICK);
                             settingsMenu.openInventory(player);
                         }
                     }
@@ -243,23 +243,23 @@ public class InventoryClickListener implements Listener {
                 if (item.getType().equals(Material.BLAZE_POWDER)) {
                     EssenceMenu essenceMenu = new EssenceMenu(plugin);
                     if (plugin.getTotalEssenceAmount(player) == 0) {
-                        Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+                        Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                     } else {
                         essenceMenu.openInventory(player);
-                        Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
                     }
                 }
 
                 if (item.getType().equals(Material.MAGMA_CREAM)) {
                     TrailMenu trailMenu = new TrailMenu(plugin);
                     trailMenu.openInventory(player);
-                    Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
                 }
 
                 if (item.getType().equals(Material.EMERALD)) {
                     AchievementMenu achievementMenu = new AchievementMenu(plugin);
                     achievementMenu.openInventory(player);
-                    Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
                 }
             }
 
@@ -269,16 +269,22 @@ public class InventoryClickListener implements Listener {
                 event.setCancelled(true);
                 if (item.getType().equals(Material.GOLD_SWORD)) {
                     achievementMenu.openCombatAchievements(player);
-                    Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
                 }
-                if (item.getType().equals(Material.BARRIER)) {
+                if (item.getType().equals(Material.END_CRYSTAL)) {
                     PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
                     ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
                     playerData.setTitle("NONE");
                     scoreboardListener.reloadScoreboardTeams(player, player.getScoreboard());
-                    Battlegrounds.playSound(player, EventSound.COMMAND_SUCCESS);
+                    Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
                     player.closeInventory();
+                    player.sendMessage(ChatColor.RED + "Still being worked on!");
                     player.sendMessage(ChatColor.GRAY + "You removed your Mastery Title");
+                }
+                if (item.getType().equals(Material.ARROW)) {
+                    ProfileMenu profileMenu = new ProfileMenu(plugin);
+                    profileMenu.openInventory(player);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_GO_BACK);
                 }
             }
 
@@ -287,7 +293,7 @@ public class InventoryClickListener implements Listener {
                 event.setCancelled(true);
                 if (item.getType().equals(Material.REDSTONE_BLOCK)) {
                     player.sendMessage(ChatColor.RED + "You haven't unlocked this Mastery Title yet!");
-                    Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                     return;
                 }
                 if (item.getType().equals(Material.EMERALD_BLOCK)) {
@@ -299,7 +305,7 @@ public class InventoryClickListener implements Listener {
                             ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
                             scoreboardListener.reloadScoreboardTeams(player, player.getScoreboard());
                             player.closeInventory();
-                            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                            Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
                             player.sendMessage(ChatColor.GRAY + "Mastery Title set to " + BoldColor.GOLD.getColor() + "[" + combat.getTitle() + "]");
                         }
                     }
@@ -307,11 +313,11 @@ public class InventoryClickListener implements Listener {
                 if (item.getType().equals(Material.ARROW)) {
                     AchievementMenu achievementMenu = new AchievementMenu(plugin);
                     achievementMenu.openInventory(player);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_GO_BACK);
                 }
             }
 
             if (event.getClickedInventory().getName().equals("Battle Essences")) {
-                PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
                 Essence essence = new Essence(plugin);
                 ItemStack item = event.getCurrentItem();
                 event.setCancelled(true);
@@ -321,11 +327,11 @@ public class InventoryClickListener implements Listener {
                         if (plugin.getConfig().get("essenceOwner").equals(player.getName())) {
                             player.closeInventory();
                             player.sendMessage(ChatColor.RED + "You already have a Battle Essence active!");
-                            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+                            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                         } else {
                             player.closeInventory();
                             player.sendMessage(ChatColor.RED + "Someone already has a Battle Essence active!");
-                            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+                            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                         }
                     } else {
                         player.closeInventory();
@@ -340,6 +346,12 @@ public class InventoryClickListener implements Listener {
                         }
                     }
                 }
+
+                if (item.getType().equals(Material.ARROW)) {
+                    ProfileMenu profileMenu = new ProfileMenu(plugin);
+                    profileMenu.openInventory(player);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_GO_BACK);
+                }
             }
 
             if (event.getClickedInventory().getName().equals("Particle Packs")) {
@@ -350,6 +362,7 @@ public class InventoryClickListener implements Listener {
                 if (item.getType().equals(Material.ARROW)) {
                     ProfileMenu profileMenu = new ProfileMenu(plugin);
                     profileMenu.openInventory(player);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_GO_BACK);
                 } else {
                     Trail.Type trail = Trail.typeFromName(item.getItemMeta().getDisplayName().substring(2, item.getItemMeta().getDisplayName().length()));
                     if (trail == null) {
@@ -360,10 +373,9 @@ public class InventoryClickListener implements Listener {
                     }
                     playerData.setTrail(trail);
                     player.closeInventory();
-                    Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
                     player.sendMessage(ChatColor.GRAY + (trail.getRarity().equals(Rarity.COMMON)
                             ? "You removed your active particle pack" : "You set your particle pack to " + trail.getRarity().getColor() + trail.getName()));
-                    Battlegrounds.playSound(player, EventSound.COMMAND_SUCCESS);
+                    Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
                 }
             }
 
@@ -379,7 +391,7 @@ public class InventoryClickListener implements Listener {
                 OfflinePlayer target = plugin.getServer().getOfflinePlayer(targetData.getUuid());
                 if (item.getType().equals(Material.SKULL_ITEM)) {
                     punishMenu.openInventory(player, target);
-                    Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
                 }
             }
 
@@ -395,11 +407,11 @@ public class InventoryClickListener implements Listener {
                 OfflinePlayer target = plugin.getServer().getOfflinePlayer(targetData.getUuid());
                 if (item.getType().equals(Material.BOOK)) {
                     punishMenu.openMuteMenu(player, target);
-                    Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
                 }
                 if (item.getType().equals(Material.BARRIER)) {
                     punishMenu.openBanMenu(player, target);
-                    Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
                 }
             }
 
@@ -432,7 +444,7 @@ public class InventoryClickListener implements Listener {
                                 ? BoldColor.GREEN.getColor() + "Click to Roll!" : BoldColor.RED.getColor() + "Need More Souls!"))
                                 .lore(ChatColor.GRAY + "Cost: " + ChatColor.AQUA + 400 * selectedInInventory(inventory) + " Souls")
                                 .durability(5));
-                        Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
                         player.openInventory(inventory);
                     }
                     if (item.getDurability() == 10) {
@@ -445,7 +457,7 @@ public class InventoryClickListener implements Listener {
                                     ? BoldColor.GREEN.getColor() + "Click to Roll!" : BoldColor.RED.getColor() + "Need More Souls!"))
                                     .lore(ChatColor.GRAY + "Cost: " + ChatColor.AQUA + 400 * selectedInInventory(inventory) + " Souls")
                                     .durability(5));
-                            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                            Battlegrounds.playSound(player, EventSound.CLICK);
                             player.openInventory(inventory);
                         }
                     }
@@ -453,21 +465,21 @@ public class InventoryClickListener implements Listener {
 
                 if (item.getType().equals(Material.WOOL)) {
                     if (playerData.getSouls() < 400 * selectedInInventory(inventory)) {
-                        Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+                        Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                     } else {
                         KSlotsMenu kSlotsMenu = new KSlotsMenu(plugin);
                         kSlotsMenu.beginSlots(player, selectedInInventory(inventory));
                     }
                 }
-                if (item.getType().equals(Material.END_CRYSTAL)) {
+                if (item.getType().equals(Material.ARROW)) {
                     if (playerData.getSouls() < 400 * selectedInInventory(inventory)) {
-                        Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+                        Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                         player.closeInventory();
                         player.sendMessage(ChatColor.RED + "You don't have enough Souls to use the machine again!");
                     } else {
                         KSlotsMenu kSlotsMenu = new KSlotsMenu(plugin);
                         kSlotsMenu.openInventory(player);
-                        Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
                     }
                 }
             }

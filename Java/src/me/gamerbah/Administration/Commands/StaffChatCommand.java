@@ -44,11 +44,11 @@ public class StaffChatCommand implements CommandExecutor {
                 if (!toggled.contains(player.getUniqueId())) {
                     toggled.add(player.getUniqueId());
                     player.sendMessage(ChatColor.GRAY + "Staff Chat toggled " + BoldColor.GREEN.getColor() + "ON");
-                    Battlegrounds.playSound(player, EventSound.COMMAND_SUCCESS);
+                    Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
                 } else {
                     toggled.remove(player.getUniqueId());
                     player.sendMessage(ChatColor.GRAY + "Staff Chat toggled " + BoldColor.RED.getColor() + "OFF");
-                    Battlegrounds.playSound(player, EventSound.COMMAND_SUCCESS);
+                    Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
                 }
             } else {
                 String message = StringUtils.join(args, ' ', 0, args.length);

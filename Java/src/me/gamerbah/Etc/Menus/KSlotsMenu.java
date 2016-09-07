@@ -97,8 +97,8 @@ public class KSlotsMenu {
                     Kit kit = kits.get(ThreadLocalRandom.current().nextInt(0, kits.size()));
                     inventory.setItem(10, kit.getItem());
                     player.openInventory(inventory);
-                    Battlegrounds.playSound(player, EventSound.COMMAND_SUCCESS);
-                    Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+                    Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
+                    Battlegrounds.playSound(player, EventSound.CLICK);
                 }
 
             }, 0L, 2L);
@@ -135,7 +135,7 @@ public class KSlotsMenu {
                         scoreboardListener.updateScoreboardCoins(player);
                     }
                     if (slots == 1) {
-                        inventory.setItem(31, new I(Material.END_CRYSTAL).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
+                        inventory.setItem(31, new I(Material.ARROW).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
                     }
                 }
             }, 160L);
@@ -177,11 +177,8 @@ public class KSlotsMenu {
                         playerData.setCoins(playerData.getCoins() + coins);
                         scoreboardListener.updateScoreboardCoins(player);
                     }
-                    if (slots == 1) {
-                        inventory.setItem(31, new I(Material.END_CRYSTAL).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
-                    }
                     if (slots == 2) {
-                        inventory.setItem(31, new I(Material.END_CRYSTAL).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
+                        inventory.setItem(31, new I(Material.ARROW).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
                     }
                 }
             }, 175L);
@@ -223,11 +220,8 @@ public class KSlotsMenu {
                         playerData.setCoins(playerData.getCoins() + coins);
                         scoreboardListener.updateScoreboardCoins(player);
                     }
-                    if (slots == 1) {
-                        inventory.setItem(31, new I(Material.END_CRYSTAL).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
-                    }
                     if (slots == 3) {
-                        inventory.setItem(31, new I(Material.END_CRYSTAL).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
+                        inventory.setItem(31, new I(Material.ARROW).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
                     }
                 }
             }, 190L);
@@ -269,11 +263,8 @@ public class KSlotsMenu {
                         playerData.setCoins(playerData.getCoins() + coins);
                         scoreboardListener.updateScoreboardCoins(player);
                     }
-                    if (slots == 1) {
-                        inventory.setItem(31, new I(Material.END_CRYSTAL).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
-                    }
                     if (slots == 4) {
-                        inventory.setItem(31, new I(Material.END_CRYSTAL).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
+                        inventory.setItem(31, new I(Material.ARROW).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
                     }
                 }
             }, 205L);

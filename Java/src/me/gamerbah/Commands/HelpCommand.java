@@ -31,7 +31,7 @@ public class HelpCommand implements CommandExecutor {
 
         if (args.length > 1) {
             player.sendMessage(Battlegrounds.incorrectUsage + "/help" + (playerData.hasRank(Rank.HELPER) ? " [\"staff\"]" : ""));
-            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 

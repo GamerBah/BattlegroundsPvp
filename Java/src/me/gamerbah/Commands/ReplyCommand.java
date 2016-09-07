@@ -45,7 +45,7 @@ public class ReplyCommand implements CommandExecutor {
                             + ChatColor.WHITE + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Time Remaining: " + ChatColor.WHITE +
                             Time.toString(Time.punishmentTimeRemaining(punishment.getExpiration()), true)).create()));
                     player.spigot().sendMessage(baseComponent);
-                    Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                     return true;
                 }
             }
@@ -65,7 +65,7 @@ public class ReplyCommand implements CommandExecutor {
 
         if (!plugin.getPlayerData(target.getUniqueId()).isPrivateMessaging()) {
             player.sendMessage(ChatColor.RED + "That player isn't accepting private messages anymore!");
-            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 

@@ -46,7 +46,7 @@ public class RankCommand implements CommandExecutor, TabCompleter {
 
         if (args.length != 2) {
             sender.sendMessage(ChatColor.RED + "/rank <player> <rank>");
-            if (sender instanceof Player) Battlegrounds.playSound((Player) sender, EventSound.COMMAND_FAIL);
+            if (sender instanceof Player) Battlegrounds.playSound((Player) sender, EventSound.ACTION_FAIL);
             return true;
         }
 
@@ -55,7 +55,7 @@ public class RankCommand implements CommandExecutor, TabCompleter {
 
             if (target == null) {
                 sender.sendMessage(ChatColor.RED + "That player doesn't exist!");
-                if (sender instanceof Player) Battlegrounds.playSound((Player) sender, EventSound.COMMAND_FAIL);
+                if (sender instanceof Player) Battlegrounds.playSound((Player) sender, EventSound.ACTION_FAIL);
                 return;
             }
 
@@ -83,7 +83,7 @@ public class RankCommand implements CommandExecutor, TabCompleter {
                         sender.sendMessage(ChatColor.RED + "That player doesn't exist!");
                         if (sender instanceof Player) {
                             Player player = (Player) sender;
-                            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+                            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                         }
                         return;
                     }
@@ -95,7 +95,7 @@ public class RankCommand implements CommandExecutor, TabCompleter {
                 ranks.add(rank.getName());
             }
             sender.sendMessage(ChatColor.RED + "That rank doesn't exist! Try one of these: " + WordUtils.capitalizeFully(ranks.toString().replace("[", "").replace("]", "")));
-            if (sender instanceof Player) Battlegrounds.playSound((Player) sender, EventSound.COMMAND_FAIL);
+            if (sender instanceof Player) Battlegrounds.playSound((Player) sender, EventSound.ACTION_FAIL);
         });
 
         return true;

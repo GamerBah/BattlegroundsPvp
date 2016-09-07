@@ -34,7 +34,7 @@ public class ThanksCommand implements CommandExecutor {
 
         if (args.length != 1) {
             player.sendMessage(Battlegrounds.incorrectUsage + "/thanks <player>");
-            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
@@ -42,7 +42,7 @@ public class ThanksCommand implements CommandExecutor {
 
         if (target == null) {
             player.sendMessage(ChatColor.RED + "That player doesn't exist!");
-            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
@@ -50,20 +50,20 @@ public class ThanksCommand implements CommandExecutor {
 
         if (!plugin.getConfig().getString("essenceOwner").equals(target.getName())) {
             player.sendMessage(ChatColor.RED + "You can only thank a player that has a Battle Essence active!");
-            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
         if (plugin.getConfig().getString("essenceOwner").equals(player.getName())) {
             player.sendMessage(ChatColor.RED + "You can't thank yourself!");
-            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
         List<String> thanks = plugin.getConfig().getStringList("essenceThanks");
         if (thanks.contains(player.getName())) {
             player.sendMessage(ChatColor.RED + "You already thanked this player for their Battle Essence!");
-            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 

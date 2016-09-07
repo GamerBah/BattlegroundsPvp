@@ -47,7 +47,7 @@ public class BanCommand implements CommandExecutor {
 
         if (args.length < 2) {
             player.sendMessage(ChatColor.RED + "/ban <player> <reason>");
-            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
@@ -66,13 +66,13 @@ public class BanCommand implements CommandExecutor {
 
         if (reason == null) {
             player.sendMessage(ChatColor.RED + "Unknown reason!");
-            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
         if (targetData == playerData) {
             player.sendMessage(ChatColor.RED + "You can't ban yourself!");
-            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
@@ -91,7 +91,7 @@ public class BanCommand implements CommandExecutor {
                                     + ChatColor.WHITE + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Date: " + ChatColor.AQUA
                                     + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(PST)'"))).create()));
                             player.spigot().sendMessage(baseComponent);
-                            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+                            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                             return true;
                         }
                     }

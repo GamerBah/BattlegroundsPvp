@@ -46,7 +46,7 @@ public class MuteCommand implements CommandExecutor {
 
         if (args.length < 2) {
             player.sendMessage(ChatColor.RED + "/mute <player> <reason>");
-            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
@@ -65,13 +65,13 @@ public class MuteCommand implements CommandExecutor {
 
         if (reason == null) {
             player.sendMessage(ChatColor.RED + "Unknown reason!");
-            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
         if (targetData == playerData) {
             player.sendMessage(ChatColor.RED + "You can't mute yourself!");
-            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
@@ -90,7 +90,7 @@ public class MuteCommand implements CommandExecutor {
                                     + ChatColor.GOLD + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Time Remaining: " + ChatColor.YELLOW +
                                     Time.toString(Time.punishmentTimeRemaining(punishment.getExpiration()), true)).create()));
                             player.spigot().sendMessage(baseComponent);
-                            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+                            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                             return true;
                         }
                     }

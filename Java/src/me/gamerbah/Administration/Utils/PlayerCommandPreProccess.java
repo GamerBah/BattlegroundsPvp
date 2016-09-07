@@ -33,7 +33,7 @@ public class PlayerCommandPreProccess implements Listener {
         if (FreezeCommand.reloadFreeze) {
             event.setCancelled(true);
             player.sendMessage(ChatColor.RED + "No commands are available during an update!");
-            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return;
         }
 
@@ -60,7 +60,7 @@ public class PlayerCommandPreProccess implements Listener {
         if (Battlegrounds.getAfk().contains(player.getUniqueId()) && !StringUtils.startsWithIgnoreCase(command, "/afk") && !StringUtils.startsWithIgnoreCase(command, "/spawn")) {
             Battlegrounds.getAfk().remove(player.getUniqueId());
             player.sendMessage(ChatColor.GRAY + "You are no longer AFK");
-            Battlegrounds.playSound(player, EventSound.COMMAND_CLICK);
+            Battlegrounds.playSound(player, EventSound.CLICK);
             TitleAPI.clearTitle(player);
             player.removePotionEffect(PotionEffectType.INVISIBILITY);
             plugin.respawn(player);

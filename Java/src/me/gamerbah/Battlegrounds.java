@@ -349,7 +349,7 @@ public class Battlegrounds extends JavaPlugin {
 
     public void sendNoPermission(Player player) {
         player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Sorry! " + ChatColor.GRAY + "You aren't allowed to use this command!");
-        playSound(player, EventSound.COMMAND_FAIL);
+        playSound(player, EventSound.ACTION_FAIL);
     }
 
     // Respawn at location

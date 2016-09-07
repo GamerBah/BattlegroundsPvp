@@ -36,19 +36,19 @@ public class FlySpeedCommand implements CommandExecutor {
 
         if (args.length != 1) {
             player.sendMessage(ChatColor.RED + "/flyspeed <speed>");
-            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
         if (!args[0].matches("[0-9]+")) {
             player.sendMessage(ChatColor.RED + "Please select a number from 1 to 10!");
-            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
         if (Integer.parseInt(args[0]) > 10) {
             player.sendMessage(ChatColor.RED + "Please select a number from 1 to 10!");
-            Battlegrounds.playSound(player, EventSound.COMMAND_FAIL);
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
@@ -77,7 +77,7 @@ public class FlySpeedCommand implements CommandExecutor {
         }
         player.setFlySpeed(speed);
         player.sendMessage(BoldColor.GREEN.getColor() + "Success! " + ChatColor.GRAY + "Your fly speed was set to " + BoldColor.GREEN.getColor() + args[0]);
-        Battlegrounds.playSound(player, EventSound.COMMAND_SUCCESS);
+        Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
         return true;
     }
 

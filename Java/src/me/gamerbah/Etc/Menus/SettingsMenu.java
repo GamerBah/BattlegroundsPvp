@@ -25,28 +25,39 @@ public class SettingsMenu {
         Inventory inv = plugin.getServer().createInventory(null, 36, "Settings");
 
         if (!playerData.isTeamRequests()) {
-            inv.setItem(11, new I(Material.INK_SACK).name(ChatColor.YELLOW + "Team Requests: " + BoldColor.RED.getColor() + "DISABLED").lore(" ")
-                    .lore(ChatColor.GRAY + "Enabling this will allow players").lore(ChatColor.GRAY + "to send you team requests").durability(8));
+            inv.setItem(11, new I(Material.INK_SACK).durability(8)
+                    .name(ChatColor.YELLOW + "Team Requests: " + BoldColor.RED.getColor() + "DISABLED")
+                    .lore(ChatColor.GRAY + "Enabling this will allow players")
+                    .lore(ChatColor.GRAY + "to send you team requests"));
         } else {
-            inv.setItem(11, new I(Material.INK_SACK).name(ChatColor.YELLOW + "Team Requests: " + BoldColor.GREEN.getColor() + "ENABLED").lore(" ")
-                    .lore(ChatColor.GRAY + "Disabling this will prevent players").lore(ChatColor.GRAY + "from sending you team requests").durability(10));
+            inv.setItem(11, new I(Material.INK_SACK).durability(10)
+                    .name(ChatColor.YELLOW + "Team Requests: " + BoldColor.GREEN.getColor() + "ENABLED")
+                    .lore(ChatColor.GRAY + "Disabling this will prevent players")
+                    .lore(ChatColor.GRAY + "from sending you team requests"));
         }
 
         if (!playerData.isPrivateMessaging()) {
-            inv.setItem(15, new I(Material.INK_SACK).name(ChatColor.YELLOW + "Private Messaging: " + BoldColor.RED.getColor() + "DISABLED").lore(" ")
-                    .lore(ChatColor.GRAY + "Enabling this will allow players").lore(ChatColor.GRAY + "to privately message you").durability(8));
+            inv.setItem(15, new I(Material.INK_SACK).durability(8)
+                    .name(ChatColor.YELLOW + "Private Messaging: " + BoldColor.RED.getColor() + "DISABLED")
+                    .lore(ChatColor.GRAY + "Enabling this will allow players").lore(ChatColor.GRAY + "to privately message you"));
         } else {
-            inv.setItem(15, new I(Material.INK_SACK).name(ChatColor.YELLOW + "Private Messaging: " + BoldColor.GREEN.getColor() + "ENABLED").lore(" ")
-                    .lore(ChatColor.GRAY + "Disabling this will prevent players").lore(ChatColor.GRAY + "from privately messaging you").durability(10));
+            inv.setItem(15, new I(Material.INK_SACK).durability(10)
+                    .name(ChatColor.YELLOW + "Private Messaging: " + BoldColor.GREEN.getColor() + "ENABLED")
+                    .lore(ChatColor.GRAY + "Disabling this will prevent players")
+                    .lore(ChatColor.GRAY + "from privately messaging you"));
         }
 
         if (playerData.hasRank(Rank.MODERATOR)) {
             if (!playerData.isStealthyJoin()) {
-                inv.setItem(13, new I(Material.INK_SACK).name(ChatColor.YELLOW + "Stealthy Join: " + BoldColor.RED.getColor() + "DISABLED").lore(" ")
-                        .lore(ChatColor.GRAY + "Enabling this will cause you to join").lore(ChatColor.GRAY + "the server without the notifications").durability(8));
+                inv.setItem(13, new I(Material.INK_SACK).durability(8)
+                        .name(ChatColor.YELLOW + "Stealthy Join: " + BoldColor.RED.getColor() + "DISABLED")
+                        .lore(ChatColor.GRAY + "Enabling this will cause you to join")
+                        .lore(ChatColor.GRAY + "the server without the notifications"));
             } else {
-                inv.setItem(13, new I(Material.INK_SACK).name(ChatColor.YELLOW + "Stealthy Join: " + BoldColor.GREEN.getColor() + "ENABLED").lore(" ")
-                        .lore(ChatColor.GRAY + "Disabling this will cause you to join").lore(ChatColor.GRAY + "the server with notifications").durability(10));
+                inv.setItem(13, new I(Material.INK_SACK).durability(10)
+                        .name(ChatColor.YELLOW + "Stealthy Join: " + BoldColor.GREEN.getColor() + "ENABLED")
+                        .lore(ChatColor.GRAY + "Disabling this will cause you to join")
+                        .lore(ChatColor.GRAY + "the server with notifications"));
             }
         }
 

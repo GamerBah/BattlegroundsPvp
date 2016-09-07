@@ -141,7 +141,7 @@ public class PlayerJoin implements Listener {
             if (!playerData.isDailyReward()) {
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                     player.spigot().sendMessage(baseComponent);
-                    Battlegrounds.playSound(player, EventSound.COMMAND_SUCCESS);
+                    Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
                 }, 2L);
             }
         }
