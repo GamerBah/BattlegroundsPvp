@@ -1,7 +1,7 @@
 main: me.gamerbah.Battlegrounds
 name: Battlegrounds
 author: GamerBah
-version: 0.6.9a
+version: 0.7.4a
 commands:
   rank:
     description: Changes a players rank
@@ -69,3 +69,9 @@ commands:
     description: Gets the head of a specified player
   help:
     description: Shows help message
+  refer:
+    description: Refers the player who invited you to the server
+  reload:
+    description: Reloads the server
+  friend:
+    description: Friends Command

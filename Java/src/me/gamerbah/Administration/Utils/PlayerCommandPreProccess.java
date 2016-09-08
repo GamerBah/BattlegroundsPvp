@@ -56,6 +56,11 @@ public class PlayerCommandPreProccess implements Listener {
             player.performCommand("battlegrounds:help staff");
             return;
         }
+        if (StringUtils.equalsIgnoreCase(command, "/reload")) {
+            event.setCancelled(true);
+            player.performCommand("battlegrounds:reload");
+            return;
+        }
 
         if (Battlegrounds.getAfk().contains(player.getUniqueId()) && !StringUtils.startsWithIgnoreCase(command, "/afk") && !StringUtils.startsWithIgnoreCase(command, "/spawn")) {
             Battlegrounds.getAfk().remove(player.getUniqueId());

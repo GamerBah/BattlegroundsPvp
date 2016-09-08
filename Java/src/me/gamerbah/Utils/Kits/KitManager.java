@@ -8,9 +8,11 @@ import me.gamerbah.Kits.Common.Bowman;
 import me.gamerbah.Kits.Common.Scout;
 import me.gamerbah.Kits.Common.Tank;
 import me.gamerbah.Kits.Common.Warrior;
+import me.gamerbah.Kits.Epic.Baker;
 import me.gamerbah.Kits.Epic.Enderknight;
 import me.gamerbah.Kits.Epic.GlassCannon;
 import me.gamerbah.Kits.Epic.Sniper;
+import me.gamerbah.Kits.Legendary.Potato;
 import me.gamerbah.Kits.Legendary.UltraTank;
 import me.gamerbah.Kits.Rare.Breaker;
 import me.gamerbah.Kits.Rare.HonorGuard;
@@ -54,9 +56,11 @@ public class KitManager implements Listener {
         kits.add(new GlassCannon());
         kits.add(new Sniper());
         kits.add(new Enderknight());
+        kits.add(new Baker());
 
         // Legendary Kits
         kits.add(new UltraTank());
+        kits.add(new Potato());
 
         for (Kit kit : kits) {
             plugin.getServer().getPluginManager().registerEvents(kit, plugin);

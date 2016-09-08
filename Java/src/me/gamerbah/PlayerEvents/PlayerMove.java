@@ -5,7 +5,7 @@ package me.gamerbah.PlayerEvents;
 import lombok.Getter;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Utils.I;
-import me.gamerbah.Utils.Rarity;
+import me.gamerbah.Utils.Messages.BoldColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -63,9 +63,9 @@ public class PlayerMove implements Listener {
     public void onTeleport(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
         if (event.getCause().equals(PlayerTeleportEvent.TeleportCause.ENDER_PEARL)) {
-            if (event.getTo().distance(player.getWorld().getSpawnLocation()) <= 15 || event.getTo().distance(player.getWorld().getSpawnLocation()) >= 59) {
+            if (event.getTo().distance(player.getWorld().getSpawnLocation()) <= 15 || event.getTo().distance(player.getWorld().getSpawnLocation()) >= 60) {
                 event.setCancelled(true);
-                player.getInventory().addItem(new I(Material.ENDER_PEARL).name(Rarity.EPIC.getColor() + "Enderpearl"));
+                player.getInventory().addItem(new I(Material.ENDER_PEARL).name(BoldColor.GOLD.getColor() + "Enderpearl"));
             }
         }
     }

@@ -14,6 +14,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.time.LocalDateTime;
+
 public class PlayerQuit implements Listener {
     private Battlegrounds plugin;
 
@@ -63,5 +65,7 @@ public class PlayerQuit implements Listener {
             event.setQuitMessage(BoldColor.DARK_GRAY.getColor() + "[" + BoldColor.RED.getColor() + "-"
                     + BoldColor.DARK_GRAY.getColor() + "] " + ChatColor.WHITE + event.getPlayer().getName());
         }
+
+        playerData.setLastOnline(LocalDateTime.now());
     }
 }

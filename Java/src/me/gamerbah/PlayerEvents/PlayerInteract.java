@@ -4,6 +4,7 @@ package me.gamerbah.PlayerEvents;
 
 import me.gamerbah.Administration.Commands.FreezeCommand;
 import me.gamerbah.Administration.Data.PlayerData;
+import me.gamerbah.Administration.Runnables.AutoUpdate;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Etc.Menus.ProfileMenu;
 import me.gamerbah.Etc.Menus.SettingsMenu;
@@ -52,7 +53,16 @@ public class PlayerInteract implements Listener {
             return;
         }
 
+
         if (item != null) {
+            if (AutoUpdate.updating) {
+                event.setCancelled(true);
+                return;
+            }
+            if (item.getType().equals(Material.POISONOUS_POTATO) || item.getType().equals(Material.POTATO_ITEM)) {
+                event.setCancelled(true);
+                return;
+            }
             if (item.getType().equals(Material.NETHER_STAR)) {
                 Inventory kitSelectorInventory = Bukkit.createInventory(null, 54, "Kit Selector");
 

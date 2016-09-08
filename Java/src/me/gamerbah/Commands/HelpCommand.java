@@ -46,6 +46,7 @@ public class HelpCommand implements CommandExecutor {
             player.sendMessage(BoldColor.DARK_AQUA.getColor() + " /message " + ChatColor.GRAY + "- Sends a private message to a player");
             player.sendMessage(BoldColor.DARK_AQUA.getColor() + " /options " + ChatColor.GRAY + "- Shows options for a specified player");
             player.sendMessage(BoldColor.DARK_AQUA.getColor() + " /ping " + ChatColor.GRAY + "- Shows you your connection to Battlegrounds");
+            player.sendMessage(BoldColor.DARK_AQUA.getColor() + " /refer " + ChatColor.GRAY + "- Refer the player who invited you to Battlegrounds!");
             player.sendMessage(BoldColor.DARK_AQUA.getColor() + " /reply " + ChatColor.GRAY + "- Replies to the most recent private message");
             player.sendMessage(BoldColor.DARK_AQUA.getColor() + " /report " + ChatColor.GRAY + "- Reports a player to Staff members");
             player.sendMessage(BoldColor.DARK_AQUA.getColor() + " /spawn " + ChatColor.GRAY + "- Teleports you back to the spawn");

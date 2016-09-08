@@ -44,6 +44,7 @@ public class Battlegrounds extends JavaPlugin {
     public static Map<UUID, Integer> killStreak = new HashMap<>();
     public static Map<String, String> pendingTeams = new HashMap<>();
     public static Map<String, String> currentTeams = new ConcurrentHashMap<>();
+    public static Map<Player, Player> pendingFriends = new HashMap<>();
     @Getter
     private static Battlegrounds instance = null;
     @Getter
@@ -112,6 +113,12 @@ public class Battlegrounds extends JavaPlugin {
             scoreboardListener.getKds().put(player.getUniqueId(), ChatColor.GRAY + "" + kdRatio.getRatio(player));
             scoreboardListener.getSouls().put(player.getUniqueId(), playerData.getSouls());
             scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
+            scoreboardListener.updateScoreboardKills(player);
+            scoreboardListener.updateScoreboardRank(player);
+            scoreboardListener.updateScoreboardDeaths(player);
+            scoreboardListener.updateScoreboardRatio(player);
+            scoreboardListener.updateScoreboardSouls(player);
+            scoreboardListener.updateScoreboardCoins(player);
             respawn(player);
             TitleAPI.clearTitle(player);
             if (!getOne50Essence().containsKey(player.getUniqueId()))
@@ -217,6 +224,9 @@ public class Battlegrounds extends JavaPlugin {
         getCommand("dailyreward").setExecutor(new DailyRewardCommand(this));
         getCommand("skull").setExecutor(new SkullCommand(this));
         getCommand("help").setExecutor(new HelpCommand(this));
+        getCommand("refer").setExecutor(new ReferCommand(this));
+        getCommand("reload").setExecutor(new ReloadCommand(this));
+        getCommand("friend").setExecutor(new FriendCommand(this));
     }
 
     private void registerListeners() {

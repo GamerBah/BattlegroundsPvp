@@ -4,6 +4,7 @@ package me.gamerbah.Kits.Epic;
 
 import me.gamerbah.Utils.I;
 import me.gamerbah.Utils.Kits.Kit;
+import me.gamerbah.Utils.Messages.BoldColor;
 import me.gamerbah.Utils.Rarity;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -33,15 +34,15 @@ public class Sniper extends Kit {
             player.removePotionEffect(effect.getType());
         }
         player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1, true, false));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 0, true, false));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 1, true, false));
 
-        player.getInventory().setHelmet(new I(Material.CHAINMAIL_HELMET).name(Rarity.EPIC.getColor() + "Sniper Helmet").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
-        player.getInventory().setChestplate(new I(Material.CHAINMAIL_CHESTPLATE).name(Rarity.EPIC.getColor() + "Sniper Chainmail").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
-        player.getInventory().setLeggings(new I(Material.CHAINMAIL_LEGGINGS).name(Rarity.EPIC.getColor() + "Sniper Leggings").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
-        player.getInventory().setBoots(new I(Material.CHAINMAIL_BOOTS).name(Rarity.EPIC.getColor() + "Sniper Boots").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        player.getInventory().setHelmet(new I(Material.CHAINMAIL_HELMET).name(BoldColor.GOLD.getColor() + "Sniper Helmet").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        player.getInventory().setChestplate(new I(Material.CHAINMAIL_CHESTPLATE).name(BoldColor.GOLD.getColor() + "Sniper Chainmail").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        player.getInventory().setLeggings(new I(Material.CHAINMAIL_LEGGINGS).name(BoldColor.GOLD.getColor() + "Sniper Leggings").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        player.getInventory().setBoots(new I(Material.CHAINMAIL_BOOTS).name(BoldColor.GOLD.getColor() + "Sniper Boots").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
-        ItemStack bow = new ItemStack(new I(Material.BOW).name(Rarity.EPIC.getColor() + "Sniper Bow").enchantment(Enchantment.ARROW_DAMAGE, 2).enchantment(Enchantment.ARROW_INFINITE).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
-        ItemStack sword = new ItemStack(new I(Material.STONE_SWORD).name(Rarity.EPIC.getColor() + "Sniper Sword").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        ItemStack bow = new ItemStack(new I(Material.BOW).name(BoldColor.GOLD.getColor() + "Sniper Bow").enchantment(Enchantment.ARROW_DAMAGE, 2).enchantment(Enchantment.ARROW_INFINITE).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        ItemStack sword = new ItemStack(new I(Material.STONE_SWORD).name(BoldColor.GOLD.getColor() + "Sniper Sword").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
         player.getInventory().addItem(bow);
         player.getInventory().addItem(sword);

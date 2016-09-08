@@ -4,6 +4,7 @@ package me.gamerbah.Kits.Epic;
 
 import me.gamerbah.Utils.I;
 import me.gamerbah.Utils.Kits.Kit;
+import me.gamerbah.Utils.Messages.BoldColor;
 import me.gamerbah.Utils.Rarity;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -33,16 +34,16 @@ public class Enderknight extends Kit {
             player.removePotionEffect(effect.getType());
         }
         player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 1, true, false));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 0, true, false));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 1, true, false));
 
-        player.getInventory().setHelmet(new I(Material.CHAINMAIL_HELMET).name(Rarity.EPIC.getColor() + "Enderknight Helmet").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
-        player.getInventory().setChestplate(new I(Material.CHAINMAIL_CHESTPLATE).name(Rarity.EPIC.getColor() + "Enderknight Chestplate").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
-        player.getInventory().setLeggings(new I(Material.CHAINMAIL_LEGGINGS).name(Rarity.EPIC.getColor() + "Enderknight Leggings").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
-        player.getInventory().setBoots(new I(Material.CHAINMAIL_BOOTS).name(Rarity.EPIC.getColor() + "Enderknight Boots").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        player.getInventory().setHelmet(new I(Material.CHAINMAIL_HELMET).name(BoldColor.GOLD.getColor() + "Enderknight Helmet").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        player.getInventory().setChestplate(new I(Material.CHAINMAIL_CHESTPLATE).name(BoldColor.GOLD.getColor() + "Enderknight Chestplate").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        player.getInventory().setLeggings(new I(Material.CHAINMAIL_LEGGINGS).name(BoldColor.GOLD.getColor() + "Enderknight Leggings").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        player.getInventory().setBoots(new I(Material.CHAINMAIL_BOOTS).name(BoldColor.GOLD.getColor() + "Enderknight Boots").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
-        ItemStack sword = new ItemStack(new I(Material.IRON_SWORD).name(Rarity.EPIC.getColor() + "Enderknight Sword").enchantment(Enchantment.KNOCKBACK, 1).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        ItemStack sword = new ItemStack(new I(Material.IRON_SWORD).name(BoldColor.GOLD.getColor() + "Enderknight Sword").enchantment(Enchantment.KNOCKBACK, 1).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
         player.getInventory().addItem(sword);
-        player.getInventory().addItem(new I(Material.ENDER_PEARL).name(Rarity.EPIC.getColor() + "Enderpearl").amount(5));
+        player.getInventory().addItem(new I(Material.ENDER_PEARL).name(BoldColor.GOLD.getColor() + "Enderpearl").amount(5));
     }
 }

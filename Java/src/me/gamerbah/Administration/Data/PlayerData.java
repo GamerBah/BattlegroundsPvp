@@ -25,15 +25,15 @@ public class PlayerData {
     @Getter
     private Rank rank;
     @Getter
-    private int kills, deaths, souls, coins, killstreaksEnded, revengeKills, highestKillstreak;
+    private int kills, deaths, souls, coins, killstreaksEnded, revengeKills, highestKillstreak, playersRecruited, recruitedBy;
     @Getter
     private boolean dailyReward, teamRequests, privateMessaging, stealthyJoin;
     @Getter
     private Trail.Type trail;
     @Getter
-    private LocalDateTime dailyRewardLast;
+    private LocalDateTime dailyRewardLast, lastOnline;
     @Getter
-    private String ownedKits, lastKilledBy, title;
+    private String ownedKits, lastKilledBy, title, friends;
 
     public void setName(String name) {
         sql.executeUpdate(UPDATE_PLAYER_NAME, this.name = name, id);
@@ -116,5 +116,22 @@ public class PlayerData {
 
     public void setTitle(String masteryTitle) {
         sql.executeUpdate(UPDATE_PLAYER_TITLE, this.title = masteryTitle, id);
+    }
+
+    public void setPlayersRecruited(int amount) {
+        sql.executeUpdate(UPDATE_PLAYER_PLAYERS_RECRUITED, this.playersRecruited = amount, id);
+    }
+
+    public void setRecruitedBy(int recruiterId) {
+        sql.executeUpdate(UPDATE_PLAYER_RECRUITED_BY, this.recruitedBy = recruiterId, id);
+    }
+
+    public void setLastOnline(LocalDateTime date) {
+        sql.executeUpdate(UPDATE_PLAYER_LAST_ONLINE, date.toString().replace(" ", "T"), id);
+        this.lastOnline = date;
+    }
+
+    public void setFriends(String friends) {
+        sql.executeUpdate(UPDATE_PLAYER_FRIENDS, this.friends = friends, id);
     }
 }

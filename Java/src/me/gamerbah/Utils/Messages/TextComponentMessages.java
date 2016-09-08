@@ -44,6 +44,26 @@ public class TextComponentMessages {
         return message;
     }
 
+    public TextComponent friendAcceptButton() {
+        TextComponent message = new TextComponent("[ACCEPT]");
+        message.setBold(true);
+        message.setColor(ChatColor.GREEN);
+        message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/friend accept"));
+        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GRAY
+                + "Click to" + ChatColor.GREEN + " accept " + ChatColor.GRAY + "the request!").create()));
+        return message;
+    }
+
+    public TextComponent friendDeclineButton() {
+        TextComponent message = new TextComponent("[DECLINE]");
+        message.setBold(true);
+        message.setColor(ChatColor.RED);
+        message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/friend decline"));
+        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GRAY
+                + "Click to" + ChatColor.RED + " decline " + ChatColor.GRAY + "the request!").create()));
+        return message;
+    }
+
     public BaseComponent[] playerStats(Player player) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         KDRatio kdRatio = new KDRatio(plugin);

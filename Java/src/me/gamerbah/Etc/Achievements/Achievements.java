@@ -87,12 +87,17 @@ public class Achievements {
         private int soulReward;
         private int coinReward;
         private String title;
-    }
+    }*/
 
     @AllArgsConstructor
     @Getter
     public enum Recruitment {
-
+        RECRUITER_I("Recruiter I", "Recruit a friend", 1, 50, 10, null),
+        RECRUITER_II("Recruiter II", "Recruit 5 friends", 5, 75, 25, null),
+        RECRUITER_III("Recruiter III", "Recruit 10 friends", 10, 150, 50, null),
+        RECRUITER_IV("Recruiter IV", "Recruit 15 friends", 15, 300, 75, null),
+        RECRUITER_V("Recruiter V", "Recruit 20 friends", 20, 500, 125, null),
+        RECRUITER_MASTER("Recruiter Mastery", "Recruit 30 friends", 30, 1000, 200, "Ambassador");
 
         private String name;
         private String description;
@@ -100,6 +105,6 @@ public class Achievements {
         private int soulReward;
         private int coinReward;
         private String title;
-    }*/
+    }
 
 }

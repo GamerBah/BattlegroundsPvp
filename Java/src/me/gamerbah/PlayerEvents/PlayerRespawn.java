@@ -8,6 +8,7 @@ import me.gamerbah.Utils.I;
 import me.gamerbah.Utils.Kits.Kit;
 import me.gamerbah.Utils.Kits.KitManager;
 import me.gamerbah.Utils.Messages.BoldColor;
+import me.gamerbah.Utils.Rarity;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -67,7 +68,8 @@ public class PlayerRespawn implements Listener {
         if (KitManager.getPreviousKit().containsKey(player.getUniqueId())) {
             Kit kit = KitManager.getPreviousKit().get(player.getUniqueId());
             player.getInventory().setItem(1, new I(Material.BOOK)
-                    .name(BoldColor.GREEN.getColor() + "Previous Kit: " + kit.getRarity().getColor() + kit.getName() + ChatColor.GRAY + " (Right-Click)")
+                    .name(BoldColor.GREEN.getColor() + "Previous Kit: " + kit.getRarity().getColor() + (kit.getRarity() == Rarity.EPIC || kit.getRarity() == Rarity.LEGENDARY ?
+                            "" + ChatColor.BOLD : "") + kit.getName() + ChatColor.GRAY + " (Right-Click)")
                     .lore(ChatColor.GRAY + "Equips your previous kit"));
         }
 

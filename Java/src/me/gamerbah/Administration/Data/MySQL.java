@@ -80,9 +80,10 @@ public class MySQL {
             if (result.next()) {
                 return new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
                         result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
-                        result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getBoolean("dailyReward"), result.getBoolean("teamRequests"),
-                        result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"), Trail.Type.valueOf(result.getString("trail")),
-                        LocalDateTime.parse(result.getString("dailyRewardLast")), result.getString("ownedKits"), result.getString("lastKilledBy"), result.getString("title"));
+                        result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getInt("playersRecruited"), result.getInt("recruitedBy"),
+                        result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
+                        Trail.Type.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")),
+                        result.getString("ownedKits"), result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"));
             }
             result.getStatement().close();
         } catch (SQLException e) {
@@ -97,9 +98,10 @@ public class MySQL {
             if (result.next()) {
                 return new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
                         result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
-                        result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getBoolean("dailyReward"), result.getBoolean("teamRequests"),
-                        result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"), Trail.Type.valueOf(result.getString("trail")),
-                        LocalDateTime.parse(result.getString("dailyRewardLast")), result.getString("ownedKits"), result.getString("lastKilledBy"), result.getString("title"));
+                        result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getInt("playersRecruited"), result.getInt("recruitedBy"),
+                        result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
+                        Trail.Type.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")),
+                        result.getString("ownedKits"), result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"));
             }
             result.getStatement().close();
         } catch (SQLException e) {

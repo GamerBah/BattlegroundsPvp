@@ -5,6 +5,7 @@ import me.gamerbah.Administration.Runnables.AutoUpdate;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.PlayerEvents.PlayerMove;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -17,6 +18,8 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -103,6 +106,10 @@ public class CombatListener implements Listener {
                                 damager.sendMessage(ChatColor.GRAY + "You're no longer in combat");
                             }
                         }.runTaskLater(plugin, 240).getTaskId());
+            }
+
+            if (damager.getInventory().getItemInMainHand().getType().equals(Material.POISONOUS_POTATO)) {
+                damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 5, 1, false, false));
             }
         }
 
@@ -213,7 +220,7 @@ public class CombatListener implements Listener {
         Player player = event.getPlayer();
 
         if (tagged.containsKey(player.getUniqueId()) && (event.getMessage().toLowerCase().startsWith("/spawn"))) {
-            player.sendMessage(ChatColor.RED + "You cannot run that command during combat!");
+            player.sendMessage(ChatColor.RED + "You cannot use that command during combat!");
             event.setCancelled(true);
         }
     }

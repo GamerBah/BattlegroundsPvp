@@ -471,7 +471,7 @@ public class InventoryClickListener implements Listener {
                         kSlotsMenu.beginSlots(player, selectedInInventory(inventory));
                     }
                 }
-                if (item.getType().equals(Material.ARROW)) {
+                if (item.getType().equals(Material.ARROW) && item.getItemMeta().getDisplayName().equals(BoldColor.YELLOW.getColor() + "Reset Slots")) {
                     if (playerData.getSouls() < 400 * selectedInInventory(inventory)) {
                         Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                         player.closeInventory();

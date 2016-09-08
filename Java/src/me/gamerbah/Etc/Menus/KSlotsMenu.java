@@ -125,10 +125,12 @@ public class KSlotsMenu {
                     usingSlots.remove(player);
                     if (!playerData.getOwnedKits().contains(finalKit.getId() + ",")) {
                         playerData.setOwnedKits(playerData.getOwnedKits() + finalKit.getId() + ",");
-                        player.sendMessage(ChatColor.DARK_AQUA + "You unlocked the " + finalKit.getRarity().getColor() + finalKit.getName() + ChatColor.DARK_AQUA + " kit!");
+                        player.sendMessage(ChatColor.DARK_AQUA + "You unlocked the " + finalKit.getRarity().getColor() + (finalKit.getRarity() == Rarity.EPIC
+                                || finalKit.getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + finalKit.getName() + ChatColor.DARK_AQUA + " kit!");
                     } else {
                         int coins = ThreadLocalRandom.current().nextInt(5, 8 + 1);
-                        player.sendMessage(ChatColor.GRAY + "You already have the " + finalKit.getRarity().getColor() + finalKit.getName()
+                        player.sendMessage(ChatColor.GRAY + "You already have the " + finalKit.getRarity().getColor() + (finalKit.getRarity() == Rarity.EPIC
+                                || finalKit.getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + finalKit.getName()
                                 + ChatColor.GRAY + " kit, so you got " + BoldColor.PINK.getColor() + coins + " Battle Coins");
                         scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
                         playerData.setCoins(playerData.getCoins() + coins);
@@ -168,10 +170,12 @@ public class KSlotsMenu {
                     }
                     if (!playerData.getOwnedKits().contains(finalKit.getId() + ",")) {
                         playerData.setOwnedKits(playerData.getOwnedKits() + finalKit.getId() + ",");
-                        player.sendMessage(ChatColor.DARK_AQUA + "You unlocked the " + finalKit.getRarity().getColor() + finalKit.getName() + ChatColor.DARK_AQUA + " kit!");
+                        player.sendMessage(ChatColor.DARK_AQUA + "You unlocked the " + finalKit.getRarity().getColor() + (finalKit.getRarity() == Rarity.EPIC
+                                || finalKit.getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + finalKit.getName() + ChatColor.DARK_AQUA + " kit!");
                     } else {
                         int coins = ThreadLocalRandom.current().nextInt(5, 8 + 1);
-                        player.sendMessage(ChatColor.GRAY + "You already have the " + finalKit.getRarity().getColor() + finalKit.getName()
+                        player.sendMessage(ChatColor.GRAY + "You already have the " + finalKit.getRarity().getColor() + (finalKit.getRarity() == Rarity.EPIC
+                                || finalKit.getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + finalKit.getName()
                                 + ChatColor.GRAY + " kit, so you got " + BoldColor.PINK.getColor() + coins + " Battle Coins");
                         scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
                         playerData.setCoins(playerData.getCoins() + coins);
@@ -211,10 +215,12 @@ public class KSlotsMenu {
                     }
                     if (!playerData.getOwnedKits().contains(finalKit.getId() + ",")) {
                         playerData.setOwnedKits(playerData.getOwnedKits() + finalKit.getId() + ",");
-                        player.sendMessage(ChatColor.DARK_AQUA + "You unlocked the " + finalKit.getRarity().getColor() + finalKit.getName() + ChatColor.DARK_AQUA + " kit!");
+                        player.sendMessage(ChatColor.DARK_AQUA + "You unlocked the " + finalKit.getRarity().getColor() + (finalKit.getRarity() == Rarity.EPIC
+                                || finalKit.getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + finalKit.getName() + ChatColor.DARK_AQUA + " kit!");
                     } else {
                         int coins = ThreadLocalRandom.current().nextInt(5, 8 + 1);
-                        player.sendMessage(ChatColor.GRAY + "You already have the " + finalKit.getRarity().getColor() + finalKit.getName()
+                        player.sendMessage(ChatColor.GRAY + "You already have the " + finalKit.getRarity().getColor() + (finalKit.getRarity() == Rarity.EPIC
+                                || finalKit.getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + finalKit.getName()
                                 + ChatColor.GRAY + " kit, so you got " + BoldColor.PINK.getColor() + coins + " Battle Coins");
                         scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
                         playerData.setCoins(playerData.getCoins() + coins);
@@ -254,10 +260,12 @@ public class KSlotsMenu {
                     }
                     if (!playerData.getOwnedKits().contains(finalKit.getId() + ",")) {
                         playerData.setOwnedKits(playerData.getOwnedKits() + finalKit.getId() + ",");
-                        player.sendMessage(ChatColor.DARK_AQUA + "You unlocked the " + finalKit.getRarity().getColor() + finalKit.getName() + ChatColor.DARK_AQUA + " kit!");
+                        player.sendMessage(ChatColor.DARK_AQUA + "You unlocked the " + finalKit.getRarity().getColor() + (finalKit.getRarity() == Rarity.EPIC
+                                || finalKit.getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + finalKit.getName() + ChatColor.DARK_AQUA + " kit!");
                     } else {
                         int coins = ThreadLocalRandom.current().nextInt(5, 8 + 1);
-                        player.sendMessage(ChatColor.GRAY + "You already have the " + finalKit.getRarity().getColor() + finalKit.getName()
+                        player.sendMessage(ChatColor.GRAY + "You already have the " + finalKit.getRarity().getColor() + (finalKit.getRarity() == Rarity.EPIC
+                                || finalKit.getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + finalKit.getName()
                                 + ChatColor.GRAY + " kit, so you got " + BoldColor.PINK.getColor() + coins + " Battle Coins");
                         scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
                         playerData.setCoins(playerData.getCoins() + coins);

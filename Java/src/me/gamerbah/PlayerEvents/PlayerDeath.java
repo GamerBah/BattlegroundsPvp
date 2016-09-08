@@ -242,6 +242,7 @@ public class PlayerDeath implements Listener {
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 2, 1);
                 if (killerData.getLastKilledBy().equals(player.getUniqueId().toString())) {
                     killerData.setRevengeKills(killerData.getRevengeKills() + 1);
+                    killerData.setLastKilledBy("NONE");
                 }
             } else {
                 scoreboardListener.getSouls().put(killer.getUniqueId(), killerData.getSouls());
@@ -257,6 +258,7 @@ public class PlayerDeath implements Listener {
                 if (killerData.getLastKilledBy().equals(player.getUniqueId().toString())) {
                     TitleAPI.sendTitle(killer, 1, 40, 10, BoldColor.YELLOW.getColor() + "REVENGE!", ChatColor.GRAY + "You killed " + ChatColor.RED + player.getName());
                     killerData.setRevengeKills(killerData.getRevengeKills() + 1);
+                    killerData.setLastKilledBy("NONE");
                 } else {
                     TitleAPI.sendTitle(killer, 1, 30, 10, " ", ChatColor.GRAY + "You killed " + ChatColor.RED + player.getName());
                 }
@@ -276,6 +278,7 @@ public class PlayerDeath implements Listener {
             if (killerData.getLastKilledBy().equals(player.getUniqueId().toString())) {
                 TitleAPI.sendTitle(killer, 1, 40, 10, BoldColor.YELLOW.getColor() + "REVENGE!", ChatColor.GRAY + "You killed " + ChatColor.RED + player.getName());
                 killerData.setRevengeKills(killerData.getRevengeKills() + 1);
+                killerData.setLastKilledBy("NONE");
             } else {
                 TitleAPI.sendTitle(killer, 1, 30, 10, " ", ChatColor.GRAY + "You killed " + ChatColor.RED + player.getName());
             }
