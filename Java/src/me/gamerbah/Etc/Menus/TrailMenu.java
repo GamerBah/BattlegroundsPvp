@@ -4,10 +4,10 @@ package me.gamerbah.Etc.Menus;
 
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Utils.Cosmetic;
 import me.gamerbah.Utils.I;
 import me.gamerbah.Utils.Messages.BoldColor;
 import me.gamerbah.Utils.Rarity;
-import me.gamerbah.Utils.Trails.Trail;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -43,17 +43,17 @@ public class TrailMenu {
 
         int rareSlot = 9, epicSlot = 0, legendarySlot = 5;
 
-        for (Trail.Type type : Trail.Type.values()) {
-            if (type.getRarity() == Rarity.RARE) {
-                inv.setItem(rareSlot++, type.getItem());
-            } else if (type.getRarity() == Rarity.EPIC) {
-                inv.setItem(epicSlot++, type.getItem());
-            } else if (type.getRarity() == Rarity.LEGENDARY) {
-                inv.setItem(legendarySlot++, type.getItem());
+        for (Cosmetic.Item item : Cosmetic.Item.values()) {
+            if (item.getRarity() == Rarity.RARE) {
+                inv.setItem(rareSlot++, item.getItem());
+            } else if (item.getRarity() == Rarity.EPIC) {
+                inv.setItem(epicSlot++, item.getItem());
+            } else if (item.getRarity() == Rarity.LEGENDARY) {
+                inv.setItem(legendarySlot++, item.getItem());
             }
         }
 
-        inv.setItem(26, Trail.Type.NONE.getItem());
+        inv.setItem(26, Cosmetic.Item.TRAIL_NONE.getItem());
         inv.setItem(22, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
         player.openInventory(inv);
     }

@@ -64,9 +64,6 @@ public enum Time {
         if (months == 1) {
             mnl = " month";
         } else mnl = " months";
-        if (years == 1) {
-            yl = " year";
-        } else yl = " years";
 
         if (shortened) {
             if (years <= 0) {
@@ -85,9 +82,9 @@ public enum Time {
                     }
                     return weeks + wl + ", " + days + dl;
                 }
-                return months + mnl + ", " + days + dl;
+                return months + mnl;
             }
-            return years + yl + ", " + months + mnl;
+            return "over a year";
         } else {
             if (years <= 0) {
                 if (months <= 0) {
@@ -105,9 +102,9 @@ public enum Time {
                     }
                     return weeks + wl + " and " + days + dl;
                 }
-                return months + mnl + " and " + days + dl;
+                return months + mnl;
             }
-            return years + yl + " and " + months + mnl;
+            return "over a year";
         }
     }
 }

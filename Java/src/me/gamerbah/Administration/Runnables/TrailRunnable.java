@@ -7,8 +7,8 @@ import lombok.Getter;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Listeners.CombatListener;
+import me.gamerbah.Utils.Cosmetic;
 import me.gamerbah.Utils.EventSound;
-import me.gamerbah.Utils.Trails.Trail;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -45,7 +45,7 @@ public class TrailRunnable implements Runnable {
                     still.put(player, -1);
                 }
             } else {
-                    playerLocations.put(player, player.getLocation());
+                playerLocations.put(player, player.getLocation());
                 still.remove(player);
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                     if (Battlegrounds.getAfk().contains(player.getUniqueId())) {
@@ -57,7 +57,7 @@ public class TrailRunnable implements Runnable {
                             plugin.respawn(player);
                             player.removePotionEffect(PotionEffectType.INVISIBILITY);
                         }
-                        }
+                    }
                 }, 3L);
             }
 
@@ -69,11 +69,11 @@ public class TrailRunnable implements Runnable {
 
 
                             // Epic
-                            if (playerData.getTrail().equals(Trail.Type.RAIN_STORM)) {
+                            if (playerData.getTrail().equals(Cosmetic.Item.TRAIL_RAIN_STORM)) {
                                 ParticleEffect.CLOUD.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.25, 0.1, 0.25, 0, 6, 25);
                                 ParticleEffect.DRIP_WATER.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.15, 0, 0.15, 0, 2, 25);
                             }
-                            if (playerData.getTrail().equals(Trail.Type.LAVA_RAIN)) {
+                            if (playerData.getTrail().equals(Cosmetic.Item.TRAIL_LAVA_RAIN)) {
                                 ParticleEffect.SMOKE_LARGE.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.25D, 0), 0.25, 0.1, 0.25, 0, 8, 25);
                                 ParticleEffect.DRIP_LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.1, 0, 0.1, 0, 4, 25);
                             }
@@ -87,15 +87,15 @@ public class TrailRunnable implements Runnable {
                     if (plugin.getConfig().getBoolean("essenceActive")) {
                         ParticleEffect.REDSTONE.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 1.25, 0), 0.2, 0.2, 0.2, 1, 5, 25);
                     }
-                    if (playerData.getTrail().equals(Trail.Type.RAIN_STORM)) {
+                    if (playerData.getTrail().equals(Cosmetic.Item.TRAIL_RAIN_STORM)) {
                         ParticleEffect.DRIP_WATER.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.1D, 0), 0.2, 0, 0.2, 0, 3, 25);
                         ParticleEffect.WATER_SPLASH.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.2D, 0), 0.1, 0, 0.1, 0, 10, 25);
                     }
-                    if (playerData.getTrail().equals(Trail.Type.LAVA_RAIN)) {
+                    if (playerData.getTrail().equals(Cosmetic.Item.TRAIL_LAVA_RAIN)) {
                         ParticleEffect.DRIP_LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.1D, 0), 0.2, 0, 0.2, 0, 3, 25);
                         ParticleEffect.LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.1D, 0), 0.1, 0, 0.1, 0, 1, 25);
                     }
-                    if (playerData.getTrail().equals(Trail.Type.FLAME_WARRIOR)) {
+                    if (playerData.getTrail().equals(Cosmetic.Item.TRAIL_FLAME_WARRIOR)) {
                         ParticleEffect.FLAME.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.1, 0), 0, 0, 0, 0, 1, 25);
                         ParticleEffect.FLAME.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.2, 0), 0, 0, 0, 0, 1, 25);
                         ParticleEffect.FLAME.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.3, 0), 0, 0, 0, 0, 1, 25);

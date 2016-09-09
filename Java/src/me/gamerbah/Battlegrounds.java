@@ -30,6 +30,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.inventivetalent.bossbar.BossBarAPI;
 
 import java.io.File;
 import java.io.IOException;
@@ -139,6 +140,7 @@ public class Battlegrounds extends JavaPlugin {
                 getSix100Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_100_PERCENT));
             if (!getSix150Essence().containsKey(player.getUniqueId()))
                 getSix150Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_150_PERCENT));
+            BossBarAPI.removeAllBars(player);
         }
 
         reloadPunishments();
@@ -180,14 +182,14 @@ public class Battlegrounds extends JavaPlugin {
         fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), -3.5, 37.0, 4.5));
 
         // Register Launcher Blocks
-        launchers.add(new Location(getServer().getWorld("Colosseum"), 8, 27.15, 0));
-        launchers.add(new Location(getServer().getWorld("Colosseum"), 6, 27.15, 6));
-        launchers.add(new Location(getServer().getWorld("Colosseum"), 0, 27.15, 8));
-        launchers.add(new Location(getServer().getWorld("Colosseum"), -8, 27.15, 0));
-        launchers.add(new Location(getServer().getWorld("Colosseum"), -6, 27.15, -6));
-        launchers.add(new Location(getServer().getWorld("Colosseum"), 0, 27.15, -8));
-        launchers.add(new Location(getServer().getWorld("Colosseum"), 6, 27.15, -6));
-        launchers.add(new Location(getServer().getWorld("Colosseum"), -6, 27.15, 6));
+        launchers.add(new Location(getServer().getWorld("Colosseum"), 8, 27.05, 0));
+        launchers.add(new Location(getServer().getWorld("Colosseum"), 6, 27.05, 6));
+        launchers.add(new Location(getServer().getWorld("Colosseum"), 0, 27.05, 8));
+        launchers.add(new Location(getServer().getWorld("Colosseum"), -8, 27.05, 0));
+        launchers.add(new Location(getServer().getWorld("Colosseum"), -6, 27.05, -6));
+        launchers.add(new Location(getServer().getWorld("Colosseum"), 0, 27.05, -8));
+        launchers.add(new Location(getServer().getWorld("Colosseum"), 6, 27.05, -6));
+        launchers.add(new Location(getServer().getWorld("Colosseum"), -6, 27.05, 6));
     }
 
     public void onDisable() {

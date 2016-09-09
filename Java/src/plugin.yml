@@ -1,7 +1,7 @@
 main: me.gamerbah.Battlegrounds
 name: Battlegrounds
 author: GamerBah
-version: 0.7.4a
+version: 0.7.6a
 commands:
   rank:
     description: Changes a players rank
@@ -75,3 +75,4 @@ commands:
     description: Reloads the server
   friend:
     description: Friends Command
+    aliases: [friends, f]

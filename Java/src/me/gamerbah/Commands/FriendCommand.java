@@ -7,6 +7,7 @@ import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.Friends.FriendUtils;
 import me.gamerbah.Utils.Time;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -81,6 +82,15 @@ public class FriendCommand implements CommandExecutor {
                     return true;
                 }
                 friendUtils.createPendingRequest(player, target);
+                plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                    Battlegrounds.pendingFriends.remove(target);
+                    player.sendMessage(org.bukkit.ChatColor.RED + "You friend request to "
+                            + ChatColor.GOLD + target.getName() + ChatColor.RED + " has expired!");
+                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 2, 0.5F);
+
+                    target.sendMessage(ChatColor.GOLD + player.getName() + "'s" + ChatColor.RED + " friend request has expired!");
+                    target.playSound(target.getLocation(), Sound.BLOCK_NOTE_BASS, 2, 0.5F);
+                }, 1200L);
                 return true;
             }
             if (args[0].equalsIgnoreCase("remove")) {
@@ -108,6 +118,11 @@ public class FriendCommand implements CommandExecutor {
                 }
                 PlayerData friendData = plugin.getPlayerData(args[1]);
                 Player target = plugin.getServer().getPlayer(args[1]);
+                if (args[1].equalsIgnoreCase(player.getName())) {
+                    player.sendMessage(ChatColor.RED + "You are currently online. What a surprise...");
+                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                    return true;
+                }
                 if (!playerData.getFriends().contains(friendData.getId() + ",")) {
                     player.sendMessage(ChatColor.RED + "You can only see when your friends were last online!");
                     Battlegrounds.playSound(player, EventSound.ACTION_FAIL);

@@ -5,7 +5,7 @@ package me.gamerbah.Administration.Runnables;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Listeners.CombatListener;
-import me.gamerbah.Utils.Trails.Trail;
+import me.gamerbah.Utils.Cosmetic;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -27,7 +27,7 @@ public class HelixRunnable implements Runnable {
             if (TrailRunnable.getStill().containsKey(player)) {
                 if (!Battlegrounds.getAfk().contains(player.getUniqueId())) {
                     if (!CombatListener.getTagged().containsKey(player.getUniqueId())) {
-                        if (playerData.getTrail().equals(Trail.Type.FLAME_WARRIOR)) {
+                        if (playerData.getTrail().equals(Cosmetic.Item.TRAIL_FLAME_WARRIOR)) {
                             phi += Math.PI / 16;
                             double x, y, z;
                             Location location = player.getLocation();

@@ -5,7 +5,7 @@ package me.gamerbah.Etc.Menus;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Etc.Achievements.Achievements;
+import me.gamerbah.Etc.Achievements.Achievement;
 import me.gamerbah.Utils.I;
 import me.gamerbah.Utils.KDRatio;
 import me.gamerbah.Utils.Messages.BoldColor;
@@ -36,16 +36,10 @@ public class ProfileMenu {
         if (!playerData.getLastKilledBy().equals("NONE")) {
             killedByPlayerData = plugin.getPlayerData(UUID.fromString(playerData.getLastKilledBy()));
         }
-        Achievements.Combat combat = null;
-        Achievements.Challenge challenge = null;
-        for (Achievements.Combat achievements : Achievements.Combat.values()) {
+        Achievement.Type achievement = null;
+        for (Achievement.Type achievements : Achievement.Type.values()) {
             if (achievements.toString().equals(playerData.getTitle())) {
-                combat = achievements;
-            }
-        }
-        for (Achievements.Challenge achievements : Achievements.Challenge.values()) {
-            if (achievements.toString().equals(playerData.getTitle())) {
-                challenge = achievements;
+                achievement = achievements;
             }
         }
 
@@ -63,8 +57,7 @@ public class ProfileMenu {
                 .lore(" ")
                 .lore(ChatColor.GRAY + "Active Particle Pack: " + playerData.getTrail().getRarity().getColor() + (playerData.getTrail().getRarity() == Rarity.EPIC
                         || playerData.getTrail().getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + playerData.getTrail().getName())
-                .lore(ChatColor.GRAY + "Mastery Title: " + (combat != null ? BoldColor.GOLD.getColor() + "[" + combat.getTitle() + "]"
-                        : (challenge != null ? BoldColor.GOLD.getColor() + "[" + challenge.getTitle() + "]" : "None")))
+                .lore(ChatColor.GRAY + "Mastery Title: " + (achievement != null ? BoldColor.GOLD.getColor() + "[" + achievement.getTitle() + "]" : "None"))
                 .lore(" ")
                 .lore(ChatColor.GRAY + "Souls: " + ChatColor.AQUA + playerData.getSouls())
                 .lore(ChatColor.GRAY + "Battle Coins: " + ChatColor.LIGHT_PURPLE + playerData.getCoins());

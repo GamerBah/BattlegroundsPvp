@@ -8,17 +8,13 @@ import me.gamerbah.Administration.Donations.Essence;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Commands.ReportCommand;
+import me.gamerbah.Etc.Achievements.Achievement;
 import me.gamerbah.Etc.Achievements.AchievementMenu;
-import me.gamerbah.Etc.Achievements.Achievements;
 import me.gamerbah.Etc.Menus.*;
-import me.gamerbah.Utils.EventSound;
-import me.gamerbah.Utils.FireworkUtils;
-import me.gamerbah.Utils.I;
+import me.gamerbah.Utils.*;
 import me.gamerbah.Utils.Kits.KitManager;
 import me.gamerbah.Utils.Messages.BoldColor;
-import me.gamerbah.Utils.Rarity;
 import me.gamerbah.Utils.Teams.TeamMessages;
-import me.gamerbah.Utils.Trails.Trail;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.*;
@@ -246,20 +242,20 @@ public class InventoryClickListener implements Listener {
                         Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                     } else {
                         essenceMenu.openInventory(player);
-                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
+                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                     }
                 }
 
                 if (item.getType().equals(Material.MAGMA_CREAM)) {
                     TrailMenu trailMenu = new TrailMenu(plugin);
                     trailMenu.openInventory(player);
-                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                 }
 
                 if (item.getType().equals(Material.EMERALD)) {
                     AchievementMenu achievementMenu = new AchievementMenu(plugin);
                     achievementMenu.openInventory(player);
-                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                 }
             }
 
@@ -269,12 +265,12 @@ public class InventoryClickListener implements Listener {
                 event.setCancelled(true);
                 if (item.getType().equals(Material.GOLD_SWORD)) {
                     achievementMenu.openCombatAchievements(player);
-                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                 }
                 if (item.getType().equals(Material.END_CRYSTAL)) {
                     PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
                     ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
-                    playerData.setTitle("NONE");
+                    playerData.setTitle("TRAIL_NONE");
                     scoreboardListener.reloadScoreboardTeams(player, player.getScoreboard());
                     Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
                     player.closeInventory();
@@ -297,16 +293,16 @@ public class InventoryClickListener implements Listener {
                     return;
                 }
                 if (item.getType().equals(Material.EMERALD_BLOCK)) {
-                    Achievements.Combat combat = Achievements.combatTypeFromName(item.getItemMeta().getDisplayName().substring(4, item.getItemMeta().getDisplayName().length()));
+                    Achievement.Type achievement = Achievement.getTypeFromName(item.getItemMeta().getDisplayName().substring(4, item.getItemMeta().getDisplayName().length()));
                     PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
-                    if (combat != null) {
+                    if (achievement != null) {
                         if (playerData.hasRank(Rank.WARRIOR)) {
-                            playerData.setTitle(combat.toString());
+                            playerData.setTitle(achievement.toString());
                             ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
                             scoreboardListener.reloadScoreboardTeams(player, player.getScoreboard());
                             player.closeInventory();
                             Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
-                            player.sendMessage(ChatColor.GRAY + "Mastery Title set to " + BoldColor.GOLD.getColor() + "[" + combat.getTitle() + "]");
+                            player.sendMessage(ChatColor.GRAY + "Mastery Title set to " + BoldColor.GOLD.getColor() + "[" + achievement.getTitle() + "]");
                         }
                     }
                 }
@@ -364,9 +360,9 @@ public class InventoryClickListener implements Listener {
                     profileMenu.openInventory(player);
                     Battlegrounds.playSound(player, EventSound.INVENTORY_GO_BACK);
                 } else {
-                    Trail.Type trail = Trail.typeFromName(item.getItemMeta().getDisplayName().substring(2, item.getItemMeta().getDisplayName().length()));
+                    Cosmetic.Item trail = Cosmetic.typeFromName(item.getItemMeta().getDisplayName().substring(2, item.getItemMeta().getDisplayName().length()), Cosmetic.PARTICLE_PACK);
                     if (trail == null) {
-                        trail = Trail.typeFromName(item.getItemMeta().getDisplayName().substring(4, item.getItemMeta().getDisplayName().length()));
+                        trail = Cosmetic.typeFromName(item.getItemMeta().getDisplayName().substring(4, item.getItemMeta().getDisplayName().length()), Cosmetic.PARTICLE_PACK);
                         if (trail == null) {
                             return;
                         }
@@ -391,7 +387,7 @@ public class InventoryClickListener implements Listener {
                 OfflinePlayer target = plugin.getServer().getOfflinePlayer(targetData.getUuid());
                 if (item.getType().equals(Material.SKULL_ITEM)) {
                     punishMenu.openInventory(player, target);
-                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                 }
             }
 
@@ -407,11 +403,11 @@ public class InventoryClickListener implements Listener {
                 OfflinePlayer target = plugin.getServer().getOfflinePlayer(targetData.getUuid());
                 if (item.getType().equals(Material.BOOK)) {
                     punishMenu.openMuteMenu(player, target);
-                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                 }
                 if (item.getType().equals(Material.BARRIER)) {
                     punishMenu.openBanMenu(player, target);
-                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                 }
             }
 
@@ -444,7 +440,7 @@ public class InventoryClickListener implements Listener {
                                 ? BoldColor.GREEN.getColor() + "Click to Roll!" : BoldColor.RED.getColor() + "Need More Souls!"))
                                 .lore(ChatColor.GRAY + "Cost: " + ChatColor.AQUA + 400 * selectedInInventory(inventory) + " Souls")
                                 .durability(5));
-                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
+                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                         player.openInventory(inventory);
                     }
                     if (item.getDurability() == 10) {
@@ -479,7 +475,7 @@ public class InventoryClickListener implements Listener {
                     } else {
                         KSlotsMenu kSlotsMenu = new KSlotsMenu(plugin);
                         kSlotsMenu.openInventory(player);
-                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
+                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                     }
                 }
             }

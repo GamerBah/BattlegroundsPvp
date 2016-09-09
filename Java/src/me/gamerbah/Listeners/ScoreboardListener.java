@@ -6,7 +6,7 @@ import lombok.Getter;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Etc.Achievements.Achievements;
+import me.gamerbah.Etc.Achievements.Achievement;
 import me.gamerbah.Utils.KDRatio;
 import me.gamerbah.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
@@ -110,31 +110,31 @@ public class ScoreboardListener implements Listener {
 
         for (Player target : Bukkit.getOnlinePlayers()) {
             PlayerData targetData = plugin.getPlayerData(target.getUniqueId());
-            if (targetData.getTitle().equals(Achievements.Combat.BRUTALITY_MASTER.toString())) {
+            if (targetData.getTitle().equals(Achievement.Type.BRUTALITY_MASTER.toString())) {
                 killer.addEntry(target.getName());
-            } else if (targetData.getTitle().equals(Achievements.Combat.BUZZKILL_MASTER.toString())) {
+            } else if (targetData.getTitle().equals(Achievement.Type.BUZZKILL_MASTER.toString())) {
                 buzzkill.addEntry(target.getName());
-            } else if (targetData.getTitle().equals(Achievements.Combat.VENGEFUL_MASTER.toString())) {
+            } else if (targetData.getTitle().equals(Achievement.Type.VENGEFUL_MASTER.toString())) {
                 vengeful.addEntry(target.getName());
-            } else if (targetData.getTitle().equals(Achievements.Combat.SADIST_MASTER.toString())) {
+            } else if (targetData.getTitle().equals(Achievement.Type.SADIST_MASTER.toString())) {
                 sadist.addEntry(target.getName());
-            } else if (targetData.getTitle().equals(Achievements.Combat.DEATHKNELL.toString())) {
+            } else if (targetData.getTitle().equals(Achievement.Type.DEATHKNELL.toString())) {
                 fragile.addEntry(target.getName());
-            } else if (targetData.getTitle().equals("NONE")) {
+            } else if (targetData.getTitle().equals("TRAIL_NONE")) {
                 none.addEntry(target.getName());
             }
 
-            if (playerData.getTitle().equals(Achievements.Combat.BRUTALITY_MASTER.toString())) {
+            if (playerData.getTitle().equals(Achievement.Type.BRUTALITY_MASTER.toString())) {
                 target.getScoreboard().getTeam("killer").addEntry(player.getName());
-            } else if (playerData.getTitle().equals(Achievements.Combat.BUZZKILL_MASTER.toString())) {
+            } else if (playerData.getTitle().equals(Achievement.Type.BUZZKILL_MASTER.toString())) {
                 target.getScoreboard().getTeam("buzzkill").addEntry(player.getName());
-            } else if (playerData.getTitle().equals(Achievements.Combat.VENGEFUL_MASTER.toString())) {
+            } else if (playerData.getTitle().equals(Achievement.Type.VENGEFUL_MASTER.toString())) {
                 target.getScoreboard().getTeam("vengeful").addEntry(player.getName());
-            } else if (playerData.getTitle().equals(Achievements.Combat.SADIST_MASTER.toString())) {
+            } else if (playerData.getTitle().equals(Achievement.Type.SADIST_MASTER.toString())) {
                 target.getScoreboard().getTeam("sadist").addEntry(player.getName());
-            } else if (playerData.getTitle().equals(Achievements.Combat.DEATHKNELL.toString())) {
+            } else if (playerData.getTitle().equals(Achievement.Type.DEATHKNELL.toString())) {
                 target.getScoreboard().getTeam("fragile").addEntry(player.getName());
-            } else if (playerData.getTitle().equals("NONE")) {
+            } else if (playerData.getTitle().equals("TRAIL_NONE")) {
                 target.getScoreboard().getTeam("none").addEntry(player.getName());
             }
         }
@@ -157,31 +157,31 @@ public class ScoreboardListener implements Listener {
 
         for (Player target : Bukkit.getOnlinePlayers()) {
             PlayerData targetData = plugin.getPlayerData(target.getUniqueId());
-            if (targetData.getTitle().equals(Achievements.Combat.BRUTALITY_MASTER.toString())) {
+            if (targetData.getTitle().equals(Achievement.Type.BRUTALITY_MASTER.toString())) {
                 killer.addEntry(target.getName());
-            } else if (targetData.getTitle().equals(Achievements.Combat.BUZZKILL_MASTER.toString())) {
+            } else if (targetData.getTitle().equals(Achievement.Type.BUZZKILL_MASTER.toString())) {
                 buzzkill.addEntry(target.getName());
-            } else if (targetData.getTitle().equals(Achievements.Combat.VENGEFUL_MASTER.toString())) {
+            } else if (targetData.getTitle().equals(Achievement.Type.VENGEFUL_MASTER.toString())) {
                 vengeful.addEntry(target.getName());
-            } else if (targetData.getTitle().equals(Achievements.Combat.SADIST_MASTER.toString())) {
+            } else if (targetData.getTitle().equals(Achievement.Type.SADIST_MASTER.toString())) {
                 sadist.addEntry(target.getName());
-            } else if (targetData.getTitle().equals(Achievements.Combat.DEATHKNELL.toString())) {
+            } else if (targetData.getTitle().equals(Achievement.Type.DEATHKNELL.toString())) {
                 fragile.addEntry(target.getName());
-            } else if (targetData.getTitle().equals("NONE")) {
+            } else if (targetData.getTitle().equals("TRAIL_NONE")) {
                 none.addEntry(target.getName());
             }
 
-            if (playerData.getTitle().equals(Achievements.Combat.BRUTALITY_MASTER.toString())) {
+            if (playerData.getTitle().equals(Achievement.Type.BRUTALITY_MASTER.toString())) {
                 target.getScoreboard().getTeam("killer").addEntry(player.getName());
-            } else if (playerData.getTitle().equals(Achievements.Combat.BUZZKILL_MASTER.toString())) {
+            } else if (playerData.getTitle().equals(Achievement.Type.BUZZKILL_MASTER.toString())) {
                 target.getScoreboard().getTeam("buzzkill").addEntry(player.getName());
-            } else if (playerData.getTitle().equals(Achievements.Combat.VENGEFUL_MASTER.toString())) {
+            } else if (playerData.getTitle().equals(Achievement.Type.VENGEFUL_MASTER.toString())) {
                 target.getScoreboard().getTeam("vengeful").addEntry(player.getName());
-            } else if (playerData.getTitle().equals(Achievements.Combat.SADIST_MASTER.toString())) {
+            } else if (playerData.getTitle().equals(Achievement.Type.SADIST_MASTER.toString())) {
                 target.getScoreboard().getTeam("sadist").addEntry(player.getName());
-            } else if (playerData.getTitle().equals(Achievements.Combat.DEATHKNELL.toString())) {
+            } else if (playerData.getTitle().equals(Achievement.Type.DEATHKNELL.toString())) {
                 target.getScoreboard().getTeam("fragile").addEntry(player.getName());
-            } else if (playerData.getTitle().equals("NONE")) {
+            } else if (playerData.getTitle().equals("TRAIL_NONE")) {
                 target.getScoreboard().getTeam("none").addEntry(player.getName());
             }
         }

@@ -25,7 +25,7 @@ public class Baker extends Kit {
                 .lore("§7   ● Leather Chestplate")
                 .lore("§7   ● Leather Leggings")
                 .lore("§7   ● Leather Boots")
-                .lore("§7   ● §3Stick §7(Sharpness IV)")
+                .lore("§7   ● §3Stick §7(Sharpness VI)")
                 .lore("§7   ● §3Bread §7(Knockback II)")
                 .flag(ItemFlag.HIDE_ATTRIBUTES), Rarity.EPIC);
     }
@@ -42,7 +42,7 @@ public class Baker extends Kit {
         player.getInventory().setLeggings(new I(Material.LEATHER_LEGGINGS).name(BoldColor.GOLD.getColor() + "Baker's Pants").color(Color.WHITE).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
         player.getInventory().setBoots(new I(Material.LEATHER_BOOTS).name(BoldColor.GOLD.getColor() + "Baker's Shoes").color(Color.WHITE).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
-        ItemStack stick = new ItemStack(new I(Material.STICK).name(BoldColor.GOLD.getColor() + "Rolling Pin").enchantment(Enchantment.DAMAGE_ALL, 4).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        ItemStack stick = new ItemStack(new I(Material.STICK).name(BoldColor.GOLD.getColor() + "Rolling Pin").enchantment(Enchantment.DAMAGE_ALL, 6).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
         ItemStack bread = new ItemStack(new I(Material.BREAD).name(BoldColor.GOLD.getColor() + "Knockbaguette").enchantment(Enchantment.KNOCKBACK, 2).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
         player.getInventory().addItem(stick);

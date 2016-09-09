@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Utils.Trails.Trail;
+import me.gamerbah.Utils.Cosmetic;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
@@ -29,7 +29,7 @@ public class PlayerData {
     @Getter
     private boolean dailyReward, teamRequests, privateMessaging, stealthyJoin;
     @Getter
-    private Trail.Type trail;
+    private Cosmetic.Item trail;
     @Getter
     private LocalDateTime dailyRewardLast, lastOnline;
     @Getter
@@ -80,7 +80,7 @@ public class PlayerData {
         sql.executeUpdate(UPDATE_PLAYER_STEALTHY_JOIN, this.stealthyJoin = stealthyJoin, id);
     }
 
-    public void setTrail(Trail.Type trail) {
+    public void setTrail(Cosmetic.Item trail) {
         sql.executeUpdate(UPDATE_PLAYER_TRAIL, trail.toString(), id);
         this.trail = trail;
     }

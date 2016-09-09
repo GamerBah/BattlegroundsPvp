@@ -5,7 +5,7 @@ import me.gamerbah.Administration.Donations.Essence;
 import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
-import me.gamerbah.Utils.Trails.Trail;
+import me.gamerbah.Utils.Cosmetic;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
@@ -82,7 +82,7 @@ public class MySQL {
                         result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
                         result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getInt("playersRecruited"), result.getInt("recruitedBy"),
                         result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
-                        Trail.Type.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")),
+                        Cosmetic.Item.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")),
                         result.getString("ownedKits"), result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"));
             }
             result.getStatement().close();
@@ -100,7 +100,7 @@ public class MySQL {
                         result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
                         result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getInt("playersRecruited"), result.getInt("recruitedBy"),
                         result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
-                        Trail.Type.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")),
+                        Cosmetic.Item.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")),
                         result.getString("ownedKits"), result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"));
             }
             result.getStatement().close();
