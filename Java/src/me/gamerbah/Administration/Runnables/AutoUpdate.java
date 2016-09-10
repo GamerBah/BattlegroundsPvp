@@ -47,9 +47,7 @@ public class AutoUpdate implements Runnable {
             player.closeInventory();
             if (KSlotsMenu.usingSlots.containsKey(player)) {
                 PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
-                scoreboardListener.getSouls().put(player.getUniqueId(), playerData.getSouls());
-                playerData.setSouls(playerData.getSouls() + KSlotsMenu.usingSlots.get(player) * 400);
-                scoreboardListener.updateScoreboardSouls(player);
+                scoreboardListener.updateScoreboardSouls(player, KSlotsMenu.usingSlots.get(player) * 400);
                 player.sendMessage(" ");
                 player.sendMessage(ChatColor.YELLOW + "To prevent data loss, your slots roll has been cancelled,");
                 player.sendMessage(ChatColor.YELLOW + "and you've been refunded " + BoldColor.AQUA.getColor() + KSlotsMenu.usingSlots.get(player) * 400 + " Souls");

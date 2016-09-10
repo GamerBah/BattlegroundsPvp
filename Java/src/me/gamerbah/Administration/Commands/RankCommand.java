@@ -65,10 +65,7 @@ public class RankCommand implements CommandExecutor, TabCompleter {
                     ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
                     if (playerData != null) {
                         if (target.isOnline()) {
-                            scoreboardListener.getRanks().put(target.getUniqueId(), playerData.getRank().getColor() + (playerData.hasRank(Rank.WARRIOR)
-                                    ? "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase() : playerData.getRank().getName()));
-                            playerData.setRank(rank);
-                            scoreboardListener.updateScoreboardRank((Player) target);
+                            scoreboardListener.updateScoreboardRank((Player) target, rank);
                             ((Player) target).setPlayerListName((playerData.hasRank(Rank.WARRIOR) ? playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")
                                     + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : ChatColor.GRAY) + target.getName());
                         } else {

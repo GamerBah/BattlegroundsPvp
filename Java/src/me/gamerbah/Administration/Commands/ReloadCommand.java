@@ -45,9 +45,7 @@ public class ReloadCommand implements CommandExecutor {
                 players.closeInventory();
                 if (KSlotsMenu.usingSlots.containsKey(players)) {
                     PlayerData playersData = plugin.getPlayerData(players.getUniqueId());
-                    scoreboardListener.getSouls().put(players.getUniqueId(), playersData.getSouls());
-                    playersData.setSouls(playersData.getSouls() + KSlotsMenu.usingSlots.get(players) * 400);
-                    scoreboardListener.updateScoreboardSouls(players);
+                    scoreboardListener.updateScoreboardSouls(players, KSlotsMenu.usingSlots.get(player) * 400);
                     players.sendMessage(" ");
                     players.sendMessage(ChatColor.YELLOW + "To prevent data loss, your slots roll has been cancelled,");
                     players.sendMessage(ChatColor.YELLOW + "and you've been refunded " + BoldColor.AQUA.getColor() + KSlotsMenu.usingSlots.get(players) * 400 + " Souls");

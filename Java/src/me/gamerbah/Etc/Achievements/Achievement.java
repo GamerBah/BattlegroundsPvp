@@ -5,8 +5,8 @@ package me.gamerbah.Etc.Achievements;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Listeners.ScoreboardListener;
 import me.gamerbah.Utils.Messages.BoldColor;
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -45,16 +45,20 @@ public enum Achievement {
         }, 15L);
         player.sendMessage(" ");
         player.sendMessage(AQUA + "\u00AB " + WHITE + "" + STRIKETHROUGH + "----------------------" + AQUA + " \u00BB");
-        player.sendMessage(" ");
         player.sendMessage(BoldColor.GOLD.getColor() + "  ACHIEVEMENT UNLOCKED!");
-        BaseComponent component = new TextComponent("  " + type.getGroup().getColor() + type.getName() + "\n");
-        component.addExtra(new TextComponent(BoldColor.GREEN.getColor() + "  \u2713 " + ChatColor.GRAY + type.getDescription()));
-        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.AQUA + "You can view this achievement\n"
-                + ChatColor.AQUA + "in your Player Profile!").create()));
+        BaseComponent component = new TextComponent(" \n" + type.getGroup().getColor() + "  " + type.getName() + "\n");
+        component.addExtra(new TextComponent(BoldColor.GREEN.getColor() + "  \u2713 " + GRAY + type.getDescription()));
+        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(AQUA + "You can view this achievement\n"
+                + AQUA + "in your Player Profile!").create()));
         player.spigot().sendMessage(component);
         player.sendMessage(" ");
+        player.sendMessage(YELLOW + "  Rewards:\n" + GRAY + "    \u25CF " + BoldColor.AQUA.getColor() + type.getSoulReward() + " Souls\n"
+                + GRAY + "    \u25CF " + BoldColor.PINK.getColor() + type.getCoinReward() + " Battle Coins");
         player.sendMessage(AQUA + "\u00AB " + WHITE + "" + STRIKETHROUGH + "----------------------" + AQUA + " \u00BB");
         player.sendMessage(" ");
+        ScoreboardListener scoreboardListener = new ScoreboardListener(Battlegrounds.getInstance());
+        scoreboardListener.updateScoreboardSouls(player, type.getSoulReward());
+        scoreboardListener.updateScoreboardCoins(player, type.getCoinReward());
     }
 
     @AllArgsConstructor
@@ -95,7 +99,7 @@ public enum Achievement {
         CHALLENGER_III(CHALLENGE, "Challenger II", "Complete 15 Daily Challenges", 15, 300, 40, null),
         CHALLENGER_IV(CHALLENGE, "Challenger IV", "Complete 35 Daily Challenges", 35, 400, 55, null),
         CHALLENGER_V(CHALLENGE, "Challenger V", "Complete 75 Daily Challenges", 75, 500, 75, null),
-        CHALLENGER_MASTER(CHALLENGE, "Challenger Mastery", "Complete 155 Daily Challenges", 150, 750, 125, null),
+        CHALLENGER_MASTER(CHALLENGE, "Challenger Mastery", "Complete 150 Daily Challenges", 150, 750, 125, null),
 
         RECRUITER_I(RECRUITMENT, "Recruiter I", "Recruit a friend", 1, 50, 10, null),
         RECRUITER_II(RECRUITMENT, "Recruiter II", "Recruit 5 friends", 5, 75, 25, null),

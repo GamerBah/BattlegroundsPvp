@@ -71,9 +71,7 @@ public class KSlotsMenu {
         usingSlots.put(player, slots);
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
-        scoreboardListener.getSouls().put(player.getUniqueId(), playerData.getSouls());
-        playerData.setSouls(playerData.getSouls() - slots * 400);
-        scoreboardListener.updateScoreboardSouls(player);
+        scoreboardListener.updateScoreboardSouls(player, -slots * 400);
         Inventory inventory = player.getOpenInventory().getTopInventory();
         inventory.clear();
         inventory.setItem(9, new I(Material.STAINED_GLASS_PANE).name(" ").durability(15));
@@ -132,9 +130,7 @@ public class KSlotsMenu {
                         player.sendMessage(ChatColor.GRAY + "You already have the " + finalKit.getRarity().getColor() + (finalKit.getRarity() == Rarity.EPIC
                                 || finalKit.getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + finalKit.getName()
                                 + ChatColor.GRAY + " kit, so you got " + BoldColor.PINK.getColor() + coins + " Battle Coins");
-                        scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
-                        playerData.setCoins(playerData.getCoins() + coins);
-                        scoreboardListener.updateScoreboardCoins(player);
+                        scoreboardListener.updateScoreboardCoins(player, coins);
                     }
                     if (slots == 1) {
                         inventory.setItem(31, new I(Material.ARROW).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
@@ -177,9 +173,7 @@ public class KSlotsMenu {
                         player.sendMessage(ChatColor.GRAY + "You already have the " + finalKit.getRarity().getColor() + (finalKit.getRarity() == Rarity.EPIC
                                 || finalKit.getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + finalKit.getName()
                                 + ChatColor.GRAY + " kit, so you got " + BoldColor.PINK.getColor() + coins + " Battle Coins");
-                        scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
-                        playerData.setCoins(playerData.getCoins() + coins);
-                        scoreboardListener.updateScoreboardCoins(player);
+                        scoreboardListener.updateScoreboardCoins(player, coins);
                     }
                     if (slots == 2) {
                         inventory.setItem(31, new I(Material.ARROW).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
@@ -223,8 +217,7 @@ public class KSlotsMenu {
                                 || finalKit.getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + finalKit.getName()
                                 + ChatColor.GRAY + " kit, so you got " + BoldColor.PINK.getColor() + coins + " Battle Coins");
                         scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
-                        playerData.setCoins(playerData.getCoins() + coins);
-                        scoreboardListener.updateScoreboardCoins(player);
+                        scoreboardListener.updateScoreboardCoins(player, coins);
                     }
                     if (slots == 3) {
                         inventory.setItem(31, new I(Material.ARROW).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));
@@ -268,8 +261,7 @@ public class KSlotsMenu {
                                 || finalKit.getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + finalKit.getName()
                                 + ChatColor.GRAY + " kit, so you got " + BoldColor.PINK.getColor() + coins + " Battle Coins");
                         scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
-                        playerData.setCoins(playerData.getCoins() + coins);
-                        scoreboardListener.updateScoreboardCoins(player);
+                        scoreboardListener.updateScoreboardCoins(player, coins);
                     }
                     if (slots == 4) {
                         inventory.setItem(31, new I(Material.ARROW).name(BoldColor.YELLOW.getColor() + "Reset Slots").lore(ChatColor.GRAY + "Click to use the machine again!"));

@@ -30,7 +30,6 @@ public class ThanksCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
 
         if (args.length != 1) {
             player.sendMessage(Battlegrounds.incorrectUsage + "/thanks <player>");
@@ -70,18 +69,14 @@ public class ThanksCommand implements CommandExecutor {
         thanks.add(player.getName());
         plugin.getConfig().set("essenceThanks", thanks);
         ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
-        scoreboardListener.getSouls().put(player.getUniqueId(), playerData.getSouls());
-        playerData.setSouls(playerData.getSouls() + 20);
-        scoreboardListener.updateScoreboardSouls(player);
+        scoreboardListener.updateScoreboardSouls(player, 20);
         player.sendMessage(ChatColor.GRAY + "You thanked " + target.getName() + " for the Essence! " + ChatColor.AQUA + "[+20 Souls]");
 
         if (!target.isOnline()) {
             targetData.setSouls(targetData.getSouls() + 20);
         } else {
             Player t = plugin.getServer().getPlayer(target.getUniqueId());
-            scoreboardListener.getSouls().put(t.getUniqueId(), targetData.getSouls());
-            targetData.setSouls(targetData.getSouls() + 20);
-            scoreboardListener.updateScoreboardSouls(t);
+            scoreboardListener.updateScoreboardSouls(t, 20);
             t.sendMessage(ChatColor.GRAY + player.getName() + " thanked you for your Essence! " + ChatColor.AQUA + "[+20 Souls]");
         }
 

@@ -11,7 +11,9 @@ import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Runnables.AutoUpdate;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Listeners.ScoreboardListener;
 import me.gamerbah.Utils.EventSound;
+import me.gamerbah.Utils.KDRatio;
 import me.gamerbah.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
@@ -58,6 +60,7 @@ public class PlayerJoin implements Listener {
                                 + ChatColor.RED + " for " + ChatColor.GOLD + punishment.getReason().getName() + "\n" + ChatColor.AQUA
                                 + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(CST)'")) + "\n\n" + ChatColor.YELLOW
                                 + punishment.getReason().getMessage() + "\n\n" + ChatColor.GRAY + "Appeal your ban on the forums: battlegroundspvp.com/forums");
+                        return;
                     }
                 }
             }
@@ -68,12 +71,14 @@ public class PlayerJoin implements Listener {
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, ChatColor.RED + "You were not able to join the server because it is in\n" + BoldColor.GOLD.getColor()
                         + "MAINTENANCE MODE\n\n" + ChatColor.AQUA + "This means that we are fixing bugs, or found another issue we needed to take care of\n\n"
                         + ChatColor.GRAY + "We put the server into Maintenance Mode in order to reduce the risk of\n§7corrupting player data, etc. The server should be open shortly!");
+                return;
             }
         }
 
         if (AutoUpdate.updating) {
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, BoldColor.YELLOW.getColor() + "SERVER IS UPDATING!\n"
                     + ChatColor.RED + "To prevent your data from being corrupted, you didn't connect\n\n" + ChatColor.GRAY + "You should be able to join in a few seconds! Hang in there!");
+            return;
         }
 
         PlayerData playerData = plugin.getPlayerData(event.getUniqueId());
@@ -82,6 +87,15 @@ public class PlayerJoin implements Listener {
                 playerData.setDailyReward(false);
             }
         }
+        ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
+        KDRatio kdRatio = new KDRatio(plugin);
+        scoreboardListener.getRanks().put(plugin.getPlayerData(event.getUniqueId()).getUuid(), plugin.getPlayerData(event.getUniqueId()).getRank().getColor()
+                + "" + ChatColor.BOLD + plugin.getPlayerData(event.getUniqueId()).getRank().getName().toUpperCase());
+        scoreboardListener.getKills().put(plugin.getPlayerData(event.getUniqueId()).getUuid(), plugin.getPlayerData(event.getUniqueId()).getKills());
+        scoreboardListener.getDeaths().put(plugin.getPlayerData(event.getUniqueId()).getUuid(), plugin.getPlayerData(event.getUniqueId()).getDeaths());
+        scoreboardListener.getKds().put(plugin.getPlayerData(event.getUniqueId()).getUuid(), ChatColor.GRAY + "" + kdRatio.getRatio(plugin.getPlayerData(event.getUniqueId())));
+        scoreboardListener.getSouls().put(plugin.getPlayerData(event.getUniqueId()).getUuid(), plugin.getPlayerData(event.getUniqueId()).getSouls());
+        scoreboardListener.getCoins().put(plugin.getPlayerData(event.getUniqueId()).getUuid(), plugin.getPlayerData(event.getUniqueId()).getCoins());
     }
 
     @EventHandler

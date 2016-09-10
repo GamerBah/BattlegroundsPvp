@@ -187,73 +187,71 @@ public class ScoreboardListener implements Listener {
         }
     }
 
-    public void updateScoreboardRank(Player player) {
+    public void updateScoreboardRank(Player player, Rank rank) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         Scoreboard board = player.getScoreboard();
         Objective objective = board.getObjective("PlayerData");
-        if (ranks.containsKey(player.getUniqueId())) {
-            board.resetScores(BoldColor.WHITE.getColor() + "Rank: " + ranks.get(player.getUniqueId()));
-            if (playerData.getRank().equals(Rank.DEFAULT)) {
-                objective.getScore(BoldColor.WHITE.getColor() + "Rank: " + playerData.getRank().getColor() + playerData.getRank().getName()).setScore(9);
-            } else {
-                objective.getScore(BoldColor.WHITE.getColor() + "Rank: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()).setScore(9);
-            }
+        getRanks().put(player.getUniqueId(), playerData.getRank().getColor() + (playerData.hasRank(Rank.WARRIOR)
+                ? "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase() : playerData.getRank().getName()));
+        playerData.setRank(rank);
+        board.resetScores(BoldColor.WHITE.getColor() + "Rank: " + ranks.get(player.getUniqueId()));
+        if (playerData.getRank().equals(Rank.DEFAULT)) {
+            objective.getScore(BoldColor.WHITE.getColor() + "Rank: " + playerData.getRank().getColor() + playerData.getRank().getName()).setScore(9);
+        } else {
+            objective.getScore(BoldColor.WHITE.getColor() + "Rank: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()).setScore(9);
         }
         player.setScoreboard(board);
     }
 
-    public void updateScoreboardKills(Player player) {
+    public void updateScoreboardKills(Player player, int amount) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         Scoreboard board = player.getScoreboard();
         Objective objective = board.getObjective("PlayerData");
-        if (kills.containsKey(player.getUniqueId())) {
-            board.resetScores(BoldColor.GREEN.getColor() + "Kills: " + ChatColor.GRAY + kills.get(player.getUniqueId()));
-            objective.getScore(BoldColor.GREEN.getColor() + "Kills: " + ChatColor.GRAY + playerData.getKills()).setScore(7);
-        }
+        KDRatio kdRatio = new KDRatio(plugin);
+        getKills().put(player.getUniqueId(), playerData.getKills());
+        getKds().put(player.getUniqueId(), ChatColor.GRAY + "" + kdRatio.getRatio(player));
+        playerData.setKills(playerData.getKills() + amount);
+        board.resetScores(BoldColor.GREEN.getColor() + "Kills: " + ChatColor.GRAY + kills.get(player.getUniqueId()));
+        board.resetScores(BoldColor.YELLOW.getColor() + "K/D Ratio: " + kds.get(player.getUniqueId()));
+        objective.getScore(BoldColor.GREEN.getColor() + "Kills: " + ChatColor.GRAY + playerData.getKills()).setScore(7);
+        objective.getScore(BoldColor.YELLOW.getColor() + "K/D Ratio: " + ChatColor.GRAY + "" + kdRatio.getRatio(player)).setScore(5);
         player.setScoreboard(board);
     }
 
-    public void updateScoreboardDeaths(Player player) {
+    public void updateScoreboardDeaths(Player player, int amount) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         Scoreboard board = player.getScoreboard();
         Objective objective = board.getObjective("PlayerData");
-        if (deaths.containsKey(player.getUniqueId())) {
-            board.resetScores(BoldColor.RED.getColor() + "Deaths: " + ChatColor.GRAY + deaths.get(player.getUniqueId()));
-            objective.getScore(BoldColor.RED.getColor() + "Deaths: " + ChatColor.GRAY + playerData.getDeaths()).setScore(6);
-        }
+        KDRatio kdRatio = new KDRatio(plugin);
+        getDeaths().put(player.getUniqueId(), playerData.getDeaths());
+        getKds().put(player.getUniqueId(), ChatColor.GRAY + "" + kdRatio.getRatio(player));
+        playerData.setDeaths(playerData.getDeaths() + amount);
+        board.resetScores(BoldColor.RED.getColor() + "Deaths: " + ChatColor.GRAY + deaths.get(player.getUniqueId()));
+        board.resetScores(BoldColor.YELLOW.getColor() + "K/D Ratio: " + kds.get(player.getUniqueId()));
+        objective.getScore(BoldColor.RED.getColor() + "Deaths: " + ChatColor.GRAY + playerData.getDeaths()).setScore(6);
+        objective.getScore(BoldColor.YELLOW.getColor() + "K/D Ratio: " + ChatColor.GRAY + "" + kdRatio.getRatio(player)).setScore(5);
         player.setScoreboard(board);
     }
 
-    public void updateScoreboardRatio(Player player) {
-        Scoreboard board = player.getScoreboard();
-        Objective objective = board.getObjective("PlayerData");
-        if (kds.containsKey(player.getUniqueId())) {
-            KDRatio kdRatio = new KDRatio(plugin);
-            board.resetScores(BoldColor.YELLOW.getColor() + "K/D Ratio: " + kds.get(player.getUniqueId()));
-            objective.getScore(BoldColor.YELLOW.getColor() + "K/D Ratio: " + ChatColor.GRAY + "" + kdRatio.getRatio(player)).setScore(5);
-        }
-        player.setScoreboard(board);
-    }
-
-    public void updateScoreboardSouls(Player player) {
+    public void updateScoreboardSouls(Player player, int amount) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         Scoreboard board = player.getScoreboard();
         Objective objective = board.getObjective("PlayerData");
-        if (souls.containsKey(player.getUniqueId())) {
-            board.resetScores(BoldColor.AQUA.getColor() + "Souls: " + ChatColor.GRAY + souls.get(player.getUniqueId()));
-            objective.getScore(BoldColor.AQUA.getColor() + "Souls: " + ChatColor.GRAY + playerData.getSouls()).setScore(3);
-        }
+        getSouls().put(player.getUniqueId(), playerData.getSouls());
+        playerData.setSouls(playerData.getSouls() + amount);
+        board.resetScores(BoldColor.AQUA.getColor() + "Souls: " + ChatColor.GRAY + souls.get(player.getUniqueId()));
+        objective.getScore(BoldColor.AQUA.getColor() + "Souls: " + ChatColor.GRAY + playerData.getSouls()).setScore(3);
         player.setScoreboard(board);
     }
 
-    public void updateScoreboardCoins(Player player) {
+    public void updateScoreboardCoins(Player player, int amount) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         Scoreboard board = player.getScoreboard();
         Objective objective = board.getObjective("PlayerData");
-        if (coins.containsKey(player.getUniqueId())) {
-            board.resetScores(BoldColor.PINK.getColor() + "Battle Coins: " + ChatColor.GRAY + coins.get(player.getUniqueId()));
-            objective.getScore(BoldColor.PINK.getColor() + "Battle Coins: " + ChatColor.GRAY + playerData.getCoins()).setScore(2);
-        }
+        getCoins().put(player.getUniqueId(), playerData.getCoins());
+        playerData.setCoins(playerData.getCoins() + amount);
+        board.resetScores(BoldColor.PINK.getColor() + "Battle Coins: " + ChatColor.GRAY + coins.get(player.getUniqueId()));
+        objective.getScore(BoldColor.PINK.getColor() + "Battle Coins: " + ChatColor.GRAY + playerData.getCoins()).setScore(2);
         player.setScoreboard(board);
     }
 

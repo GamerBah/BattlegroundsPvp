@@ -49,12 +49,8 @@ public class DailyRewardCommand implements CommandExecutor {
         playerData.setDailyReward(true);
         playerData.setDailyRewardLast(LocalDateTime.now());
         ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
-        scoreboardListener.getSouls().put(player.getUniqueId(), playerData.getSouls());
-        scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
-        playerData.setSouls(playerData.getSouls() + 50);
-        playerData.setCoins(playerData.getCoins() + 10);
-        scoreboardListener.updateScoreboardSouls(player);
-        scoreboardListener.updateScoreboardCoins(player);
+        scoreboardListener.updateScoreboardSouls(player, 50);
+        scoreboardListener.updateScoreboardCoins(player, 10);
 
         TitleAPI.sendTitle(player, 5, 60, 20, BoldColor.GREEN.getColor() + "Daily Reward Claimed!", ChatColor.AQUA + "+50 Souls   " + ChatColor.LIGHT_PURPLE + "+10 Battle Coins");
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.2F, 1F);

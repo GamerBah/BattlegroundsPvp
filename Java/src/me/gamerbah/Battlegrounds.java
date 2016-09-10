@@ -114,12 +114,11 @@ public class Battlegrounds extends JavaPlugin {
             scoreboardListener.getKds().put(player.getUniqueId(), ChatColor.GRAY + "" + kdRatio.getRatio(player));
             scoreboardListener.getSouls().put(player.getUniqueId(), playerData.getSouls());
             scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
-            scoreboardListener.updateScoreboardKills(player);
-            scoreboardListener.updateScoreboardRank(player);
-            scoreboardListener.updateScoreboardDeaths(player);
-            scoreboardListener.updateScoreboardRatio(player);
-            scoreboardListener.updateScoreboardSouls(player);
-            scoreboardListener.updateScoreboardCoins(player);
+            scoreboardListener.updateScoreboardKills(player, 0);
+            scoreboardListener.updateScoreboardRank(player, playerData.getRank());
+            scoreboardListener.updateScoreboardDeaths(player, 0);
+            scoreboardListener.updateScoreboardSouls(player, 0);
+            scoreboardListener.updateScoreboardCoins(player, 0);
             respawn(player);
             TitleAPI.clearTitle(player);
             if (!getOne50Essence().containsKey(player.getUniqueId()))

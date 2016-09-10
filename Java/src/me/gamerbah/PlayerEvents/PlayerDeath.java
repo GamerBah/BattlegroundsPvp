@@ -53,11 +53,7 @@ public class PlayerDeath implements Listener {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         KDRatio kdRatio = new KDRatio(plugin);
         ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
-        scoreboardListener.getDeaths().put(player.getUniqueId(), playerData.getDeaths());
-        scoreboardListener.getKds().put(player.getUniqueId(), ChatColor.GRAY + "" + kdRatio.getRatio(player));
-        playerData.setDeaths(playerData.getDeaths() + 1);
-        scoreboardListener.updateScoreboardDeaths(player);
-        scoreboardListener.updateScoreboardRatio(player);
+        scoreboardListener.updateScoreboardDeaths(player, 1);
 
         for (Achievement.Type achievement : Achievement.Type.values()) {
             if (achievement.getGroup().equals(Achievement.COMBAT) && achievement.getName().contains("Deathknell")) {
@@ -142,11 +138,7 @@ public class PlayerDeath implements Listener {
         }
 
         PlayerData killerData = plugin.getPlayerData(killer.getUniqueId());
-        scoreboardListener.getKills().put(killer.getUniqueId(), killerData.getKills());
-        scoreboardListener.getKds().put(killer.getUniqueId(), ChatColor.GRAY + "" + kdRatio.getRatio(killer));
-        killerData.setKills(killerData.getKills() + 1);
-        scoreboardListener.updateScoreboardKills(killer);
-        scoreboardListener.updateScoreboardRatio(killer);
+        scoreboardListener.updateScoreboardKills(killer, 1);
 
         for (Achievement.Type achievement : Achievement.Type.values()) {
             if (achievement.getGroup().equals(Achievement.COMBAT) && achievement.getName().contains("Brutality")) {
@@ -185,7 +177,7 @@ public class PlayerDeath implements Listener {
             plugin.getServer().spigot().broadcast(baseComponent);
         }
 
-        String health = "";
+        String health;
         if (killer.getHealth() % 2 == 0) {
             health = ChatColor.GRAY + "They had " + ChatColor.RED + (((int) killer.getHealth()) / 2) + " hearts" + ChatColor.GRAY + " left";
         } else {
@@ -245,12 +237,8 @@ public class PlayerDeath implements Listener {
             int killstreak = Battlegrounds.killStreak.get(killer.getUniqueId());
             if (killstreak % 5 == 0) {
                 plugin.getServer().broadcastMessage(ChatColor.GOLD + killer.getName() + ChatColor.GRAY + " is on a " + BoldColor.RED.getColor() + killstreak + " killstreak!");
-                scoreboardListener.getSouls().put(killer.getUniqueId(), killerData.getSouls());
-                killerData.setSouls(killerData.getSouls() + (souls * (killstreak / 5)));
-                scoreboardListener.updateScoreboardSouls(killer);
-                scoreboardListener.getCoins().put(killer.getUniqueId(), killerData.getCoins());
-                killerData.setCoins(killerData.getCoins() + coins);
-                scoreboardListener.updateScoreboardCoins(killer);
+                scoreboardListener.updateScoreboardSouls(killer, (souls * (killstreak / 5)));
+                scoreboardListener.updateScoreboardCoins(killer, coins);
 
                 Titles.sendActionBar(killer, ChatColor.AQUA + "[+" + souls * ((killstreak / 5) + 1) + " Souls]" + ChatColor.LIGHT_PURPLE
                         + (coins != 0 ? " [+" + coins + (coins == 1 ? " Battle Coin]" : " Battle Coins]") : "")
@@ -269,12 +257,8 @@ public class PlayerDeath implements Listener {
                     }
                 }
             } else {
-                scoreboardListener.getSouls().put(killer.getUniqueId(), killerData.getSouls());
-                killerData.setSouls(killerData.getSouls() + souls);
-                scoreboardListener.updateScoreboardSouls(killer);
-                scoreboardListener.getCoins().put(killer.getUniqueId(), killerData.getCoins());
-                killerData.setCoins(killerData.getCoins() + coins);
-                scoreboardListener.updateScoreboardCoins(killer);
+                scoreboardListener.updateScoreboardSouls(killer, souls);
+                scoreboardListener.updateScoreboardCoins(killer, coins);
 
                 Titles.sendActionBar(killer, ChatColor.AQUA + "[+" + souls + " Souls]" + ChatColor.LIGHT_PURPLE
                         + (coins != 0 ? " [+" + coins + (coins == 1 ? " Battle Coin]" : " Battle Coins]") : "")
@@ -296,12 +280,8 @@ public class PlayerDeath implements Listener {
             }
         } else {
             Battlegrounds.killStreak.put(killer.getUniqueId(), 1);
-            scoreboardListener.getSouls().put(killer.getUniqueId(), killerData.getSouls());
-            killerData.setSouls(killerData.getSouls() + souls);
-            scoreboardListener.updateScoreboardSouls(killer);
-            scoreboardListener.getCoins().put(killer.getUniqueId(), killerData.getCoins());
-            killerData.setCoins(killerData.getCoins() + coins);
-            scoreboardListener.updateScoreboardCoins(killer);
+            scoreboardListener.updateScoreboardSouls(killer, souls);
+            scoreboardListener.updateScoreboardCoins(killer, coins);
 
             Titles.sendActionBar(killer, ChatColor.AQUA + "[+" + souls + " Souls]"
                     + ChatColor.LIGHT_PURPLE + (coins != 0 ? " [+" + coins + (coins == 1 ? " Battle Coin]" : " Battle Coins]") : "")
