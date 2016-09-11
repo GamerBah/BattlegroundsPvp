@@ -41,7 +41,7 @@ public class BanCommand implements CommandExecutor {
             if (punishments != null) {
                 for (int i = 0; i < punishments.size(); i++) {
                     Punishment punishment = punishments.get(i);
-                    if (punishment.getType().equals(Punishment.Type.BAN)) {
+                    if (punishment.getType().equals(Punishment.Type.BAN) || punishment.getType().equals(Punishment.Type.TEMP_BAN)) {
                         if (!punishment.isPardoned()) {
                             player.closeInventory();
                             PlayerData enforcerData = plugin.getPlayerData(punishment.getEnforcer());
@@ -142,7 +142,7 @@ public class BanCommand implements CommandExecutor {
             if (punishments != null) {
                 for (int i = 0; i < punishments.size(); i++) {
                     Punishment punishment = punishments.get(i);
-                    if (punishment.getType().equals(Punishment.Type.BAN)) {
+                    if (punishment.getType().equals(Punishment.Type.BAN) || punishment.getType().equals(Punishment.Type.TEMP_BAN)) {
                         if (!punishment.isPardoned()) {
                             PlayerData enforcerData = plugin.getPlayerData(punishment.getEnforcer());
                             BaseComponent baseComponent = new TextComponent(ChatColor.RED + "That player is already banned!");

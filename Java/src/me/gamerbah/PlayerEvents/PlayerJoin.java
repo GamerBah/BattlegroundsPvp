@@ -15,6 +15,7 @@ import me.gamerbah.Listeners.ScoreboardListener;
 import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.KDRatio;
 import me.gamerbah.Utils.Messages.BoldColor;
+import me.gamerbah.Utils.Time;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.attribute.Attribute;
@@ -60,6 +61,17 @@ public class PlayerJoin implements Listener {
                                 + ChatColor.RED + " for " + ChatColor.GOLD + punishment.getReason().getName() + "\n" + ChatColor.AQUA
                                 + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(CST)'")) + "\n\n" + ChatColor.YELLOW
                                 + punishment.getReason().getMessage() + "\n\n" + ChatColor.GRAY + "Appeal your ban on the forums: battlegroundspvp.com/forums");
+                        return;
+                    }
+                }
+                if (punishment.getType().equals(Punishment.Type.TEMP_BAN)) {
+                    if (!punishment.isPardoned()) {
+                        PlayerData playerData = plugin.getPlayerData(punishment.getEnforcer());
+                        event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, ChatColor.RED + "You were temporarily banned by " + ChatColor.GOLD + playerData.getName()
+                                + ChatColor.RED + " for " + ChatColor.GOLD + punishment.getReason().getName() + "\n" + ChatColor.AQUA
+                                + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(CST)'")) + "\n\n"
+                                + ChatColor.GRAY + "Time Remaining in Ban: " + ChatColor.RED + Time.toString(Time.punishmentTimeRemaining(punishment.getExpiration()), true) + "\n" + ChatColor.YELLOW
+                                + punishment.getReason().getMessage() + "\n\n" + ChatColor.GRAY + "You can appeal your ban on the forums: battlegroundspvp.com/forums");
                         return;
                     }
                 }

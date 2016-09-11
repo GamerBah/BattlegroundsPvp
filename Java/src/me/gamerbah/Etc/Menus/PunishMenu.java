@@ -91,16 +91,21 @@ public class PunishMenu {
         PlayerData targetData = plugin.getPlayerData(target.getName());
         Inventory inv = plugin.getServer().createInventory(null, 36, "Punishment Creation: " + type.getName());
 
-        if (type.equals(Punishment.Type.MUTE)) {
-            if (reason == null) {
-                inv.setItem(10, new I(Material.WATCH).name(ChatColor.YELLOW + "Time: " + ChatColor.GRAY + "(Select a reason first)"));
-            } else {
+        if (reason == null) {
+            inv.setItem(10, new I(Material.WATCH).name(ChatColor.YELLOW + "Time: " + (type.equals(Punishment.Type.BAN) ? BoldColor.RED + "PERMANENT"
+                    : type.equals(Punishment.Type.KICK) ? ChatColor.GRAY + "N/A" : ChatColor.GRAY + "(Select a reason first)")));
+        } else {
+            if (type != Punishment.Type.BAN && type != Punishment.Type.KICK) {
                 inv.setItem(10, new I(Material.WATCH).name(ChatColor.YELLOW + "Time: " + ChatColor.GRAY + Time.toString(time * 1000, true))
                         .lore(ChatColor.GRAY + "Left-Click: " + ChatColor.RED + "-5 min " + ChatColor.DARK_RED + "" + ChatColor.ITALIC + "(Shift: -15 min)")
                         .lore(ChatColor.GRAY + "Right-Click: " + ChatColor.GREEN + "+5 min " + ChatColor.DARK_GREEN + "" + ChatColor.ITALIC + "(Shift: +15 min)"));
+            } else {
+                inv.setItem(10, new I(Material.WATCH).name(ChatColor.YELLOW + "Time: " + BoldColor.RED + "PERMANENT"));
             }
-            int i = 11;
-            for (Punishment.Reason reasons : Punishment.Reason.values()) {
+        }
+        int i = 11;
+        for (Punishment.Reason reasons : Punishment.Reason.values()) {
+            if (type.equals(Punishment.Type.MUTE)) {
                 if (reasons.getType().equals(Punishment.Type.MUTE) || reasons.getType().equals(Punishment.Type.ALL)) {
                     String[] split = reasons.getDescription().split(",");
                     inv.setItem(i++, new I((reason != null && reason.equals(reasons) ? Material.ENCHANTED_BOOK : Material.BOOK))
@@ -109,28 +114,28 @@ public class PunishMenu {
                             .lore(ChatColor.GRAY + split[1]));
                 }
             }
-            ItemStack wool = new I(Material.WOOL)
-                    .name(ChatColor.GREEN + "" + ChatColor.BOLD + "ACCEPT & MUTE").durability(5);
-            List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "Punishing: " + ChatColor.YELLOW + target.getName());
-            if (reason != null) {
-                lore.add(ChatColor.GRAY + "For: " + ChatColor.GOLD + reason.getName());
-            } else {
-                lore.add(ChatColor.GRAY + "For: " + ChatColor.RED + "Nothing (Select a book)");
-            }
-            ItemMeta im = wool.getItemMeta();
-            im.setLore(lore);
-            wool.setItemMeta(im);
-
-            inv.setItem(30, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
-            inv.setItem(32, wool);
-        }
-
-        if (type.equals(Punishment.Type.BAN)) {
-            inv.setItem(10, new I(Material.WATCH).name(ChatColor.YELLOW + "Time: " + BoldColor.DARK_RED.getColor() + "PERMANENT"));
-            int i = 11;
-            for (Punishment.Reason reasons : Punishment.Reason.values()) {
+            if (type.equals(Punishment.Type.BAN) || type.equals(Punishment.Type.TEMP_BAN)) {
                 if (reasons.getType().equals(Punishment.Type.BAN) || reasons.getType().equals(Punishment.Type.KICK_BAN) || reasons.getType().equals(Punishment.Type.ALL)) {
+                    String[] split = reasons.getDescription().split(",");
+                    if (type.equals(Punishment.Type.TEMP_BAN)) {
+                        if (!reasons.equals(Punishment.Reason.MODDED_CLIENT)) {
+                            inv.setItem(i++, new I((reason != null && reason.equals(reasons) ? Material.ENCHANTED_BOOK : Material.BOOK))
+                                    .name(ChatColor.RED + reasons.getName() + (reason != null && reason.equals(reasons) ? BoldColor.GREEN.getColor() + " SELECTED" : ""))
+                                    .lore(ChatColor.GRAY + split[0])
+                                    .lore(ChatColor.GRAY + split[1]));
+                        }
+                    } else {
+                        if (!reasons.equals(Punishment.Reason.MODDED_CLIENT_SUSPECTED)) {
+                            inv.setItem(i++, new I((reason != null && reason.equals(reasons) ? Material.ENCHANTED_BOOK : Material.BOOK))
+                                    .name(ChatColor.RED + reasons.getName() + (reason != null && reason.equals(reasons) ? BoldColor.GREEN.getColor() + " SELECTED" : ""))
+                                    .lore(ChatColor.GRAY + split[0])
+                                    .lore(ChatColor.GRAY + split[1]));
+                        }
+                    }
+                }
+            }
+            if (type.equals(Punishment.Type.KICK)) {
+                if (reasons.getType().equals(Punishment.Type.KICK_BAN) || reasons.getType().equals(Punishment.Type.ALL)) {
                     String[] split = reasons.getDescription().split(",");
                     inv.setItem(i++, new I((reason != null && reason.equals(reasons) ? Material.ENCHANTED_BOOK : Material.BOOK))
                             .name(ChatColor.RED + reasons.getName() + (reason != null && reason.equals(reasons) ? BoldColor.GREEN.getColor() + " SELECTED" : ""))
@@ -138,22 +143,25 @@ public class PunishMenu {
                             .lore(ChatColor.GRAY + split[1]));
                 }
             }
-            ItemStack wool = new I(Material.WOOL)
-                    .name(ChatColor.GREEN + "" + ChatColor.BOLD + "ACCEPT & BAN").durability(5);
-            List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + "Punishing: " + ChatColor.YELLOW + target.getName());
-            if (reason != null) {
-                lore.add(ChatColor.GRAY + "For: " + ChatColor.GOLD + reason.getName());
-            } else {
-                lore.add(ChatColor.GRAY + "For: " + ChatColor.RED + "Nothing (Select a book)");
-            }
-            ItemMeta im = wool.getItemMeta();
-            im.setLore(lore);
-            wool.setItemMeta(im);
-
-            inv.setItem(30, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
-            inv.setItem(32, wool);
         }
+        ItemStack wool = new I(Material.WOOL)
+                .name(BoldColor.GREEN.getColor() + "ACCEPT & " + type.getName().toUpperCase()).durability(5);
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY + "Punishing: " + ChatColor.YELLOW + target.getName());
+        if (reason != null) {
+            lore.add(ChatColor.GRAY + "For: " + ChatColor.GOLD + reason.getName());
+        } else {
+            lore.add(ChatColor.GRAY + "For: " + ChatColor.RED + "Nothing (Select a book)");
+        }
+        if (type.equals(Punishment.Type.MUTE) || type.equals(Punishment.Type.TEMP_BAN)) {
+            lore.add(ChatColor.GRAY + "Duration: " + ChatColor.AQUA + Time.toString(time * 1000, true));
+        }
+        ItemMeta im = wool.getItemMeta();
+        im.setLore(lore);
+        wool.setItemMeta(im);
+
+        inv.setItem(30, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
+        inv.setItem(32, wool);
 
         player.openInventory(inv);
     }
@@ -242,6 +250,50 @@ public class PunishMenu {
             inv.setItem(48, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
             inv.setItem(49, new I(Material.BOOK_AND_QUILL).name(BoldColor.GREEN.getColor() + "Register New Ban"));
         }
+        player.openInventory(inv);
+    }
+
+    public void openTempBanMenu(Player player, OfflinePlayer target, int page) {
+        PlayerData targetData = plugin.getPlayerData(target.getUniqueId());
+        Inventory inv = plugin.getServer().createInventory(null, 54, targetData.getName() + "'s Temp-Ban History" + (page == 0 ? "" : " (" + (page + 1) + ")"));
+
+        ArrayList<Punishment> allPunishments = plugin.getPlayerPunishments().get(targetData.getUuid());
+        ArrayList<Punishment> temps = new ArrayList<>();
+        for (int i = 0; i < allPunishments.size(); i++) {
+            if (allPunishments.get(i).getType().equals(Punishment.Type.TEMP_BAN)) {
+                temps.add(allPunishments.get(i));
+            }
+        }
+
+        if (!temps.isEmpty()) {
+            Collections.sort(temps, new Comparator<Punishment>() {
+                @Override
+                public int compare(Punishment p1, Punishment p2) {
+                    return p2.getDate().compareTo(p1.getDate());
+                }
+            });
+
+            int a = 0;
+            for (int i = page * 45; i < temps.size() && i >= page * 45 && i < (page + 1) * 45; i++) {
+                Punishment punishment = temps.get(i);
+                if (punishment.getType().equals(Punishment.Type.TEMP_BAN)) {
+                    if (a < 45) {
+                        PlayerData playerData = plugin.getPlayerData(punishment.getEnforcer());
+                        inv.setItem(a++, new I(Material.MAP).name(ChatColor.AQUA + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(CST)'")))
+                                .lore(ChatColor.GRAY + "Muted by: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()
+                                        + ChatColor.WHITE + " " + playerData.getName())
+                                .lore(ChatColor.GRAY + "Reason: " + ChatColor.GOLD + punishment.getReason().getName())
+                                .lore(ChatColor.GRAY + "Duration: " + ChatColor.YELLOW + Time.toString(punishment.getDuration() * 1000, false))
+                                .lore(ChatColor.GRAY + "Active: " + (punishment.isPardoned() ? ChatColor.RED + "No" : ChatColor.GREEN + "Yes")));
+                    }
+                }
+            }
+        }
+        if (temps.size() > (page + 1) * 45) {
+            inv.setItem(50, new I(Material.ARROW).name(ChatColor.GRAY + "Next Page"));
+        }
+        inv.setItem(48, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
+        inv.setItem(49, new I(Material.BOOK_AND_QUILL).name(BoldColor.GREEN.getColor() + "Register New Temp-Ban"));
         player.openInventory(inv);
     }
 

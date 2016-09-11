@@ -59,12 +59,14 @@ public class UnbanCommand implements CommandExecutor {
             if (punishments != null) {
                 for (int i = 0; i < punishments.size(); i++) {
                     Punishment punishment = punishments.get(i);
-                    if (punishment.getType().equals(Punishment.Type.BAN)) {
+                    if (punishment.getType().equals(Punishment.Type.BAN) || punishment.getType().equals(Punishment.Type.TEMP_BAN)) {
                         if (!punishment.isPardoned()) {
                             p = punishment;
-                            Battlegrounds.getSql().executeUpdate(Query.UPDATE_PUNISHMENT_PARDONED, true, targetData.getUuid().toString(), punishment.getType().toString(), punishment.getDate().toString());
+                            Battlegrounds.getSql().executeUpdate(Query.UPDATE_PUNISHMENT_PARDONED, true, targetData.getUuid().toString(), punishment.getType().toString(),
+                                    punishment.getDate().toString());
                             punishment.setPardoned(true);
-                            plugin.slackPunishments.call(new SlackMessage(">>> _*" + player.getName() + "* unbanned *" + targetData.getName() + "*_\n*Reason for Ban:* _" + p.getReason().getName() + "_"));
+                            plugin.slackPunishments.call(new SlackMessage(">>> _*" + player.getName() + "* unbanned *" + targetData.getName() + "*_\n*Reason for Ban:* _"
+                                    + p.getReason().getName() + "_"));
                         }
                     }
                 }
