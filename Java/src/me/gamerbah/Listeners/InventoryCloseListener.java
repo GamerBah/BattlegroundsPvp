@@ -2,6 +2,7 @@ package me.gamerbah.Listeners;
 /* Created by GamerBah on 8/15/2016 */
 
 
+import me.gamerbah.Battlegrounds;
 import me.gamerbah.Commands.ReportCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,11 +19,14 @@ public class InventoryCloseListener implements Listener {
         if (inventory.getName().contains("Reporting:")) {
             if (ReportCommand.getReportBuilders().containsKey(player.getUniqueId())) {
                 ReportCommand.getReportBuilders().remove(player.getUniqueId());
-            } else {
-                return;
             }
             if (ReportCommand.getReportArray().containsKey(player.getUniqueId())) {
                 ReportCommand.getReportArray().remove(player.getUniqueId());
+            }
+        }
+        if (inventory.getName().contains("Punishment Creation:")) {
+            if (Battlegrounds.punishmentCreation.containsKey(player)) {
+                Battlegrounds.punishmentCreation.remove(player);
             }
         }
     }

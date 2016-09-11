@@ -52,6 +52,7 @@ public class ProfileMenu {
                 .lore(ChatColor.GRAY + "K/D Ratio: " + kdRatio.getRatioColor(player) + kdRatio.getRatio(player))
                 .lore(ChatColor.GRAY + "Longest Killstreak: " + ChatColor.DARK_AQUA + playerData.getHighestKillstreak())
                 .lore(ChatColor.GRAY + "Revenge Kills: " + ChatColor.BLUE + playerData.getRevengeKills())
+                .lore(ChatColor.GRAY + "Killstreaks Ended: " + ChatColor.YELLOW + playerData.getKillstreaksEnded())
                 .lore(ChatColor.GRAY + "Last Killed By: " + (killedByPlayerData != null ? (killedByPlayerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : "")
                         + killedByPlayerData.getName() : "--"))
                 .lore(" ")

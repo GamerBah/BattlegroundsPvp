@@ -2,6 +2,7 @@ package me.gamerbah.Administration.Commands;
 /* Created by GamerBah on 8/25/2016 */
 
 import me.gamerbah.Administration.Data.PlayerData;
+import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Etc.Menus.PunishMenu;
 import me.gamerbah.Utils.EventSound;
@@ -27,6 +28,12 @@ public class PunishCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
+        PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
+
+        if (!playerData.hasRank(Rank.HELPER)) {
+            plugin.sendNoPermission(player);
+            return true;
+        }
 
         if (args.length == 0) {
             PunishMenu punishMenu = new PunishMenu(plugin);

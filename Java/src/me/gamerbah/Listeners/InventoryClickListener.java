@@ -5,6 +5,9 @@ package me.gamerbah.Listeners;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Donations.DonationMessages;
 import me.gamerbah.Administration.Donations.Essence;
+import me.gamerbah.Administration.Punishments.Commands.BanCommand;
+import me.gamerbah.Administration.Punishments.Commands.MuteCommand;
+import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
 import me.gamerbah.Commands.ReportCommand;
@@ -27,6 +30,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class InventoryClickListener implements Listener {
 
@@ -87,7 +91,7 @@ public class InventoryClickListener implements Listener {
                 }
             }
 
-            if (event.getClickedInventory().getName().contains("Reporting:")) {
+            if (inventory.getName().contains("Reporting:")) {
                 ItemStack item = event.getCurrentItem();
                 ReportMenu reportMenu = new ReportMenu(plugin);
                 String targetName = inventory.getName().replace("Reporting: ", "");
@@ -153,8 +157,8 @@ public class InventoryClickListener implements Listener {
                 event.setCancelled(true);
             }
 
-            if (event.getClickedInventory().getName().contains("Options")) {
-                Player target = plugin.getServer().getPlayerExact(event.getClickedInventory().getName().substring(12));
+            if (inventory.getName().contains("Options")) {
+                Player target = plugin.getServer().getPlayerExact(inventory.getName().substring(12));
                 if (event.getCurrentItem().getType().equals(Material.BARRIER)) {
                     ReportMenu reportMenu = new ReportMenu(plugin);
                     if (target == player) {
@@ -190,7 +194,7 @@ public class InventoryClickListener implements Listener {
                 event.setCancelled(true);
             }
 
-            if (event.getClickedInventory().getName().equals("Settings")) {
+            if (inventory.getName().equals("Settings")) {
                 PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
                 ItemStack item = event.getCurrentItem();
                 event.setCancelled(true);
@@ -233,7 +237,7 @@ public class InventoryClickListener implements Listener {
                 }
             }
 
-            if (event.getClickedInventory().getName().equals("Profile")) {
+            if (inventory.getName().equals("Profile")) {
                 ItemStack item = event.getCurrentItem();
                 event.setCancelled(true);
                 if (item.getType().equals(Material.BLAZE_POWDER)) {
@@ -259,12 +263,16 @@ public class InventoryClickListener implements Listener {
                 }
             }
 
-            if (event.getClickedInventory().getName().equals("Achievement Selection")) {
+            if (inventory.getName().equals("Achievement Selection")) {
                 AchievementMenu achievementMenu = new AchievementMenu(plugin);
                 ItemStack item = event.getCurrentItem();
                 event.setCancelled(true);
                 if (item.getType().equals(Material.GOLD_SWORD)) {
                     achievementMenu.openCombatAchievements(player);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+                }
+                if (item.getType().equals(Material.BUCKET)) {
+                    achievementMenu.openCollectionAchievements(player);
                     Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                 }
                 if (item.getType().equals(Material.END_CRYSTAL)) {
@@ -284,10 +292,10 @@ public class InventoryClickListener implements Listener {
                 }
             }
 
-            if (event.getClickedInventory().getName().equals("Combat Achievements")) {
+            if (inventory.getName().contains(" Achievements")) {
                 ItemStack item = event.getCurrentItem();
                 event.setCancelled(true);
-                if (item.getType().equals(Material.REDSTONE_BLOCK)) {
+                if (item.getType().equals(Material.COAL_BLOCK)) {
                     player.sendMessage(ChatColor.RED + "You haven't unlocked this Mastery Title yet!");
                     Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                     return;
@@ -313,7 +321,7 @@ public class InventoryClickListener implements Listener {
                 }
             }
 
-            if (event.getClickedInventory().getName().equals("Battle Essences")) {
+            if (inventory.getName().equals("Battle Essences")) {
                 Essence essence = new Essence(plugin);
                 ItemStack item = event.getCurrentItem();
                 event.setCancelled(true);
@@ -350,7 +358,7 @@ public class InventoryClickListener implements Listener {
                 }
             }
 
-            if (event.getClickedInventory().getName().equals("Particle Packs")) {
+            if (inventory.getName().equals("Particle Packs")) {
                 PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
                 ItemStack item = event.getCurrentItem();
                 event.setCancelled(true);
@@ -375,7 +383,7 @@ public class InventoryClickListener implements Listener {
                 }
             }
 
-            if (event.getClickedInventory().getName().contains("Punish Menu")) {
+            if (inventory.getName().contains("Punish Menu")) {
                 ItemStack item = event.getCurrentItem();
                 event.setCancelled(true);
                 PunishMenu punishMenu = new PunishMenu(plugin);
@@ -391,7 +399,7 @@ public class InventoryClickListener implements Listener {
                 }
             }
 
-            if (event.getClickedInventory().getName().contains("Punishing:")) {
+            if (inventory.getName().contains("Punishing:")) {
                 ItemStack item = event.getCurrentItem();
                 event.setCancelled(true);
                 PunishMenu punishMenu = new PunishMenu(plugin);
@@ -402,16 +410,187 @@ public class InventoryClickListener implements Listener {
                 }
                 OfflinePlayer target = plugin.getServer().getOfflinePlayer(targetData.getUuid());
                 if (item.getType().equals(Material.BOOK)) {
-                    punishMenu.openMuteMenu(player, target);
+                    punishMenu.openMuteMenu(player, target, 0);
                     Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                 }
                 if (item.getType().equals(Material.BARRIER)) {
-                    punishMenu.openBanMenu(player, target);
+                    punishMenu.openBanMenu(player, target, 0);
                     Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                 }
             }
 
-            if (event.getInventory().getName().equals("\"K-Slots\" Machine")) {
+            if (inventory.getName().contains(" History")) {
+                ItemStack item = event.getCurrentItem();
+                event.setCancelled(true);
+                PunishMenu punishMenu = new PunishMenu(plugin);
+                int page = 0;
+                if (inventory.getName().contains("(")) {
+                    page = Integer.parseInt(inventory.getName().substring(inventory.getName().length() - 2, inventory.getName().length() - 1));
+                }
+                String[] split = inventory.getName().split("'");
+                PlayerData targetData = plugin.getPlayerData(split[0]);
+                OfflinePlayer target = plugin.getServer().getOfflinePlayer(targetData.getUuid());
+                if (item.getType().equals(Material.ARROW)) {
+                    if (item.getItemMeta().getDisplayName().contains("Next")) {
+                        if (inventory.getName().contains(" Ban")) {
+                            punishMenu.openBanMenu(player, target, (page + 1));
+                        }
+                        if (inventory.getName().contains(" Mute")) {
+                            punishMenu.openMuteMenu(player, target, (page + 1));
+                        }
+                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+                    }
+                    if (item.getItemMeta().getDisplayName().contains("Back")) {
+                        if (inventory.getName().contains(" Ban")) {
+                            if (page == 0) {
+                                punishMenu.openInventory(player, target);
+                            } else {
+                                punishMenu.openBanMenu(player, target, (page - 2));
+                            }
+                        }
+                        if (inventory.getName().contains(" Mute")) {
+                            if (page == 0) {
+                                punishMenu.openInventory(player, target);
+                            } else {
+                                punishMenu.openMuteMenu(player, target, (page - 2));
+                            }
+                        }
+                        Battlegrounds.playSound(player, EventSound.INVENTORY_GO_BACK);
+                    }
+                }
+                if (item.getType().equals(Material.BOOK_AND_QUILL)) {
+                    if (item.getItemMeta().getDisplayName().contains("Mute")) {
+                        punishMenu.openPunishMenu(player, target, Punishment.Type.MUTE, null, 0);
+                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+                    }
+                    if (item.getItemMeta().getDisplayName().contains("Ban")) {
+                        PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
+                        if (!playerData.hasRank(Rank.MODERATOR)) {
+                            player.sendMessage(ChatColor.RED + "You must be a Moderator or higher to issue a ban!");
+                            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                            return;
+                        }
+                        punishMenu.openPunishMenu(player, target, Punishment.Type.BAN, null, 0);
+                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+                    }
+                }
+            }
+
+            if (inventory.getName().contains("Punishment Creation:")) {
+                ItemStack item = event.getCurrentItem();
+                event.setCancelled(true);
+                PunishMenu punishMenu = new PunishMenu(plugin);
+                ItemStack wool = inventory.getItem(32);
+                Punishment.Type type = Punishment.getTypeFromName(inventory.getName().replace("Punishment Creation: ", ""));
+                if (item.getType().equals(Material.BOOK)) {
+                    Punishment.Reason reason = Punishment.getReasonFromName(item.getItemMeta().getDisplayName().substring(2, item.getItemMeta().getDisplayName().length()));
+                    PlayerData playerData = plugin.getPlayerData(wool.getItemMeta().getLore().get(0).substring(15, wool.getItemMeta().getLore().get(0).length()));
+                    Player targetOnline = plugin.getServer().getPlayer(playerData.getUuid());
+                    if (targetOnline == null) {
+                        OfflinePlayer target = plugin.getServer().getOfflinePlayer(playerData.getUuid());
+                        punishMenu.openPunishMenu(player, target, type, reason, reason.getLength());
+                    } else {
+                        punishMenu.openPunishMenu(player, targetOnline, type, reason, reason.getLength());
+                    }
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+                    HashMap<Punishment.Reason, Integer> create = new HashMap<>();
+                    create.put(reason, reason.getLength());
+                    Battlegrounds.punishmentCreation.put(player, create);
+                }
+                if (item.getType().equals(Material.WATCH)) {
+                    if (item.getItemMeta().getDisplayName().contains("(Select a reason first)")) {
+                        return;
+                    } else {
+                        if (Battlegrounds.punishmentCreation.containsKey(player)) {
+                            Punishment.Reason reason = null;
+                            for (Punishment.Reason reasons : Punishment.Reason.values()) {
+                                if (Battlegrounds.punishmentCreation.get(player).containsKey(reasons)) {
+                                    reason = reasons;
+                                }
+                            }
+                            if (reason != null) {
+                                int time = Battlegrounds.punishmentCreation.get(player).get(reason);
+                                if (event.getClick().isLeftClick()) {
+                                    if (event.getClick().isShiftClick()) {
+                                        if (time - 900 <= 0) {
+                                            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                                            return;
+                                        } else {
+                                            time = time - 900;
+                                        }
+                                    } else {
+                                        if (time - 300 <= 0) {
+                                            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                                            return;
+                                        } else {
+                                            time = time - 300;
+                                        }
+                                    }
+                                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+                                } else if (event.isRightClick()) {
+                                    if (event.getClick().isShiftClick()) {
+                                        if (time + 900 >= 604800) {
+                                            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                                            return;
+                                        } else {
+                                            time = time + 900;
+                                        }
+                                    } else {
+                                        if (time + 300 >= 604800) {
+                                            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                                            return;
+                                        } else {
+                                            time = time + 300;
+                                        }
+                                    }
+                                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+                                }
+                                PlayerData playerData = plugin.getPlayerData(wool.getItemMeta().getLore().get(0).substring(15, wool.getItemMeta().getLore().get(0).length()));
+                                Player targetOnline = plugin.getServer().getPlayer(playerData.getUuid());
+                                if (targetOnline == null) {
+                                    OfflinePlayer target = plugin.getServer().getOfflinePlayer(playerData.getUuid());
+                                    punishMenu.openPunishMenu(player, target, type, reason, time);
+                                } else {
+                                    punishMenu.openPunishMenu(player, targetOnline, type, reason, time);
+                                }
+                                HashMap<Punishment.Reason, Integer> create = new HashMap<>();
+                                create.put(reason, time);
+                                Battlegrounds.punishmentCreation.put(player, create);
+                            }
+                        }
+                    }
+                }
+                if (item.getType().equals(Material.ARROW)) {
+                    PlayerData playerData = plugin.getPlayerData(wool.getItemMeta().getLore().get(0).substring(15, wool.getItemMeta().getLore().get(0).length()));
+                    OfflinePlayer target = plugin.getServer().getOfflinePlayer(playerData.getUuid());
+                    if (inventory.getName().contains("Mute")) {
+                        punishMenu.openMuteMenu(player, target, 0);
+                    }
+                    if (inventory.getName().contains("Ban")) {
+                        punishMenu.openBanMenu(player, target, 0);
+                    }
+                    if (Battlegrounds.punishmentCreation.containsKey(player)) {
+                        Battlegrounds.punishmentCreation.remove(player);
+                    }
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_GO_BACK);
+                }
+                if (item.getType().equals(Material.WOOL)) {
+                    PlayerData playerData = plugin.getPlayerData(wool.getItemMeta().getLore().get(0).substring(15, wool.getItemMeta().getLore().get(0).length()));
+                    OfflinePlayer target = plugin.getServer().getOfflinePlayer(playerData.getUuid());
+                    if (!Battlegrounds.punishmentCreation.containsKey(player)) {
+                        Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                        return;
+                    }
+                    if (inventory.getName().contains("Ban")) {
+                        BanCommand.banPlayer(target.getUniqueId(), player, Battlegrounds.punishmentCreation.get(player));
+                    }
+                    if (inventory.getName().contains("Mute")) {
+                        MuteCommand.mutePlayer(target.getUniqueId(), player, Battlegrounds.punishmentCreation.get(player));
+                    }
+                }
+            }
+
+            if (inventory.getName().equals("\"K-Slots\" Machine")) {
                 ItemStack item = event.getCurrentItem();
                 event.setCancelled(true);
                 PlayerData playerData = plugin.getPlayerData(player.getUniqueId());

@@ -6,6 +6,7 @@ import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Runnables.AutoUpdate;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Etc.Achievements.Achievement;
 import me.gamerbah.Listeners.ScoreboardListener;
 import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.I;
@@ -125,6 +126,15 @@ public class KSlotsMenu {
                         playerData.setOwnedKits(playerData.getOwnedKits() + finalKit.getId() + ",");
                         player.sendMessage(ChatColor.DARK_AQUA + "You unlocked the " + finalKit.getRarity().getColor() + (finalKit.getRarity() == Rarity.EPIC
                                 || finalKit.getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + finalKit.getName() + ChatColor.DARK_AQUA + " kit!");
+                        for (Achievement.Type type : Achievement.Type.values()) {
+                            if (type.getGroup().equals(Achievement.COLLECTION) && type.getName().contains("Armament")) {
+                                String[] split = playerData.getOwnedKits().substring(2, playerData.getOwnedKits().length() - 1).split(",");
+                                int kitsOwned = split.length;
+                                if (kitsOwned == type.getRequirement()) {
+                                    Achievement.sendUnlockMessage(player, type);
+                                }
+                            }
+                        }
                     } else {
                         int coins = ThreadLocalRandom.current().nextInt(5, 8 + 1);
                         player.sendMessage(ChatColor.GRAY + "You already have the " + finalKit.getRarity().getColor() + (finalKit.getRarity() == Rarity.EPIC
@@ -168,6 +178,15 @@ public class KSlotsMenu {
                         playerData.setOwnedKits(playerData.getOwnedKits() + finalKit.getId() + ",");
                         player.sendMessage(ChatColor.DARK_AQUA + "You unlocked the " + finalKit.getRarity().getColor() + (finalKit.getRarity() == Rarity.EPIC
                                 || finalKit.getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + finalKit.getName() + ChatColor.DARK_AQUA + " kit!");
+                        for (Achievement.Type type : Achievement.Type.values()) {
+                            if (type.getGroup().equals(Achievement.COLLECTION) && type.getName().contains("Armament")) {
+                                String[] split = playerData.getOwnedKits().substring(2, playerData.getOwnedKits().length() - 1).split(",");
+                                int kitsOwned = split.length;
+                                if (kitsOwned == type.getRequirement()) {
+                                    Achievement.sendUnlockMessage(player, type);
+                                }
+                            }
+                        }
                     } else {
                         int coins = ThreadLocalRandom.current().nextInt(5, 8 + 1);
                         player.sendMessage(ChatColor.GRAY + "You already have the " + finalKit.getRarity().getColor() + (finalKit.getRarity() == Rarity.EPIC
@@ -211,6 +230,15 @@ public class KSlotsMenu {
                         playerData.setOwnedKits(playerData.getOwnedKits() + finalKit.getId() + ",");
                         player.sendMessage(ChatColor.DARK_AQUA + "You unlocked the " + finalKit.getRarity().getColor() + (finalKit.getRarity() == Rarity.EPIC
                                 || finalKit.getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + finalKit.getName() + ChatColor.DARK_AQUA + " kit!");
+                        for (Achievement.Type type : Achievement.Type.values()) {
+                            if (type.getGroup().equals(Achievement.COLLECTION) && type.getName().contains("Armament")) {
+                                String[] split = playerData.getOwnedKits().substring(2, playerData.getOwnedKits().length() - 1).split(",");
+                                int kitsOwned = split.length;
+                                if (kitsOwned == type.getRequirement()) {
+                                    Achievement.sendUnlockMessage(player, type);
+                                }
+                            }
+                        }
                     } else {
                         int coins = ThreadLocalRandom.current().nextInt(5, 8 + 1);
                         player.sendMessage(ChatColor.GRAY + "You already have the " + finalKit.getRarity().getColor() + (finalKit.getRarity() == Rarity.EPIC
@@ -255,6 +283,15 @@ public class KSlotsMenu {
                         playerData.setOwnedKits(playerData.getOwnedKits() + finalKit.getId() + ",");
                         player.sendMessage(ChatColor.DARK_AQUA + "You unlocked the " + finalKit.getRarity().getColor() + (finalKit.getRarity() == Rarity.EPIC
                                 || finalKit.getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + finalKit.getName() + ChatColor.DARK_AQUA + " kit!");
+                        for (Achievement.Type type : Achievement.Type.values()) {
+                            if (type.getGroup().equals(Achievement.COLLECTION) && type.getName().contains("Armament")) {
+                                String[] split = playerData.getOwnedKits().substring(2, playerData.getOwnedKits().length() - 1).split(",");
+                                int kitsOwned = split.length;
+                                if (kitsOwned == type.getRequirement()) {
+                                    Achievement.sendUnlockMessage(player, type);
+                                }
+                            }
+                        }
                     } else {
                         int coins = ThreadLocalRandom.current().nextInt(5, 8 + 1);
                         player.sendMessage(ChatColor.GRAY + "You already have the " + finalKit.getRarity().getColor() + (finalKit.getRarity() == Rarity.EPIC

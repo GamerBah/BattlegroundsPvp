@@ -52,8 +52,8 @@ public enum Achievement {
                 + AQUA + "in your Player Profile!").create()));
         player.spigot().sendMessage(component);
         player.sendMessage(" ");
-        player.sendMessage(YELLOW + "  Rewards:\n" + GRAY + "    \u25CF " + BoldColor.AQUA.getColor() + type.getSoulReward() + " Souls\n"
-                + GRAY + "    \u25CF " + BoldColor.PINK.getColor() + type.getCoinReward() + " Battle Coins");
+        player.sendMessage(YELLOW + "  Rewards:\n" + (type.getSoulReward() == 0 ? "" : GRAY + "    \u25CF " + BoldColor.AQUA.getColor() + type.getSoulReward() + " Souls\n")
+                + (type.getCoinReward() == 0 ? "" : GRAY + "    \u25CF " + BoldColor.PINK.getColor() + type.getCoinReward() + " Battle Coins"));
         player.sendMessage(AQUA + "\u00AB " + WHITE + "" + STRIKETHROUGH + "----------------------" + AQUA + " \u00BB");
         player.sendMessage(" ");
         ScoreboardListener scoreboardListener = new ScoreboardListener(Battlegrounds.getInstance());
@@ -106,7 +106,35 @@ public enum Achievement {
         RECRUITER_III(RECRUITMENT, "Recruiter III", "Recruit 10 friends", 10, 150, 50, null),
         RECRUITER_IV(RECRUITMENT, "Recruiter IV", "Recruit 15 friends", 15, 300, 75, null),
         RECRUITER_V(RECRUITMENT, "Recruiter V", "Recruit 20 friends", 20, 500, 125, null),
-        RECRUITER_MASTER(RECRUITMENT, "Recruiter Mastery", "Recruit 30 friends", 30, 1000, 200, "Ambassador");
+        RECRUITER_MASTER(RECRUITMENT, "Recruiter Mastery", "Recruit 30 friends", 30, 1000, 200, "Ambassador"),
+
+        ARMAMENT_I(COLLECTION, "Armament I", "Unlock 9 Kits", 9, 0, 50, null),
+        ARMAMENT_II(COLLECTION, "Armament II", "Unlock 18 Kits", 18, 0, 100, null),
+        ARMAMENT_III(COLLECTION, "Armament III", "Unlock 27 Kits", 27, 0, 200, null),
+        ARMAMENT_IV(COLLECTION, "Armament IV", "Unlock 36 Kits", 36, 0, 350, null),
+        ARMAMENT_V(COLLECTION, "Armament V", "Unlock 45 Kits", 45, 0, 500, null),
+        ARMAMENT_MASTER(COLLECTION, "Armament Mastery", "Unlock all 54 Kits", 54, 0, 750, "Arms Master"),
+
+        SHOWMANSHIP_I(COLLECTION, "Showmanship I", "Unlock 1 Particle Pack", 1, 75, 0, null),
+        SHOWMANSHIP_II(COLLECTION, "Showmanship II", "Unlock 3 Particle Packs", 3, 150, 0, null),
+        SHOWMANSHIP_III(COLLECTION, "Showmanship III", "Unlock 6 Particle Packs", 6, 350, 0, null),
+        SHOWMANSHIP_IV(COLLECTION, "Showmanship IV", "Unlock 9 Particle Packs", 9, 600, 0, null),
+        SHOWMANSHIP_V(COLLECTION, "Showmanship V", "Unlock 12 Particle Packs", 12, 850, 0, null),
+        SHOWMANSHIP_MASTER(COLLECTION, "Showmanship Mastery", "Unlock all Particle Packs", 18, 1150, 0, "Showman"),
+
+        WARCRY_I(COLLECTION, "Warcry I", "Unlock 1 Warcry", 1, 75, 0, null),
+        WARCRY_II(COLLECTION, "Warcry II", "Unlock 3 Warcries", 3, 150, 0, null),
+        WARCRY_III(COLLECTION, "Warcry III", "Unlock 6 Warcries", 6, 350, 0, null),
+        WARCRY_IV(COLLECTION, "Warcry IV", "Unlock 9 Warcries", 9, 600, 0, null),
+        WARCRY_V(COLLECTION, "Warcry V", "Unlock 12 Warcries", 12, 850, 0, null),
+        WARCRY_MASTER(COLLECTION, "Warcry Mastery", "Unlock all Warcries", 18, 1150, 0, "Warcry"),
+
+        SAVAGE_I(COLLECTION, "Savage I", "Unlock 1 Gore Effect", 1, 75, 0, null),
+        SAVAGE_II(COLLECTION, "Savage II", "Unlock 5 Gore Effects", 5, 150, 0, null),
+        SAVAGE_III(COLLECTION, "Savage III", "Unlock 10 Gore Effects", 10, 350, 0, null),
+        SAVAGE_IV(COLLECTION, "Savage IV", "Unlock 15 Gore Effects", 15, 600, 0, null),
+        SAVAGE_V(COLLECTION, "Savage V", "Unlock 20 Gore Effects", 20, 850, 0, null),
+        SAVAGE_MASTER(COLLECTION, "Savage Mastery", "Unlock all Gore Effects", 27, 1150, 0, "Savage");
 
         private Achievement group;
         private String name;

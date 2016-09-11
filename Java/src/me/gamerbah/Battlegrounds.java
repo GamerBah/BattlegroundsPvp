@@ -46,6 +46,7 @@ public class Battlegrounds extends JavaPlugin {
     public static Map<String, String> pendingTeams = new HashMap<>();
     public static Map<String, String> currentTeams = new ConcurrentHashMap<>();
     public static Map<Player, Player> pendingFriends = new HashMap<>();
+    public static HashMap<Player, HashMap<Punishment.Reason, Integer>> punishmentCreation = new HashMap<>();
     @Getter
     private static Battlegrounds instance = null;
     @Getter
@@ -272,7 +273,7 @@ public class Battlegrounds extends JavaPlugin {
     }
 
     public PlayerData getPlayerData(String name) {
-        Optional<PlayerData> playerDataStream = playerData.stream().filter(playerData -> playerData.getName().equals(name)).findFirst();
+        Optional<PlayerData> playerDataStream = playerData.stream().filter(playerData -> playerData.getName().equalsIgnoreCase(name)).findFirst();
 
         if (playerDataStream.isPresent()) {
             return playerDataStream.get();
