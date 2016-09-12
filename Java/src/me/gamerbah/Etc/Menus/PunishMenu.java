@@ -92,7 +92,7 @@ public class PunishMenu {
         Inventory inv = plugin.getServer().createInventory(null, 36, "Punishment Creation: " + type.getName());
 
         if (reason == null) {
-            inv.setItem(10, new I(Material.WATCH).name(ChatColor.YELLOW + "Time: " + (type.equals(Punishment.Type.BAN) ? BoldColor.RED + "PERMANENT"
+            inv.setItem(10, new I(Material.WATCH).name(ChatColor.YELLOW + "Time: " + (type.equals(Punishment.Type.BAN) ? BoldColor.RED.getColor() + "PERMANENT"
                     : type.equals(Punishment.Type.KICK) ? ChatColor.GRAY + "N/A" : ChatColor.GRAY + "(Select a reason first)")));
         } else {
             if (type != Punishment.Type.BAN && type != Punishment.Type.KICK) {
@@ -100,7 +100,11 @@ public class PunishMenu {
                         .lore(ChatColor.GRAY + "Left-Click: " + ChatColor.RED + "-5 min " + ChatColor.DARK_RED + "" + ChatColor.ITALIC + "(Shift: -15 min)")
                         .lore(ChatColor.GRAY + "Right-Click: " + ChatColor.GREEN + "+5 min " + ChatColor.DARK_GREEN + "" + ChatColor.ITALIC + "(Shift: +15 min)"));
             } else {
-                inv.setItem(10, new I(Material.WATCH).name(ChatColor.YELLOW + "Time: " + BoldColor.RED + "PERMANENT"));
+                if (type == Punishment.Type.BAN) {
+                    inv.setItem(10, new I(Material.WATCH).name(ChatColor.YELLOW + "Time: " + BoldColor.RED.getColor() + "PERMANENT"));
+                } else {
+                    inv.setItem(10, new I(Material.WATCH).name(ChatColor.YELLOW + "Time: " + ChatColor.GRAY + "N/A"));
+                }
             }
         }
         int i = 11;
@@ -135,7 +139,7 @@ public class PunishMenu {
                 }
             }
             if (type.equals(Punishment.Type.KICK)) {
-                if (reasons.getType().equals(Punishment.Type.KICK_BAN) || reasons.getType().equals(Punishment.Type.ALL)) {
+                if (reasons.getType().equals(Punishment.Type.KICK) || reasons.getType().equals(Punishment.Type.KICK_BAN) || reasons.getType().equals(Punishment.Type.ALL)) {
                     String[] split = reasons.getDescription().split(",");
                     inv.setItem(i++, new I((reason != null && reason.equals(reasons) ? Material.ENCHANTED_BOOK : Material.BOOK))
                             .name(ChatColor.RED + reasons.getName() + (reason != null && reason.equals(reasons) ? BoldColor.GREEN.getColor() + " SELECTED" : ""))
@@ -172,9 +176,11 @@ public class PunishMenu {
 
         ArrayList<Punishment> allPunishments = plugin.getPlayerPunishments().get(targetData.getUuid());
         ArrayList<Punishment> mutes = new ArrayList<>();
-        for (int i = 0; i < allPunishments.size(); i++) {
-            if (allPunishments.get(i).getType().equals(Punishment.Type.MUTE)) {
-                mutes.add(allPunishments.get(i));
+        if (allPunishments != null) {
+            for (int i = 0; i < allPunishments.size(); i++) {
+                if (allPunishments.get(i).getType().equals(Punishment.Type.MUTE)) {
+                    mutes.add(allPunishments.get(i));
+                }
             }
         }
 
@@ -216,9 +222,11 @@ public class PunishMenu {
 
         ArrayList<Punishment> allPunishments = plugin.getPlayerPunishments().get(targetData.getUuid());
         ArrayList<Punishment> bans = new ArrayList<>();
-        for (int i = 0; i < allPunishments.size(); i++) {
-            if (allPunishments.get(i).getType().equals(Punishment.Type.BAN)) {
-                bans.add(allPunishments.get(i));
+        if (allPunishments != null) {
+            for (int i = 0; i < allPunishments.size(); i++) {
+                if (allPunishments.get(i).getType().equals(Punishment.Type.BAN)) {
+                    bans.add(allPunishments.get(i));
+                }
             }
         }
 
@@ -244,12 +252,12 @@ public class PunishMenu {
                     }
                 }
             }
-            if (bans.size() > (page + 1) * 45) {
-                inv.setItem(50, new I(Material.ARROW).name(ChatColor.GRAY + "Next Page"));
-            }
-            inv.setItem(48, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
-            inv.setItem(49, new I(Material.BOOK_AND_QUILL).name(BoldColor.GREEN.getColor() + "Register New Ban"));
         }
+        if (bans.size() > (page + 1) * 45) {
+            inv.setItem(50, new I(Material.ARROW).name(ChatColor.GRAY + "Next Page"));
+        }
+        inv.setItem(48, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
+        inv.setItem(49, new I(Material.BOOK_AND_QUILL).name(BoldColor.GREEN.getColor() + "Register New Ban"));
         player.openInventory(inv);
     }
 
@@ -259,9 +267,11 @@ public class PunishMenu {
 
         ArrayList<Punishment> allPunishments = plugin.getPlayerPunishments().get(targetData.getUuid());
         ArrayList<Punishment> temps = new ArrayList<>();
-        for (int i = 0; i < allPunishments.size(); i++) {
-            if (allPunishments.get(i).getType().equals(Punishment.Type.TEMP_BAN)) {
-                temps.add(allPunishments.get(i));
+        if (allPunishments != null) {
+            for (int i = 0; i < allPunishments.size(); i++) {
+                if (allPunishments.get(i).getType().equals(Punishment.Type.TEMP_BAN)) {
+                    temps.add(allPunishments.get(i));
+                }
             }
         }
 
@@ -294,6 +304,50 @@ public class PunishMenu {
         }
         inv.setItem(48, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
         inv.setItem(49, new I(Material.BOOK_AND_QUILL).name(BoldColor.GREEN.getColor() + "Register New Temp-Ban"));
+        player.openInventory(inv);
+    }
+
+    public void openKickMenu(Player player, OfflinePlayer target, int page) {
+        PlayerData targetData = plugin.getPlayerData(target.getUniqueId());
+        Inventory inv = plugin.getServer().createInventory(null, 54, targetData.getName() + "'s Kick History" + (page == 0 ? "" : " (" + (page + 1) + ")"));
+
+        ArrayList<Punishment> allPunishments = plugin.getPlayerPunishments().get(targetData.getUuid());
+        ArrayList<Punishment> kicks = new ArrayList<>();
+        if (allPunishments != null) {
+            for (int i = 0; i < allPunishments.size(); i++) {
+                if (allPunishments.get(i).getType().equals(Punishment.Type.KICK)) {
+                    kicks.add(allPunishments.get(i));
+                }
+            }
+        }
+
+        if (!kicks.isEmpty()) {
+            Collections.sort(kicks, new Comparator<Punishment>() {
+                @Override
+                public int compare(Punishment p1, Punishment p2) {
+                    return p2.getDate().compareTo(p1.getDate());
+                }
+            });
+
+            int a = 0;
+            for (int i = page * 45; i < kicks.size() && i >= page * 45 && i < (page + 1) * 45; i++) {
+                Punishment punishment = kicks.get(i);
+                if (a < 45) {
+                    if (punishment.getType().equals(Punishment.Type.KICK)) {
+                        PlayerData playerData = plugin.getPlayerData(punishment.getEnforcer());
+                        inv.setItem(a++, new I(Material.MAP).name(ChatColor.AQUA + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(CST)'")))
+                                .lore(ChatColor.GRAY + "Kicked by: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()
+                                        + ChatColor.WHITE + " " + playerData.getName())
+                                .lore(ChatColor.GRAY + "Reason: " + ChatColor.GOLD + punishment.getReason().getName()));
+                    }
+                }
+            }
+        }
+        if (kicks.size() > (page + 1) * 45) {
+            inv.setItem(50, new I(Material.ARROW).name(ChatColor.GRAY + "Next Page"));
+        }
+        inv.setItem(48, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
+        inv.setItem(49, new I(Material.BOOK_AND_QUILL).name(BoldColor.GREEN.getColor() + "Kick Player"));
         player.openInventory(inv);
     }
 

@@ -6,6 +6,7 @@ import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Donations.DonationMessages;
 import me.gamerbah.Administration.Donations.Essence;
 import me.gamerbah.Administration.Punishments.Commands.BanCommand;
+import me.gamerbah.Administration.Punishments.Commands.KickCommand;
 import me.gamerbah.Administration.Punishments.Commands.MuteCommand;
 import me.gamerbah.Administration.Punishments.Commands.TempBanCommand;
 import me.gamerbah.Administration.Punishments.Punishment;
@@ -422,6 +423,10 @@ public class InventoryClickListener implements Listener {
                     punishMenu.openTempBanMenu(player, target, 0);
                     Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                 }
+                if (item.getType().equals(Material.GOLD_BOOTS)) {
+                    punishMenu.openKickMenu(player, target, 0);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+                }
             }
 
             if (inventory.getName().contains(" History")) {
@@ -445,6 +450,9 @@ public class InventoryClickListener implements Listener {
                         }
                         if (inventory.getName().contains(" Temp-Ban")) {
                             punishMenu.openTempBanMenu(player, target, (page + 1));
+                        }
+                        if (inventory.getName().contains(" Kick")) {
+                            punishMenu.openKickMenu(player, target, (page + 1));
                         }
                         Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                     }
@@ -470,6 +478,13 @@ public class InventoryClickListener implements Listener {
                                 punishMenu.openTempBanMenu(player, target, (page - 2));
                             }
                         }
+                        if (inventory.getName().contains(" Kick")) {
+                            if (page == 0) {
+                                punishMenu.openInventory(player, target);
+                            } else {
+                                punishMenu.openKickMenu(player, target, (page - 2));
+                            }
+                        }
                         Battlegrounds.playSound(player, EventSound.INVENTORY_GO_BACK);
                     }
                 }
@@ -478,7 +493,7 @@ public class InventoryClickListener implements Listener {
                         punishMenu.openPunishMenu(player, target, Punishment.Type.MUTE, null, 0);
                         Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                     }
-                    if (item.getItemMeta().getDisplayName().contains("Ban")) {
+                    if (item.getItemMeta().getDisplayName().contains(" Ban")) {
                         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
                         if (!playerData.hasRank(Rank.ADMIN)) {
                             player.sendMessage(ChatColor.RED + "You must be an Admin or higher to issue a ban!");
@@ -496,6 +511,16 @@ public class InventoryClickListener implements Listener {
                             return;
                         }
                         punishMenu.openPunishMenu(player, target, Punishment.Type.TEMP_BAN, null, 0);
+                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+                    }
+                    if (item.getItemMeta().getDisplayName().contains("Kick")) {
+                        PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
+                        if (!playerData.hasRank(Rank.MODERATOR)) {
+                            player.sendMessage(ChatColor.RED + "You must be a Moderator or higher to kick players!");
+                            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                            return;
+                        }
+                        punishMenu.openPunishMenu(player, target, Punishment.Type.KICK, null, 0);
                         Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                     }
                 }
@@ -597,6 +622,9 @@ public class InventoryClickListener implements Listener {
                     if (inventory.getName().contains(" Temp-Ban")) {
                         punishMenu.openTempBanMenu(player, target, 0);
                     }
+                    if (inventory.getName().contains(" Kick")) {
+                        punishMenu.openKickMenu(player, target, 0);
+                    }
                     if (Battlegrounds.punishmentCreation.containsKey(player)) {
                         Battlegrounds.punishmentCreation.remove(player);
                     }
@@ -617,6 +645,9 @@ public class InventoryClickListener implements Listener {
                     }
                     if (inventory.getName().contains(" Temp-Ban")) {
                         TempBanCommand.tempbanPlayer(target.getUniqueId(), player, Battlegrounds.punishmentCreation.get(player));
+                    }
+                    if (inventory.getName().contains(" Kick")) {
+                        KickCommand.kickPlayer(target.getUniqueId(), player, Battlegrounds.punishmentCreation.get(player));
                     }
                 }
             }

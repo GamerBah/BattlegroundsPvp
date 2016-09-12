@@ -6,6 +6,7 @@ import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
 import me.gamerbah.Battlegrounds;
+import me.gamerbah.Etc.Menus.PunishMenu;
 import me.gamerbah.Utils.EventSound;
 import me.gamerbah.Utils.Time;
 import net.md_5.bungee.api.ChatColor;
@@ -13,7 +14,6 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -108,30 +108,20 @@ public class MuteCommand implements CommandExecutor {
             return true;
         }
 
-        if (args.length < 2) {
-            player.sendMessage(ChatColor.RED + "/mute <player> <reason>");
+        if (args.length != 1) {
+            player.sendMessage(Battlegrounds.incorrectUsage + ChatColor.RED + "/mute <player>");
             Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
         @SuppressWarnings("deprecation")
         PlayerData targetData = plugin.getPlayerData(plugin.getServer().getOfflinePlayer(args[0]).getUniqueId());
-        OfflinePlayer offlinePlayer = plugin.getServer().getOfflinePlayer(targetData.getUuid());
-        Player target = Bukkit.getPlayer(targetData.getUuid());
-
-        Punishment.Reason reason = null;
-        for (Punishment.Reason type : Punishment.Reason.values()) {
-            if (args[1].equalsIgnoreCase(type.toString())) {
-                reason = type;
-                break;
-            }
-        }
-
-        if (reason == null) {
-            player.sendMessage(ChatColor.RED + "Unknown reason!");
+        if (targetData == null) {
+            player.sendMessage(ChatColor.RED + "That player hasn't joined before!");
             Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
+        OfflinePlayer target = plugin.getServer().getOfflinePlayer(targetData.getUuid());
 
         if (targetData == playerData) {
             player.sendMessage(ChatColor.RED + "You can't mute yourself!");
@@ -162,26 +152,9 @@ public class MuteCommand implements CommandExecutor {
             }
         }
 
-        plugin.createPunishment(targetData.getUuid(), targetData.getName(), Punishment.Type.MUTE, LocalDateTime.now(), reason.getLength(), player.getUniqueId(), reason);
-
-        final int finalTime = reason.getLength() * 1000;
-        final String finalName = reason.getName();
-        if (target != null) {
-            BaseComponent baseComponent = new TextComponent(ChatColor.RED + player.getName() + " muted " + ChatColor.RED + plugin.getServer().getPlayer(targetData.getUuid()).getName());
-            baseComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GRAY + "Reason: "
-                    + ChatColor.WHITE + finalName + "\n" + ChatColor.GRAY + "Time: " + ChatColor.WHITE + Time.toString(finalTime, false)).create()));
-
-            plugin.getServer().getOnlinePlayers().stream().filter(staff -> plugin.getPlayerData(staff.getUniqueId()).hasRank(Rank.HELPER)).forEach(staff -> staff.spigot().sendMessage(baseComponent));
-
-            target.sendMessage(ChatColor.GOLD + player.getName() + ChatColor.RED + " muted you for " + ChatColor.GOLD + Time.toString(finalTime, true)
-                    + ChatColor.RED + " for " + ChatColor.GOLD + finalName);
-        } else {
-            BaseComponent baseComponent = new TextComponent(ChatColor.RED + player.getName() + " muted " + ChatColor.RED + offlinePlayer.getName());
-            baseComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GRAY + "Reason: "
-                    + ChatColor.WHITE + finalName + "\n" + ChatColor.GRAY + "Time: " + ChatColor.WHITE + Time.toString(finalTime, false)).create()));
-
-            plugin.getServer().getOnlinePlayers().stream().filter(staff -> plugin.getPlayerData(staff.getUniqueId()).hasRank(Rank.HELPER)).forEach(staff -> staff.spigot().sendMessage(baseComponent));
-        }
+        PunishMenu punishMenu = new PunishMenu(plugin);
+        punishMenu.openPunishMenu(player, target, Punishment.Type.MUTE, null, 0);
+        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
 
         return true;
     }

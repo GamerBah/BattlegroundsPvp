@@ -9,10 +9,7 @@ import me.gamerbah.Administration.Data.MySQL;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Data.Query;
 import me.gamerbah.Administration.Donations.Essence;
-import me.gamerbah.Administration.Punishments.Commands.BanCommand;
-import me.gamerbah.Administration.Punishments.Commands.MuteCommand;
-import me.gamerbah.Administration.Punishments.Commands.UnbanCommand;
-import me.gamerbah.Administration.Punishments.Commands.UnmuteCommand;
+import me.gamerbah.Administration.Punishments.Commands.*;
 import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Runnables.*;
 import me.gamerbah.Administration.Utils.ChatFilter;
@@ -229,6 +226,8 @@ public class Battlegrounds extends JavaPlugin {
         getCommand("refer").setExecutor(new ReferCommand(this));
         getCommand("reload").setExecutor(new ReloadCommand(this));
         getCommand("friend").setExecutor(new FriendCommand(this));
+        getCommand("kick").setExecutor(new KickCommand(this));
+        getCommand("tempban").setExecutor(new TempBanCommand(this));
     }
 
     private void registerListeners() {

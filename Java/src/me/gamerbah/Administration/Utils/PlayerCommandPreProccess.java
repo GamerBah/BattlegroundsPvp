@@ -61,6 +61,15 @@ public class PlayerCommandPreProccess implements Listener {
             player.performCommand("battlegrounds:reload");
             return;
         }
+        if (StringUtils.contains(command, "/kick")) {
+            event.setCancelled(true);
+            if (command.length() > 6) {
+                player.performCommand("battlegrounds:kick " + command.substring(6, command.length()));
+            } else {
+                player.performCommand("battlegrounds:kick");
+            }
+            return;
+        }
 
         if (Battlegrounds.getAfk().contains(player.getUniqueId()) && !StringUtils.startsWithIgnoreCase(command, "/afk") && !StringUtils.startsWithIgnoreCase(command, "/spawn")) {
             Battlegrounds.getAfk().remove(player.getUniqueId());
