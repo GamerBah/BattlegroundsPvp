@@ -2,6 +2,8 @@ package me.gamerbah.Etc.Menus;
 /* Created by GamerBah on 8/25/2016 */
 
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import me.gamerbah.Administration.Data.PlayerData;
 import me.gamerbah.Administration.Punishments.Punishment;
 import me.gamerbah.Administration.Utils.Rank;
@@ -32,29 +34,66 @@ public class PunishMenu {
         this.plugin = plugin;
     }
 
-    public void openPlayersInventory(Player p) {
+    public void openPlayersMenu(Player player, SortType sortType, int page) {
+        PlayerData pData = plugin.getPlayerData(player.getUniqueId());
         Inventory inv = plugin.getServer().createInventory(null, 54, "Punish Menu");
-        for (int i = 0; i < plugin.getServer().getOnlinePlayers().size(); i++) {
-            PlayerData playerData;
-            for (Player player : plugin.getServer().getOnlinePlayers()) {
-                if (!player.equals(p)) {
-                    playerData = plugin.getPlayerData(player.getUniqueId());
-                    ItemStack head = new I(Material.SKULL_ITEM).durability(3).name(playerData.getRank().getColor() + player.getName())
-                            .lore(ChatColor.GRAY + "Rank: " + playerData.getRank().getColor() + (playerData.getRank().equals(Rank.DEFAULT) ? "" : "" + ChatColor.BOLD) + playerData.getRank().getName());
-                    SkullMeta meta = (SkullMeta) head.getItemMeta();
-                    meta.setOwner(player.getName());
-                    head.setItemMeta(meta);
 
-                    inv.setItem(i++, head);
+        int a = 0;
+        for (int i = page * 45; i < plugin.getAllPlayerData().size() && i >= page * 45 && i < (page + 1) * 45; i++) {
+            Collections.sort(plugin.getAllPlayerData(), new Comparator<PlayerData>() {
+                @Override
+                public int compare(PlayerData p1, PlayerData p2) {
+                    if (sortType.equals(SortType.NAME_ZA)) {
+                        return p2.getName().compareTo(p1.getName());
+                    } else if (sortType.equals(SortType.RANK_HIGH_LOW)) {
+                        return p1.getRank().compareTo(p2.getRank());
+                    } else if (sortType.equals(SortType.RANK_LOW_HIGH)) {
+                        return p2.getRank().compareTo(p1.getRank());
+                    } else {
+                        return p1.getName().compareTo(p2.getName());
+                    }
+                }
+            });
+            PlayerData playerData = plugin.getAllPlayerData().get(i);
+            if (playerData.getId() != pData.getId()) {
+                if (i < 45) {
+                    if (sortType.equals(SortType.ONLINE_ONLY)) {
+                        if (plugin.getServer().getPlayer(playerData.getUuid()) != null) {
+                            ItemStack head = new I(Material.SKULL_ITEM).durability(3).name(playerData.getRank().getColor() + playerData.getName())
+                                    .lore(ChatColor.GRAY + "Rank: " + playerData.getRank().getColor() + (playerData.getRank().equals(Rank.DEFAULT) ? "" : "" + ChatColor.BOLD) + playerData.getRank().getName());
+                            SkullMeta meta = (SkullMeta) head.getItemMeta();
+                            meta.setOwner(playerData.getName());
+                            head.setItemMeta(meta);
+
+                            inv.setItem(a++, head);
+                        }
+                    } else {
+                        ItemStack head = new I(Material.SKULL_ITEM).durability(3).name(playerData.getRank().getColor() + playerData.getName())
+                                .lore(ChatColor.GRAY + "Rank: " + playerData.getRank().getColor() + (playerData.getRank().equals(Rank.DEFAULT) ? "" : "" + ChatColor.BOLD) + playerData.getRank().getName());
+                        SkullMeta meta = (SkullMeta) head.getItemMeta();
+                        meta.setOwner(playerData.getName());
+                        head.setItemMeta(meta);
+
+                        inv.setItem(a++, head);
+                    }
                 }
             }
-            p.openInventory(inv);
         }
+        if (plugin.getAllPlayerData().size() > (page + 1) * 45) {
+            inv.setItem(53, new I(Material.ARROW).name(ChatColor.GRAY + "Next Page"));
+        }
+        if (page > 0) {
+            inv.setItem(45, new I(Material.ARROW).name(ChatColor.GRAY + "Previous Page"));
+        }
+        inv.setItem(48, new I(Material.APPLE).name(ChatColor.AQUA + "Sort by Name: " + ChatColor.GRAY + (sortType.equals(SortType.NAME_AZ) ? "Z-A" : "A-Z")));
+        inv.setItem(49, new I(Material.EXP_BOTTLE).name(ChatColor.AQUA + "Sort by Rank: " + ChatColor.GRAY + (sortType.equals(SortType.RANK_HIGH_LOW) ? "Low-High" : "High-Low")));
+        inv.setItem(50, new I(Material.GOLDEN_CARROT).name(ChatColor.AQUA + "Sort by Online Players Only"));
+        player.openInventory(inv);
     }
 
     public void openInventory(Player player, OfflinePlayer target) {
         PlayerData targetData = plugin.getPlayerData(target.getName());
-        Inventory inv = plugin.getServer().createInventory(null, 27, "Punishing: " + targetData.getName());
+        Inventory inv = plugin.getServer().createInventory(null, 36, "Punishing: " + targetData.getName());
 
         int mutes = 0, kicks = 0, tempbans = 0, bans = 0;
         ArrayList<Punishment> punishments = plugin.getPlayerPunishments().get(targetData.getUuid());
@@ -83,6 +122,7 @@ public class PunishMenu {
                 .lore(" ").lore(ChatColor.RED + "Click to view!"));
         inv.setItem(16, new I(Material.BARRIER).name(BoldColor.DARK_RED.getColor() + "BANS").lore(ChatColor.GRAY + "Past Bans: " + ChatColor.RED + bans)
                 .lore(" ").lore(ChatColor.RED + "Click to view!"));
+        inv.setItem(31, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
 
         player.openInventory(inv);
     }
@@ -349,6 +389,18 @@ public class PunishMenu {
         inv.setItem(48, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
         inv.setItem(49, new I(Material.BOOK_AND_QUILL).name(BoldColor.GREEN.getColor() + "Kick Player"));
         player.openInventory(inv);
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public enum SortType {
+        NAME_AZ("A-Z"),
+        NAME_ZA("Z-A"),
+        RANK_LOW_HIGH("Low-High"),
+        RANK_HIGH_LOW("High-Low"),
+        ONLINE_ONLY("Online Only");
+
+        private String name;
     }
 
 }

@@ -111,6 +111,26 @@ public class MySQL {
         return null;
     }
 
+    public ArrayList<PlayerData> getAllPlayerData() {
+        try (ResultSet result = executeQuery(Query.GET_ALL_PLAYER_DATA)) {
+            ArrayList<PlayerData> playerDatas = new ArrayList<>();
+            while (result.next()) {
+                playerDatas.add(new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
+                        result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
+                        result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getInt("playersRecruited"), result.getInt("recruitedBy"),
+                        result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
+                        Cosmetic.Item.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")),
+                        result.getString("ownedKits"), result.getString("lastKilledBy"), result.getString("title"), result.getString("friends")));
+            }
+            result.getStatement().close();
+            return playerDatas;
+        } catch (SQLException e) {
+            plugin.getLogger().severe("Uh oh! Unable to get all player data");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public int getEssenceAmount(Player player, Essence.Type type) {
         try (ResultSet result = executeQuery(Query.GET_ESSENCE_AMOUNT, player.getUniqueId().toString(), type.toString())) {
             if (result.next()) {

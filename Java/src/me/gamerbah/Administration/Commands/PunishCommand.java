@@ -37,7 +37,7 @@ public class PunishCommand implements CommandExecutor {
 
         if (args.length == 0) {
             PunishMenu punishMenu = new PunishMenu(plugin);
-            punishMenu.openPlayersInventory(player);
+            punishMenu.openPlayersMenu(player, PunishMenu.SortType.NAME_AZ, 0);
             return true;
         }
 

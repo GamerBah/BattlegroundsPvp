@@ -57,6 +57,8 @@ public class Battlegrounds extends JavaPlugin {
     @Getter
     private HashSet<PlayerData> playerData = new HashSet<>();
     @Getter
+    private ArrayList<PlayerData> allPlayerData = new ArrayList<>();
+    @Getter
     private HashMap<UUID, ArrayList<Punishment>> playerPunishments = new HashMap<>();
     @Getter
     private HashMap<UUID, Integer> one50Essence = new HashMap<>();
@@ -141,6 +143,7 @@ public class Battlegrounds extends JavaPlugin {
         }
 
         reloadPunishments();
+        reloadAllPlayerData();
 
         // Initialize Various Repeating Tasks
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoUpdate(this), 120, 120);
@@ -354,6 +357,14 @@ public class Battlegrounds extends JavaPlugin {
         if (!sql.getAllPunishments().isEmpty()) {
             for (Punishment punishment : sql.getAllPunishments()) {
                 playerPunishments.put(punishment.getUuid(), sql.getAllPunishments(punishment.getUuid()));
+            }
+        }
+    }
+
+    public void reloadAllPlayerData() {
+        if (!sql.getAllPlayerData().isEmpty()) {
+            for (PlayerData playerData : sql.getAllPlayerData()) {
+                allPlayerData.add(playerData);
             }
         }
     }
