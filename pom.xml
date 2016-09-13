@@ -21,6 +21,16 @@
             <url>https://repo.inventivetalent.org/content/groups/public/</url>
         </repository>
 
+        <repository>
+            <id>cybermaxkes-repo</id>
+            <url>http://dl.dropbox.com/u/104060836/mvn-repo</url>
+        </repository>
+
+        <repository>
+            <id>dmulloy2-repo</id>
+            <url>http://repo.dmulloy2.net/content/groups/public/</url>
+        </repository>
+
     </repositories>
 
     <dependencies>
@@ -83,6 +93,18 @@
             <groupId>org.inventivetalent</groupId>
             <artifactId>playerversion</artifactId>
             <version>1.2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cybermaxke</groupId>
+            <artifactId>inputgui</artifactId>
+            <version>dev-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib-API</artifactId>
+            <version>4.0</version>
         </dependency>
 
     </dependencies>
