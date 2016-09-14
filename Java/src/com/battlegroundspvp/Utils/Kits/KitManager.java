@@ -11,8 +11,10 @@ import com.battlegroundspvp.Kits.Epic.Baker;
 import com.battlegroundspvp.Kits.Epic.Enderknight;
 import com.battlegroundspvp.Kits.Epic.GlassCannon;
 import com.battlegroundspvp.Kits.Epic.Sniper;
+import com.battlegroundspvp.Kits.Legendary.Ninja;
 import com.battlegroundspvp.Kits.Legendary.Potato;
 import com.battlegroundspvp.Kits.Legendary.UltraTank;
+import com.battlegroundspvp.Kits.Rare.Blaze;
 import com.battlegroundspvp.Kits.Rare.Breaker;
 import com.battlegroundspvp.Kits.Rare.HonorGuard;
 import lombok.Getter;
@@ -51,6 +53,7 @@ public class KitManager implements Listener {
         // Rare Kits
         kits.add(new Breaker());
         kits.add(new HonorGuard());
+        kits.add(new Blaze());
 
         // Epic Kits
         kits.add(new GlassCannon());
@@ -61,6 +64,7 @@ public class KitManager implements Listener {
         // Legendary Kits
         kits.add(new UltraTank());
         kits.add(new Potato());
+        kits.add(new Ninja());
 
         for (Kit kit : kits) {
             plugin.getServer().getPluginManager().registerEvents(kit, plugin);

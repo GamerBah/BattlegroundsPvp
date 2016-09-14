@@ -322,7 +322,7 @@ public class PlayerDeath implements Listener {
                 playerData.setHighestKillstreak(Battlegrounds.killStreak.get(player.getUniqueId()));
                 for (Achievement.Type achievement : Achievement.Type.values()) {
                     if (achievement.getGroup().equals(Achievement.COMBAT) && achievement.getName().contains("Sadist")) {
-                        if (killerData.getHighestKillstreak() == achievement.getRequirement()) {
+                        if (playerData.getHighestKillstreak() == achievement.getRequirement()) {
                             Achievement.sendUnlockMessage(player, achievement);
                         }
                     }

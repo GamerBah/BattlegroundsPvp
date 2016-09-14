@@ -11,7 +11,7 @@ public enum EventSound {
     ACTION_FAIL(Sound.ITEM_FLINTANDSTEEL_USE, 1, 1, null, 0, 0),
     ACTION_SUCCESS(Sound.BLOCK_NOTE_HARP, 1, 2F, null, 0, 0),
 
-    CLICK(Sound.BLOCK_COMPARATOR_CLICK, 0.5F, 1.3F, null, 0, 0),
+    CLICK(Sound.BLOCK_COMPARATOR_CLICK, 0.4F, 1.5F, null, 0, 0),
     COMMAND_NEEDS_CONFIRMATION(Sound.ENTITY_ENDERMEN_TELEPORT, 1, 1, null, 0, 0),
 
     TEAM_REQUEST(Sound.ENTITY_ITEM_PICKUP, 2F, 0.3F, null, 0, 0),

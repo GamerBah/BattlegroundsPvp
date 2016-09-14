@@ -86,6 +86,7 @@ public abstract class Kit implements Listener, CommandExecutor {
                 return;
             }
             wear(player);
+
         } else {
             player.sendMessage(ChatColor.RED + "You have not died yet!");
         }

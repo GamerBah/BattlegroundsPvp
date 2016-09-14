@@ -6,10 +6,12 @@ import com.battlegroundspvp.Administration.Commands.FreezeCommand;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.I;
 import com.battlegroundspvp.Utils.Kits.Kit;
+import com.battlegroundspvp.Utils.Kits.KitAbility;
 import com.battlegroundspvp.Utils.Kits.KitManager;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import com.battlegroundspvp.Utils.Rarity;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -48,11 +50,25 @@ public class PlayerRespawn implements Listener {
         player.setMaxHealth(20F);
         player.setFoodLevel(20);
         player.setSaturation(20);
+        player.setExp(0);
+        player.setLevel(0);
         player.setFlying(false);
         player.setAllowFlight(false);
         for (PotionEffect effect : player.getActivePotionEffects()) {
             player.removePotionEffect(effect.getType());
         }
+
+        if (KitAbility.getPlayerStatus().containsKey(player.getName())) {
+            KitAbility.getPlayerStatus().remove(player.getName());
+            player.setExp(0);
+            player.setLevel(0);
+        }
+
+        for (Player players : Bukkit.getServer().getOnlinePlayers()) {
+            players.showPlayer(player);
+        }
+
+
 
         if (FreezeCommand.frozenPlayers.contains(player) || FreezeCommand.frozen) {
             player.setWalkSpeed(0F);

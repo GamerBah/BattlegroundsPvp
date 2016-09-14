@@ -17,6 +17,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.inventivetalent.bossbar.BossBarAPI;
 
 public class ReloadCommand implements CommandExecutor {
     private Battlegrounds plugin;
@@ -43,6 +44,7 @@ public class ReloadCommand implements CommandExecutor {
             ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
             for (Player players : plugin.getServer().getOnlinePlayers()) {
                 players.closeInventory();
+                BossBarAPI.removeAllBars(player);
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> player.closeInventory(), 10L);
                 if (KSlotsMenu.usingSlots.containsKey(players)) {
                     scoreboardListener.updateScoreboardSouls(players, KSlotsMenu.usingSlots.get(player) * 400);

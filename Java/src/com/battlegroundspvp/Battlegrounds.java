@@ -388,7 +388,7 @@ public class Battlegrounds extends JavaPlugin {
             ArrayList<Punishment> punishments = playerPunishments.get(uuid);
             punishments.add(sql.getPunishment(uuid, type, date));
             playerPunishments.put(uuid, punishments);
-        }, 40L);
+        }, 60L);
     }
 
     public void reloadPunishments() {
