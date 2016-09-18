@@ -2,14 +2,13 @@ package com.battlegroundspvp.Listeners;
 
 import com.battlegroundspvp.Administration.Runnables.AutoUpdate;
 import com.battlegroundspvp.Battlegrounds;
+import com.battlegroundspvp.Kits.Epic.DarkRider;
 import com.battlegroundspvp.PlayerEvents.PlayerMove;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.SmallFireball;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -30,6 +29,8 @@ import java.util.UUID;
 public class CombatListener implements Listener {
     @Getter
     private static HashMap<UUID, Integer> tagged = new HashMap<>();
+    @Getter
+    private static HashMap<Player, Player> horseDamaged = new HashMap<>();
     private Battlegrounds plugin;
     private HashMap<UUID, Long> logged = new HashMap<>();
 
@@ -69,6 +70,9 @@ public class CombatListener implements Listener {
                 }
             }
 
+            if (damaged.getVehicle() != null && damaged.getVehicle().getType() == EntityType.HORSE) {
+                horseDamaged.put(damaged, damager);
+            }
             if (!tagged.containsKey(damaged.getUniqueId())) {
                 damaged.sendMessage(ChatColor.GRAY + "You're now in combat with " + ChatColor.RED + damager.getName());
                 tagged.put(damaged.getUniqueId(),
@@ -110,7 +114,7 @@ public class CombatListener implements Listener {
             }
 
             if (damager.getInventory().getItemInMainHand().getType().equals(Material.POISONOUS_POTATO)) {
-                damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 5, 1, false, false));
+                damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 200, 1, false, true));
             }
         }
 
@@ -161,6 +165,9 @@ public class CombatListener implements Listener {
                     return;
                 }
 
+                if (damaged.getVehicle() != null && damaged.getVehicle().getType() == EntityType.HORSE) {
+                    horseDamaged.put(damaged, damager);
+                }
                 if (!tagged.containsKey(damaged.getUniqueId())) {
                     damaged.sendMessage(ChatColor.GRAY + "You're now in combat with " + ChatColor.RED + damager.getName());
                     tagged.put(damaged.getUniqueId(),
@@ -250,6 +257,9 @@ public class CombatListener implements Listener {
                     return;
                 }
 
+                if (damaged.getVehicle() != null && damaged.getVehicle().getType() == EntityType.HORSE) {
+                    horseDamaged.put(damaged, damager);
+                }
                 if (!tagged.containsKey(damaged.getUniqueId())) {
                     damaged.sendMessage(ChatColor.GRAY + "You're now in combat with " + ChatColor.RED + damager.getName());
                     tagged.put(damaged.getUniqueId(),
@@ -290,7 +300,84 @@ public class CombatListener implements Listener {
                             }.runTaskLater(plugin, 240).getTaskId());
                 }
             }
-    }
+        }
+
+        if (event.getDamager() instanceof Player && event.getEntity() instanceof Horse) {
+            Player damager = (Player) event.getDamager();
+            Horse horse = (Horse) event.getEntity();
+            Player damaged = (Player) horse.getOwner();
+            event.setCancelled(true);
+
+            if (Battlegrounds.currentTeams.containsKey(damaged.getName())) {
+                if (Battlegrounds.currentTeams.get(damaged.getName()).equals(damager.getName())) {
+                    if (plugin.getServer().getOnlinePlayers().size() >= 1) {
+                        event.setCancelled(true);
+                        return;
+                    }
+                } else {
+                    event.setCancelled(false);
+                }
+            }
+
+            if (Battlegrounds.currentTeams.containsKey(damager.getName())) {
+                if (Battlegrounds.currentTeams.get(damager.getName()).equals(damaged.getName())) {
+                    if (plugin.getServer().getOnlinePlayers().size() >= 1) {
+                        event.setCancelled(true);
+                        return;
+                    }
+                } else {
+                    event.setCancelled(false);
+                }
+            }
+
+            if (DarkRider.getRiding().contains(damaged)) {
+                damaged.damage(event.getFinalDamage());
+                if (!tagged.containsKey(damaged.getUniqueId())) {
+                    damaged.sendMessage(ChatColor.GRAY + "You're now in combat with " + ChatColor.RED + damager.getName());
+                    tagged.put(damaged.getUniqueId(),
+                            new BukkitRunnable() {
+                                public void run() {
+                                    tagged.remove(damaged.getUniqueId());
+                                    damaged.sendMessage(ChatColor.GRAY + "You're no longer in combat.");
+                                }
+                            }.runTaskLater(plugin, 240).getTaskId());
+                } else {
+                    plugin.getServer().getScheduler().cancelTask(tagged.get(damaged.getUniqueId()));
+                    tagged.put(damaged.getUniqueId(),
+                            new BukkitRunnable() {
+                                public void run() {
+                                    tagged.remove(damaged.getUniqueId());
+                                    horseDamaged.remove(damaged);
+                                    damaged.sendMessage(ChatColor.GRAY + "You're no longer in combat.");
+                                }
+                            }.runTaskLater(plugin, 240).getTaskId());
+                }
+
+                if (!tagged.containsKey(damager.getUniqueId())) {
+                    damager.sendMessage(ChatColor.GRAY + "You're now in combat with " + ChatColor.RED + damaged.getName());
+                    tagged.put(damager.getUniqueId(),
+                            new BukkitRunnable() {
+                                public void run() {
+                                    tagged.remove(damager.getUniqueId());
+                                    damager.sendMessage(ChatColor.GRAY + "You're no longer in combat.");
+                                }
+                            }.runTaskLater(plugin, 240).getTaskId());
+                } else {
+                    plugin.getServer().getScheduler().cancelTask(tagged.get(damager.getUniqueId()));
+                    tagged.put(damager.getUniqueId(),
+                            new BukkitRunnable() {
+                                public void run() {
+                                    tagged.remove(damager.getUniqueId());
+                                    damager.sendMessage(ChatColor.GRAY + "You're no longer in combat");
+                                }
+                            }.runTaskLater(plugin, 240).getTaskId());
+                }
+
+                if (damager.getInventory().getItemInMainHand().getType().equals(Material.POISONOUS_POTATO)) {
+                    damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 5, 1, false, false));
+                }
+            }
+        }
 
     }
 
@@ -340,18 +427,20 @@ public class CombatListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageEvent event) {
-        Player player = (Player) event.getEntity();
+        if (event.getEntity() instanceof Player) {
+            Player player = (Player) event.getEntity();
 
-        if (event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
-            if (PlayerMove.getLaunched().contains(player)) {
-                event.setCancelled(true);
-                player.setFallDistance(0);
-                PlayerMove.getLaunched().remove(player);
-                player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_LARGE_BLAST, 1, 1);
-                player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.85F, 0.875F);
-            }
-            if (AutoUpdate.updating) {
-                event.setCancelled(true);
+            if (event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
+                if (PlayerMove.getLaunched().contains(player)) {
+                    event.setCancelled(true);
+                    player.setFallDistance(0);
+                    PlayerMove.getLaunched().remove(player);
+                    player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_LARGE_BLAST, 1, 1);
+                    player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.85F, 0.875F);
+                }
+                if (AutoUpdate.updating) {
+                    event.setCancelled(true);
+                }
             }
         }
     }

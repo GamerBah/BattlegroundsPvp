@@ -33,7 +33,7 @@ public class PlayerData {
     @Getter
     private LocalDateTime dailyRewardLast, lastOnline;
     @Getter
-    private String ownedKits, lastKilledBy, title, friends;
+    private String ownedKits, lastKilledBy, title, friends, ownedCosmetics;
 
     public void setName(String name) {
         sql.executeUpdate(UPDATE_PLAYER_NAME, this.name = name, id);
@@ -133,5 +133,9 @@ public class PlayerData {
 
     public void setFriends(String friends) {
         sql.executeUpdate(UPDATE_PLAYER_FRIENDS, this.friends = friends, id);
+    }
+
+    public void setOwnedCosmetics(String list) {
+        sql.executeUpdate(UPDATE_PLAYER_OWNED_COSMETICS, this.ownedCosmetics = list, id);
     }
 }

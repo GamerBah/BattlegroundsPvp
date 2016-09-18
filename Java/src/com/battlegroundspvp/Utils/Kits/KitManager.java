@@ -7,10 +7,7 @@ import com.battlegroundspvp.Kits.Common.Bowman;
 import com.battlegroundspvp.Kits.Common.Scout;
 import com.battlegroundspvp.Kits.Common.Tank;
 import com.battlegroundspvp.Kits.Common.Warrior;
-import com.battlegroundspvp.Kits.Epic.Baker;
-import com.battlegroundspvp.Kits.Epic.Enderknight;
-import com.battlegroundspvp.Kits.Epic.GlassCannon;
-import com.battlegroundspvp.Kits.Epic.Sniper;
+import com.battlegroundspvp.Kits.Epic.*;
 import com.battlegroundspvp.Kits.Legendary.Ninja;
 import com.battlegroundspvp.Kits.Legendary.Potato;
 import com.battlegroundspvp.Kits.Legendary.UltraTank;
@@ -60,6 +57,7 @@ public class KitManager implements Listener {
         kits.add(new Sniper());
         kits.add(new Enderknight());
         kits.add(new Baker());
+        kits.add(new DarkRider());
 
         // Legendary Kits
         kits.add(new UltraTank());

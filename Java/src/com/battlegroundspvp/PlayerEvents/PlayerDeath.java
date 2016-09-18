@@ -6,8 +6,9 @@ import com.battlegroundspvp.Administration.Commands.ChatCommands;
 import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Etc.Achievements.Achievement;
+import com.battlegroundspvp.Kits.Epic.DarkRider;
+import com.battlegroundspvp.Listeners.CombatListener;
 import com.battlegroundspvp.Listeners.ScoreboardListener;
-import com.battlegroundspvp.Utils.KDRatio;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import com.battlegroundspvp.Utils.Messages.TextComponentMessages;
 import com.battlegroundspvp.Utils.Messages.Titles;
@@ -19,6 +20,7 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -41,17 +43,27 @@ public class PlayerDeath implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
         Player killer = player.getKiller();
-
+        if (DarkRider.getRiding().contains(player)) {
+            DarkRider.getRiding().remove(player);
+            Horse horse = (Horse) player.getVehicle();
+            killer = CombatListener.getHorseDamaged().get(player);
+            CombatListener.getHorseDamaged().remove(player);
+            horse.setOwner(null);
+            horse.setPassenger(null);
+            horse.setHealth(0);
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                plugin.respawn(player);
+                CombatListener.getTagged().remove(player.getUniqueId());
+            }, 5L);
+        }
         ParticleEffect.LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation(), 0, 0.2, 0, 1, 20, 100);
-
         player.setHealth(20);
         plugin.getServer().getScheduler().runTask(plugin, () -> {
             plugin.respawn(player);
-            player.getInventory().setHeldItemSlot(4);
         });
+        player.getInventory().setHeldItemSlot(4);
 
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
-        KDRatio kdRatio = new KDRatio(plugin);
         ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
         scoreboardListener.updateScoreboardDeaths(player, 1);
 
@@ -67,16 +79,16 @@ public class PlayerDeath implements Listener {
             if (plugin.getServer().getOnlinePlayers().size() >= 15 || ChatCommands.chatSilenced) {
                 event.setDeathMessage(null);
             } else {
-                if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.FALL) {
+                if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.FALL) {
                     event.setDeathMessage("" + ChatColor.RED + player.getName() + ChatColor.GRAY + " lost a fight with gravity");
-                } else if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
+                } else if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
                     event.setDeathMessage("" + ChatColor.RED + player.getName() + ChatColor.GRAY + " tried to swim in lava");
-                } else if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.DROWNING) {
+                } else if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.DROWNING) {
                     event.setDeathMessage("" + ChatColor.RED + player.getName() + ChatColor.GRAY + " forgot to come up for air");
-                } else if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.FIRE_TICK
-                        || event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.FIRE) {
+                } else if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.FIRE_TICK
+                        || player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.FIRE) {
                     event.setDeathMessage("" + ChatColor.RED + player.getName() + ChatColor.GRAY + " didn't stop, drop, and roll");
-                } else if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID) {
+                } else if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID) {
                     event.setDeathMessage("" + ChatColor.RED + player.getName() + ChatColor.GRAY + " fell into the unknown");
                 } else {
                     event.setDeathMessage("" + ChatColor.RED + player.getName() + ChatColor.GRAY + " died");
@@ -84,7 +96,7 @@ public class PlayerDeath implements Listener {
             }
             int i = ThreadLocalRandom.current().nextInt(1, 3 + 1);
 
-            if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.FALL) {
+            if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.FALL) {
                 if (i == 1) {
                     TitleAPI.sendTitle(player, 5, 35, 20, BoldColor.RED.getColor() + "You died!", ChatColor.GRAY + "Try not to fall so hard next time");
                 } else if (i == 2) {
@@ -92,7 +104,7 @@ public class PlayerDeath implements Listener {
                 } else if (i == 3) {
                     TitleAPI.sendTitle(player, 5, 35, 20, BoldColor.RED.getColor() + "You died!", ChatColor.GRAY + "Flying is for airplanes, not people.");
                 }
-            } else if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
+            } else if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.LAVA) {
                 if (i == 1) {
                     TitleAPI.sendTitle(player, 5, 35, 20, BoldColor.RED.getColor() + "You died!", ChatColor.GRAY + "Reminder: Lava will burn you...");
                 } else if (i == 2) {
@@ -100,7 +112,7 @@ public class PlayerDeath implements Listener {
                 } else if (i == 3) {
                     TitleAPI.sendTitle(player, 5, 35, 20, BoldColor.RED.getColor() + "You died!", ChatColor.GRAY + "That probably gave you 5th-degree burns");
                 }
-            } else if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.DROWNING) {
+            } else if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.DROWNING) {
                 if (i == 1) {
                     TitleAPI.sendTitle(player, 5, 35, 20, BoldColor.RED.getColor() + "You died!", ChatColor.GRAY + "Did you really think you were a fish?");
                 } else if (i == 2) {
@@ -108,8 +120,8 @@ public class PlayerDeath implements Listener {
                 } else if (i == 3) {
                     TitleAPI.sendTitle(player, 5, 35, 20, BoldColor.RED.getColor() + "You died!", ChatColor.GRAY + "There's this neat thing called air. You needed it.");
                 }
-            } else if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.FIRE_TICK
-                    || event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.FIRE) {
+            } else if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.FIRE_TICK
+                    || player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.FIRE) {
                 if (i == 1) {
                     TitleAPI.sendTitle(player, 5, 35, 20, BoldColor.RED.getColor() + "You died!", ChatColor.GRAY + "Tip: Stop, Drop, and Roll");
                 } else if (i == 2) {
@@ -117,7 +129,7 @@ public class PlayerDeath implements Listener {
                 } else if (i == 3) {
                     TitleAPI.sendTitle(player, 5, 35, 20, BoldColor.RED.getColor() + "You died!", ChatColor.GRAY + "Perfect for roasting marshmallows!");
                 }
-            } else if (event.getEntity().getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID) {
+            } else if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID) {
                 if (i == 1) {
                     TitleAPI.sendTitle(player, 5, 35, 20, BoldColor.RED.getColor() + "You died!", ChatColor.GRAY + "How, exactly, did you get down there?");
                 } else if (i == 2) {
@@ -190,22 +202,6 @@ public class PlayerDeath implements Listener {
             return;
         }
 
-        /*for (Challenge challenge : Challenge.values()) {
-            if (plugin.getChallengesFiles().challengeIsStarted(killer, challenge)) {
-                plugin.getChallengesFiles().addChallengeKill(killer, challenge);
-                if (plugin.getChallengesFiles().getChallengeKills(killer, challenge) >= challenge.getKillRequirement()) {
-                    plugin.getChallengesFiles().setCompleted(killer, challenge);
-                    killer.playSound(killer.getLocation(), Sound.LEVEL_UP, 1, 1);
-                    killer.sendMessage(ChatColor.BOLD + "-------------------------------------------");
-                    killer.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "Challenge Complete: " + ChatColor.AQUA + challenge.getName());
-                    killer.sendMessage(ChatColor.DARK_AQUA + "You've earned " + ChatColor.GREEN + "$" + challenge.getRewardMoney());
-                    killer.sendMessage(ChatColor.DARK_AQUA + " for completing the challenge!");
-                    killer.sendMessage(ChatColor.BOLD + "-------------------------------------------");
-                    killerData.depositBalance(challenge.getRewardMoney());
-                }
-            }
-        }*/
-
         if (killer.getLocation().distance(player.getWorld().getSpawnLocation()) <= 100) {
             killer.setHealth(20);
         }
@@ -251,7 +247,7 @@ public class PlayerDeath implements Listener {
                     for (Achievement.Type achievement : Achievement.Type.values()) {
                         if (achievement.getGroup().equals(Achievement.COMBAT) && achievement.getName().contains("Vengeful")) {
                             if (killerData.getRevengeKills() == achievement.getRequirement()) {
-                                Achievement.sendUnlockMessage(player, achievement);
+                                Achievement.sendUnlockMessage(killer, achievement);
                             }
                         }
                     }
@@ -270,12 +266,22 @@ public class PlayerDeath implements Listener {
                     for (Achievement.Type achievement : Achievement.Type.values()) {
                         if (achievement.getGroup().equals(Achievement.COMBAT) && achievement.getName().contains("Vengeful")) {
                             if (killerData.getRevengeKills() == achievement.getRequirement()) {
-                                Achievement.sendUnlockMessage(player, achievement);
+                                Achievement.sendUnlockMessage(killer, achievement);
                             }
                         }
                     }
                 } else {
                     TitleAPI.sendTitle(killer, 1, 30, 10, " ", ChatColor.GRAY + "You killed " + ChatColor.RED + player.getName());
+                }
+            }
+            if (Battlegrounds.killStreak.get(killer.getUniqueId()) > killerData.getHighestKillstreak()) {
+                killerData.setHighestKillstreak(Battlegrounds.killStreak.get(killer.getUniqueId()));
+                for (Achievement.Type achievement : Achievement.Type.values()) {
+                    if (achievement.getGroup().equals(Achievement.COMBAT) && achievement.getName().contains("Sadist")) {
+                        if (killerData.getHighestKillstreak() == achievement.getRequirement()) {
+                            Achievement.sendUnlockMessage(killer, achievement);
+                        }
+                    }
                 }
             }
         } else {
@@ -293,7 +299,7 @@ public class PlayerDeath implements Listener {
                 for (Achievement.Type achievement : Achievement.Type.values()) {
                     if (achievement.getGroup().equals(Achievement.COMBAT) && achievement.getName().contains("Vengeful")) {
                         if (killerData.getRevengeKills() == achievement.getRequirement()) {
-                            Achievement.sendUnlockMessage(player, achievement);
+                            Achievement.sendUnlockMessage(killer, achievement);
                         }
                     }
                 }
@@ -311,22 +317,12 @@ public class PlayerDeath implements Listener {
                 for (Achievement.Type achievement : Achievement.Type.values()) {
                     if (achievement.getGroup().equals(Achievement.COMBAT) && achievement.getName().contains("Buzzkill")) {
                         if (killerData.getKillstreaksEnded() == achievement.getRequirement()) {
-                            Achievement.sendUnlockMessage(player, achievement);
+                            Achievement.sendUnlockMessage(killer, achievement);
                         }
                     }
                 }
                 TitleAPI.sendTitle(player, 5, 35, 20, BoldColor.RED.getColor() + "Killed by " + BoldColor.GOLD.getColor() + killer.getName(),
                         ChatColor.YELLOW + "You reached a " + BoldColor.GOLD.getColor() + Battlegrounds.killStreak.get(player.getUniqueId()) + ChatColor.YELLOW + " killstreak! Nice!");
-            }
-            if (Battlegrounds.killStreak.get(player.getUniqueId()) > playerData.getHighestKillstreak()) {
-                playerData.setHighestKillstreak(Battlegrounds.killStreak.get(player.getUniqueId()));
-                for (Achievement.Type achievement : Achievement.Type.values()) {
-                    if (achievement.getGroup().equals(Achievement.COMBAT) && achievement.getName().contains("Sadist")) {
-                        if (playerData.getHighestKillstreak() == achievement.getRequirement()) {
-                            Achievement.sendUnlockMessage(player, achievement);
-                        }
-                    }
-                }
             }
             Battlegrounds.killStreak.remove(player.getUniqueId());
         }

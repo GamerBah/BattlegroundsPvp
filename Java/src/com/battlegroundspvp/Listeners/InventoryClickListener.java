@@ -82,6 +82,7 @@ public class InventoryClickListener implements Listener {
 
             if (event.getCurrentItem() != null && event.getCurrentItem().getItemMeta() != null
                     && event.getCurrentItem().getItemMeta().getDisplayName() != null) {
+
                 if (inventory.getName().equals("Kit Selector")) {
                     KitManager.getKits().stream().filter(kit -> event.getCurrentItem().getItemMeta().getDisplayName()
                             .equals(kit.getItem().getItemMeta().getDisplayName())).forEach(kit -> {
@@ -748,6 +749,32 @@ public class InventoryClickListener implements Listener {
                     } else {
                         KSlotsMenu kSlotsMenu = new KSlotsMenu(plugin);
                         kSlotsMenu.openInventory(player);
+                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+                    }
+                }
+            }
+
+            if (inventory.getName().equals("Cosmeticrates")) {
+                ItemStack item = event.getCurrentItem();
+                event.setCancelled(true);
+                PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
+                if (item.getType().equals(Material.CHEST)) {
+                    if (playerData.getCoins() < 500) {
+                        Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                    } else {
+                        CosmeticrateMenu cosmeticrateMenu = new CosmeticrateMenu(plugin);
+                        cosmeticrateMenu.beginCrates(player);
+                    }
+                }
+
+                if (item.getType().equals(Material.ARROW) && item.getItemMeta().getDisplayName().equals(BoldColor.YELLOW.getColor() + "Reset Slots")) {
+                    if (playerData.getSouls() < 500) {
+                        Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                        player.closeInventory();
+                        player.sendMessage(ChatColor.RED + "You don't have enough Battle Coins to open another Cosmeticrate");
+                    } else {
+                        CosmeticrateMenu cosmeticrateMenu = new CosmeticrateMenu(plugin);
+                        cosmeticrateMenu.openInventory(player);
                         Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                     }
                 }

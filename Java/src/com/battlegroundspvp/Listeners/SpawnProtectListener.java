@@ -21,18 +21,11 @@ public class SpawnProtectListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Player && event.getEntity() instanceof Player)) {
-            return;
-        }
+        Location damagerLocation = event.getDamager().getLocation();
+        Location damagedLocation = event.getEntity().getLocation();
 
-        Player damager = (Player) event.getDamager();
-        Player damaged = (Player) event.getEntity();
-
-        Location damagerLocation = damager.getLocation();
-        Location damagedLocation = damaged.getLocation();
-
-        if ((damagerLocation.distance(damager.getWorld().getSpawnLocation()) <= 10
-                || (damagedLocation.distance(damaged.getWorld().getSpawnLocation()) <= 10))) {
+        if ((damagerLocation.distance(event.getEntity().getWorld().getSpawnLocation()) <= 12
+                || (damagedLocation.distance(event.getDamager().getWorld().getSpawnLocation()) <= 12))) {
             event.setCancelled(true);
         }
     }
@@ -46,7 +39,7 @@ public class SpawnProtectListener implements Listener {
         Player player = (Player) event.getEntity();
         Location location = player.getLocation();
 
-        if (location.distance(location.getWorld().getSpawnLocation()) <= 10) {
+        if (location.distance(location.getWorld().getSpawnLocation()) <= 12) {
             event.setCancelled(true);
         }
     }

@@ -68,8 +68,6 @@ public class PlayerRespawn implements Listener {
             players.showPlayer(player);
         }
 
-
-
         if (FreezeCommand.frozenPlayers.contains(player) || FreezeCommand.frozen) {
             player.setWalkSpeed(0F);
             player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, -50, true, false));

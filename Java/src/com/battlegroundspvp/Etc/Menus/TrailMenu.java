@@ -44,12 +44,20 @@ public class TrailMenu {
         int rareSlot = 9, epicSlot = 0, legendarySlot = 5;
 
         for (Cosmetic.Item item : Cosmetic.Item.values()) {
-            if (item.getRarity() == Rarity.RARE) {
-                inv.setItem(rareSlot++, item.getItem());
-            } else if (item.getRarity() == Rarity.EPIC) {
-                inv.setItem(epicSlot++, item.getItem());
-            } else if (item.getRarity() == Rarity.LEGENDARY) {
-                inv.setItem(legendarySlot++, item.getItem());
+            if (item.getGroup().equals(Cosmetic.PARTICLE_PACK)) {
+                if (item.getRarity() == Rarity.RARE) {
+                    if (playerData.getOwnedCosmetics().contains(item.getId() + ",")) {
+                        inv.setItem(rareSlot++, item.getItem());
+                    }
+                } else if (item.getRarity() == Rarity.EPIC) {
+                    if (playerData.getOwnedCosmetics().contains(item.getId() + ",")) {
+                        inv.setItem(epicSlot++, item.getItem());
+                    }
+                } else if (item.getRarity() == Rarity.LEGENDARY) {
+                    if (playerData.getOwnedCosmetics().contains(item.getId() + ",")) {
+                        inv.setItem(legendarySlot++, item.getItem());
+                    }
+                }
             }
         }
 

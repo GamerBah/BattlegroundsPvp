@@ -269,6 +269,7 @@ public class Battlegrounds extends JavaPlugin {
         getCommand("friend").setExecutor(new FriendCommand(this));
         getCommand("kick").setExecutor(new KickCommand(this));
         getCommand("tempban").setExecutor(new TempBanCommand(this));
+        getCommand("crate").setExecutor(new CrateCommand(this));
     }
 
     private void registerListeners() {
@@ -294,6 +295,7 @@ public class Battlegrounds extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerItemPickup(this), this);
         getServer().getPluginManager().registerEvents(new SpawnProtectListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerSwapHands(this), this);
+        getServer().getPluginManager().registerEvents(new BlockListener(), this);
     }
 
     public PlayerData getPlayerData(UUID uuid) {

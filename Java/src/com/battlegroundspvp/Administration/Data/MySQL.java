@@ -83,7 +83,7 @@ public class MySQL {
                         result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getInt("playersRecruited"), result.getInt("recruitedBy"),
                         result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
                         Cosmetic.Item.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")),
-                        result.getString("ownedKits"), result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"));
+                        result.getString("ownedKits"), result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"), result.getString("cosmetics"));
             }
             result.getStatement().close();
         } catch (SQLException e) {
@@ -101,7 +101,7 @@ public class MySQL {
                         result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getInt("playersRecruited"), result.getInt("recruitedBy"),
                         result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
                         Cosmetic.Item.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")),
-                        result.getString("ownedKits"), result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"));
+                        result.getString("ownedKits"), result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"), result.getString("cosmetics"));
             }
             result.getStatement().close();
         } catch (SQLException e) {
@@ -120,7 +120,7 @@ public class MySQL {
                         result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getInt("playersRecruited"), result.getInt("recruitedBy"),
                         result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
                         Cosmetic.Item.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")),
-                        result.getString("ownedKits"), result.getString("lastKilledBy"), result.getString("title"), result.getString("friends")));
+                        result.getString("ownedKits"), result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"), result.getString("cosmetics")));
             }
             result.getStatement().close();
             return playerDatas;

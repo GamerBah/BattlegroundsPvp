@@ -39,10 +39,10 @@ public class Blaze extends Kit {
         super(21, "Blaze", new I(Material.FIREBALL)
                 .lore(" ")
                 .lore("§a§lKit Contents:")
-                .lore("§7   ● §fIron Helmet")
+                .lore("§7   ● §fIron Helmet §7(Protection I)")
                 .lore("§7   ● Leather Chestplate")
                 .lore("§7   ● §fIron Boots")
-                .lore("§7   ● §3Blaze Rod §7(Sharpness IV)")
+                .lore("§7   ● §3Blaze Rod §7(Sharpness VII)")
                 .lore(" ")
                 .lore("§c§lPotion Effects:")
                 .lore("§7   ● §aFire Resistance")
@@ -60,11 +60,11 @@ public class Blaze extends Kit {
         player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 1, true, false));
         player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, false, false));
 
-        player.getInventory().setHelmet(new I(Material.IRON_HELMET).name(Rarity.RARE.getColor() + "Blaze Helmet").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        player.getInventory().setHelmet(new I(Material.IRON_HELMET).name(Rarity.RARE.getColor() + "Blaze Helmet").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
         player.getInventory().setChestplate(new I(Material.LEATHER_CHESTPLATE).name(Rarity.RARE.getColor() + "Blaze Chestplate").color(Color.ORANGE).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
         player.getInventory().setBoots(new I(Material.IRON_BOOTS).name(Rarity.RARE.getColor() + "Blaze Boots").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
-        ItemStack sword = new ItemStack(new I(Material.BLAZE_ROD).name(Rarity.RARE.getColor() + "Blaze Rod").enchantment(Enchantment.DAMAGE_ALL, 4).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        ItemStack sword = new ItemStack(new I(Material.BLAZE_ROD).name(Rarity.RARE.getColor() + "Blaze Rod").enchantment(Enchantment.DAMAGE_ALL, 7).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
         player.getInventory().addItem(sword);
 
@@ -117,7 +117,7 @@ public class Blaze extends Kit {
                     player.playSound(event.getEntity().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
                     if (player.getLocation().distance(event.getEntity().getLocation()) <= 5) {
                         if (event.getEntity().getShooter() != player) {
-                            player.damage(2.0, (Player) event.getEntity().getShooter());
+                            player.damage(3.5, (Player) event.getEntity().getShooter());
                         }
                     }
                 }

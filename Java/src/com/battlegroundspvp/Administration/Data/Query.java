@@ -34,6 +34,7 @@ public enum Query {
     UPDATE_PLAYER_RECRUITED_BY("UPDATE players SET recruitedBy = ? WHERE id = ?"),
     UPDATE_PLAYER_LAST_ONLINE("UPDATE players SET lastOnline = ? WHERE id = ?"),
     UPDATE_PLAYER_FRIENDS("UPDATE players SET friends = ? WHERE id = ?"),
+    UPDATE_PLAYER_OWNED_COSMETICS("UPDATE players SET cosmetics = ? WHERE id = ?"),
 
     // DONATION DATA
     CREATE_ESSENCE_DATA("INSERT INTO essences (uuid, type, amount) VALUES (?, ?, ?)"),
