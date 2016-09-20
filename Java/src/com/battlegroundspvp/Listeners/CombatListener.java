@@ -1,6 +1,7 @@
 package com.battlegroundspvp.Listeners;
 
 import com.battlegroundspvp.Administration.Runnables.AutoUpdate;
+import com.battlegroundspvp.Administration.Utils.HackPrevention.HackPreventionTools;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Kits.Epic.DarkRider;
 import com.battlegroundspvp.PlayerEvents.PlayerMove;
@@ -47,6 +48,11 @@ public class CombatListener implements Listener {
         if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
             Player damager = (Player) event.getDamager();
             Player damaged = (Player) event.getEntity();
+
+            if (HackPreventionTools.getTargetPlayer(damager, 4) == null) {
+                event.setCancelled(true);
+                return;
+            }
 
             if (Battlegrounds.currentTeams.containsKey(damaged.getName())) {
                 if (Battlegrounds.currentTeams.get(damaged.getName()).equals(damager.getName())) {
@@ -307,6 +313,10 @@ public class CombatListener implements Listener {
             Horse horse = (Horse) event.getEntity();
             Player damaged = (Player) horse.getOwner();
             event.setCancelled(true);
+
+            if (HackPreventionTools.getTargetPlayer(damager, 6) == null) {
+                return;
+            }
 
             if (Battlegrounds.currentTeams.containsKey(damaged.getName())) {
                 if (Battlegrounds.currentTeams.get(damaged.getName()).equals(damager.getName())) {
