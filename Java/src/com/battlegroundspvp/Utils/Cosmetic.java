@@ -83,8 +83,13 @@ public enum Cosmetic {
         /**
          * NONE
          */
-        TRAIL_NONE(1000, PARTICLE_PACK, "None", new I(Material.BARRIER).name(ChatColor.RED + "None").lore(ChatColor.GRAY + "Removes your trail"),
+        TRAIL_NONE(1000, PARTICLE_PACK, "None", new I(Material.BARRIER).name(ChatColor.RED + "None").lore(ChatColor.GRAY + "Removes your active Particle Pack"),
+                Rarity.COMMON, null, 0, 0),
+        WARCRY_NONE(1001, KILL_SOUND, "None", new I(Material.BARRIER).name(ChatColor.RED + "None").lore(ChatColor.GRAY + "Removes your active Warcry"),
+                Rarity.COMMON, null, 0, 0),
+        GORE_NONE(1002, KILL_EFFECT, "None", new I(Material.BARRIER).name(ChatColor.RED + "None").lore(ChatColor.GRAY + "Removes your active Gore"),
                 Rarity.COMMON, null, 0, 0);
+
 
         private int id;
         private Cosmetic group;

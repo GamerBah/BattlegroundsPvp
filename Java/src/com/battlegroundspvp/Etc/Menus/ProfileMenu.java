@@ -56,8 +56,12 @@ public class ProfileMenu {
                 .lore(ChatColor.GRAY + "Last Killed By: " + (killedByPlayerData != null ? (killedByPlayerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : "")
                         + killedByPlayerData.getName() : "--"))
                 .lore(" ")
-                .lore(ChatColor.GRAY + "Active Particle Pack: " + playerData.getTrail().getRarity().getColor() + (playerData.getTrail().getRarity() == Rarity.EPIC
-                        || playerData.getTrail().getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + playerData.getTrail().getName())
+                .lore(ChatColor.GRAY + "Particle Pack: " + playerData.getTrail().getRarity().getColor() + (playerData.getTrail().getRarity() == Rarity.EPIC
+                        || playerData.getTrail().getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : ChatColor.DARK_GRAY) + playerData.getTrail().getName())
+                .lore(ChatColor.GRAY + "Warcry: " + playerData.getWarcry().getRarity().getColor() + (playerData.getWarcry().getRarity() == Rarity.EPIC
+                        || playerData.getWarcry().getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : ChatColor.DARK_GRAY) + playerData.getWarcry().getName())
+                .lore(ChatColor.GRAY + "Gore: " + playerData.getGore().getRarity().getColor() + (playerData.getGore().getRarity() == Rarity.EPIC
+                        || playerData.getGore().getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : ChatColor.DARK_GRAY) + playerData.getGore().getName())
                 .lore(ChatColor.GRAY + "Mastery Title: " + (achievement != null ? BoldColor.GOLD.getColor() + "[" + achievement.getTitle() + "]" : "None"))
                 .lore(" ")
                 .lore(ChatColor.GRAY + "Souls: " + ChatColor.AQUA + playerData.getSouls())
@@ -67,17 +71,17 @@ public class ProfileMenu {
         head.setItemMeta(meta);
 
         inv.setItem(10, new I(Material.DIAMOND_SWORD)
-                .name(BoldColor.DARK_RED.getColor() + "???")
-                .lore(BoldColor.RED.getColor() + "COMING SOON!").flag(ItemFlag.HIDE_ATTRIBUTES));
+                .name(ChatColor.AQUA + "Warcries")
+                .lore(ChatColor.GRAY + "Make sure your kills are heard!").flag(ItemFlag.HIDE_ATTRIBUTES));
         inv.setItem(11, new I(Material.GLOWSTONE_DUST)
-                .name(BoldColor.DARK_RED.getColor() + "???")
-                .lore(BoldColor.RED.getColor() + "COMING SOON!"));
+                .name(ChatColor.AQUA + "Gores")
+                .lore(ChatColor.GRAY + "Effects for your kills!"));
         inv.setItem(12, new I(Material.MAGMA_CREAM)
                 .name(ChatColor.AQUA + "Particle Packs")
                 .lore(ChatColor.GRAY + "Select cool trails to show off!"));
         inv.setItem(13, head);
         inv.setItem(14, new I(Material.EMERALD)
-                .name(ChatColor.AQUA + "Achievements")
+                .name(ChatColor.GREEN + "Achievements")
                 .lore(ChatColor.GRAY + "View your completed achievements"));
         inv.setItem(15, new I(Material.DIAMOND)
                 .name(ChatColor.YELLOW + "Daily Challenges")

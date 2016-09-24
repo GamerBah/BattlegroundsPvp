@@ -82,8 +82,9 @@ public class MySQL {
                         result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
                         result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getInt("playersRecruited"), result.getInt("recruitedBy"),
                         result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
-                        Cosmetic.Item.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")),
-                        result.getString("ownedKits"), result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"), result.getString("cosmetics"));
+                        Cosmetic.Item.valueOf(result.getString("trail")), Cosmetic.Item.valueOf(result.getString("warcry")), Cosmetic.Item.valueOf(result.getString("gore")),
+                        LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")), result.getString("ownedKits"),
+                        result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"), result.getString("cosmetics"));
             }
             result.getStatement().close();
         } catch (SQLException e) {
@@ -100,8 +101,9 @@ public class MySQL {
                         result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
                         result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getInt("playersRecruited"), result.getInt("recruitedBy"),
                         result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
-                        Cosmetic.Item.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")),
-                        result.getString("ownedKits"), result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"), result.getString("cosmetics"));
+                        Cosmetic.Item.valueOf(result.getString("trail")), Cosmetic.Item.valueOf(result.getString("warcry")), Cosmetic.Item.valueOf(result.getString("gore")),
+                        LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")), result.getString("ownedKits"),
+                        result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"), result.getString("cosmetics"));
             }
             result.getStatement().close();
         } catch (SQLException e) {
@@ -119,8 +121,9 @@ public class MySQL {
                         result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
                         result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getInt("playersRecruited"), result.getInt("recruitedBy"),
                         result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
-                        Cosmetic.Item.valueOf(result.getString("trail")), LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")),
-                        result.getString("ownedKits"), result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"), result.getString("cosmetics")));
+                        Cosmetic.Item.valueOf(result.getString("trail")), Cosmetic.Item.valueOf(result.getString("warcry")), Cosmetic.Item.valueOf(result.getString("gore")),
+                        LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")), result.getString("ownedKits"),
+                        result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"), result.getString("cosmetics")));
             }
             result.getStatement().close();
             return playerDatas;

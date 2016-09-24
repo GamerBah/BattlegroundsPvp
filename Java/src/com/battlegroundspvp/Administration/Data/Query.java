@@ -23,6 +23,8 @@ public enum Query {
     UPDATE_PLAYER_PRIVATE_MESSAGING("UPDATE players SET privateMessaging = ? WHERE id = ?"),
     UPDATE_PLAYER_STEALTHY_JOIN("UPDATE players SET stealthyJoin = ? WHERE id = ?"),
     UPDATE_PLAYER_TRAIL("UPDATE players SET trail = ? WHERE id = ?"),
+    UPDATE_PLAYER_WARCRY("UPDATE players SET warcry = ? WHERE id = ?"),
+    UPDATE_PLAYER_GORE("UPDATE players SET gore = ? WHERE id = ?"),
     UPDATE_PLAYER_DAILY_REWARD_LAST("UPDATE players SET dailyRewardLast = ? WHERE id = ?"),
     UPDATE_PLAYER_OWNED_KITS("UPDATE players SET ownedKits = ? WHERE id = ?"),
     UPDATE_PLAYER_LAST_KILLED_BY("UPDATE players SET lastKilledBy = ? WHERE id = ?"),

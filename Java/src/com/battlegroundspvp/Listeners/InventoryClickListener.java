@@ -16,6 +16,9 @@ import com.battlegroundspvp.Commands.ReportCommand;
 import com.battlegroundspvp.Etc.Achievements.Achievement;
 import com.battlegroundspvp.Etc.Achievements.AchievementMenu;
 import com.battlegroundspvp.Etc.Menus.*;
+import com.battlegroundspvp.Etc.Menus.Cosmetics.GoreMenu;
+import com.battlegroundspvp.Etc.Menus.Cosmetics.TrailMenu;
+import com.battlegroundspvp.Etc.Menus.Cosmetics.WarcryMenu;
 import com.battlegroundspvp.Utils.*;
 import com.battlegroundspvp.Utils.Kits.KitManager;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
@@ -264,6 +267,18 @@ public class InventoryClickListener implements Listener {
                     achievementMenu.openInventory(player);
                     Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                 }
+
+                if (item.getType().equals(Material.GLOWSTONE_DUST)) {
+                    GoreMenu goreMenu = new GoreMenu(plugin);
+                    goreMenu.openInventory(player);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+                }
+
+                if (item.getType().equals(Material.DIAMOND_SWORD)) {
+                    WarcryMenu warcryMenu = new WarcryMenu(plugin);
+                    warcryMenu.openInventory(player);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+                }
             }
 
             if (inventory.getName().equals("Achievement Selection")) {
@@ -366,6 +381,10 @@ public class InventoryClickListener implements Listener {
                 ItemStack item = event.getCurrentItem();
                 event.setCancelled(true);
 
+                if (playerData.getTrail().getItem() == item) {
+                    return;
+                }
+
                 if (item.getType().equals(Material.ARROW)) {
                     ProfileMenu profileMenu = new ProfileMenu(plugin);
                     profileMenu.openInventory(player);
@@ -381,7 +400,65 @@ public class InventoryClickListener implements Listener {
                     playerData.setTrail(trail);
                     player.closeInventory();
                     player.sendMessage(ChatColor.GRAY + (trail.getRarity().equals(Rarity.COMMON)
-                            ? "You removed your active particle pack" : "You set your particle pack to " + trail.getRarity().getColor() + trail.getName()));
+                            ? "You removed your active Particle Pack" : "You set your Particle Pack to " + trail.getRarity().getColor() + trail.getName()));
+                    Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
+                }
+            }
+
+            if (inventory.getName().equals("Warcries")) {
+                PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
+                ItemStack item = event.getCurrentItem();
+                event.setCancelled(true);
+
+                if (playerData.getWarcry().getItem() == item) {
+                    return;
+                }
+
+                if (item.getType().equals(Material.ARROW)) {
+                    ProfileMenu profileMenu = new ProfileMenu(plugin);
+                    profileMenu.openInventory(player);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_GO_BACK);
+                } else {
+                    Cosmetic.Item warcry = Cosmetic.typeFromName(item.getItemMeta().getDisplayName().substring(2, item.getItemMeta().getDisplayName().length()), Cosmetic.KILL_SOUND);
+                    if (warcry == null) {
+                        warcry = Cosmetic.typeFromName(item.getItemMeta().getDisplayName().substring(4, item.getItemMeta().getDisplayName().length()), Cosmetic.KILL_SOUND);
+                        if (warcry == null) {
+                            return;
+                        }
+                    }
+                    playerData.setWarcry(warcry);
+                    player.closeInventory();
+                    player.sendMessage(ChatColor.GRAY + (warcry.getRarity().equals(Rarity.COMMON)
+                            ? "You removed your active Warcry" : "You set your Warcry to " + warcry.getRarity().getColor() + warcry.getName()));
+                    Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
+                }
+            }
+
+            if (inventory.getName().equals("Gores")) {
+                PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
+                ItemStack item = event.getCurrentItem();
+                event.setCancelled(true);
+
+                if (playerData.getGore().getItem() == item) {
+                    return;
+                }
+
+                if (item.getType().equals(Material.ARROW)) {
+                    ProfileMenu profileMenu = new ProfileMenu(plugin);
+                    profileMenu.openInventory(player);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_GO_BACK);
+                } else {
+                    Cosmetic.Item gore = Cosmetic.typeFromName(item.getItemMeta().getDisplayName().substring(2, item.getItemMeta().getDisplayName().length()), Cosmetic.KILL_EFFECT);
+                    if (gore == null) {
+                        gore = Cosmetic.typeFromName(item.getItemMeta().getDisplayName().substring(4, item.getItemMeta().getDisplayName().length()), Cosmetic.KILL_EFFECT);
+                        if (gore == null) {
+                            return;
+                        }
+                    }
+                    playerData.setGore(gore);
+                    player.closeInventory();
+                    player.sendMessage(ChatColor.GRAY + (gore.getRarity().equals(Rarity.COMMON)
+                            ? "You removed your active Gore" : "You set your Gore to " + gore.getRarity().getColor() + gore.getName()));
                     Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
                 }
             }

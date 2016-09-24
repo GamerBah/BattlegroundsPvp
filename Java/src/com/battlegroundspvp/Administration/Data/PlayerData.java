@@ -29,7 +29,7 @@ public class PlayerData {
     @Getter
     private boolean dailyReward, teamRequests, privateMessaging, stealthyJoin;
     @Getter
-    private Cosmetic.Item trail;
+    private Cosmetic.Item trail, warcry, gore;
     @Getter
     private LocalDateTime dailyRewardLast, lastOnline;
     @Getter
@@ -137,5 +137,15 @@ public class PlayerData {
 
     public void setOwnedCosmetics(String list) {
         sql.executeUpdate(UPDATE_PLAYER_OWNED_COSMETICS, this.ownedCosmetics = list, id);
+    }
+
+    public void setWarcry(Cosmetic.Item warcry) {
+        sql.executeUpdate(UPDATE_PLAYER_WARCRY, warcry.toString(), id);
+        this.warcry = warcry;
+    }
+
+    public void setGore(Cosmetic.Item gore) {
+        sql.executeUpdate(UPDATE_PLAYER_GORE, gore.toString(), id);
+        this.gore = gore;
     }
 }

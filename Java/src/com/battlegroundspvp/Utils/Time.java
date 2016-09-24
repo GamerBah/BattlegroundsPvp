@@ -78,7 +78,7 @@ public enum Time {
                             }
                             return hours + (hours == 1 ? " hr" : " hrs") + (minutes == 0 ? "" : " " + minutes + " min");
                         }
-                        return days + dl + ", " + hours + (hours == 1 ? " hr" : " hrs") + " " + minutes + " min";
+                        return days + dl + ", " + hours + (hours == 1 ? " hr" : " hrs");
                     }
                     return weeks + wl + ", " + days + dl;
                 }
@@ -98,7 +98,7 @@ public enum Time {
                             }
                             return hours + hl + (minutes == 0 ? "" : " and " + minutes + ml);
                         }
-                        return days + dl + ", " + hours + hl + " and " + minutes + ml;
+                        return days + dl + ", " + hours + hl;
                     }
                     return weeks + wl + " and " + days + dl;
                 }
