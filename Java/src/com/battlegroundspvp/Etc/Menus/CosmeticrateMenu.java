@@ -49,27 +49,85 @@ public class CosmeticrateMenu {
         scoreboardListener.updateScoreboardCoins(player, -500);
         Inventory inventory = player.getOpenInventory().getTopInventory();
         inventory.clear();
-        inventory.setItem(12, new I(Material.STAINED_GLASS_PANE).name(" ").durability(5));
-        inventory.setItem(14, new I(Material.STAINED_GLASS_PANE).name(" ").durability(5));
+        inventory.setItem(12, new I(Material.STAINED_GLASS_PANE).name(" ").durability(14));
+        inventory.setItem(14, new I(Material.STAINED_GLASS_PANE).name(" ").durability(14));
         List<Cosmetic.Item> cosmetics = new ArrayList<>();
         for (Cosmetic.Item cosmetic : Cosmetic.Item.values()) {
             cosmetics.add(cosmetic);
         }
-        int crate = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
             if (player.getOpenInventory().getTopInventory().getName().equals("Cosmeticrates")) {
-                Cosmetic.Item cosmetic = cosmetics.get(ThreadLocalRandom.current().nextInt(0, cosmetics.size()));
-                if (cosmetic.getId() < 1000) {
-                    inventory.setItem(13, cosmetic.getItem());
-                    player.openInventory(inventory);
-                    Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
-                    Battlegrounds.playSound(player, EventSound.CLICK);
-                }
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1F, 1.0F);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1F, 1.0F);
             }
-        }, 0L, 2L);
+        });
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            if (player.getOpenInventory().getTopInventory().getName().equals("Cosmeticrates")) {
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1F, 1.1F);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1F, 1.1F);
+            }
+        }, 1L);
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            if (player.getOpenInventory().getTopInventory().getName().equals("Cosmeticrates")) {
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1F, 1.2F);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1F, 1.2F);
+
+            }
+        }, 2L);
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            if (player.getOpenInventory().getTopInventory().getName().equals("Cosmeticrates")) {
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1F, 1.3F);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1F, 1.3F);
+            }
+        }, 3L);
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            if (player.getOpenInventory().getTopInventory().getName().equals("Cosmeticrates")) {
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1F, 1.4F);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1F, 1.4F);
+            }
+        }, 4L);
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            if (player.getOpenInventory().getTopInventory().getName().equals("Cosmeticrates")) {
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1F, 1.5F);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1F, 1.5F);
+            }
+        }, 5L);
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            if (player.getOpenInventory().getTopInventory().getName().equals("Cosmeticrates")) {
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1F, 1.6F);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1F, 1.6F);
+            }
+        }, 6L);
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            if (player.getOpenInventory().getTopInventory().getName().equals("Cosmeticrates")) {
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1F, 1.7F);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1F, 1.7F);
+            }
+        }, 7L);
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            if (player.getOpenInventory().getTopInventory().getName().equals("Cosmeticrates")) {
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1F, 1.8F);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1F, 1.8F);
+            }
+        }, 8L);
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            if (player.getOpenInventory().getTopInventory().getName().equals("Cosmeticrates")) {
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1F, 1.9F);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1F, 1.9F);
+            }
+        }, 9L);
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            if (player.getOpenInventory().getTopInventory().getName().equals("Cosmeticrates")) {
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 1F, 2.0F);
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 1F, 2.0F);
+            }
+        }, 10L);
 
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-            plugin.getServer().getScheduler().cancelTask(crate);
             if (!AutoUpdate.updating) {
+                inventory.setItem(12, new I(Material.STAINED_GLASS_PANE).name(" ").durability(5));
+                inventory.setItem(14, new I(Material.STAINED_GLASS_PANE).name(" ").durability(5));
+                inventory.setItem(13, cosmetics.get(ThreadLocalRandom.current().nextInt(0, cosmetics.size() - 1)).getItem());
                 if (!player.getOpenInventory().getTopInventory().equals(inventory)) {
                     player.openInventory(inventory);
                 }
@@ -98,10 +156,10 @@ public class CosmeticrateMenu {
                     player.sendMessage(ChatColor.GRAY + "You already have the " + finalCosmetic.getRarity().getColor() + (finalCosmetic.getRarity() == Rarity.EPIC
                             || finalCosmetic.getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + finalCosmetic.getName()
                             + ChatColor.GRAY + (finalCosmetic.getGroup().equals(Cosmetic.PARTICLE_PACK) ? " Particle Pack" : finalCosmetic.getGroup().equals(Cosmetic.KILL_EFFECT)
-                            ? " Gore" : " Warcry") + ", so\n" + ChatColor.GRAY + "you got " + BoldColor.AQUA.getColor() + souls + " Souls");
-                    scoreboardListener.updateScoreboardCoins(player, souls);
+                            ? " Gore" : " Warcry") + ",\n" + ChatColor.GRAY + " so you got " + BoldColor.AQUA.getColor() + souls + " Souls");
+                    scoreboardListener.updateScoreboardSouls(player, souls);
                 }
             }
-        }, 50L);
+        }, 30L);
     }
 }
