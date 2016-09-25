@@ -46,7 +46,6 @@ public class ProfileMenu {
         ItemStack head = new I(Material.SKULL_ITEM).durability(3)
                 .name(playerData.getRank().getColor() + "" + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")
                         + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : ChatColor.GRAY) + player.getName())
-                .lore(" ")
                 .lore(ChatColor.GRAY + "Kills: " + ChatColor.GREEN + playerData.getKills())
                 .lore(ChatColor.GRAY + "Deaths: " + ChatColor.RED + playerData.getDeaths())
                 .lore(ChatColor.GRAY + "K/D Ratio: " + kdRatio.getRatioColor(player) + kdRatio.getRatio(player))
@@ -56,12 +55,12 @@ public class ProfileMenu {
                 .lore(ChatColor.GRAY + "Last Killed By: " + (killedByPlayerData != null ? (killedByPlayerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : "")
                         + killedByPlayerData.getName() : "--"))
                 .lore(" ")
-                .lore(ChatColor.GRAY + "Particle Pack: " + playerData.getTrail().getRarity().getColor() + (playerData.getTrail().getRarity() == Rarity.EPIC
-                        || playerData.getTrail().getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : ChatColor.DARK_GRAY) + playerData.getTrail().getName())
-                .lore(ChatColor.GRAY + "Warcry: " + playerData.getWarcry().getRarity().getColor() + (playerData.getWarcry().getRarity() == Rarity.EPIC
-                        || playerData.getWarcry().getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : ChatColor.DARK_GRAY) + playerData.getWarcry().getName())
-                .lore(ChatColor.GRAY + "Gore: " + playerData.getGore().getRarity().getColor() + (playerData.getGore().getRarity() == Rarity.EPIC
-                        || playerData.getGore().getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : ChatColor.DARK_GRAY) + playerData.getGore().getName())
+                .lore(ChatColor.GRAY + "Particle Pack: " + (playerData.getTrail().getRarity() == Rarity.COMMON ? ChatColor.DARK_GRAY : playerData.getTrail().getRarity().getColor())
+                        + (playerData.getTrail().getRarity() == Rarity.EPIC || playerData.getTrail().getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + playerData.getTrail().getName())
+                .lore(ChatColor.GRAY + "Warcry: " + (playerData.getWarcry().getRarity() == Rarity.COMMON ? ChatColor.DARK_GRAY : playerData.getWarcry().getRarity().getColor())
+                        + (playerData.getWarcry().getRarity() == Rarity.EPIC || playerData.getWarcry().getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + playerData.getWarcry().getName())
+                .lore(ChatColor.GRAY + "Gore: " + (playerData.getGore().getRarity() == Rarity.COMMON ? ChatColor.DARK_GRAY : playerData.getGore().getRarity().getColor())
+                        + (playerData.getGore().getRarity() == Rarity.EPIC || playerData.getGore().getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + playerData.getGore().getName())
                 .lore(ChatColor.GRAY + "Mastery Title: " + (achievement != null ? BoldColor.GOLD.getColor() + "[" + achievement.getTitle() + "]" : "None"))
                 .lore(" ")
                 .lore(ChatColor.GRAY + "Souls: " + ChatColor.AQUA + playerData.getSouls())

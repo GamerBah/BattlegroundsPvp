@@ -61,7 +61,7 @@ public class GoreMenu {
             }
         }
 
-        inv.setItem(26, Cosmetic.Item.TRAIL_NONE.getItem());
+        inv.setItem(26, Cosmetic.Item.GORE_NONE.getItem());
         inv.setItem(22, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
         player.openInventory(inv);
     }
