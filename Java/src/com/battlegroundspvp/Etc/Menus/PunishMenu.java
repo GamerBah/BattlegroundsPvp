@@ -109,7 +109,7 @@ public class PunishMenu {
     }
 
     public void openInventory(Player player, OfflinePlayer target) {
-        PlayerData targetData = plugin.getPlayerData(target.getName());
+        PlayerData targetData = plugin.getPlayerData(target.getUniqueId());
         Inventory inv = plugin.getServer().createInventory(null, 36, "Punishing: " + targetData.getName());
 
         int mutes = 0, kicks = 0, tempbans = 0, bans = 0;
