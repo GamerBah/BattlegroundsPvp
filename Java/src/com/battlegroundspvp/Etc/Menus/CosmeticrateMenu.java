@@ -5,6 +5,7 @@ package com.battlegroundspvp.Etc.Menus;
 import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Administration.Runnables.AutoUpdate;
 import com.battlegroundspvp.Battlegrounds;
+import com.battlegroundspvp.Etc.Achievements.Achievement;
 import com.battlegroundspvp.Listeners.ScoreboardListener;
 import com.battlegroundspvp.Utils.Cosmetic;
 import com.battlegroundspvp.Utils.EventSound;
@@ -129,7 +130,7 @@ public class CosmeticrateMenu {
                 inventory.setItem(14, new I(Material.STAINED_GLASS_PANE).name(" ").durability(5));
                 inventory.setItem(13, cosmetics.get(ThreadLocalRandom.current().nextInt(0, cosmetics.size() - 1)).getItem());
                 if (!player.getOpenInventory().getTopInventory().equals(inventory)) {
-                    player.openInventory(inventory);
+                    player.updateInventory();
                 }
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.5F, 1F);
                 Cosmetic.Item finalCosmetic = cosmetics.get(0);
@@ -151,6 +152,37 @@ public class CosmeticrateMenu {
                             || finalCosmetic.getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + finalCosmetic.getName() + ChatColor.AQUA
                             + (finalCosmetic.getGroup().equals(Cosmetic.PARTICLE_PACK) ? " Particle Pack!" : finalCosmetic.getGroup().equals(Cosmetic.KILL_EFFECT)
                             ? " Gore!" : " Warcry!"));
+                    int particles = 0;
+                    int warcries = 0;
+                    int gores = 0;
+                    for (Cosmetic.Item item : Cosmetic.Item.values()) {
+                        if (item.getId() < 1000) {
+                            if (playerData.getOwnedCosmetics().contains(item.getId() + ",")) {
+                                if (item.getGroup().equals(Cosmetic.PARTICLE_PACK)) particles++;
+                                if (item.getGroup().equals(Cosmetic.KILL_SOUND)) warcries++;
+                                if (item.getGroup().equals(Cosmetic.KILL_EFFECT)) gores++;
+                            }
+                        }
+                    }
+                    for (Achievement.Type achievement : Achievement.Type.values()) {
+                        if (achievement.getGroup().equals(Achievement.COLLECTION)) {
+                            if (achievement.getName().contains("Showmanship")) {
+                                if (particles >= achievement.getRequirement()) {
+                                    Achievement.sendUnlockMessage(player, achievement);
+                                }
+                            }
+                            if (achievement.getName().contains("Warcry")) {
+                                if (warcries >= achievement.getRequirement()) {
+                                    Achievement.sendUnlockMessage(player, achievement);
+                                }
+                            }
+                            if (achievement.getName().contains("Savage")) {
+                                if (gores >= achievement.getRequirement()) {
+                                    Achievement.sendUnlockMessage(player, achievement);
+                                }
+                            }
+                        }
+                    }
                 } else {
                     int souls = ThreadLocalRandom.current().nextInt(20, 35 + 1);
                     player.sendMessage(ChatColor.GRAY + "You already have the " + finalCosmetic.getRarity().getColor() + (finalCosmetic.getRarity() == Rarity.EPIC

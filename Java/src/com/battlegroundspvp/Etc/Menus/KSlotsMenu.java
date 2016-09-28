@@ -95,7 +95,7 @@ public class KSlotsMenu {
                 if (player.getOpenInventory().getTopInventory().getName().equals("\"K-Slots\" Machine")) {
                     Kit kit = kits.get(ThreadLocalRandom.current().nextInt(0, kits.size()));
                     inventory.setItem(10, kit.getItem());
-                    player.openInventory(inventory);
+                    player.updateInventory();
                     Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
                     Battlegrounds.playSound(player, EventSound.CLICK);
                 }
@@ -154,13 +154,16 @@ public class KSlotsMenu {
                 if (player.getOpenInventory().getTopInventory().getName().equals("\"K-Slots\" Machine")) {
                     Kit kit = kits.get(ThreadLocalRandom.current().nextInt(0, kits.size()));
                     inventory.setItem(12, kit.getItem());
-                    player.openInventory(inventory);
+                    player.updateInventory();
                 }
             }, 0L, 2L);
 
             plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                 plugin.getServer().getScheduler().cancelTask(slot);
                 if (!AutoUpdate.updating) {
+                    if (!player.getOpenInventory().getTopInventory().equals(inventory)) {
+                        player.openInventory(inventory);
+                    }
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.5F, 1F);
                     Kit finalKit = KitManager.getKits().get(0);
                     for (Kit kit : kits) {
@@ -213,6 +216,9 @@ public class KSlotsMenu {
             plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                 plugin.getServer().getScheduler().cancelTask(slot);
                 if (!AutoUpdate.updating) {
+                    if (!player.getOpenInventory().getTopInventory().equals(inventory)) {
+                        player.openInventory(inventory);
+                    }
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.5F, 1F);
                     Kit finalKit = KitManager.getKits().get(0);
                     for (Kit kit : kits) {
@@ -266,6 +272,9 @@ public class KSlotsMenu {
             plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                 plugin.getServer().getScheduler().cancelTask(slot);
                 if (!AutoUpdate.updating) {
+                    if (!player.getOpenInventory().getTopInventory().equals(inventory)) {
+                        player.openInventory(inventory);
+                    }
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.5F, 1F);
                     Kit finalKit = KitManager.getKits().get(0);
                     for (Kit kit : kits) {

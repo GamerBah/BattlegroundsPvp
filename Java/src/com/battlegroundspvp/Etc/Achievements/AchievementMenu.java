@@ -4,6 +4,7 @@ package com.battlegroundspvp.Etc.Achievements;
 
 import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Battlegrounds;
+import com.battlegroundspvp.Utils.Cosmetic;
 import com.battlegroundspvp.Utils.I;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
@@ -110,7 +111,7 @@ public class AchievementMenu {
                                         .lore("§7 ● " + BoldColor.GOLD.getColor() + "[" + ach.getTitle() + "] Mastery Title"));
                             } else {
                                 inv.setItem(i++, new I(Material.STAINED_CLAY)
-                                        .name((revengeKills > ach.getRequirement() ? BoldColor.GREEN.getColor() + ach.getName() : ChatColor.RED + ach.getName()))
+                                        .name((revengeKills >= ach.getRequirement() ? BoldColor.GREEN.getColor() + ach.getName() : ChatColor.RED + ach.getName()))
                                         .durability((revengeKills >= ach.getRequirement() ? 5 : 14))
                                         .lore(ChatColor.GRAY + ach.getDescription())
                                         .lore(ChatColor.GRAY + "" + ChatColor.ITALIC + "Status: " + (revengeKills >= ach.getRequirement() ? BoldColor.GREEN.getColor()
@@ -137,7 +138,7 @@ public class AchievementMenu {
                                         .lore("§7 ● " + BoldColor.GOLD.getColor() + "[" + ach.getTitle() + "] Mastery Title"));
                             } else {
                                 inv.setItem(i++, new I(Material.STAINED_CLAY)
-                                        .name((killstreaksEnded > ach.getRequirement() ? BoldColor.GREEN.getColor() + ach.getName() : ChatColor.RED + ach.getName()))
+                                        .name((killstreaksEnded >= ach.getRequirement() ? BoldColor.GREEN.getColor() + ach.getName() : ChatColor.RED + ach.getName()))
                                         .durability((killstreaksEnded >= ach.getRequirement() ? 5 : 14))
                                         .lore(ChatColor.GRAY + ach.getDescription())
                                         .lore(ChatColor.GRAY + "" + ChatColor.ITALIC + "Status: " + (killstreaksEnded >= ach.getRequirement() ? BoldColor.GREEN.getColor()
@@ -164,7 +165,7 @@ public class AchievementMenu {
                                         .lore("§7 ● " + BoldColor.GOLD.getColor() + "[" + ach.getTitle() + "] Mastery Title"));
                             } else {
                                 inv.setItem(i++, new I(Material.STAINED_CLAY)
-                                        .name((highestKillstreak > ach.getRequirement() ? BoldColor.GREEN.getColor() + ach.getName() : ChatColor.RED + ach.getName()))
+                                        .name((highestKillstreak >= ach.getRequirement() ? BoldColor.GREEN.getColor() + ach.getName() : ChatColor.RED + ach.getName()))
                                         .durability((highestKillstreak >= ach.getRequirement() ? 5 : 14))
                                         .lore(ChatColor.GRAY + ach.getDescription())
                                         .lore(ChatColor.GRAY + "" + ChatColor.ITALIC + "Status: " + (highestKillstreak >= ach.getRequirement() ? BoldColor.GREEN.getColor()
@@ -199,12 +200,20 @@ public class AchievementMenu {
     public void openCollectionAchievements(Player player) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         Inventory inv = plugin.getServer().createInventory(null, 54, "Collection Achievements");
-        String[] split = playerData.getOwnedKits().substring(2, playerData.getOwnedKits().length() - 1).split(",");
-        int kitsOwned = split.length;
-        int recruited = playerData.getPlayersRecruited();
-        int particles = 18;
-        int warcry = 18;
-        int gores = 27;
+        String[] k = playerData.getOwnedKits().substring(2, playerData.getOwnedKits().length() - 1).split(",");
+        int kitsOwned = k.length;
+        int particles = 0;
+        int warcries = 0;
+        int gores = 0;
+        for (Cosmetic.Item item : Cosmetic.Item.values()) {
+            if (item.getId() < 1000) {
+                if (playerData.getOwnedCosmetics().contains(item.getId() + ",")) {
+                    if (item.getGroup().equals(Cosmetic.PARTICLE_PACK)) particles++;
+                    if (item.getGroup().equals(Cosmetic.KILL_SOUND)) warcries++;
+                    if (item.getGroup().equals(Cosmetic.KILL_EFFECT)) gores++;
+                }
+            }
+        }
         for (int i = 0; i < 36; i++) {
             for (Achievement.Type ach : Achievement.Type.values()) {
                 if (ach.getGroup().equals(Achievement.COLLECTION)) {
@@ -222,7 +231,7 @@ public class AchievementMenu {
                                         .lore("§7 ● " + BoldColor.GOLD.getColor() + "[" + ach.getTitle() + "] Mastery Title"));
                             } else {
                                 inv.setItem(i++, new I(Material.STAINED_CLAY)
-                                        .name((kitsOwned > ach.getRequirement() ? BoldColor.GREEN.getColor() + ach.getName() : ChatColor.RED + ach.getName()))
+                                        .name((kitsOwned >= ach.getRequirement() ? BoldColor.GREEN.getColor() + ach.getName() : ChatColor.RED + ach.getName()))
                                         .durability((kitsOwned >= ach.getRequirement() ? 5 : 14))
                                         .lore(ChatColor.GRAY + ach.getDescription())
                                         .lore(ChatColor.GRAY + "" + ChatColor.ITALIC + "Status: " + (kitsOwned >= ach.getRequirement() ? BoldColor.GREEN.getColor()
@@ -247,7 +256,7 @@ public class AchievementMenu {
                                         .lore("§7 ● " + BoldColor.GOLD.getColor() + "[" + ach.getTitle() + "] Mastery Title"));
                             } else {
                                 inv.setItem(i++, new I(Material.STAINED_CLAY)
-                                        .name((particles > ach.getRequirement() ? BoldColor.GREEN.getColor() + ach.getName() : ChatColor.RED + ach.getName()))
+                                        .name((particles >= ach.getRequirement() ? BoldColor.GREEN.getColor() + ach.getName() : ChatColor.RED + ach.getName()))
                                         .durability((particles >= ach.getRequirement() ? 5 : 14))
                                         .lore(ChatColor.GRAY + ach.getDescription())
                                         .lore(ChatColor.GRAY + "" + ChatColor.ITALIC + "Status: " + (particles >= ach.getRequirement() ? BoldColor.GREEN.getColor()
@@ -261,23 +270,23 @@ public class AchievementMenu {
                     if (i > 17 && i < 24) {
                         if (ach.getName().contains("Warcry")) {
                             if (ach.getName().contains("Mastery")) {
-                                inv.setItem(i++, new I((warcry >= ach.getRequirement() ? Material.EMERALD_BLOCK : Material.COAL_BLOCK))
-                                        .name((warcry >= ach.getRequirement() ? BoldColor.GREEN.getColor() + ach.getName() : ChatColor.RED + ach.getName()))
+                                inv.setItem(i++, new I((warcries >= ach.getRequirement() ? Material.EMERALD_BLOCK : Material.COAL_BLOCK))
+                                        .name((warcries >= ach.getRequirement() ? BoldColor.GREEN.getColor() + ach.getName() : ChatColor.RED + ach.getName()))
                                         .lore(ChatColor.GRAY + ach.getDescription())
-                                        .lore(ChatColor.GRAY + "" + ChatColor.ITALIC + "Status: " + (warcry >= ach.getRequirement() ? BoldColor.GREEN.getColor()
+                                        .lore(ChatColor.GRAY + "" + ChatColor.ITALIC + "Status: " + (warcries >= ach.getRequirement() ? BoldColor.GREEN.getColor()
                                                 + "COMPLETE" : BoldColor.RED.getColor() + "INCOMPLETE "
-                                                + ChatColor.GRAY + "(" + ChatColor.GOLD + warcry + ChatColor.GRAY + "/" + ach.getRequirement() + ")"))
+                                                + ChatColor.GRAY + "(" + ChatColor.GOLD + warcries + ChatColor.GRAY + "/" + ach.getRequirement() + ")"))
                                         .lore("").lore(ChatColor.GRAY + "" + ChatColor.ITALIC + "Rewards:")
                                         .lore("§7 ● " + BoldColor.AQUA.getColor() + ach.getSoulReward() + " Souls")
                                         .lore("§7 ● " + BoldColor.GOLD.getColor() + "[" + ach.getTitle() + "] Mastery Title"));
                             } else {
                                 inv.setItem(i++, new I(Material.STAINED_CLAY)
-                                        .name((warcry > ach.getRequirement() ? BoldColor.GREEN.getColor() + ach.getName() : ChatColor.RED + ach.getName()))
-                                        .durability((warcry >= ach.getRequirement() ? 5 : 14))
+                                        .name((warcries >= ach.getRequirement() ? BoldColor.GREEN.getColor() + ach.getName() : ChatColor.RED + ach.getName()))
+                                        .durability((warcries >= ach.getRequirement() ? 5 : 14))
                                         .lore(ChatColor.GRAY + ach.getDescription())
-                                        .lore(ChatColor.GRAY + "" + ChatColor.ITALIC + "Status: " + (warcry >= ach.getRequirement() ? BoldColor.GREEN.getColor()
+                                        .lore(ChatColor.GRAY + "" + ChatColor.ITALIC + "Status: " + (warcries >= ach.getRequirement() ? BoldColor.GREEN.getColor()
                                                 + "COMPLETE" : BoldColor.RED.getColor() + "INCOMPLETE "
-                                                + ChatColor.GRAY + "(" + ChatColor.GOLD + warcry + ChatColor.GRAY + "/" + ach.getRequirement() + ")"))
+                                                + ChatColor.GRAY + "(" + ChatColor.GOLD + warcries + ChatColor.GRAY + "/" + ach.getRequirement() + ")"))
                                         .lore("").lore(ChatColor.GRAY + "" + ChatColor.ITALIC + "Rewards:")
                                         .lore("§7 ● " + BoldColor.AQUA.getColor() + ach.getSoulReward() + " Souls"));
                             }
@@ -297,12 +306,12 @@ public class AchievementMenu {
                                         .lore("§7 ● " + BoldColor.GOLD.getColor() + "[" + ach.getTitle() + "] Mastery Title"));
                             } else {
                                 inv.setItem(i++, new I(Material.STAINED_CLAY)
-                                        .name((gores > ach.getRequirement() ? BoldColor.GREEN.getColor() + ach.getName() : ChatColor.RED + ach.getName()))
+                                        .name((gores >= ach.getRequirement() ? BoldColor.GREEN.getColor() + ach.getName() : ChatColor.RED + ach.getName()))
                                         .durability((gores >= ach.getRequirement() ? 5 : 14))
                                         .lore(ChatColor.GRAY + ach.getDescription())
                                         .lore(ChatColor.GRAY + "" + ChatColor.ITALIC + "Status: " + (gores >= ach.getRequirement() ? BoldColor.GREEN.getColor()
                                                 + "COMPLETE" : BoldColor.RED.getColor() + "INCOMPLETE "
-                                                + ChatColor.GRAY + "(Highest Reached: " + ChatColor.GOLD + gores + ChatColor.GRAY + ")"))
+                                                + ChatColor.GRAY + "(" + ChatColor.GOLD + gores + ChatColor.GRAY + "/" + ach.getRequirement() + ")"))
                                         .lore("").lore(ChatColor.GRAY + "" + ChatColor.ITALIC + "Rewards:")
                                         .lore("§7 ● " + BoldColor.AQUA.getColor() + ach.getSoulReward() + " Souls"));
                             }
