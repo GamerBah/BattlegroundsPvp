@@ -57,6 +57,8 @@ public class MySQL {
                 if (connection != null) {
                     plugin.getLogger().info("Reconnected to the database...");
                     isConnected = true;
+                } else {
+                    plugin.getLogger().info("Database Check - Database is active");
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();

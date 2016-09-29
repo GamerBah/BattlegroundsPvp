@@ -228,6 +228,7 @@ public class Battlegrounds extends JavaPlugin {
                     }
                 }).syncStart();
 
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> sql.isConnected(), 0L, 216000L);
     }
 
     public void onDisable() {

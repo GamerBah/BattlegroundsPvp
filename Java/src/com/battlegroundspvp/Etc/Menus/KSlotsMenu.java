@@ -110,15 +110,48 @@ public class KSlotsMenu {
                     }
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.5F, 1F);
                     Kit finalKit = KitManager.getKits().get(0);
+                    int legendary = ThreadLocalRandom.current().nextInt(1, Rarity.LEGENDARY.getChance() + 1);
+                    int epic = ThreadLocalRandom.current().nextInt(1, Rarity.EPIC.getChance() + 1);
+                    int rare = ThreadLocalRandom.current().nextInt(1, Rarity.RARE.getChance() + 1);
                     for (Kit kit : kits) {
                         if (kit.getItem().equals(inventory.getItem(10))) {
                             finalKit = kit;
-                            if (kit.getRarity().equals(Rarity.EPIC)) {
-                                Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
+                            if (legendary == 1) {
+                                if (finalKit.getRarity().equals(Rarity.LEGENDARY)) {
+                                    Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_LEGENDARY);
+                                }
+                            } else if (epic == 1) {
+                                if (finalKit.getRarity().equals(Rarity.EPIC)) {
+                                    Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
+                                    List<Kit> epics = new ArrayList<>();
+                                    for (Kit k : kits) {
+                                        if (k.getRarity().equals(Rarity.EPIC)) {
+                                            epics.add(k);
+                                        }
+                                    }
+                                    finalKit = epics.get(ThreadLocalRandom.current().nextInt(0, epics.size()));
+                                }
+                            } else if (rare == 1) {
+                                if (finalKit.getRarity().equals(Rarity.RARE)) {
+                                    List<Kit> rares = new ArrayList<>();
+                                    for (Kit k : kits) {
+                                        if (k.getRarity().equals(Rarity.RARE)) {
+                                            rares.add(k);
+                                        }
+                                    }
+                                    finalKit = rares.get(ThreadLocalRandom.current().nextInt(0, rares.size()));
+                                }
+                            } else {
+                                List<Kit> commons = new ArrayList<>();
+                                for (Kit k : kits) {
+                                    if (k.getRarity().equals(Rarity.COMMON)) {
+                                        commons.add(k);
+                                    }
+                                }
+                                finalKit = commons.get(ThreadLocalRandom.current().nextInt(1, commons.size()));
                             }
-                            if (kit.getRarity().equals(Rarity.LEGENDARY)) {
-                                Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_LEGENDARY);
-                            }
+                            inventory.setItem(10, finalKit.getItem());
+                            player.updateInventory();
                         }
                     }
                     usingSlots.remove(player);
@@ -166,15 +199,48 @@ public class KSlotsMenu {
                     }
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.5F, 1F);
                     Kit finalKit = KitManager.getKits().get(0);
+                    int legendary = ThreadLocalRandom.current().nextInt(1, Rarity.LEGENDARY.getChance() + 1);
+                    int epic = ThreadLocalRandom.current().nextInt(1, Rarity.EPIC.getChance() + 1);
+                    int rare = ThreadLocalRandom.current().nextInt(1, Rarity.RARE.getChance() + 1);
                     for (Kit kit : kits) {
                         if (kit.getItem().equals(inventory.getItem(12))) {
                             finalKit = kit;
-                            if (kit.getRarity().equals(Rarity.EPIC)) {
-                                Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
+                            if (legendary == 1) {
+                                if (finalKit.getRarity().equals(Rarity.LEGENDARY)) {
+                                    Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_LEGENDARY);
+                                }
+                            } else if (epic == 1) {
+                                if (finalKit.getRarity().equals(Rarity.EPIC)) {
+                                    Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
+                                    List<Kit> epics = new ArrayList<>();
+                                    for (Kit k : kits) {
+                                        if (k.getRarity().equals(Rarity.EPIC)) {
+                                            epics.add(k);
+                                        }
+                                    }
+                                    finalKit = epics.get(ThreadLocalRandom.current().nextInt(0, epics.size()));
+                                }
+                            } else if (rare == 1) {
+                                if (finalKit.getRarity().equals(Rarity.RARE)) {
+                                    List<Kit> rares = new ArrayList<>();
+                                    for (Kit k : kits) {
+                                        if (k.getRarity().equals(Rarity.RARE)) {
+                                            rares.add(k);
+                                        }
+                                    }
+                                    finalKit = rares.get(ThreadLocalRandom.current().nextInt(0, rares.size()));
+                                }
+                            } else {
+                                List<Kit> commons = new ArrayList<>();
+                                for (Kit k : kits) {
+                                    if (k.getRarity().equals(Rarity.COMMON)) {
+                                        commons.add(k);
+                                    }
+                                }
+                                finalKit = commons.get(ThreadLocalRandom.current().nextInt(1, commons.size()));
                             }
-                            if (kit.getRarity().equals(Rarity.LEGENDARY)) {
-                                Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_LEGENDARY);
-                            }
+                            inventory.setItem(12, finalKit.getItem());
+                            player.updateInventory();
                         }
                     }
                     if (!playerData.getOwnedKits().contains(finalKit.getId() + ",")) {
@@ -221,15 +287,48 @@ public class KSlotsMenu {
                     }
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.5F, 1F);
                     Kit finalKit = KitManager.getKits().get(0);
+                    int legendary = ThreadLocalRandom.current().nextInt(1, Rarity.LEGENDARY.getChance() + 1);
+                    int epic = ThreadLocalRandom.current().nextInt(1, Rarity.EPIC.getChance() + 1);
+                    int rare = ThreadLocalRandom.current().nextInt(1, Rarity.RARE.getChance() + 1);
                     for (Kit kit : kits) {
                         if (kit.getItem().equals(inventory.getItem(14))) {
                             finalKit = kit;
-                            if (kit.getRarity().equals(Rarity.EPIC)) {
-                                Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
+                            if (legendary == 1) {
+                                if (finalKit.getRarity().equals(Rarity.LEGENDARY)) {
+                                    Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_LEGENDARY);
+                                }
+                            } else if (epic == 1) {
+                                if (finalKit.getRarity().equals(Rarity.EPIC)) {
+                                    Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
+                                    List<Kit> epics = new ArrayList<>();
+                                    for (Kit k : kits) {
+                                        if (k.getRarity().equals(Rarity.EPIC)) {
+                                            epics.add(k);
+                                        }
+                                    }
+                                    finalKit = epics.get(ThreadLocalRandom.current().nextInt(0, epics.size()));
+                                }
+                            } else if (rare == 1) {
+                                if (finalKit.getRarity().equals(Rarity.RARE)) {
+                                    List<Kit> rares = new ArrayList<>();
+                                    for (Kit k : kits) {
+                                        if (k.getRarity().equals(Rarity.RARE)) {
+                                            rares.add(k);
+                                        }
+                                    }
+                                    finalKit = rares.get(ThreadLocalRandom.current().nextInt(0, rares.size()));
+                                }
+                            } else {
+                                List<Kit> commons = new ArrayList<>();
+                                for (Kit k : kits) {
+                                    if (k.getRarity().equals(Rarity.COMMON)) {
+                                        commons.add(k);
+                                    }
+                                }
+                                finalKit = commons.get(ThreadLocalRandom.current().nextInt(1, commons.size()));
                             }
-                            if (kit.getRarity().equals(Rarity.LEGENDARY)) {
-                                Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_LEGENDARY);
-                            }
+                            inventory.setItem(14, finalKit.getItem());
+                            player.updateInventory();
                         }
                     }
                     if (!playerData.getOwnedKits().contains(finalKit.getId() + ",")) {
@@ -277,15 +376,48 @@ public class KSlotsMenu {
                     }
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.5F, 1F);
                     Kit finalKit = KitManager.getKits().get(0);
+                    int legendary = ThreadLocalRandom.current().nextInt(1, Rarity.LEGENDARY.getChance() + 1);
+                    int epic = ThreadLocalRandom.current().nextInt(1, Rarity.EPIC.getChance() + 1);
+                    int rare = ThreadLocalRandom.current().nextInt(1, Rarity.RARE.getChance() + 1);
                     for (Kit kit : kits) {
                         if (kit.getItem().equals(inventory.getItem(16))) {
                             finalKit = kit;
-                            if (kit.getRarity().equals(Rarity.EPIC)) {
-                                Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
+                            if (legendary == 1) {
+                                if (finalKit.getRarity().equals(Rarity.LEGENDARY)) {
+                                    Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_LEGENDARY);
+                                }
+                            } else if (epic == 1) {
+                                if (finalKit.getRarity().equals(Rarity.EPIC)) {
+                                    Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
+                                    List<Kit> epics = new ArrayList<>();
+                                    for (Kit k : kits) {
+                                        if (k.getRarity().equals(Rarity.EPIC)) {
+                                            epics.add(k);
+                                        }
+                                    }
+                                    finalKit = epics.get(ThreadLocalRandom.current().nextInt(0, epics.size()));
+                                }
+                            } else if (rare == 1) {
+                                if (finalKit.getRarity().equals(Rarity.RARE)) {
+                                    List<Kit> rares = new ArrayList<>();
+                                    for (Kit k : kits) {
+                                        if (k.getRarity().equals(Rarity.RARE)) {
+                                            rares.add(k);
+                                        }
+                                    }
+                                    finalKit = rares.get(ThreadLocalRandom.current().nextInt(0, rares.size()));
+                                }
+                            } else {
+                                List<Kit> commons = new ArrayList<>();
+                                for (Kit k : kits) {
+                                    if (k.getRarity().equals(Rarity.COMMON)) {
+                                        commons.add(k);
+                                    }
+                                }
+                                finalKit = commons.get(ThreadLocalRandom.current().nextInt(1, commons.size()));
                             }
-                            if (kit.getRarity().equals(Rarity.LEGENDARY)) {
-                                Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_LEGENDARY);
-                            }
+                            inventory.setItem(16, finalKit.getItem());
+                            player.updateInventory();
                         }
                     }
                     if (!playerData.getOwnedKits().contains(finalKit.getId() + ",")) {
