@@ -23,6 +23,7 @@ import org.inventivetalent.particle.ParticleEffect;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class PlayerMove implements Listener {
 
@@ -43,6 +44,14 @@ public class PlayerMove implements Listener {
                 return;
             }
             if (Battlegrounds.getAfk().contains(player.getUniqueId())) {
+                return;
+            }
+            Set<Material> set = null;
+            if (player.getTargetBlock(set, 15).getLocation().distance(player.getWorld().getSpawnLocation()) <= 8) {
+                return;
+            }
+            if (player.getTargetBlock(set, 20).getLocation().distance(player.getWorld().getSpawnLocation()) <= 15
+                    && player.getTargetBlock(set, 20).getLocation().getBlockY() >= 32) {
                 return;
             }
             player.setVelocity(player.getLocation().getDirection().multiply(3));

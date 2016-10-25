@@ -45,7 +45,6 @@ public class MySQL {
         try {
             final PreparedStatement statement = connection.prepareStatement(CHECK_SQL_QUERY);
             isConnected = true;
-            statement.closeOnCompletion();
         } catch (SQLException | NullPointerException e) {
             try {
                 String host = plugin.getConfig().getString("host");

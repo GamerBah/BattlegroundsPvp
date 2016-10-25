@@ -6,7 +6,6 @@ import com.battlegroundspvp.Administration.Commands.ChatCommands;
 import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Etc.Achievements.Achievement;
-import com.battlegroundspvp.Kits.Epic.DarkRider;
 import com.battlegroundspvp.Listeners.CombatListener;
 import com.battlegroundspvp.Listeners.ScoreboardListener;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
@@ -20,7 +19,6 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
-import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -43,23 +41,11 @@ public class PlayerDeath implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
         Player killer = player.getKiller();
-        if (DarkRider.getRiding().contains(player)) {
-            DarkRider.getRiding().remove(player);
-            Horse horse = (Horse) player.getVehicle();
-            killer = CombatListener.getHorseDamaged().get(player);
-            CombatListener.getHorseDamaged().remove(player);
-            horse.setOwner(null);
-            horse.setPassenger(null);
-            horse.setHealth(0);
-            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                plugin.respawn(player);
-                CombatListener.getTagged().remove(player.getUniqueId());
-            }, 5L);
-        }
         ParticleEffect.LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation(), 0, 0.2, 0, 1, 20, 100);
         player.setHealth(20);
         plugin.getServer().getScheduler().runTask(plugin, () -> {
             plugin.respawn(player);
+            CombatListener.getTagged().remove(player.getUniqueId());
         });
         player.getInventory().setHeldItemSlot(4);
 

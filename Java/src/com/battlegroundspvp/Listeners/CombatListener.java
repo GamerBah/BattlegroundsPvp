@@ -3,13 +3,16 @@ package com.battlegroundspvp.Listeners;
 import com.battlegroundspvp.Administration.Runnables.AutoUpdate;
 import com.battlegroundspvp.Administration.Utils.HackPrevention.HackPreventionTools;
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Kits.Epic.DarkRider;
 import com.battlegroundspvp.PlayerEvents.PlayerMove;
+import com.battlegroundspvp.Utils.Messages.BoldColor;
+import com.connorlinfoot.titleapi.TitleAPI;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.SmallFireball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -30,8 +33,6 @@ import java.util.UUID;
 public class CombatListener implements Listener {
     @Getter
     private static HashMap<UUID, Integer> tagged = new HashMap<>();
-    @Getter
-    private static HashMap<Player, Player> horseDamaged = new HashMap<>();
     private Battlegrounds plugin;
     private HashMap<UUID, Long> logged = new HashMap<>();
 
@@ -76,9 +77,6 @@ public class CombatListener implements Listener {
                 }
             }
 
-            if (damaged.getVehicle() != null && damaged.getVehicle().getType() == EntityType.HORSE) {
-                horseDamaged.put(damaged, damager);
-            }
             if (!tagged.containsKey(damaged.getUniqueId())) {
                 damaged.sendMessage(ChatColor.GRAY + "You're now in combat with " + ChatColor.RED + damager.getName());
                 tagged.put(damaged.getUniqueId(),
@@ -120,7 +118,7 @@ public class CombatListener implements Listener {
             }
 
             if (damager.getInventory().getItemInMainHand().getType().equals(Material.POISONOUS_POTATO)) {
-                damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 200, 1, false, true));
+                damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 200, 1, true, true));
             }
         }
 
@@ -170,10 +168,16 @@ public class CombatListener implements Listener {
                     event.setCancelled(true);
                     return;
                 }
-
-                if (damaged.getVehicle() != null && damaged.getVehicle().getType() == EntityType.HORSE) {
-                    horseDamaged.put(damaged, damager);
+                String health;
+                if (damaged.getHealth() % 2 == 0) {
+                    health = (((int) damaged.getHealth()) / 2) + "";
+                } else {
+                    health = (((int) damaged.getHealth()) / 2) + ".5";
                 }
+
+                TitleAPI.sendTitle(damager, 5, 30, 5, " ", BoldColor.YELLOW.getColor() + damaged.getName()
+                        + BoldColor.GRAY.getColor() + " \u00BB " + BoldColor.WHITE.getColor() + health + BoldColor.RED.getColor() + " \u2764");
+
                 if (!tagged.containsKey(damaged.getUniqueId())) {
                     damaged.sendMessage(ChatColor.GRAY + "You're now in combat with " + ChatColor.RED + damager.getName());
                     tagged.put(damaged.getUniqueId(),
@@ -263,9 +267,6 @@ public class CombatListener implements Listener {
                     return;
                 }
 
-                if (damaged.getVehicle() != null && damaged.getVehicle().getType() == EntityType.HORSE) {
-                    horseDamaged.put(damaged, damager);
-                }
                 if (!tagged.containsKey(damaged.getUniqueId())) {
                     damaged.sendMessage(ChatColor.GRAY + "You're now in combat with " + ChatColor.RED + damager.getName());
                     tagged.put(damaged.getUniqueId(),
@@ -307,88 +308,6 @@ public class CombatListener implements Listener {
                 }
             }
         }
-
-        if (event.getDamager() instanceof Player && event.getEntity() instanceof Horse) {
-            Player damager = (Player) event.getDamager();
-            Horse horse = (Horse) event.getEntity();
-            Player damaged = (Player) horse.getOwner();
-            event.setCancelled(true);
-
-            if (HackPreventionTools.getTargetPlayer(damager, 6) == null) {
-                return;
-            }
-
-            if (Battlegrounds.currentTeams.containsKey(damaged.getName())) {
-                if (Battlegrounds.currentTeams.get(damaged.getName()).equals(damager.getName())) {
-                    if (plugin.getServer().getOnlinePlayers().size() >= 1) {
-                        event.setCancelled(true);
-                        return;
-                    }
-                } else {
-                    event.setCancelled(false);
-                }
-            }
-
-            if (Battlegrounds.currentTeams.containsKey(damager.getName())) {
-                if (Battlegrounds.currentTeams.get(damager.getName()).equals(damaged.getName())) {
-                    if (plugin.getServer().getOnlinePlayers().size() >= 1) {
-                        event.setCancelled(true);
-                        return;
-                    }
-                } else {
-                    event.setCancelled(false);
-                }
-            }
-
-            if (DarkRider.getRiding().contains(damaged)) {
-                damaged.damage(event.getFinalDamage());
-                if (!tagged.containsKey(damaged.getUniqueId())) {
-                    damaged.sendMessage(ChatColor.GRAY + "You're now in combat with " + ChatColor.RED + damager.getName());
-                    tagged.put(damaged.getUniqueId(),
-                            new BukkitRunnable() {
-                                public void run() {
-                                    tagged.remove(damaged.getUniqueId());
-                                    damaged.sendMessage(ChatColor.GRAY + "You're no longer in combat.");
-                                }
-                            }.runTaskLater(plugin, 240).getTaskId());
-                } else {
-                    plugin.getServer().getScheduler().cancelTask(tagged.get(damaged.getUniqueId()));
-                    tagged.put(damaged.getUniqueId(),
-                            new BukkitRunnable() {
-                                public void run() {
-                                    tagged.remove(damaged.getUniqueId());
-                                    horseDamaged.remove(damaged);
-                                    damaged.sendMessage(ChatColor.GRAY + "You're no longer in combat.");
-                                }
-                            }.runTaskLater(plugin, 240).getTaskId());
-                }
-
-                if (!tagged.containsKey(damager.getUniqueId())) {
-                    damager.sendMessage(ChatColor.GRAY + "You're now in combat with " + ChatColor.RED + damaged.getName());
-                    tagged.put(damager.getUniqueId(),
-                            new BukkitRunnable() {
-                                public void run() {
-                                    tagged.remove(damager.getUniqueId());
-                                    damager.sendMessage(ChatColor.GRAY + "You're no longer in combat.");
-                                }
-                            }.runTaskLater(plugin, 240).getTaskId());
-                } else {
-                    plugin.getServer().getScheduler().cancelTask(tagged.get(damager.getUniqueId()));
-                    tagged.put(damager.getUniqueId(),
-                            new BukkitRunnable() {
-                                public void run() {
-                                    tagged.remove(damager.getUniqueId());
-                                    damager.sendMessage(ChatColor.GRAY + "You're no longer in combat");
-                                }
-                            }.runTaskLater(plugin, 240).getTaskId());
-                }
-
-                if (damager.getInventory().getItemInMainHand().getType().equals(Material.POISONOUS_POTATO)) {
-                    damaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 5, 1, false, false));
-                }
-            }
-        }
-
     }
 
     @EventHandler

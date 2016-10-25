@@ -23,7 +23,7 @@ public class Bowman extends Kit {
                 .lore("§7   ● Leather Chestplate (Protection I)")
                 .lore("§7   ● Leather Leggings (Protection I)")
                 .lore("§7   ● Leather Boots")
-                .lore("§7   ● Bow")
+                .lore("§7   ● Bow (Power I)")
                 .lore("§7   ● Stone Sword"), Rarity.COMMON);
     }
 
@@ -40,7 +40,7 @@ public class Bowman extends Kit {
         player.getInventory().setBoots(new I(Material.LEATHER_BOOTS).name(Rarity.COMMON.getColor() + "Bowman Boots").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
         ItemStack sword = new ItemStack(new I(Material.STONE_SWORD).name(Rarity.COMMON.getColor() + "Bowman Sword").unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
-        ItemStack bow = new ItemStack(new I(Material.BOW).name(Rarity.COMMON.getColor() + "Trusty Bow").enchantment(Enchantment.ARROW_INFINITE).enchantment(Enchantment.ARROW_KNOCKBACK, 1).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
+        ItemStack bow = new ItemStack(new I(Material.BOW).name(Rarity.COMMON.getColor() + "Trusty Bow").enchantment(Enchantment.ARROW_INFINITE).enchantment(Enchantment.ARROW_DAMAGE, 1).unbreakable().flag(ItemFlag.HIDE_ATTRIBUTES).flag(ItemFlag.HIDE_UNBREAKABLE));
 
         player.getInventory().addItem(bow);
         player.getInventory().addItem(sword);

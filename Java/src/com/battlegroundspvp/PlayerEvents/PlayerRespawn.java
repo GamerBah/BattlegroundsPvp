@@ -88,7 +88,7 @@ public class PlayerRespawn implements Listener {
         }
 
         ItemStack head = new I(Material.SKULL_ITEM).durability(3).name(BoldColor.YELLOW.getColor() + "Player Profile" + ChatColor.GRAY + " (Right-Click)")
-                .lore(ChatColor.GRAY + "View your unlocked cosmetics,\n" + ChatColor.GRAY + "achievements, and more!");
+                .lore(ChatColor.GRAY + "View your unlocked cosmetics,").lore(ChatColor.GRAY + "achievements, and more!");
         SkullMeta meta = (SkullMeta) head.getItemMeta();
         meta.setOwner(player.getName());
         head.setItemMeta(meta);

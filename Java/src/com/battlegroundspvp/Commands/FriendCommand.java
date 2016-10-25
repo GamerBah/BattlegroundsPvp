@@ -83,13 +83,15 @@ public class FriendCommand implements CommandExecutor {
                 }
                 friendUtils.createPendingRequest(player, target);
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                    Battlegrounds.pendingFriends.remove(target);
-                    player.sendMessage(org.bukkit.ChatColor.RED + "You friend request to "
-                            + ChatColor.GOLD + target.getName() + ChatColor.RED + " has expired!");
-                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 2, 0.5F);
+                    if (Battlegrounds.pendingFriends.containsKey(target)) {
+                        Battlegrounds.pendingFriends.remove(target);
+                        player.sendMessage(org.bukkit.ChatColor.RED + "You friend request to "
+                                + ChatColor.GOLD + target.getName() + ChatColor.RED + " has expired!");
+                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BASS, 2, 0.5F);
 
-                    target.sendMessage(ChatColor.GOLD + player.getName() + "'s" + ChatColor.RED + " friend request has expired!");
-                    target.playSound(target.getLocation(), Sound.BLOCK_NOTE_BASS, 2, 0.5F);
+                        target.sendMessage(ChatColor.GOLD + player.getName() + "'s" + ChatColor.RED + " friend request has expired!");
+                        target.playSound(target.getLocation(), Sound.BLOCK_NOTE_BASS, 2, 0.5F);
+                    }
                 }, 1200L);
                 return true;
             }
