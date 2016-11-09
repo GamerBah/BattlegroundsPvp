@@ -1,7 +1,6 @@
 package com.battlegroundspvp.Listeners;
 
 import com.battlegroundspvp.Administration.Runnables.AutoUpdate;
-import com.battlegroundspvp.Administration.Utils.HackPrevention.HackPreventionTools;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.PlayerEvents.PlayerMove;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
@@ -50,10 +49,10 @@ public class CombatListener implements Listener {
             Player damager = (Player) event.getDamager();
             Player damaged = (Player) event.getEntity();
 
-            if (HackPreventionTools.getTargetPlayer(damager, 4) == null) {
+            /*if (HackPreventionTools.getTargetPlayer(damager, 4) == null) {
                 event.setCancelled(true);
                 return;
-            }
+            }*/
 
             if (Battlegrounds.currentTeams.containsKey(damaged.getName())) {
                 if (Battlegrounds.currentTeams.get(damaged.getName()).equals(damager.getName())) {

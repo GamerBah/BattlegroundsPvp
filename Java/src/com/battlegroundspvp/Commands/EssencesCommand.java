@@ -28,8 +28,7 @@ public class EssencesCommand implements CommandExecutor {
 
         Player player = (Player) sender;
         if (args.length != 0) {
-            player.sendMessage(Battlegrounds.incorrectUsage + "/essences");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            plugin.sendIncorrectUsage(player, "/essences");
             return true;
         }
 

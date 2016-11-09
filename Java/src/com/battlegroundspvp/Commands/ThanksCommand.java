@@ -32,8 +32,7 @@ public class ThanksCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length != 1) {
-            player.sendMessage(Battlegrounds.incorrectUsage + "/thanks <player>");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            plugin.sendIncorrectUsage(player, "/thanks <player>");
             return true;
         }
 

@@ -2,6 +2,7 @@ package com.battlegroundspvp.Administration.Punishments.Commands;
 /* Created by GamerBah on 8/7/2016 */
 
 
+import com.battlegroundspvp.Administration.Commands.WarnCommand;
 import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Administration.Utils.Rank;
@@ -48,6 +49,9 @@ public class KickCommand implements CommandExecutor {
 
         if (reason != null) {
             plugin.createPunishment(targetData.getUuid(), targetData.getName(), Punishment.Type.KICK, LocalDateTime.now(), -1, player.getUniqueId(), reason);
+            if (!WarnCommand.getWarned().containsKey(targetUUID)) {
+                WarnCommand.getWarned().remove(targetUUID);
+            }
 
             final String finalName = reason.getName();
             BaseComponent baseComponent = new TextComponent(ChatColor.RED + player.getName() + " kicked " + ChatColor.RED + target.getName());
@@ -78,8 +82,7 @@ public class KickCommand implements CommandExecutor {
         }
 
         if (args.length != 1) {
-            player.sendMessage(Battlegrounds.incorrectUsage + "/kick <player>");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            plugin.sendIncorrectUsage(player, "/kick <player>");
             return true;
         }
 

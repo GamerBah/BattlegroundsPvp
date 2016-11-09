@@ -31,15 +31,13 @@ public class FriendCommand implements CommandExecutor {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
 
         if (args.length == 0) {
-            player.sendMessage(Battlegrounds.incorrectUsage + "/friend <add/accept/remove/decline/list/seen> <username>");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            plugin.sendIncorrectUsage(player, "/friend <add/accept/remove/decline/list/seen> <username>");
             return true;
         }
 
         if (args.length == 1) {
             if (!args[0].equalsIgnoreCase("list") && !args[0].equalsIgnoreCase("accept") && !args[0].equalsIgnoreCase("decline")) {
-                player.sendMessage(Battlegrounds.incorrectUsage + "/friend <add/accept/remove/decline/list/seen> <username>");
-                Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                plugin.sendIncorrectUsage(player, "/friend <add/accept/remove/decline/list/seen> <username>");
                 return true;
             }
             if (args[0].equalsIgnoreCase("accept")) {

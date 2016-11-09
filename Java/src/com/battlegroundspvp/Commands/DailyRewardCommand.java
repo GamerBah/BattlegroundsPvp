@@ -33,8 +33,7 @@ public class DailyRewardCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length != 0) {
-            player.sendMessage(Battlegrounds.incorrectUsage + "/dailyreward");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            plugin.sendIncorrectUsage(player, "/dailyreward");
             return true;
         }
 

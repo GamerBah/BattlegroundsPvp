@@ -27,15 +27,8 @@ public class ReferCommand implements CommandExecutor {
         Player player = (Player) sender;
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
 
-        if (args.length == 0) {
-            player.sendMessage(Battlegrounds.incorrectUsage + "/refer <username>");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
-            return true;
-        }
-
-        if (args.length > 1) {
-            player.sendMessage(Battlegrounds.incorrectUsage + "/refer <username>");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+        if (args.length != 1) {
+            plugin.sendIncorrectUsage(player, "/refer <username>");
             return true;
         }
 

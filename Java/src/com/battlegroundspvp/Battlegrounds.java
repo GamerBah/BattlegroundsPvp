@@ -12,6 +12,7 @@ import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Administration.Runnables.*;
 import com.battlegroundspvp.Administration.Utils.ChatFilter;
 import com.battlegroundspvp.Administration.Utils.PlayerCommandPreProccess;
+import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Commands.*;
 import com.battlegroundspvp.Etc.Menus.PunishMenu;
 import com.battlegroundspvp.Listeners.*;
@@ -32,6 +33,7 @@ import net.gpedro.integrations.slack.SlackApi;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -47,7 +49,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Battlegrounds extends JavaPlugin {
-    public static String incorrectUsage = BoldColor.RED.getColor() + "Oops! " + ChatColor.GRAY + "Try this: " + ChatColor.RED;
     public static Map<UUID, Integer> killStreak = new HashMap<>();
     public static Map<String, String> pendingTeams = new HashMap<>();
     public static Map<String, String> currentTeams = new ConcurrentHashMap<>();
@@ -271,6 +272,7 @@ public class Battlegrounds extends JavaPlugin {
         getCommand("kick").setExecutor(new KickCommand(this));
         getCommand("tempban").setExecutor(new TempBanCommand(this));
         getCommand("crate").setExecutor(new CrateCommand(this));
+        getCommand("warn").setExecutor(new WarnCommand(this));
     }
 
     private void registerListeners() {
@@ -413,6 +415,41 @@ public class Battlegrounds extends JavaPlugin {
     public void sendNoPermission(Player player) {
         player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Sorry! " + ChatColor.GRAY + "You aren't allowed to use this command!");
         playSound(player, EventSound.ACTION_FAIL);
+    }
+
+    public void sendIncorrectUsage(Player player, String msg) {
+        player.sendMessage(BoldColor.RED.getColor() + "Oops! " + ChatColor.GRAY + "Try this: " + ChatColor.RED + msg);
+        playSound(player, EventSound.ACTION_FAIL);
+    }
+
+    public void warnPlayer(Player player, Player target, Punishment.Reason reason) {
+        if (!WarnCommand.getWarned().containsKey(target.getUniqueId())) {
+            WarnCommand.getWarned().put(target.getUniqueId(), 1);
+        } else {
+            WarnCommand.getWarned().put(target.getUniqueId(), WarnCommand.getWarned().get(target.getUniqueId()) + 1);
+        }
+        int warns = WarnCommand.getWarned().get(target.getUniqueId());
+        if (WarnCommand.getWarned().get(target.getUniqueId()) >= 3) {
+            getServer().getOnlinePlayers().stream().filter(players ->
+                    getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
+                    .forEach(players -> players.sendMessage(
+                            BoldColor.DARK_RED.getColor() + " ! ! ! " + ChatColor.GRAY + player.getName() + ChatColor.RED + " warned "
+                                    + ChatColor.GOLD + target.getName() + " (" + warns + ")" + ChatColor.RED + " for " + ChatColor.GRAY + reason.getName()));
+            getServer().getOnlinePlayers().stream().filter(players ->
+                    getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
+                    .forEach(players -> players.playSound(players.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1));
+            player.closeInventory();
+            return;
+        }
+        player.closeInventory();
+        getServer().getOnlinePlayers().stream().filter(players ->
+                getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
+                .forEach(players -> players.sendMessage(
+                        ChatColor.GRAY + player.getName() + ChatColor.RED + " warned "
+                                + ChatColor.GOLD + target.getName() + " (" + warns + ")" + ChatColor.RED + " for " + ChatColor.GRAY + reason.getName()));
+        getServer().getOnlinePlayers().stream().filter(players ->
+                getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
+                .forEach(players -> players.playSound(players.getLocation(), Sound.BLOCK_LEVER_CLICK, 1, 1));
     }
 
     // Respawn at location

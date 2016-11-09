@@ -2,6 +2,7 @@ package com.battlegroundspvp.Administration.Punishments.Commands;
 /* Created by GamerBah on 8/7/2016 */
 
 
+import com.battlegroundspvp.Administration.Commands.WarnCommand;
 import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Administration.Utils.Rank;
@@ -67,6 +68,9 @@ public class BanCommand implements CommandExecutor {
 
         if (reason != null) {
             plugin.createPunishment(targetData.getUuid(), targetData.getName(), Punishment.Type.BAN, LocalDateTime.now(), -1, player.getUniqueId(), reason);
+            if (!WarnCommand.getWarned().containsKey(targetUUID)) {
+                WarnCommand.getWarned().remove(targetUUID);
+            }
             plugin.slackPunishments.call(new SlackMessage(">>> _*" + player.getName() + "* banned *" + targetData.getName() + "*_\n*Reason:* _" + reason.getName() + "_"));
 
             final String finalName = reason.getName();
@@ -107,8 +111,7 @@ public class BanCommand implements CommandExecutor {
         }
 
         if (args.length != 1) {
-            player.sendMessage(Battlegrounds.incorrectUsage + ChatColor.RED + "/ban <player>");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            plugin.sendIncorrectUsage(player, ChatColor.RED + "/ban <player>");
             return true;
         }
 

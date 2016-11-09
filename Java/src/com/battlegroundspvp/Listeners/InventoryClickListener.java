@@ -507,6 +507,50 @@ public class InventoryClickListener implements Listener {
                 }
             }
 
+            if (inventory.getName().contains("Warn Menu")) {
+                ItemStack item = event.getCurrentItem();
+                event.setCancelled(true);
+                WarnMenu warnMenu = new WarnMenu(plugin);
+                if (item.getType().equals(Material.SKULL_ITEM)) {
+                    String targetName = item.getItemMeta().getDisplayName().substring(2, item.getItemMeta().getDisplayName().length());
+                    PlayerData targetData = plugin.getPlayerData(targetName);
+                    if (targetData == null) {
+                        return;
+                    }
+                    OfflinePlayer target = plugin.getServer().getOfflinePlayer(targetData.getUuid());
+                    warnMenu.openInventory(player, target, null);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+                }
+                if (item.getType().equals(Material.APPLE)) {
+                    if (item.getItemMeta().getDisplayName().contains("A-Z")) {
+                        warnMenu.openPlayersMenu(player, PunishMenu.SortType.NAME_AZ, null, 0);
+                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
+                    }
+                    if (item.getItemMeta().getDisplayName().contains("Z-A")) {
+                        warnMenu.openPlayersMenu(player, PunishMenu.SortType.NAME_ZA, null, 0);
+                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
+                    }
+                }
+                if (item.getType().equals(Material.EXP_BOTTLE)) {
+                    if (item.getItemMeta().getDisplayName().contains("High-Low")) {
+                        warnMenu.openPlayersMenu(player, PunishMenu.SortType.RANK_HIGH_LOW, null, 0);
+                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
+                    }
+                    if (item.getItemMeta().getDisplayName().contains("Low-High")) {
+                        warnMenu.openPlayersMenu(player, PunishMenu.SortType.RANK_LOW_HIGH, null, 0);
+                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
+                    }
+                }
+                if (item.getType().equals(Material.GOLDEN_CARROT)) {
+                    warnMenu.openPlayersMenu(player, PunishMenu.SortType.ONLINE_ONLY, null, 0);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
+                }
+                if (item.getType().equals(Material.SIGN)) {
+                    warnMenu.openSearch(player);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+                }
+            }
+
             if (inventory.getName().contains("Punishing:")) {
                 ItemStack item = event.getCurrentItem();
                 event.setCancelled(true);
@@ -759,6 +803,35 @@ public class InventoryClickListener implements Listener {
                     if (inventory.getName().contains(" Kick")) {
                         KickCommand.kickPlayer(target.getUniqueId(), player, Battlegrounds.punishmentCreation.get(player));
                     }
+                }
+            }
+
+            if (inventory.getName().contains("Warning:")) {
+                ItemStack item = event.getCurrentItem();
+                event.setCancelled(true);
+                WarnMenu warnMenu = new WarnMenu(plugin);
+                ItemStack wool = inventory.getItem(32);
+                if (item.getType().equals(Material.BOOK)) {
+                    Punishment.Reason reason = Punishment.getReasonFromName(item.getItemMeta().getDisplayName().substring(2, item.getItemMeta().getDisplayName().length()));
+                    PlayerData playerData = plugin.getPlayerData(wool.getItemMeta().getLore().get(0).substring(13, wool.getItemMeta().getLore().get(0).length()));
+                    Player targetOnline = plugin.getServer().getPlayer(playerData.getUuid());
+                    if (targetOnline == null) {
+                        OfflinePlayer target = plugin.getServer().getOfflinePlayer(playerData.getUuid());
+                        warnMenu.openInventory(player, target, reason);
+                    } else {
+                        warnMenu.openInventory(player, targetOnline, reason);
+                    }
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+                }
+                if (item.getType().equals(Material.ARROW)) {
+                    warnMenu.openPlayersMenu(player, PunishMenu.SortType.NAME_AZ, null, 0);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_GO_BACK);
+                }
+                if (item.getType().equals(Material.WOOL)) {
+                    PlayerData playerData = plugin.getPlayerData(wool.getItemMeta().getLore().get(0).substring(13, wool.getItemMeta().getLore().get(0).length()));
+                    Player target = plugin.getServer().getPlayer(playerData.getUuid());
+                    Punishment.Reason reason = Punishment.getReasonFromName(wool.getItemMeta().getLore().get(1).substring(9, wool.getItemMeta().getLore().get(1).length()));
+                    plugin.warnPlayer(player, target, reason);
                 }
             }
 

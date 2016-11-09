@@ -60,8 +60,7 @@ public class ReportCommand implements CommandExecutor {
         }
 
         if (args.length != 1) {
-            player.sendMessage(Battlegrounds.incorrectUsage + "/report <player>");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            plugin.sendIncorrectUsage(player, "/report <player>");
             return true;
         }
 

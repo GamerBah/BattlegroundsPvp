@@ -64,8 +64,7 @@ public class SkullCommand implements CommandExecutor {
         }
 
         if (args.length > 1) {
-            player.sendMessage(Battlegrounds.incorrectUsage + "/skull [name]");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            plugin.sendIncorrectUsage(player, "/skull [name]");
             return true;
         }
 

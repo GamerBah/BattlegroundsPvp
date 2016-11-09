@@ -4,7 +4,6 @@ package com.battlegroundspvp.Commands;
 import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Utils.EventSound;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
@@ -30,8 +29,7 @@ public class HelpCommand implements CommandExecutor {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
 
         if (args.length > 1) {
-            player.sendMessage(Battlegrounds.incorrectUsage + "/help" + (playerData.hasRank(Rank.HELPER) ? " [\"staff\"]" : ""));
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            plugin.sendIncorrectUsage(player, "/help" + (playerData.hasRank(Rank.HELPER) ? " [\"staff\"]" : ""));
             return true;
         }
 
