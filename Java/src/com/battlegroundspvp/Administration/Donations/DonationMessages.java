@@ -3,6 +3,7 @@ package com.battlegroundspvp.Administration.Donations;
 
 
 import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import com.battlegroundspvp.Utils.Time;
@@ -96,6 +97,20 @@ public class DonationMessages {
             player.sendMessage(" ");
         }
         player.sendMessage(type.getColor() + "\u00AB" + ChatColor.WHITE + "========================================" + type.getColor() + "\u00BB");
+    }
+
+    public void sendRankPurchaseMessage(Player player, Rank rank) {
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 2, 1);
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_TWINKLE, 0.6F, 1.2F), 15L);
+        player.sendMessage(" ");
+        player.sendMessage(rank.getColor() + "\u00AB" + ChatColor.WHITE + "========================================" + rank.getColor() + "\u00BB");
+        player.sendMessage(" ");
+        player.sendMessage(BoldColor.GREEN.getColor() + "   THANKS FOR YOUR PURCHASE!");
+        player.sendMessage(ChatColor.YELLOW + "    We greatly appreciate your support!");
+        player.sendMessage(" ");
+        player.sendMessage(ChatColor.GRAY + "   Your rank is now " + rank.getColor() + rank.getName().toUpperCase() + ChatColor.GRAY + "! Enjoy!");
+        player.sendMessage(rank.getColor() + "\u00AB" + ChatColor.WHITE + "========================================" + rank.getColor() + "\u00BB");
+        player.sendMessage(" ");
     }
 
 }

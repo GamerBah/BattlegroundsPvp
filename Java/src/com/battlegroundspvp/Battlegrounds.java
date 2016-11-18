@@ -66,6 +66,7 @@ public class Battlegrounds extends JavaPlugin {
     public SlackApi slackStaffRequests = null;
     public SlackApi slackDonations = null;
     public SlackApi slackPunishments = null;
+    public SlackApi slackErrorReporting = null;
     @Getter
     private HashSet<PlayerData> playerData = new HashSet<>();
     @Getter
@@ -183,6 +184,7 @@ public class Battlegrounds extends JavaPlugin {
         slackStaffRequests = new SlackApi("https://hooks.slack.com/services/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");
         slackDonations = new SlackApi("https://hooks.slack.com/services/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");
         slackPunishments = new SlackApi("https://hooks.slack.com/services/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");
+        slackErrorReporting = new SlackApi("https://hooks.slack.com/services/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");
 
         // Register Firework Blocks
         fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), -5.5, 37.0, 0.5));
@@ -255,7 +257,7 @@ public class Battlegrounds extends JavaPlugin {
         getCommand("reply").setExecutor(new ReplyCommand(this));
         getCommand("ping").setExecutor(new PingCommand(this));
         getCommand("options").setExecutor(new OptionsCommand(this));
-        getCommand("essence").setExecutor(new EssenceCommand(this));
+        getCommand("donation").setExecutor(new DonationCommand(this));
         getCommand("essences").setExecutor(new EssencesCommand(this));
         getCommand("thanks").setExecutor(new ThanksCommand(this));
         getCommand("punish").setExecutor(new PunishCommand(this));
@@ -362,9 +364,9 @@ public class Battlegrounds extends JavaPlugin {
         return null;
     }
 
-    public void createEssenceData(UUID uuid, Essence.Type type, int amount) {
-        sql.executeUpdate(Query.CREATE_ESSENCE_DATA, uuid.toString(), type.toString(), amount);
-        getServer().getScheduler().runTaskLater(this, () -> getEssenceData(type).put(uuid, amount), 5L);
+    public void createEssenceData(UUID uuid, Essence.Type type) {
+        sql.executeUpdate(Query.CREATE_ESSENCE_DATA, uuid.toString(), type.toString(), 1);
+        getServer().getScheduler().runTaskLater(this, () -> getEssenceData(type).put(uuid, 1), 5L);
     }
 
     private Punishment getPunishment(UUID uuid, Punishment.Type type, LocalDateTime date) {
