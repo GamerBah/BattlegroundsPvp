@@ -21,6 +21,7 @@ import com.battlegroundspvp.Utils.EventSound;
 import com.battlegroundspvp.Utils.KDRatio;
 import com.battlegroundspvp.Utils.Kits.KitManager;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
+import com.battlegroundspvp.Utils.Time;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
@@ -431,11 +432,35 @@ public class Battlegrounds extends JavaPlugin {
             WarnCommand.getWarned().put(target.getUniqueId(), WarnCommand.getWarned().get(target.getUniqueId()) + 1);
         }
         int warns = WarnCommand.getWarned().get(target.getUniqueId());
+        if (WarnCommand.getWarned().get(target.getUniqueId()) == 5) {
+            getServer().getOnlinePlayers().stream().filter(players ->
+                    getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
+                    .forEach(players -> players.sendMessage(
+                            BoldColor.DARK_RED.getColor() + " [AUTO-PUNISH] " + ChatColor.GOLD + target.getName() + BoldColor.DARK_RED.getColor() + " (5)"
+                                    + ChatColor.RED + "was " + (reason.getType().equals(Punishment.Type.MUTE) || reason.getType().equals(Punishment.Type.ALL) ? "muted" : "kicked")
+                                    + " for " + ChatColor.GRAY + reason.getName() + (reason.getType().equals(Punishment.Type.MUTE)
+                                    || reason.getType().equals(Punishment.Type.ALL) ? " for " + ChatColor.GRAY + Time.toString(reason.getLength() * 1000, true) : "")));
+            getServer().getOnlinePlayers().stream().filter(players ->
+                    getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
+                    .forEach(players -> players.playSound(players.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1));
+            player.closeInventory();
+
+            if (reason.getType().equals(Punishment.Type.MUTE) || reason.getType().equals(Punishment.Type.ALL)) {
+                HashMap<Punishment.Reason, Integer> punishment = new HashMap<>();
+                punishment.put(reason, reason.getLength());
+                MuteCommand.mutePlayer(target.getUniqueId(), player, punishment);
+            } else {
+                HashMap<Punishment.Reason, Integer> punishment = new HashMap<>();
+                punishment.put(reason, -1);
+                KickCommand.kickPlayer(target.getUniqueId(), player, punishment);
+            }
+            return;
+        }
         if (WarnCommand.getWarned().get(target.getUniqueId()) >= 3) {
             getServer().getOnlinePlayers().stream().filter(players ->
                     getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
                     .forEach(players -> players.sendMessage(
-                            BoldColor.DARK_RED.getColor() + " ! ! ! " + ChatColor.GRAY + player.getName() + ChatColor.RED + " warned "
+                            BoldColor.DARK_RED.getColor() + " !!! " + ChatColor.GRAY + player.getName() + ChatColor.RED + " warned "
                                     + ChatColor.GOLD + target.getName() + " (" + warns + ")" + ChatColor.RED + " for " + ChatColor.GRAY + reason.getName()));
             getServer().getOnlinePlayers().stream().filter(players ->
                     getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))

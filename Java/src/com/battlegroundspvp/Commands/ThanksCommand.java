@@ -68,15 +68,15 @@ public class ThanksCommand implements CommandExecutor {
         thanks.add(player.getName());
         plugin.getConfig().set("essenceThanks", thanks);
         ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
-        scoreboardListener.updateScoreboardSouls(player, 20);
-        player.sendMessage(ChatColor.GRAY + "You thanked " + target.getName() + " for the Essence! " + ChatColor.AQUA + "[+20 Souls]");
+        scoreboardListener.updateScoreboardSouls(player, 50);
+        player.sendMessage(ChatColor.GRAY + "You thanked " + target.getName() + " for the Essence! " + ChatColor.AQUA + "[+50 Souls]");
 
         if (!target.isOnline()) {
-            targetData.setSouls(targetData.getSouls() + 20);
+            targetData.setSouls(targetData.getSouls() + 50);
         } else {
             Player t = plugin.getServer().getPlayer(target.getUniqueId());
-            scoreboardListener.updateScoreboardSouls(t, 20);
-            t.sendMessage(ChatColor.GRAY + player.getName() + " thanked you for your Essence! " + ChatColor.AQUA + "[+20 Souls]");
+            scoreboardListener.updateScoreboardSouls(t, 50);
+            t.sendMessage(ChatColor.GRAY + player.getName() + " thanked you for your Essence! " + ChatColor.AQUA + "[+50 Souls]");
         }
 
         return false;
