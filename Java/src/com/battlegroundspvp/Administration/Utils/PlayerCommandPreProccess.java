@@ -61,6 +61,16 @@ public class PlayerCommandPreProccess implements Listener {
             player.performCommand("battlegrounds:reload");
             return;
         }
+        if (StringUtils.equalsIgnoreCase(command, "/reload server")) {
+            event.setCancelled(true);
+            player.performCommand("battlegrounds:reload server");
+            return;
+        }
+        if (StringUtils.equalsIgnoreCase(command, "/reload messages")) {
+            event.setCancelled(true);
+            player.performCommand("battlegrounds:reload messages");
+            return;
+        }
         if (StringUtils.contains(command, "/kick")) {
             event.setCancelled(true);
             if (command.length() > 6) {

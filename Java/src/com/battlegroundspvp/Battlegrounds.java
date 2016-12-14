@@ -36,6 +36,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.block.Sign;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -43,6 +44,7 @@ import org.inventivetalent.bossbar.BossBarAPI;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
@@ -94,6 +96,8 @@ public class Battlegrounds extends JavaPlugin {
     private HashMap<UUID, Integer> six150Essence = new HashMap<>();
     @Getter
     private List<String> filteredWords = new ArrayList<>();
+    @Getter
+    private List<String> autoMessages = new ArrayList<>();
     @Getter
     private HashMap<UUID, UUID> messagers = new HashMap<>();
     @Getter
@@ -168,6 +172,7 @@ public class Battlegrounds extends JavaPlugin {
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new AFKRunnable(this), 0, 20);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new PunishmentRunnable(this), 0, 20L);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new WorldParticlesRunnable(this), 0, 2L);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, new MessageRunnable(this), 0, 6000L);
 
         // Save Filter File
         File filterFile = new File(getDataFolder(), "filter.txt");
@@ -436,7 +441,7 @@ public class Battlegrounds extends JavaPlugin {
             getServer().getOnlinePlayers().stream().filter(players ->
                     getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
                     .forEach(players -> players.sendMessage(
-                            BoldColor.DARK_RED.getColor() + " [AUTO-PUNISH] " + ChatColor.GOLD + target.getName() + BoldColor.DARK_RED.getColor() + " (5)"
+                            BoldColor.DARK_RED.getColor() + " [ARES] " + ChatColor.GOLD + target.getName() + BoldColor.DARK_RED.getColor() + " (5)"
                                     + ChatColor.RED + "was " + (reason.getType().equals(Punishment.Type.MUTE) || reason.getType().equals(Punishment.Type.ALL) ? "muted" : "kicked")
                                     + " for " + ChatColor.GRAY + reason.getName() + (reason.getType().equals(Punishment.Type.MUTE)
                                     || reason.getType().equals(Punishment.Type.ALL) ? " for " + ChatColor.GRAY + Time.toString(reason.getLength() * 1000, true) : "")));
@@ -497,4 +502,18 @@ public class Battlegrounds extends JavaPlugin {
                 + getSix50Essence().get(player.getUniqueId()) + getSix100Essence().get(player.getUniqueId()) + getSix150Essence().get(player.getUniqueId()));
     }
 
+    // Reloads a Custom Configuration File
+    public void reloadCustomConfig(File file, String configName) {
+        if (file == null) {
+            file = new File(getDataFolder(), configName + ".yml");
+        }
+        YamlConfiguration customConfig = YamlConfiguration.loadConfiguration(file);
+
+        // Look for defaults in the jar
+        InputStream defConfigStream = this.getResource(configName + ".yml");
+        if (defConfigStream != null) {
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            customConfig.setDefaults(defConfig);
+        }
+    }
 }
