@@ -6,8 +6,8 @@ import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.EventSound;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -81,8 +81,14 @@ public class FreezeCommand implements CommandExecutor {
             }
         } else {
             Player target = plugin.getServer().getPlayer(args[0]);
+            if (target == player) {
+                player.sendMessage(ChatColor.RED + "You want to freeze yourself? But... why?");
+                Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                return true;
+            }
             if (target == null) {
                 player.sendMessage(ChatColor.RED + "That player isn't online!");
+                Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                 return true;
             }
 

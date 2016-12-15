@@ -55,9 +55,11 @@ public class UnmuteCommand implements CommandExecutor {
         }
 
         if (targetData == playerData) {
-            player.sendMessage(ChatColor.RED + "You can't unmute yourself!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
-            return true;
+            if (!playerData.hasRank(Rank.OWNER)) {
+                player.sendMessage(ChatColor.RED + "You can't unmute yourself!");
+                Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                return true;
+            }
         }
 
         Punishment p = null;

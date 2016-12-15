@@ -52,11 +52,17 @@ public class MessageCommand implements CommandExecutor {
         }
 
         if (args.length <= 1) {
-            player.sendMessage(ChatColor.RED + "/" + label + " <player> <message>");
+            plugin.sendIncorrectUsage(player, ChatColor.RED + "/" + label + " <player> <message>");
             return true;
         }
 
         Player target = plugin.getServer().getPlayer(args[0]);
+
+        if (target == player) {
+            player.sendMessage(ChatColor.RED + "What would be the point in messaging yourself?");
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            return true;
+        }
 
         if (!plugin.getPlayerData(target.getUniqueId()).isPrivateMessaging()) {
             player.sendMessage(ChatColor.RED + "That player isn't accepting private messages!");
@@ -76,10 +82,6 @@ public class MessageCommand implements CommandExecutor {
 
         player.sendMessage(ChatColor.DARK_AQUA + "You" + ChatColor.RED + " \u00BB " + BoldColor.AQUA.getColor() + target.getName() + ChatColor.WHITE + ": " + ChatColor.AQUA + message.trim());
         target.sendMessage(BoldColor.AQUA.getColor() + player.getName()  + ChatColor.RED + " \u00BB " + ChatColor.DARK_AQUA + "You" + ChatColor.WHITE + ": " + ChatColor.AQUA + message);
-
-        if (target.getUniqueId().toString().equals("66ca47bf-14ae-405b-9ff5-ef4bb98035eb")) {
-            player.sendMessage(ChatColor.RED + "Gamer is often AFK due to plugin development. If he's AFK, he'll get back to you when he can!");
-        }
 
         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 2, 2);
         target.playSound(target.getLocation(), Sound.BLOCK_NOTE_HARP, 2, 2);

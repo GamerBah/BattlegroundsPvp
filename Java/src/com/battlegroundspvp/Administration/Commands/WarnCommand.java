@@ -57,8 +57,15 @@ public class WarnCommand implements CommandExecutor {
             @SuppressWarnings("deprecation")
             PlayerData targetData = Battlegrounds.getSql().getPlayerData(args[0]);
 
+
             if (targetData == null) {
                 player.sendMessage(ChatColor.RED + "That player has never joined before!");
+                Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                return true;
+            }
+
+            if (targetData.getName().equals(playerData.getName())) {
+                player.sendMessage(ChatColor.RED + "You aren't able to warn yourself!");
                 Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                 return true;
             }

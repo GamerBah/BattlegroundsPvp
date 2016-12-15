@@ -255,12 +255,22 @@ public class PunishMenu {
                 if (punishment.getType().equals(Punishment.Type.MUTE)) {
                     if (a < 45) {
                         PlayerData playerData = plugin.getPlayerData(punishment.getEnforcer());
-                        inv.setItem(a++, new I(Material.MAP).name(ChatColor.AQUA + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(CST)'")))
-                                .lore(ChatColor.GRAY + "Muted by: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()
-                                        + ChatColor.WHITE + " " + playerData.getName())
-                                .lore(ChatColor.GRAY + "Reason: " + ChatColor.GOLD + punishment.getReason().getName())
-                                .lore(ChatColor.GRAY + "Duration: " + ChatColor.YELLOW + Time.toString(punishment.getDuration() * 1000, false))
-                                .lore(ChatColor.GRAY + "Active: " + (punishment.isPardoned() ? ChatColor.RED + "No" : ChatColor.GREEN + "Yes")));
+                        if (punishment.isPardoned()) {
+                            inv.setItem(a++, new I(Material.MAP).name(ChatColor.AQUA + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(CST)'")))
+                                    .lore(ChatColor.GRAY + "Muted by: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()
+                                            + ChatColor.WHITE + " " + playerData.getName())
+                                    .lore(ChatColor.GRAY + "Reason: " + ChatColor.GOLD + punishment.getReason().getName())
+                                    .lore(ChatColor.GRAY + "Duration: " + ChatColor.YELLOW + Time.toString(punishment.getDuration() * 1000, false))
+                                    .lore(ChatColor.GRAY + "Active: " + ChatColor.RED + "No"));
+                        } else {
+                            inv.setItem(a++, new I(Material.MAP).name(ChatColor.AQUA + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(CST)'")))
+                                    .lore(ChatColor.GRAY + "Muted by: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()
+                                            + ChatColor.WHITE + " " + playerData.getName())
+                                    .lore(ChatColor.GRAY + "Reason: " + ChatColor.GOLD + punishment.getReason().getName())
+                                    .lore(ChatColor.GRAY + "Duration: " + ChatColor.YELLOW + Time.toString(punishment.getDuration() * 1000, false))
+                                    .lore(ChatColor.GRAY + "Active: " + ChatColor.GREEN + "Yes").lore(" ")
+                                    .lore(ChatColor.LIGHT_PURPLE + "Click to Pardon!"));
+                        }
                     }
                 }
             }
@@ -301,11 +311,20 @@ public class PunishMenu {
                 if (a < 45) {
                     if (punishment.getType().equals(Punishment.Type.BAN)) {
                         PlayerData playerData = plugin.getPlayerData(punishment.getEnforcer());
-                        inv.setItem(a++, new I(Material.MAP).name(ChatColor.AQUA + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(CST)'")))
-                                .lore(ChatColor.GRAY + "Banned by: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()
-                                        + ChatColor.WHITE + " " + playerData.getName())
-                                .lore(ChatColor.GRAY + "Reason: " + ChatColor.GOLD + punishment.getReason().getName())
-                                .lore(ChatColor.GRAY + "Active: " + (punishment.isPardoned() ? ChatColor.RED + "No" : ChatColor.GREEN + "Yes")));
+                        if (punishment.isPardoned()) {
+                            inv.setItem(a++, new I(Material.MAP).name(ChatColor.AQUA + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(CST)'")))
+                                    .lore(ChatColor.GRAY + "Banned by: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()
+                                            + ChatColor.WHITE + " " + playerData.getName())
+                                    .lore(ChatColor.GRAY + "Reason: " + ChatColor.GOLD + punishment.getReason().getName())
+                                    .lore(ChatColor.GRAY + "Active: " + ChatColor.RED + "No"));
+                        } else {
+                            inv.setItem(a++, new I(Material.MAP).name(ChatColor.AQUA + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(CST)'")))
+                                    .lore(ChatColor.GRAY + "Banned by: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()
+                                            + ChatColor.WHITE + " " + playerData.getName())
+                                    .lore(ChatColor.GRAY + "Reason: " + ChatColor.GOLD + punishment.getReason().getName())
+                                    .lore(ChatColor.GRAY + "Active: " + ChatColor.GREEN + "Yes").lore(" ")
+                                    .lore(ChatColor.LIGHT_PURPLE + "Click to Pardon!"));
+                        }
                     }
                 }
             }
@@ -346,12 +365,22 @@ public class PunishMenu {
                 if (punishment.getType().equals(Punishment.Type.TEMP_BAN)) {
                     if (a < 45) {
                         PlayerData playerData = plugin.getPlayerData(punishment.getEnforcer());
-                        inv.setItem(a++, new I(Material.MAP).name(ChatColor.AQUA + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(CST)'")))
-                                .lore(ChatColor.GRAY + "Muted by: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()
-                                        + ChatColor.WHITE + " " + playerData.getName())
-                                .lore(ChatColor.GRAY + "Reason: " + ChatColor.GOLD + punishment.getReason().getName())
-                                .lore(ChatColor.GRAY + "Duration: " + ChatColor.YELLOW + Time.toString(punishment.getDuration() * 1000, false))
-                                .lore(ChatColor.GRAY + "Active: " + (punishment.isPardoned() ? ChatColor.RED + "No" : ChatColor.GREEN + "Yes")));
+                        if (punishment.isPardoned()) {
+                            inv.setItem(a++, new I(Material.MAP).name(ChatColor.AQUA + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(CST)'")))
+                                    .lore(ChatColor.GRAY + "Muted by: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()
+                                            + ChatColor.WHITE + " " + playerData.getName())
+                                    .lore(ChatColor.GRAY + "Reason: " + ChatColor.GOLD + punishment.getReason().getName())
+                                    .lore(ChatColor.GRAY + "Duration: " + ChatColor.YELLOW + Time.toString(punishment.getDuration() * 1000, false))
+                                    .lore(ChatColor.GRAY + "Active: " + ChatColor.RED + "No"));
+                        } else {
+                            inv.setItem(a++, new I(Material.MAP).name(ChatColor.AQUA + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(CST)'")))
+                                    .lore(ChatColor.GRAY + "Muted by: " + playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase()
+                                            + ChatColor.WHITE + " " + playerData.getName())
+                                    .lore(ChatColor.GRAY + "Reason: " + ChatColor.GOLD + punishment.getReason().getName())
+                                    .lore(ChatColor.GRAY + "Duration: " + ChatColor.YELLOW + Time.toString(punishment.getDuration() * 1000, false))
+                                    .lore(ChatColor.GRAY + "Active: " + ChatColor.GREEN + "Yes").lore(" ")
+                                    .lore(ChatColor.LIGHT_PURPLE + "Click to Pardon!"));
+                        }
                     }
                 }
             }

@@ -678,6 +678,28 @@ public class InventoryClickListener implements Listener {
                         Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                     }
                 }
+                if (item.getType().equals(Material.MAP)) {
+                    if (item.getItemMeta().getLore().contains(ChatColor.LIGHT_PURPLE + "Click to Pardon!")) {
+                        if (inventory.getName().contains("Mute")) {
+                            String playerName = inventory.getName().substring(0, inventory.getName().length() - 15);
+                            player.performCommand("unmute " + playerName);
+                            player.closeInventory();
+                            return;
+                        }
+                        if (inventory.getName().contains("Temp-Ban")) {
+                            String playerName = inventory.getName().substring(0, inventory.getName().length() - 19);
+                            player.performCommand("unban " + playerName);
+                            player.closeInventory();
+                            return;
+                        }
+                        if (inventory.getName().contains(" Ban")) {
+                            String playerName = inventory.getName().substring(0, inventory.getName().length() - 14);
+                            player.performCommand("unban " + playerName);
+                            player.closeInventory();
+                            return;
+                        }
+                    }
+                }
             }
 
             if (inventory.getName().contains("Punishment Creation:")) {
