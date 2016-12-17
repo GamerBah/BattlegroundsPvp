@@ -280,6 +280,7 @@ public class Battlegrounds extends JavaPlugin {
         getCommand("tempban").setExecutor(new TempBanCommand(this));
         getCommand("crate").setExecutor(new CrateCommand(this));
         getCommand("warn").setExecutor(new WarnCommand(this));
+        getCommand("rules").setExecutor(new RulesCommand(this));
     }
 
     private void registerListeners() {

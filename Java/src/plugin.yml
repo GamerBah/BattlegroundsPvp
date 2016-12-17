@@ -1,7 +1,7 @@
 main: com.battlegroundspvp.Battlegrounds
 name: Battlegrounds
 author: GamerBah
-version: 0.11.0b
+version: 0.11.1b
 depend: [ProtocolLib]
 commands:
   rank:
@@ -86,3 +86,5 @@ commands:
     aliases: [crates]
   warn:
     description: Warns a player
+  rules:
+    description: Displays the Server Rules
