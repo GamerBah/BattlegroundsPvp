@@ -4,8 +4,10 @@ import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.KDRatio;
+import com.battlegroundspvp.Utils.Time;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 public class TextComponentMessages {
@@ -81,6 +83,24 @@ public class TextComponentMessages {
                         + ChatColor.GRAY + "Deaths: " + ChatColor.RED + playerData.getDeaths() + "\n"
                         + ChatColor.GRAY + "K/D Ratio: " + ratioColor + ratio
                         + "\n\n" + ChatColor.YELLOW + "Click to open player options....").create();
+    }
+
+    public BaseComponent[] playerStats(OfflinePlayer player) {
+        PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
+        KDRatio kdRatio = new KDRatio(plugin);
+        ChatColor ratioColor = kdRatio.getRatioColor(player);
+        double ratio = ((double) playerData.getKills() / (double) playerData.getDeaths());
+        ratio = Math.round(ratio * 100.00D) / 100.00D;
+        if (playerData.getDeaths() == 0) {
+            ratio = playerData.getKills();
+        }
+        return new ComponentBuilder(
+                playerData.getRank().getColor() + "" + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")
+                        + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : ChatColor.GRAY) + player.getName() + "\n"
+                        + ChatColor.GRAY + "Was last online " + Time.toString(Time.timeDifference(playerData.getLastOnline()), true) + " ago\n\n"
+                        + ChatColor.GRAY + "Kills: " + ChatColor.GREEN + playerData.getKills() + "\n"
+                        + ChatColor.GRAY + "Deaths: " + ChatColor.RED + playerData.getDeaths() + "\n"
+                        + ChatColor.GRAY + "K/D Ratio: " + ratioColor + ratio).create();
     }
 
 }

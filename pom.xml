@@ -50,7 +50,7 @@
         <dependency>
             <groupId>net.gpedro.integrations.slack</groupId>
             <artifactId>slack-webhook</artifactId>
-            <version>1.2.0</version>
+            <version>LATEST</version>
         </dependency>
 
         <dependency>
@@ -74,7 +74,7 @@
         <dependency>
             <groupId>org.inventivetalent</groupId>
             <artifactId>glowapi</artifactId>
-            <version>1.4.4</version>
+            <version>LATEST</version>
         </dependency>
 
         <dependency>

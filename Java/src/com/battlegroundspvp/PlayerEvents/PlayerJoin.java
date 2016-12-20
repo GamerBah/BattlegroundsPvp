@@ -138,7 +138,7 @@ public class PlayerJoin implements Listener {
             event.setJoinMessage(BoldColor.GOLD.getColor() + "New! " + BoldColor.DARK_GRAY.getColor() + "[" + BoldColor.GREEN.getColor() + "+"
                     + BoldColor.DARK_GRAY.getColor() + "] " + ChatColor.WHITE + event.getPlayer().getName());
             TitleAPI.sendTitle(player, 5, 60, 20, BoldColor.YELLOW.getColor() + "Welcome to" + BoldColor.GOLD.getColor() + "Battlegrounds!",
-                    ChatColor.AQUA + "Right-Click the Nether Star to choose a kit!");
+                    ChatColor.AQUA + "Right-Click the Nether Star to get started!");
         } else {
             if (playerData.isStealthyJoin()) {
                 event.setJoinMessage(null);
@@ -184,8 +184,8 @@ public class PlayerJoin implements Listener {
         player.setPlayerListName((playerData.hasRank(Rank.WARRIOR) ? playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")
                 + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : ChatColor.GRAY) + player.getName());
 
-        TabAPI.setHeader(player, ChatColor.AQUA + "You are playing on", BoldColor.GOLD.getColor() + "BATTLEGROUNDS");
-        TabAPI.setFooter(player, ChatColor.RED + "Visit our store!", ChatColor.YELLOW + "battlegroundspvp.com/store");
+        TabAPI.setHeader(player, ChatColor.AQUA + "You're playing on " + BoldColor.GOLD.getColor() + "BATTLEGROUNDS");
+        TabAPI.setFooter(player, ChatColor.RED + "Visit our store! " + ChatColor.YELLOW + "store.battlegroundspvp.com");
 
         player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(20);
         plugin.respawn(player);

@@ -5,13 +5,21 @@ import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.EventSound;
 import com.battlegroundspvp.Utils.Friends.FriendUtils;
-import com.battlegroundspvp.Utils.Time;
+import com.battlegroundspvp.Utils.Messages.TextComponentMessages;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.Comparator;
 
 public class FriendCommand implements CommandExecutor {
 
@@ -36,8 +44,9 @@ public class FriendCommand implements CommandExecutor {
         }
 
         if (args.length == 1) {
-            if (!args[0].equalsIgnoreCase("list") && !args[0].equalsIgnoreCase("accept") && !args[0].equalsIgnoreCase("decline")) {
-                plugin.sendIncorrectUsage(player, "/friend <add/accept/remove/decline/list/seen> <username>");
+            if (!args[0].equalsIgnoreCase("list") && !args[0].equalsIgnoreCase("accept")
+                    && !args[0].equalsIgnoreCase("decline")) {
+                plugin.sendIncorrectUsage(player, "/friend <add/accept/remove/decline/list> <username>");
                 return true;
             }
             if (args[0].equalsIgnoreCase("accept")) {
@@ -55,7 +64,73 @@ public class FriendCommand implements CommandExecutor {
                 }
             }
             if (args[0].equalsIgnoreCase("list")) {
-                // TODO: Show Friend List
+                String[] stringList = playerData.getFriends().split(",");
+                ArrayList<Integer> friendIds = new ArrayList<>();
+                for (int i = 0; i < stringList.length; i++) {
+                    friendIds.add(Integer.parseInt(stringList[i]));
+                }
+                ArrayList<PlayerData> onlineFriends = new ArrayList<>();
+                ArrayList<PlayerData> offlineFriends = new ArrayList<>();
+                for (PlayerData pData : Battlegrounds.getSql().getAllPlayerData()) {
+                    if (friendIds.contains(pData.getId())) {
+                        Player friend = plugin.getServer().getPlayerExact(pData.getName());
+                        if (friend == null) {
+                            offlineFriends.add(pData);
+                        } else {
+                            onlineFriends.add(pData);
+                        }
+                    }
+                }
+                onlineFriends.sort(new Comparator<PlayerData>() {
+                    @Override
+                    public int compare(PlayerData pd1, PlayerData pd2) {
+                        return pd1.getName().compareTo(pd2.getName());
+                    }
+                });
+                offlineFriends.sort(new Comparator<PlayerData>() {
+                    @Override
+                    public int compare(PlayerData pd1, PlayerData pd2) {
+                        return pd1.getName().compareTo(pd2.getName());
+                    }
+                });
+                player.sendMessage("§m----------§f[ " + ChatColor.AQUA + "Friends " + ChatColor.WHITE + "]§m----------");
+                player.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "(Hover over a name to view details)\n\n");
+                TextComponentMessages tcm = new TextComponentMessages(plugin);
+                for (PlayerData friendData : onlineFriends) {
+                    Player friend = plugin.getServer().getPlayer(friendData.getUuid());
+                    TextComponent friendTCM = new TextComponent(friendData.getName());
+                    friendTCM.setColor(friendData.getRank().getColor());
+                    friendTCM.setBold(false);
+                    friendTCM.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, tcm.playerStats(friend)));
+                    friendTCM.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/options " + friend.getName()));
+
+                    TextComponent statusDot = new TextComponent(" \u2022 ");
+                    statusDot.setColor(ChatColor.GREEN);
+                    statusDot.setBold(true);
+
+                    BaseComponent baseComponent = new TextComponent("");
+                    baseComponent.addExtra(statusDot);
+                    baseComponent.addExtra(friendTCM);
+
+                    player.spigot().sendMessage(baseComponent);
+                }
+                for (PlayerData friendData : offlineFriends) {
+                    OfflinePlayer friend = plugin.getServer().getOfflinePlayer(friendData.getUuid());
+                    TextComponent friendTCM = new TextComponent(friendData.getName());
+                    friendTCM.setBold(false);
+                    friendTCM.setColor(friendData.getRank().getColor());
+                    friendTCM.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, tcm.playerStats(friend)));
+
+                    TextComponent statusDot = new TextComponent(" \u2022 ");
+                    statusDot.setColor(ChatColor.RED);
+                    statusDot.setBold(true);
+
+                    BaseComponent baseComponent = new TextComponent("");
+                    baseComponent.addExtra(statusDot);
+                    baseComponent.addExtra(friendTCM);
+
+                    player.spigot().sendMessage(baseComponent);
+                }
             }
         }
 
@@ -109,33 +184,6 @@ public class FriendCommand implements CommandExecutor {
                 FriendUtils friendUtils = new FriendUtils(plugin);
                 friendUtils.deleteFriend(player, target);
                 player.sendMessage(ChatColor.RED + "You are no longer friends with " + target.getName());
-            }
-            if (args[0].equalsIgnoreCase("seen")) {
-                if (plugin.getPlayerData(args[1]) == null) {
-                    player.sendMessage(ChatColor.RED + "That player hasn't joined before!");
-                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
-                    return true;
-                }
-                PlayerData friendData = plugin.getPlayerData(args[1]);
-                Player target = plugin.getServer().getPlayer(args[1]);
-                if (args[1].equalsIgnoreCase(player.getName())) {
-                    player.sendMessage(ChatColor.RED + "You are currently online. What a surprise...");
-                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
-                    return true;
-                }
-                if (!playerData.getFriends().contains(friendData.getId() + ",")) {
-                    player.sendMessage(ChatColor.RED + "You can only see when your friends were last online!");
-                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
-                    return true;
-                }
-                if (target != null) {
-                    player.sendMessage(ChatColor.AQUA + target.getName() + ChatColor.GRAY + " is currently online");
-                    return true;
-                } else {
-                    player.sendMessage(ChatColor.AQUA + friendData.getName() + ChatColor.GRAY + " was last online " + ChatColor.RED
-                            + Time.toString(Time.timeDifference(friendData.getLastOnline()), true) + " ago");
-                }
-                return true;
             }
         }
 

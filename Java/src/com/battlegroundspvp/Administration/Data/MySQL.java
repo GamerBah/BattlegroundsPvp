@@ -44,6 +44,7 @@ public class MySQL {
         boolean isConnected = false;
         try {
             final PreparedStatement statement = connection.prepareStatement(CHECK_SQL_QUERY);
+            statement.close();
             isConnected = true;
         } catch (SQLException | NullPointerException e) {
             try {
@@ -54,15 +55,14 @@ public class MySQL {
                 String url = "jdbc:mysql://" + host + "/" + database;
                 connection = DriverManager.getConnection(url, username, password);
                 if (connection != null) {
-                    plugin.getLogger().info("Reconnected to the database...");
-                    isConnected = true;
-                } else {
                     plugin.getLogger().info("Database Check - Database is active");
+                    isConnected = true;
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
-                plugin.getLogger().severe("Failed to reconnect to the database! Check that the host and database names are correct, as well as username and password!");
+                plugin.getLogger().severe("Failed to reconnect to the database! (Code: MySQL<0063>)");
                 plugin.getServer().getPluginManager().disablePlugin(plugin);
+                return false;
             }
         }
         return isConnected;

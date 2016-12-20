@@ -173,7 +173,12 @@ public class Battlegrounds extends JavaPlugin {
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new PunishmentRunnable(this), 0, 20L);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new WorldParticlesRunnable(this), 0, 2L);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new MessageRunnable(this), 0, 6000L);
-        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> sql.checkConnection(), 0, 72000L);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            getSql().checkConnection();
+            while (!getSql().checkConnection()) {
+                getSql().checkConnection();
+            }
+        }, 0, 36000L);
 
         // Save Filter File
         File filterFile = new File(getDataFolder(), "filter.txt");

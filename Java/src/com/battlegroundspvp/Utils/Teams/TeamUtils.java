@@ -2,6 +2,7 @@ package com.battlegroundspvp.Utils.Teams;
 
 import com.battlegroundspvp.Battlegrounds;
 import org.bukkit.entity.Player;
+import org.inventivetalent.glow.GlowAPI;
 
 public class TeamUtils {
     private Battlegrounds plugin;
@@ -23,8 +24,8 @@ public class TeamUtils {
     public static void createTeam(Player target, Player sender) {
         Battlegrounds.currentTeams.put(target.getName(), sender.getName());
         removePendingRequest(target);
-        //GlowAPI.setGlowing(sender, GlowAPI.Color.WHITE, target);
-        //GlowAPI.setGlowing(target, GlowAPI.Color.WHITE, sender);
+        GlowAPI.setGlowing(sender, GlowAPI.Color.WHITE, target);
+        GlowAPI.setGlowing(target, GlowAPI.Color.WHITE, sender);
     }
 
     public static void removeTeam(Player player, Player target) {
@@ -32,17 +33,17 @@ public class TeamUtils {
             if (Battlegrounds.currentTeams.containsKey(target.getName()) || Battlegrounds.currentTeams.containsKey(player.getName())) {
                 if (Battlegrounds.currentTeams.get(target.getName()).equals(player.getName())) {
                     Battlegrounds.currentTeams.remove(target.getName());
-                    //GlowAPI.setGlowing(player, null, target);
-                    //GlowAPI.setGlowing(target, null, player);
+                    GlowAPI.setGlowing(player, null, target);
+                    GlowAPI.setGlowing(target, null, player);
                 } else {
                     if (Battlegrounds.currentTeams.containsKey(player.getName())) {
                         if (Battlegrounds.currentTeams.get(player.getName()).equals(target.getName())) {
                             Battlegrounds.currentTeams.remove(player.getName());
-                            //GlowAPI.setGlowing(player, null, target);
-                            //GlowAPI.setGlowing(target, null, player);
+                            GlowAPI.setGlowing(player, null, target);
+                            GlowAPI.setGlowing(target, null, player);
                         }
-                        //GlowAPI.setGlowing(player, null, target);
-                        //GlowAPI.setGlowing(target, null, player);
+                        GlowAPI.setGlowing(player, null, target);
+                        GlowAPI.setGlowing(target, null, player);
                     }
                 }
             }

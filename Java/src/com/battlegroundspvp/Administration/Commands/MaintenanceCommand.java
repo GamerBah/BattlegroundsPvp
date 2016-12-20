@@ -42,6 +42,7 @@ public class MaintenanceCommand implements CommandExecutor {
 
         if (!args[0].equals("GamerBahxxRiteTurnOnlyxxAvoriz")) {
             player.sendMessage(ChatColor.RED + "Incorrect code.");
+            return true;
         }
 
         if (!plugin.getConfig().getBoolean("developmentMode")) {

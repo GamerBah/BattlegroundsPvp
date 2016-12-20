@@ -46,7 +46,7 @@ public class PunishMenu {
 
         int a = 0;
         for (int i = page * 45; i < plugin.getAllPlayerData().size() && i >= page * 45 && i < (page + 1) * 45; i++) {
-            Collections.sort(plugin.getAllPlayerData(), new Comparator<PlayerData>() {
+            plugin.getAllPlayerData().sort(new Comparator<PlayerData>() {
                 @Override
                 public int compare(PlayerData p1, PlayerData p2) {
                     if (sortType.equals(SortType.NAME_ZA)) {
