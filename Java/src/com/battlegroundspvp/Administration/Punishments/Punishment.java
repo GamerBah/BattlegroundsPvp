@@ -48,6 +48,7 @@ public class Punishment {
         TEMP_BAN("Temp-Ban"),
         MUTE("Mute"),
         KICK("Kick"),
+        AUTO("Auto"),
         KICK_BAN(null),
         ALL(null);
 
@@ -61,6 +62,7 @@ public class Punishment {
         SPAM_LETTERS(MUTE, "Spam (Letters)", "Player is spamming the,chat with random letters", "Please don't spam the chat with random letters!", 900),
         SPAM_GENERIC(MUTE, "Spam (Generic)", "Player is spamming the,chat in some sort of way", "Please don't spam the chat! We want to keep it clean!", 1200),
         SWEARING(ALL, "Swearing", "Player is using profane words in,either public chat or private messages", "Please don't swear! There are kids that play on the server!", 1500),
+        ATTEMPT_SWEARING(AUTO, "Attempted Swearing", "Player is attempting to swear,in the chat but is being blocked", "Attempting to swear can get you in trouble too!", 500),
         HARASSMENT(ALL, "Player Harassment", "Player is verbally harassing others,and creating a toxic environment", "Harassment of other players is not tolerated.", 1800),
         GLITCH_ABUSE(KICK_BAN, "Glitch Exploiting", "Player was caught exploiting,a glitch with the plugin or arena", "If you find a bug, please report it! Don't use it to your advantage!", 1500),
         DISRESPECT(ALL, "Player Disrespect", "Player was disrespecting a,Staff member or other player", "Please treat the Staff and our players with respect.", 1800),

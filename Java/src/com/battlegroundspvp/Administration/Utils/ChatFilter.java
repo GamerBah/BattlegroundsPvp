@@ -2,30 +2,28 @@ package com.battlegroundspvp.Administration.Utils;
 /* Created by GamerBah on 8/15/2016 */
 
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.EventSound;
+import com.battlegroundspvp.Utils.Messages.BoldColor;
 import com.battlegroundspvp.Utils.Time;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.regex.Matcher;
+import java.util.HashMap;
 
 public class ChatFilter implements Listener {
     private Battlegrounds plugin;
+    private HashMap<Player, Integer> attempts = new HashMap<>();
 
     public ChatFilter(Battlegrounds plugin) {
         this.plugin = plugin;
@@ -38,7 +36,6 @@ public class ChatFilter implements Listener {
         }
 
         Player player = event.getPlayer();
-        PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
 
         if (plugin.getPlayerPunishments().containsKey(player.getUniqueId())) {
             ArrayList<Punishment> punishments = plugin.getPlayerPunishments().get(player.getUniqueId());
@@ -58,40 +55,71 @@ public class ChatFilter implements Listener {
             }
         }
 
-        event.setMessage(censor(event.getMessage()));
-    }
-
-    public String censor(String message) {
-        String messageToSend = message;
-        String message_lower = message.toLowerCase();
-        Iterator iter = plugin.getFilteredWords().iterator();
-        while (iter.hasNext()) {
-            String swear = (String) iter.next();
-            if (message_lower.contains(swear.toLowerCase())) {
-                if (message_lower.contains(" ass") || message_lower.contains("ass ") || message_lower.contains(" ass ")) {
-                    messageToSend = messageToSend.replaceAll("(?i)" + swear, Matcher.quoteReplacement(StringUtils.repeat("*", swear.length())));
+        if (!isClean(event.getMessage())) {
+            event.setCancelled(true);
+            player.sendMessage(BoldColor.RED.getColor() + "Please refrain from using profane language!");
+            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            if (!attempts.containsKey(player)) {
+                if (!plugin.getPlayerData(player.getUniqueId()).hasRank(Rank.HELPER)) {
+                    attempts.put(player, 1);
                 }
-                messageToSend = messageToSend.replaceAll("(?i)" + swear, Matcher.quoteReplacement(StringUtils.repeat("*", swear.length())));
-            }
-        }
-
-        String[] outwords = messageToSend.split(" ");
-        for (int i = 0; i < outwords.length; i++) {
-            while (iter.hasNext()) {
-                String swearWord = " " + iter.next() + " ";
-
-                String testWord = " " + outwords[i].toLowerCase() + " ";
-                testWord = Normalizer.normalize(testWord, Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-                testWord = testWord.replaceAll("[^a-z]", " ").trim();
-
-                if (swearWord.equals(testWord)) {
-                    outwords[i] = StringUtils.repeat("*", swearWord.length());
+            } else {
+                attempts.put(player, attempts.get(player) + 1);
+                if (attempts.get(player) == 10) {
+                    attempts.remove(player);
+                    plugin.warnPlayer(null, player, Punishment.Reason.ATTEMPT_SWEARING);
                 }
             }
         }
-
-        messageToSend = StringUtils.join(outwords, " ");
-        return messageToSend;
     }
 
+    private boolean isClean(String message) {
+        String[] words = message.split(" ");
+        ArrayList<String> wordsArray = new ArrayList<>();
+        for (int i = 0; i < words.length; i++) {
+            wordsArray.add(words[i]);
+        }
+        String joined = null;
+        if (words.length == 2) joined = String.join("", words[0], words[1]);
+        if (words.length == 3) joined = String.join("", words[0], words[1], words[2]);
+        if (words.length == 4) joined = String.join("", words[0], words[1], words[2], words[3]);
+        if (words.length == 5) joined = String.join("", words[0], words[1], words[2], words[3], words[4]);
+        if (words.length == 6) joined = String.join("", words[0], words[1], words[2], words[3], words[4], words[5]);
+        if (words.length > 6) {
+            for (int i = 0; i < words.length - 6; i++) {
+                joined = String.join(",", words[0], words[i + 1], words[i + 2], words[i + 3], words[i + 4], words[i + 5]);
+            }
+        }
+        if (joined != null) {
+            for (String bad : plugin.getFilteredWords()) {
+                if (joined.equals(bad)) {
+                    //plugin.getServer().broadcastMessage("1. Joined-Equals");
+                    return false;
+                }
+                if (joined.contains(bad)) {
+                    //plugin.getServer().broadcastMessage("2. Joined-Contains, not safe");
+                    return false;
+                }
+            }
+        } else {
+            for (String bad : plugin.getFilteredWords()) {
+                for (String word : wordsArray) {
+                    if (word.equals(bad)) {
+                        //plugin.getServer().broadcastMessage("3. Standard-Equals");
+                        return false;
+                    }
+                    if (word.contains(bad)) {
+                        for (String safe : plugin.getSafeWords()) {
+                            if (word.contains(safe)) {
+                                return true;
+                            }
+                        }
+                        //plugin.getServer().broadcastMessage("2. Standard-Contains, not safe");
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }

@@ -42,6 +42,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.inventivetalent.bossbar.BossBarAPI;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -96,6 +97,8 @@ public class Battlegrounds extends JavaPlugin {
     private HashMap<UUID, Integer> six150Essence = new HashMap<>();
     @Getter
     private List<String> filteredWords = new ArrayList<>();
+    @Getter
+    private List<String> safeWords = new ArrayList<>();
     @Getter
     private List<String> autoMessages = new ArrayList<>();
     @Getter
@@ -186,12 +189,25 @@ public class Battlegrounds extends JavaPlugin {
             saveResource("filter.txt", false);
         }
         try {
-            Files.lines(FileSystems.getDefault().getPath(filterFile.getPath())).forEach(filterLine -> filteredWords.add(org.bukkit.ChatColor.translateAlternateColorCodes('&', filterLine)));
+            Files.lines(FileSystems.getDefault().getPath(filterFile.getPath())).forEach(filterLine ->
+                    filteredWords.add(ChatColor.translateAlternateColorCodes('&', filterLine)));
         } catch (IOException e) {
             getLogger().severe("Could not get filtered words!");
         }
 
-        // Initialize SlackApi
+        // Save SafeWords File
+        File safeWordsFile = new File(getDataFolder(), "safewords.txt");
+        if (!filterFile.exists()) {
+            saveResource("safewords.txt", false);
+        }
+        try {
+            Files.lines(FileSystems.getDefault().getPath(safeWordsFile.getPath())).forEach(wordLine ->
+                    safeWords.add(ChatColor.translateAlternateColorCodes('&', wordLine)));
+        } catch (IOException e) {
+            getLogger().severe("Could not get safe words!");
+        }
+
+        // Initialize SlackApis
         slackReports = new SlackApi("https://hooks.slack.com/services/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");
         slackStaffRequests = new SlackApi("https://hooks.slack.com/services/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");
         slackDonations = new SlackApi("https://hooks.slack.com/services/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");
@@ -435,7 +451,7 @@ public class Battlegrounds extends JavaPlugin {
         playSound(player, EventSound.ACTION_FAIL);
     }
 
-    public void warnPlayer(Player player, Player target, Punishment.Reason reason) {
+    public void warnPlayer(@Nullable Player player, Player target, Punishment.Reason reason) {
         if (!WarnCommand.getWarned().containsKey(target.getUniqueId())) {
             WarnCommand.getWarned().put(target.getUniqueId(), 1);
         } else {
@@ -453,7 +469,9 @@ public class Battlegrounds extends JavaPlugin {
             getServer().getOnlinePlayers().stream().filter(players ->
                     getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
                     .forEach(players -> players.playSound(players.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1));
-            player.closeInventory();
+            if (player != null) {
+                player.closeInventory();
+            }
 
             if (reason.getType().equals(Punishment.Type.MUTE) || reason.getType().equals(Punishment.Type.ALL)) {
                 HashMap<Punishment.Reason, Integer> punishment = new HashMap<>();
@@ -469,21 +487,29 @@ public class Battlegrounds extends JavaPlugin {
         if (WarnCommand.getWarned().get(target.getUniqueId()) >= 3) {
             getServer().getOnlinePlayers().stream().filter(players ->
                     getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
-                    .forEach(players -> players.sendMessage(
+                    .forEach(players -> players.sendMessage(player != null ?
                             BoldColor.DARK_RED.getColor() + " !!! " + ChatColor.GRAY + player.getName() + ChatColor.RED + " warned "
-                                    + ChatColor.GOLD + target.getName() + " (" + warns + ")" + ChatColor.RED + " for " + ChatColor.GRAY + reason.getName()));
+                                    + ChatColor.GOLD + target.getName() + " (" + warns + ")" + ChatColor.RED + " for " + ChatColor.GRAY + reason.getName()
+                            : BoldColor.DARK_RED.getColor() + " !!! " + BoldColor.AQUA.getColor() + "Ares" + ChatColor.GRAY + ": " + ChatColor.RED + "I automatically warned "
+                            + ChatColor.GOLD + target.getName() + " (" + warns + ")" + ChatColor.RED + " for you " + ChatColor.GRAY + "(" + reason.getName() + ")"));
             getServer().getOnlinePlayers().stream().filter(players ->
                     getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
                     .forEach(players -> players.playSound(players.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1));
-            player.closeInventory();
+            if (player != null) {
+                player.closeInventory();
+            }
             return;
         }
-        player.closeInventory();
+        if (player != null) {
+            player.closeInventory();
+        }
         getServer().getOnlinePlayers().stream().filter(players ->
                 getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
-                .forEach(players -> players.sendMessage(
+                .forEach(players -> players.sendMessage(player != null ?
                         ChatColor.GRAY + player.getName() + ChatColor.RED + " warned "
-                                + ChatColor.GOLD + target.getName() + " (" + warns + ")" + ChatColor.RED + " for " + ChatColor.GRAY + reason.getName()));
+                                + ChatColor.GOLD + target.getName() + " (" + warns + ")" + ChatColor.RED + " for " + ChatColor.GRAY + reason.getName()
+                        : BoldColor.AQUA.getColor() + "Ares" + ChatColor.GRAY + ": " + ChatColor.RED + "I automatically warned "
+                        + ChatColor.GOLD + target.getName() + " (" + warns + ")" + ChatColor.RED + " for you " + ChatColor.GRAY + "(" + reason.getName() + ")"));
         getServer().getOnlinePlayers().stream().filter(players ->
                 getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
                 .forEach(players -> players.playSound(players.getLocation(), Sound.BLOCK_LEVER_CLICK, 1, 1));
