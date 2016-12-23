@@ -3,11 +3,10 @@ package com.battlegroundspvp.PlayerEvents;
 
 
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Kits.Epic.DarkRider;
 import com.battlegroundspvp.Utils.I;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
+import com.battlegroundspvp.Utils.Packets.Particles.ParticleEffect;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -16,10 +15,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
-import org.inventivetalent.particle.ParticleEffect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +59,7 @@ public class PlayerMove implements Listener {
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> launched.remove(player), 50L);
                 BukkitTask task = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
                     if (launched.contains(player)) {
-                        ParticleEffect.FIREWORKS_SPARK.send(Bukkit.getOnlinePlayers(), player.getLocation(), 0, 0.5, 0, 0.05D, 5, 30);
+                        ParticleEffect.FIREWORKS_SPARK.display(0, 0.5F, 0, 0.05F, 5, player.getLocation(), 30);
                     }
                 }, 0L, 1L);
                 plugin.getServer().getScheduler().runTaskLater(plugin, task::cancel, 20);
@@ -78,16 +75,6 @@ public class PlayerMove implements Listener {
                 event.setCancelled(true);
                 player.getInventory().addItem(new I(Material.ENDER_PEARL).name(BoldColor.GOLD.getColor() + "Enderpearl"));
             }
-        }
-    }
-
-    @EventHandler
-    public void onDismount(VehicleExitEvent event) {
-        Player player = (Player) event.getExited();
-        if (DarkRider.getRiding().contains(player)) {
-            event.getVehicle().setPassenger(player);
-        } else {
-            event.getVehicle().setPassenger(null);
         }
     }
 }

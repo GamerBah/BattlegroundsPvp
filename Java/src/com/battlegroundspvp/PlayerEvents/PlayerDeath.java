@@ -10,14 +10,14 @@ import com.battlegroundspvp.Listeners.CombatListener;
 import com.battlegroundspvp.Listeners.ScoreboardListener;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import com.battlegroundspvp.Utils.Messages.TextComponentMessages;
-import com.battlegroundspvp.Utils.Messages.Titles;
+import com.battlegroundspvp.Utils.Packets.Particles.ParticleEffect;
 import com.connorlinfoot.titleapi.TitleAPI;
+import de.Herbystar.TTA.TTA_Methods;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +25,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.inventivetalent.particle.ParticleEffect;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -41,7 +40,7 @@ public class PlayerDeath implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
         Player killer = player.getKiller();
-        ParticleEffect.LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation(), 0, 0.2, 0, 1, 20, 100);
+        ParticleEffect.LAVA.display(0, 0.2F, 0, 1, 20, player.getLocation(), 100);
         player.setHealth(20);
         plugin.getServer().getScheduler().runTask(plugin, () -> {
             plugin.respawn(player);
@@ -222,7 +221,7 @@ public class PlayerDeath implements Listener {
                 scoreboardListener.updateScoreboardSouls(killer, (souls * (killstreak / 5)));
                 scoreboardListener.updateScoreboardCoins(killer, coins);
 
-                Titles.sendActionBar(killer, ChatColor.AQUA + "[+" + souls * ((killstreak / 5) + 1) + " Souls]" + ChatColor.LIGHT_PURPLE
+                TTA_Methods.sendActionBar(killer, ChatColor.AQUA + "[+" + souls * ((killstreak / 5) + 1) + " Souls]" + ChatColor.LIGHT_PURPLE
                         + (coins != 0 ? " [+" + coins + (coins == 1 ? " Battle Coin]" : " Battle Coins]") : "")
                         + (essence ? ChatColor.YELLOW + " [" + eOwner + "'s Essence]" : ""));
                 TitleAPI.sendTitle(killer, 1, 30, 10, BoldColor.GREEN.getColor() + killstreak + " Killstreak!", ChatColor.GRAY + "You killed " + ChatColor.RED + player.getName());
@@ -242,7 +241,7 @@ public class PlayerDeath implements Listener {
                 scoreboardListener.updateScoreboardSouls(killer, souls);
                 scoreboardListener.updateScoreboardCoins(killer, coins);
 
-                Titles.sendActionBar(killer, ChatColor.AQUA + "[+" + souls + " Souls]" + ChatColor.LIGHT_PURPLE
+                TTA_Methods.sendActionBar(killer, ChatColor.AQUA + "[+" + souls + " Souls]" + ChatColor.LIGHT_PURPLE
                         + (coins != 0 ? " [+" + coins + (coins == 1 ? " Battle Coin]" : " Battle Coins]") : "")
                         + (essence ? ChatColor.YELLOW + " [" + eOwner + "'s Essence]" : ""));
                 if (killerData.getLastKilledBy().equals(player.getUniqueId().toString())) {
@@ -275,7 +274,7 @@ public class PlayerDeath implements Listener {
             scoreboardListener.updateScoreboardSouls(killer, souls);
             scoreboardListener.updateScoreboardCoins(killer, coins);
 
-            Titles.sendActionBar(killer, ChatColor.AQUA + "[+" + souls + " Souls]"
+            TTA_Methods.sendActionBar(killer, ChatColor.AQUA + "[+" + souls + " Souls]"
                     + ChatColor.LIGHT_PURPLE + (coins != 0 ? " [+" + coins + (coins == 1 ? " Battle Coin]" : " Battle Coins]") : "")
                     + (essence ? ChatColor.YELLOW + " [" + eOwner + "'s Essence]" : ""));
             if (killerData.getLastKilledBy().equals(player.getUniqueId().toString())) {

@@ -47,7 +47,6 @@ public class PlayerRespawn implements Listener {
         player.getInventory().clear();
         player.getInventory().setArmorContents(null);
         player.setHealth(20F);
-        player.setMaxHealth(20F);
         player.setFoodLevel(20);
         player.setSaturation(20);
         player.setExp(0);

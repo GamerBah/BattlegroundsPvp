@@ -15,7 +15,7 @@
  *  02111-1307 USA
  */
 
-package com.battlegroundspvp.Utils.Packets;
+package com.battlegroundspvp.Utils.Packets.Signs;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;

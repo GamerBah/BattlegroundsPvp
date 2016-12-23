@@ -16,6 +16,7 @@ import com.battlegroundspvp.Utils.KDRatio;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import com.battlegroundspvp.Utils.Time;
 import com.connorlinfoot.titleapi.TitleAPI;
+import de.Herbystar.TTA.TTA_Methods;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.attribute.Attribute;
@@ -26,7 +27,6 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.inventivetalent.tabapi.TabAPI;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -184,8 +184,8 @@ public class PlayerJoin implements Listener {
         player.setPlayerListName((playerData.hasRank(Rank.WARRIOR) ? playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")
                 + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : ChatColor.GRAY) + player.getName());
 
-        TabAPI.setHeader(player, ChatColor.AQUA + "You're playing on " + BoldColor.GOLD.getColor() + "BATTLEGROUNDS");
-        TabAPI.setFooter(player, ChatColor.RED + "Visit our store! " + ChatColor.YELLOW + "store.battlegroundspvp.com");
+        TTA_Methods.sendTablist(player, ChatColor.AQUA + "You're playing on " + BoldColor.GOLD.getColor() + "BATTLEGROUNDS",
+                ChatColor.RED + "Visit our store! " + ChatColor.YELLOW + "store.battlegroundspvp.com");
 
         player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(20);
         plugin.respawn(player);

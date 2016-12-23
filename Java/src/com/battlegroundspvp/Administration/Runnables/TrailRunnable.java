@@ -7,15 +7,14 @@ import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Listeners.CombatListener;
 import com.battlegroundspvp.Utils.Cosmetic;
 import com.battlegroundspvp.Utils.EventSound;
+import com.battlegroundspvp.Utils.Packets.Particles.ParticleEffect;
 import com.connorlinfoot.titleapi.TitleAPI;
 import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
-import org.inventivetalent.particle.ParticleEffect;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -71,12 +70,12 @@ public class TrailRunnable implements Runnable {
 
                                 // Epic
                                 if (playerData.getTrail().equals(Cosmetic.Item.TRAIL_RAIN_STORM)) {
-                                    ParticleEffect.CLOUD.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.25, 0.1, 0.25, 0, 6, 25);
-                                    ParticleEffect.DRIP_WATER.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.15, 0, 0.15, 0, 2, 25);
+                                    ParticleEffect.CLOUD.display(0.25F, 0.1F, 0.25F, 0, 6, player.getLocation().add(0, 2.5D, 0), 25);
+                                    ParticleEffect.DRIP_WATER.display(0.15F, 0F, 0.15F, 0, 2, player.getLocation().add(0, 2.5D, 0), 25);
                                 }
                                 if (playerData.getTrail().equals(Cosmetic.Item.TRAIL_LAVA_RAIN)) {
-                                    ParticleEffect.SMOKE_LARGE.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.25D, 0), 0.25, 0.1, 0.25, 0, 8, 25);
-                                    ParticleEffect.DRIP_LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 2.5D, 0), 0.1, 0, 0.1, 0, 4, 25);
+                                    ParticleEffect.SMOKE_LARGE.display(0.25F, 0.1F, 0.25F, 0, 8, player.getLocation().add(0, 2.5D, 0), 25);
+                                    ParticleEffect.DRIP_LAVA.display(0.1F, 0, 0.1F, 0, 4, player.getLocation().add(0, 2.5D, 0), 25);
                                 }
 
                                 // Legendary
@@ -86,21 +85,21 @@ public class TrailRunnable implements Runnable {
                         }
                     } else {
                         if (plugin.getConfig().getBoolean("essenceActive")) {
-                            ParticleEffect.REDSTONE.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 1.25, 0), 0.2, 0.2, 0.2, 1, 5, 25);
+                            ParticleEffect.REDSTONE.display(0.2F, 0.2F, 0.2F, 1, 5, player.getLocation().add(0, 1.25, 0), 25);
                         }
                         if (playerData.getTrail().equals(Cosmetic.Item.TRAIL_RAIN_STORM)) {
-                            ParticleEffect.DRIP_WATER.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.1D, 0), 0.2, 0, 0.2, 0, 3, 25);
-                            ParticleEffect.WATER_SPLASH.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.2D, 0), 0.1, 0, 0.1, 0, 10, 25);
+                            ParticleEffect.DRIP_WATER.display(0.2F, 0, 0.2F, 0, 3, player.getLocation().add(0, 0.1D, 0), 25);
+                            ParticleEffect.WATER_SPLASH.display(0.1F, 0, 0.1F, 0, 10, player.getLocation().add(0, 0.2D, 0), 25);
                         }
                         if (playerData.getTrail().equals(Cosmetic.Item.TRAIL_LAVA_RAIN)) {
-                            ParticleEffect.DRIP_LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.1D, 0), 0.2, 0, 0.2, 0, 3, 25);
-                            ParticleEffect.LAVA.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.1D, 0), 0.1, 0, 0.1, 0, 1, 25);
+                            ParticleEffect.DRIP_LAVA.display(0.2F, 0, 0.2F, 0, 3, player.getLocation().add(0, 0.1D, 0), 25);
+                            ParticleEffect.LAVA.display(0.1F, 0, 0.1F, 0, 1, player.getLocation().add(0, 0.1D, 0), 25);
                         }
                         if (playerData.getTrail().equals(Cosmetic.Item.TRAIL_FLAME_WARRIOR)) {
-                            ParticleEffect.FLAME.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.1, 0), 0, 0, 0, 0, 1, 25);
-                            ParticleEffect.FLAME.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.2, 0), 0, 0, 0, 0, 1, 25);
-                            ParticleEffect.FLAME.send(Bukkit.getOnlinePlayers(), player.getLocation().add(0, 0.3, 0), 0, 0, 0, 0, 1, 25);
-                            ParticleEffect.SMOKE_LARGE.send(Bukkit.getOnlinePlayers(), player.getLocation(), 0.1, 0.5, 0.1, 0, 5, 25);
+                            ParticleEffect.FLAME.display(0, 0, 0, 0, 1, player.getLocation().add(0, 0.1, 0), 25);
+                            ParticleEffect.FLAME.display(0, 0, 0, 0, 1, player.getLocation().add(0, 0.2, 0), 25);
+                            ParticleEffect.FLAME.display(0, 0, 0, 0, 1, player.getLocation().add(0, 0.3, 0), 25);
+                            ParticleEffect.SMOKE_LARGE.display(0.1F, 0.5F, 0.1F, 0, 5, player.getLocation(), 25);
                         }
                     }
                 }

@@ -9,6 +9,7 @@ import com.battlegroundspvp.Utils.Kits.Kit;
 import com.battlegroundspvp.Utils.Kits.KitAbility;
 import com.battlegroundspvp.Utils.Kits.KitManager;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
+import com.battlegroundspvp.Utils.Packets.Particles.ParticleEffect;
 import com.battlegroundspvp.Utils.Rarity;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -23,7 +24,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.inventivetalent.particle.ParticleEffect;
 
 public class Ninja extends Kit {
     private KitAbility kitAbility = new KitAbility(1, 25.0);
@@ -81,14 +81,14 @@ public class Ninja extends Kit {
                         players.hidePlayer(player);
                         Bukkit.getServer().getScheduler().runTaskLater(Battlegrounds.getInstance(), () -> {
                             if (KitAbility.getPlayerStatus().containsKey(player.getName())) {
-                                ParticleEffect.SMOKE_LARGE.send(Bukkit.getOnlinePlayers(), player.getLocation(), 0.2, 1, 0.2, 0, 65, 35);
+                                ParticleEffect.SMOKE_LARGE.display(0.3F, 1F, 0.3F, 0, 65, player.getLocation(), 35);
                                 player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_FLAP, 0.5F, 1.3F);
                                 players.showPlayer(player);
                             }
                         }, 100L);
                     }
                     player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_FLAP, 0.75F, 1F);
-                    ParticleEffect.SMOKE_LARGE.send(Bukkit.getOnlinePlayers(), player.getLocation(), 0.3, 1, 0.3, 0, 65, 35);
+                    ParticleEffect.SMOKE_LARGE.display(0.3F, 1F, 0.3F, 0, 65, player.getLocation(), 35);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 0, false, false));
                 }
             }

@@ -42,13 +42,13 @@ public class DonationUpdater implements Runnable {
                 for (Player player : plugin.getServer().getOnlinePlayers()) {
                     BossBarAPI.removeAllBars(player);
                     BossBarAPI.addBar(player, new TextComponent(ChatColor.RED + Time.toString(milliseconds, true) + ChatColor.GRAY + " remaining in "
-                                    + ChatColor.RED + plugin.getConfig().getString("essenceOwner") + ChatColor.GRAY + "'s Battle Essence (" + essenceType.getIncrease() + "%)"), essenceType.getBarColor(),
-                            BossBarAPI.Style.PROGRESS, completion);
+                                    + ChatColor.RED + plugin.getConfig().getString("essenceOwner") + ChatColor.GRAY + "'s Battle Essence (" + essenceType.getIncrease() + "%)"),
+                            essenceType.getBarColor(), BossBarAPI.Style.PROGRESS, completion);
                 }
             }
         } else {
             for (Player player : plugin.getServer().getOnlinePlayers()) {
-                BossBarAPI.removeAllBars(player);
+                //BossBarAPI.removeAllBars(player);
                 player.sendMessage(BoldColor.GOLD.getColor() + "" + (plugin.getConfig().get("essenceOwner").equals(player.getName())
                         ? "Your" : plugin.getConfig().get("essenceOwner") + "'s") + " Battle Essence has ended!");
                 if (!player.getName().equals(plugin.getConfig().get("essenceOwner"))) {

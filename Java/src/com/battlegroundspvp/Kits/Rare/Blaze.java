@@ -8,6 +8,7 @@ import com.battlegroundspvp.Utils.I;
 import com.battlegroundspvp.Utils.Kits.Kit;
 import com.battlegroundspvp.Utils.Kits.KitAbility;
 import com.battlegroundspvp.Utils.Kits.KitManager;
+import com.battlegroundspvp.Utils.Packets.Particles.ParticleEffect;
 import com.battlegroundspvp.Utils.Rarity;
 import com.connorlinfoot.titleapi.TitleAPI;
 import net.md_5.bungee.api.ChatColor;
@@ -26,7 +27,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.inventivetalent.particle.ParticleEffect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,7 +112,7 @@ public class Blaze extends Kit {
             event.getEntity().remove();
             ((SmallFireball) event.getEntity()).setYield(0F);
             if (event.getEntity().getLocation().distance(event.getEntity().getWorld().getSpawnLocation()) > 20) {
-                ParticleEffect.EXPLOSION_LARGE.send(Bukkit.getOnlinePlayers(), event.getEntity().getLocation(), 0, 0, 0, 0, 5, 35);
+                ParticleEffect.EXPLOSION_LARGE.display(0, 0, 0, 0, 5, event.getEntity().getLocation(), 35);
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                     player.playSound(event.getEntity().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
                     if (player.getLocation().distance(event.getEntity().getLocation()) <= 5) {

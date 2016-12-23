@@ -1,7 +1,6 @@
 package com.battlegroundspvp;
 /* Created by GamerBah on 8/7/2016 */
 
-
 import com.battlegroundspvp.Administration.Commands.*;
 import com.battlegroundspvp.Administration.Data.MySQL;
 import com.battlegroundspvp.Administration.Data.PlayerData;
@@ -29,6 +28,7 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.connorlinfoot.titleapi.TitleAPI;
+import com.sun.istack.internal.Nullable;
 import lombok.Getter;
 import net.gpedro.integrations.slack.SlackApi;
 import net.md_5.bungee.api.ChatColor;
@@ -36,16 +36,13 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.block.Sign;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.inventivetalent.bossbar.BossBarAPI;
 
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
@@ -533,18 +530,4 @@ public class Battlegrounds extends JavaPlugin {
                 + getSix50Essence().get(player.getUniqueId()) + getSix100Essence().get(player.getUniqueId()) + getSix150Essence().get(player.getUniqueId()));
     }
 
-    // Reloads a Custom Configuration File
-    public void reloadCustomConfig(File file, String configName) {
-        if (file == null) {
-            file = new File(getDataFolder(), configName + ".yml");
-        }
-        YamlConfiguration customConfig = YamlConfiguration.loadConfiguration(file);
-
-        // Look for defaults in the jar
-        InputStream defConfigStream = this.getResource(configName + ".yml");
-        if (defConfigStream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-            customConfig.setDefaults(defConfig);
-        }
-    }
 }

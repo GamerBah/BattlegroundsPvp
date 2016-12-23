@@ -6,10 +6,9 @@ import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Listeners.CombatListener;
 import com.battlegroundspvp.Utils.Cosmetic;
-import org.bukkit.Bukkit;
+import com.battlegroundspvp.Utils.Packets.Particles.ParticleEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.inventivetalent.particle.ParticleEffect;
 
 public class HelixRunnable implements Runnable {
 
@@ -37,7 +36,7 @@ public class HelixRunnable implements Runnable {
                                     y = 0.425 * t;
                                     z = 0.5 * (2 * Math.PI - t) * 0.375 * Math.sin(t + phi + i * Math.PI);
                                     location.add(x, y, z);
-                                    ParticleEffect.FLAME.send(Bukkit.getOnlinePlayers(), location, 0, 0, 0, 0, 1, 25);
+                                    ParticleEffect.FLAME.display(0, 0, 0, 0, 1, location, 25);
                                     location.subtract(x, y, z);
                                 }
                             }

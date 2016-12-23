@@ -220,7 +220,7 @@ public class I extends ItemStack {
 
     public I unbreakable() {
         final ItemMeta meta = getItemMeta();
-        meta.spigot().setUnbreakable(true);
+        meta.setUnbreakable(true);
         setItemMeta(meta);
         return this;
     }
