@@ -4,7 +4,7 @@ package com.battlegroundspvp.Etc.Achievements;
 
 import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Utils.Cosmetic;
+import com.battlegroundspvp.Utils.Enums.Cosmetic;
 import com.battlegroundspvp.Utils.I;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;

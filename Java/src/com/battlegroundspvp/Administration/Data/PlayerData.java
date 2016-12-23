@@ -3,7 +3,8 @@ package com.battlegroundspvp.Administration.Data;
 
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Utils.Cosmetic;
+import com.battlegroundspvp.Utils.Enums.Cosmetic;
+import com.battlegroundspvp.Utils.Enums.ParticleQuality;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.entity.Player;
@@ -34,6 +35,8 @@ public class PlayerData {
     private LocalDateTime dailyRewardLast, lastOnline;
     @Getter
     private String ownedKits, lastKilledBy, title, friends, ownedCosmetics;
+    @Getter
+    private ParticleQuality particleQuality;
 
     public void setName(String name) {
         sql.executeUpdate(UPDATE_PLAYER_NAME, this.name = name, id);
@@ -147,5 +150,10 @@ public class PlayerData {
     public void setGore(Cosmetic.Item gore) {
         sql.executeUpdate(UPDATE_PLAYER_GORE, gore.toString(), id);
         this.gore = gore;
+    }
+
+    public void setParticleQuality(ParticleQuality particleQuality) {
+        sql.executeUpdate(UPDATE_PLAYER_PARTICLE_QUALITY, particleQuality.toString(), id);
+        this.particleQuality = particleQuality;
     }
 }

@@ -2,6 +2,7 @@ package com.battlegroundspvp.Etc.Menus;
 /* Created by GamerBah on 8/25/2016 */
 
 
+import com.battlegroundspvp.Administration.Commands.WarnCommand;
 import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Administration.Utils.Rank;
@@ -61,7 +62,8 @@ public class WarnMenu {
                     if (sortType.equals(PunishMenu.SortType.ONLINE_ONLY)) {
                         if (plugin.getServer().getPlayer(playerData.getUuid()) != null) {
                             ItemStack head = new I(Material.SKULL_ITEM).durability(3).name(playerData.getRank().getColor() + playerData.getName())
-                                    .lore(ChatColor.GRAY + "Rank: " + playerData.getRank().getColor() + (playerData.getRank().equals(Rank.DEFAULT) ? "" : "" + ChatColor.BOLD) + playerData.getRank().getName());
+                                    .lore(ChatColor.GRAY + "Rank: " + playerData.getRank().getColor() + (playerData.getRank().equals(Rank.DEFAULT) ? "" : "" + ChatColor.BOLD) + playerData.getRank().getName())
+                                    .lore(ChatColor.RED + "Warnings: " + ChatColor.GRAY + (!WarnCommand.getWarned().containsKey(playerData.getUuid()) ? "0" : WarnCommand.getWarned().get(playerData.getUuid())));
                             SkullMeta meta = (SkullMeta) head.getItemMeta();
                             meta.setOwner(playerData.getName());
                             head.setItemMeta(meta);
@@ -71,7 +73,8 @@ public class WarnMenu {
                     } else if (sortType.equals(PunishMenu.SortType.SEARCH) && searchTerm != null) {
                         if (StringUtils.containsIgnoreCase(playerData.getName(), searchTerm)) {
                             ItemStack head = new I(Material.SKULL_ITEM).durability(3).name(playerData.getRank().getColor() + playerData.getName())
-                                    .lore(ChatColor.GRAY + "Rank: " + playerData.getRank().getColor() + (playerData.getRank().equals(Rank.DEFAULT) ? "" : "" + ChatColor.BOLD) + playerData.getRank().getName());
+                                    .lore(ChatColor.GRAY + "Rank: " + playerData.getRank().getColor() + (playerData.getRank().equals(Rank.DEFAULT) ? "" : "" + ChatColor.BOLD) + playerData.getRank().getName())
+                                    .lore(ChatColor.RED + "Warnings: " + ChatColor.GRAY + (!WarnCommand.getWarned().containsKey(playerData.getUuid()) ? "0" : WarnCommand.getWarned().get(playerData.getUuid())));
                             SkullMeta meta = (SkullMeta) head.getItemMeta();
                             meta.setOwner(playerData.getName());
                             head.setItemMeta(meta);
@@ -80,7 +83,8 @@ public class WarnMenu {
                         }
                     } else {
                         ItemStack head = new I(Material.SKULL_ITEM).durability(3).name(playerData.getRank().getColor() + playerData.getName())
-                                .lore(ChatColor.GRAY + "Rank: " + playerData.getRank().getColor() + (playerData.getRank().equals(Rank.DEFAULT) ? "" : "" + ChatColor.BOLD) + playerData.getRank().getName());
+                                .lore(ChatColor.GRAY + "Rank: " + playerData.getRank().getColor() + (playerData.getRank().equals(Rank.DEFAULT) ? "" : "" + ChatColor.BOLD) + playerData.getRank().getName())
+                                .lore(ChatColor.RED + "Warnings: " + ChatColor.GRAY + (!WarnCommand.getWarned().containsKey(playerData.getUuid()) ? "0" : WarnCommand.getWarned().get(playerData.getUuid())));
                         SkullMeta meta = (SkullMeta) head.getItemMeta();
                         meta.setOwner(playerData.getName());
                         head.setItemMeta(meta);
@@ -109,7 +113,7 @@ public class WarnMenu {
 
         int i = 10;
         for (Punishment.Reason reasons : Punishment.Reason.values()) {
-            if (reasons.getType() != Punishment.Type.BAN) {
+            if (!reasons.getType().equals(Punishment.Type.BAN) && !reasons.getType().equals(Punishment.Type.AUTO)) {
                 String[] split = reasons.getDescription().split(",");
                 inv.setItem(i++, new I((reason != null && reason.equals(reasons) ? Material.ENCHANTED_BOOK : Material.BOOK))
                         .name(ChatColor.RED + reasons.getName() + (reason != null && reason.equals(reasons) ? BoldColor.GREEN.getColor() + " SELECTED" : ""))

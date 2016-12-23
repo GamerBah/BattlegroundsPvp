@@ -1,4 +1,4 @@
-package com.battlegroundspvp.Utils;
+package com.battlegroundspvp.Utils.Enums;
 
 import lombok.AccessLevel;
 import lombok.Getter;

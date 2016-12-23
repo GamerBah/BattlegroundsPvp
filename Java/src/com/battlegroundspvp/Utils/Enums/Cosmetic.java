@@ -1,6 +1,7 @@
-package com.battlegroundspvp.Utils;
+package com.battlegroundspvp.Utils.Enums;
 /* Created by GamerBah on 9/8/2016 */
 
+import com.battlegroundspvp.Utils.I;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

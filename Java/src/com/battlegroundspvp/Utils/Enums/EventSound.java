@@ -1,4 +1,4 @@
-package com.battlegroundspvp.Utils;
+package com.battlegroundspvp.Utils.Enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -37,6 +37,7 @@ public enum Query {
     UPDATE_PLAYER_LAST_ONLINE("UPDATE players SET lastOnline = ? WHERE id = ?"),
     UPDATE_PLAYER_FRIENDS("UPDATE players SET friends = ? WHERE id = ?"),
     UPDATE_PLAYER_OWNED_COSMETICS("UPDATE players SET cosmetics = ? WHERE id = ?"),
+    UPDATE_PLAYER_PARTICLE_QUALITY("UPDATE players SET cosmetics = ? WHERE id = ?"),
 
     // DONATION DATA
     CREATE_ESSENCE_DATA("INSERT INTO essences (uuid, type, amount) VALUES (?, ?, ?)"),
@@ -53,12 +54,8 @@ public enum Query {
     REMOVE_PUNISHMENT("DELETE FROM punishment WHERE uuid = ? AND type = ? AND date = ?"),
     
     // GLOBAL STATS
-    CREATE_STATS("INSERT IGNORE INTO stats (type) VALUES (?)"),
     GET_STATS("SELECT * FROM stats WHERE type = `?`"),
-    UPDATE_UNIQUE_JOINS("UPDATE stats SET unique = ? WHERE type = `?`"),
-    UPDATE_GLOBAL_KILLS("UPDATE stats SET kills = ? WHERE type = `?`"),
-    UPDATE_GLOBAL_DEATHS("UPDATE stats SET deaths = ? WHERE type = `?`"),
-    UPDATE_CHALLENGES_COMPLETED("UPDATE stats SET challenges = ? WHERE type = `?`");
+    UPDATE_UNIQUE_JOINS("UPDATE stats SET unique = ? WHERE type = `?`");
 
     private final String query;
 

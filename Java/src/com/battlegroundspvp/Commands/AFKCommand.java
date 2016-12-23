@@ -4,7 +4,7 @@ package com.battlegroundspvp.Commands;
 
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Listeners.CombatListener;
-import com.battlegroundspvp.Utils.EventSound;
+import com.battlegroundspvp.Utils.Enums.EventSound;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import com.connorlinfoot.titleapi.TitleAPI;
 import net.md_5.bungee.api.ChatColor;

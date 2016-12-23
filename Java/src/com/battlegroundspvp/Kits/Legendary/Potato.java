@@ -2,10 +2,10 @@ package com.battlegroundspvp.Kits.Legendary;
 /* Created by GamerBah on 9/7/2016 */
 
 
+import com.battlegroundspvp.Utils.Enums.Rarity;
 import com.battlegroundspvp.Utils.I;
 import com.battlegroundspvp.Utils.Kits.Kit;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
-import com.battlegroundspvp.Utils.Rarity;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

@@ -5,7 +5,7 @@ package com.battlegroundspvp.Administration.Runnables;
 import com.battlegroundspvp.Administration.Data.Query;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Utils.EventSound;
+import com.battlegroundspvp.Utils.Enums.EventSound;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 

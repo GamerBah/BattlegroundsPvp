@@ -3,21 +3,16 @@ package com.battlegroundspvp.Administration.Commands;
 import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Utils.EventSound;
+import com.battlegroundspvp.Utils.Enums.EventSound;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.HashSet;
-import java.util.UUID;
-
 public class ChatCommands implements CommandExecutor {
 
-    public static HashSet<UUID> cmdspies = new HashSet<>();
     public static boolean chatSilenced = false;
     private Battlegrounds plugin;
 
@@ -73,23 +68,6 @@ public class ChatCommands implements CommandExecutor {
                         p.sendMessage(" ");
                         Battlegrounds.playSound(p, EventSound.ACTION_SUCCESS);
                     }
-                }
-            }
-        }
-
-        if (cmd.getName().equalsIgnoreCase("cmdspy")) {
-            if (!playerData.hasRank(Rank.HELPER)) {
-                plugin.sendNoPermission(player);
-                return true;
-            } else {
-                if (!cmdspies.contains(player.getUniqueId())) {
-                    cmdspies.add(player.getUniqueId());
-                    player.sendMessage(ChatColor.YELLOW + "Command Spy " + BoldColor.GREEN.getColor() + "ENABLED");
-                    Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
-                } else {
-                    cmdspies.remove(player.getUniqueId());
-                    player.sendMessage(ChatColor.YELLOW + "Command Spy " + BoldColor.RED.getColor() + "DISABLED");
-                    Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
                 }
             }
         }

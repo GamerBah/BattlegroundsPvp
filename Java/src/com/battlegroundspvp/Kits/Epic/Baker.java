@@ -2,10 +2,10 @@ package com.battlegroundspvp.Kits.Epic;
 /* Created by GamerBah on 9/7/2016 */
 
 
+import com.battlegroundspvp.Utils.Enums.Rarity;
 import com.battlegroundspvp.Utils.I;
 import com.battlegroundspvp.Utils.Kits.Kit;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
-import com.battlegroundspvp.Utils.Rarity;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;

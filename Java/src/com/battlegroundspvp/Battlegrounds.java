@@ -16,11 +16,11 @@ import com.battlegroundspvp.Commands.*;
 import com.battlegroundspvp.Etc.Menus.PunishMenu;
 import com.battlegroundspvp.Listeners.*;
 import com.battlegroundspvp.PlayerEvents.*;
-import com.battlegroundspvp.Utils.EventSound;
+import com.battlegroundspvp.Utils.Enums.EventSound;
+import com.battlegroundspvp.Utils.Enums.Time;
 import com.battlegroundspvp.Utils.KDRatio;
 import com.battlegroundspvp.Utils.Kits.KitManager;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
-import com.battlegroundspvp.Utils.Time;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
@@ -63,6 +63,8 @@ public class Battlegrounds extends JavaPlugin {
     private static ProtocolManager protocolManager;
     @Getter
     private static HashSet<UUID> afk = new HashSet<>();
+    @Getter
+    private static HashSet<UUID> cmdspies = new HashSet<>();
     public SlackApi slackReports = null;
     public SlackApi slackStaffRequests = null;
     public SlackApi slackDonations = null;
@@ -265,7 +267,6 @@ public class Battlegrounds extends JavaPlugin {
         getCommand("rank").setExecutor(new RankCommand(this));
         getCommand("clearchat").setExecutor(new ChatCommands(this));
         getCommand("lockchat").setExecutor(new ChatCommands(this));
-        getCommand("cmdspy").setExecutor(new ChatCommands(this));
         getCommand("staff").setExecutor(new StaffChatCommand(this));
         getCommand("freeze").setExecutor(new FreezeCommand(this));
         getCommand("mute").setExecutor(new MuteCommand(this));
@@ -422,7 +423,7 @@ public class Battlegrounds extends JavaPlugin {
         }, 5L);
     }
 
-    public void reloadPunishments() {
+    private void reloadPunishments() {
         if (!sql.getAllPunishments().isEmpty()) {
             for (Punishment punishment : sql.getAllPunishments()) {
                 playerPunishments.put(punishment.getUuid(), sql.getAllPunishments(punishment.getUuid()));
@@ -430,7 +431,7 @@ public class Battlegrounds extends JavaPlugin {
         }
     }
 
-    public void reloadAllPlayerData() {
+    private void reloadAllPlayerData() {
         if (!sql.getAllPlayerData().isEmpty()) {
             for (PlayerData playerData : sql.getAllPlayerData()) {
                 allPlayerData.add(playerData);
@@ -448,18 +449,18 @@ public class Battlegrounds extends JavaPlugin {
         playSound(player, EventSound.ACTION_FAIL);
     }
 
-    public void warnPlayer(@Nullable Player player, Player target, Punishment.Reason reason) {
-        if (!WarnCommand.getWarned().containsKey(target.getUniqueId())) {
-            WarnCommand.getWarned().put(target.getUniqueId(), 1);
+    public void warnPlayer(@Nullable Player player, PlayerData targetData, Punishment.Reason reason) {
+        if (!WarnCommand.getWarned().containsKey(targetData.getUuid())) {
+            WarnCommand.getWarned().put(targetData.getUuid(), 1);
         } else {
-            WarnCommand.getWarned().put(target.getUniqueId(), WarnCommand.getWarned().get(target.getUniqueId()) + 1);
+            WarnCommand.getWarned().put(targetData.getUuid(), WarnCommand.getWarned().get(targetData.getUuid()) + 1);
         }
-        int warns = WarnCommand.getWarned().get(target.getUniqueId());
-        if (WarnCommand.getWarned().get(target.getUniqueId()) == 5) {
+        int warns = WarnCommand.getWarned().get(targetData.getUuid());
+        if (WarnCommand.getWarned().get(targetData.getUuid()) == 5) {
             getServer().getOnlinePlayers().stream().filter(players ->
                     getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
                     .forEach(players -> players.sendMessage(
-                            BoldColor.DARK_RED.getColor() + " [ARES] " + ChatColor.GOLD + target.getName() + BoldColor.DARK_RED.getColor() + " (5)"
+                            BoldColor.DARK_RED.getColor() + " [ARES] " + ChatColor.GOLD + targetData.getName() + BoldColor.DARK_RED.getColor() + " (5)"
                                     + ChatColor.RED + "was " + (reason.getType().equals(Punishment.Type.MUTE) || reason.getType().equals(Punishment.Type.ALL) ? "muted" : "kicked")
                                     + " for " + ChatColor.GRAY + reason.getName() + (reason.getType().equals(Punishment.Type.MUTE)
                                     || reason.getType().equals(Punishment.Type.ALL) ? " for " + ChatColor.GRAY + Time.toString(reason.getLength() * 1000, true) : "")));
@@ -473,22 +474,22 @@ public class Battlegrounds extends JavaPlugin {
             if (reason.getType().equals(Punishment.Type.MUTE) || reason.getType().equals(Punishment.Type.ALL)) {
                 HashMap<Punishment.Reason, Integer> punishment = new HashMap<>();
                 punishment.put(reason, reason.getLength());
-                MuteCommand.mutePlayer(target.getUniqueId(), player, punishment);
+                MuteCommand.mutePlayer(targetData.getUuid(), player, punishment);
             } else {
                 HashMap<Punishment.Reason, Integer> punishment = new HashMap<>();
                 punishment.put(reason, -1);
-                KickCommand.kickPlayer(target.getUniqueId(), player, punishment);
+                KickCommand.kickPlayer(targetData.getUuid(), player, punishment);
             }
             return;
         }
-        if (WarnCommand.getWarned().get(target.getUniqueId()) >= 3) {
+        if (WarnCommand.getWarned().get(targetData.getUuid()) >= 3) {
             getServer().getOnlinePlayers().stream().filter(players ->
                     getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
                     .forEach(players -> players.sendMessage(player != null ?
                             BoldColor.DARK_RED.getColor() + " !!! " + ChatColor.GRAY + player.getName() + ChatColor.RED + " warned "
-                                    + ChatColor.GOLD + target.getName() + " (" + warns + ")" + ChatColor.RED + " for " + ChatColor.GRAY + reason.getName()
+                                    + ChatColor.GOLD + targetData.getName() + " (" + warns + ")" + ChatColor.RED + " for " + ChatColor.GRAY + reason.getName()
                             : BoldColor.DARK_RED.getColor() + " !!! " + BoldColor.AQUA.getColor() + "Ares" + ChatColor.GRAY + ": " + ChatColor.RED + "I automatically warned "
-                            + ChatColor.GOLD + target.getName() + " (" + warns + ")" + ChatColor.RED + " for you " + ChatColor.GRAY + "(" + reason.getName() + ")"));
+                            + ChatColor.GOLD + targetData.getName() + " (" + warns + ")" + ChatColor.RED + " for you " + ChatColor.GRAY + "(" + reason.getName() + ")"));
             getServer().getOnlinePlayers().stream().filter(players ->
                     getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
                     .forEach(players -> players.playSound(players.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1));
@@ -504,9 +505,9 @@ public class Battlegrounds extends JavaPlugin {
                 getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
                 .forEach(players -> players.sendMessage(player != null ?
                         ChatColor.GRAY + player.getName() + ChatColor.RED + " warned "
-                                + ChatColor.GOLD + target.getName() + " (" + warns + ")" + ChatColor.RED + " for " + ChatColor.GRAY + reason.getName()
+                                + ChatColor.GOLD + targetData.getName() + " (" + warns + ")" + ChatColor.RED + " for " + ChatColor.GRAY + reason.getName()
                         : BoldColor.AQUA.getColor() + "Ares" + ChatColor.GRAY + ": " + ChatColor.RED + "I automatically warned "
-                        + ChatColor.GOLD + target.getName() + " (" + warns + ")" + ChatColor.RED + " for you " + ChatColor.GRAY + "(" + reason.getName() + ")"));
+                        + ChatColor.GOLD + targetData.getName() + " (" + warns + ")" + ChatColor.RED + " for you " + ChatColor.GRAY + "(" + reason.getName() + ")"));
         getServer().getOnlinePlayers().stream().filter(players ->
                 getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
                 .forEach(players -> players.playSound(players.getLocation(), Sound.BLOCK_LEVER_CLICK, 1, 1));

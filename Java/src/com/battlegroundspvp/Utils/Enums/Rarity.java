@@ -1,4 +1,4 @@
-package com.battlegroundspvp.Utils;/* Created by GamerBah on 8/7/2016 */
+package com.battlegroundspvp.Utils.Enums;/* Created by GamerBah on 8/7/2016 */
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

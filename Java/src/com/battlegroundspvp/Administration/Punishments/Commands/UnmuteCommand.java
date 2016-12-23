@@ -7,7 +7,7 @@ import com.battlegroundspvp.Administration.Data.Query;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Utils.EventSound;
+import com.battlegroundspvp.Utils.Enums.EventSound;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

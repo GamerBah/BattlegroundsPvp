@@ -2,9 +2,9 @@ package com.battlegroundspvp.Kits.Common;
 /* Created by GamerBah on 8/19/2016 */
 
 
+import com.battlegroundspvp.Utils.Enums.Rarity;
 import com.battlegroundspvp.Utils.I;
 import com.battlegroundspvp.Utils.Kits.Kit;
-import com.battlegroundspvp.Utils.Rarity;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;

@@ -17,8 +17,8 @@
 
 package com.battlegroundspvp.Utils.Packets.Signs;
 
+import com.battlegroundspvp.Battlegrounds;
 import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketContainer;
 import com.google.common.base.Objects;
 import org.bukkit.entity.Player;
@@ -63,7 +63,7 @@ public abstract class AbstractPacket {
      */
     public void sendPacket(Player receiver) {
         try {
-            ProtocolLibrary.getProtocolManager().sendServerPacket(receiver, getHandle());
+            Battlegrounds.getProtocolManager().sendServerPacket(receiver, getHandle());
         } catch (InvocationTargetException e) {
             throw new RuntimeException("Cannot send packet.", e);
         }
@@ -77,7 +77,7 @@ public abstract class AbstractPacket {
      */
     public void recievePacket(Player sender) {
         try {
-            ProtocolLibrary.getProtocolManager().recieveClientPacket(sender, getHandle());
+            Battlegrounds.getProtocolManager().recieveClientPacket(sender, getHandle());
         } catch (Exception e) {
             throw new RuntimeException("Cannot recieve packet.", e);
         }

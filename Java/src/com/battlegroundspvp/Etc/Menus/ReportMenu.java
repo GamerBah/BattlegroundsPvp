@@ -3,7 +3,7 @@ package com.battlegroundspvp.Etc.Menus;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Commands.ReportCommand;
-import com.battlegroundspvp.Utils.EventSound;
+import com.battlegroundspvp.Utils.Enums.EventSound;
 import com.battlegroundspvp.Utils.I;
 import net.gpedro.integrations.slack.SlackMessage;
 import net.md_5.bungee.api.ChatColor;

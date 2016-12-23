@@ -1,7 +1,7 @@
 package com.battlegroundspvp.Utils.Kits;
 
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Utils.EventSound;
+import com.battlegroundspvp.Utils.Enums.EventSound;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import com.connorlinfoot.titleapi.TitleAPI;
 import lombok.Getter;

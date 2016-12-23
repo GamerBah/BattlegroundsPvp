@@ -4,10 +4,10 @@ package com.battlegroundspvp.Etc.Menus.Cosmetics;
 
 import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Utils.Cosmetic;
+import com.battlegroundspvp.Utils.Enums.Cosmetic;
+import com.battlegroundspvp.Utils.Enums.Rarity;
 import com.battlegroundspvp.Utils.I;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
-import com.battlegroundspvp.Utils.Rarity;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

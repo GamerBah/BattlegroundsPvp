@@ -8,7 +8,7 @@ import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Etc.Menus.KSlotsMenu;
 import com.battlegroundspvp.Listeners.ScoreboardListener;
-import com.battlegroundspvp.Utils.EventSound;
+import com.battlegroundspvp.Utils.Enums.EventSound;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;

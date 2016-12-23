@@ -4,8 +4,8 @@ package com.battlegroundspvp.Administration.Runnables;
 
 import com.battlegroundspvp.Administration.Donations.Essence;
 import com.battlegroundspvp.Battlegrounds;
+import com.battlegroundspvp.Utils.Enums.Time;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
-import com.battlegroundspvp.Utils.Time;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Sound;
@@ -48,7 +48,7 @@ public class DonationUpdater implements Runnable {
             }
         } else {
             for (Player player : plugin.getServer().getOnlinePlayers()) {
-                //BossBarAPI.removeAllBars(player);
+                BossBarAPI.removeAllBars(player);
                 player.sendMessage(BoldColor.GOLD.getColor() + "" + (plugin.getConfig().get("essenceOwner").equals(player.getName())
                         ? "Your" : plugin.getConfig().get("essenceOwner") + "'s") + " Battle Essence has ended!");
                 if (!player.getName().equals(plugin.getConfig().get("essenceOwner"))) {

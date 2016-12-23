@@ -6,7 +6,7 @@ import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Commands.ReportCommand;
-import com.battlegroundspvp.Utils.EventSound;
+import com.battlegroundspvp.Utils.Enums.EventSound;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;

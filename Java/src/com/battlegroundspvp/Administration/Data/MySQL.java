@@ -5,7 +5,8 @@ import com.battlegroundspvp.Administration.Donations.Essence;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Utils.Cosmetic;
+import com.battlegroundspvp.Utils.Enums.Cosmetic;
+import com.battlegroundspvp.Utils.Enums.ParticleQuality;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
@@ -44,8 +45,8 @@ public class MySQL {
         boolean isConnected = false;
         try {
             final PreparedStatement statement = connection.prepareStatement(CHECK_SQL_QUERY);
-            statement.close();
             isConnected = true;
+            statement.close();
         } catch (SQLException | NullPointerException e) {
             try {
                 String host = plugin.getConfig().getString("host");
@@ -78,16 +79,19 @@ public class MySQL {
 
     public PlayerData getPlayerData(UUID uuid) {
         try (ResultSet result = executeQuery(Query.GET_PLAYER_DATA_FROM_UUID, uuid.toString())) {
-            if (result.next()) {
-                return new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
-                        result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
-                        result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getInt("playersRecruited"), result.getInt("recruitedBy"),
-                        result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
-                        Cosmetic.Item.valueOf(result.getString("trail")), Cosmetic.Item.valueOf(result.getString("warcry")), Cosmetic.Item.valueOf(result.getString("gore")),
-                        LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")), result.getString("ownedKits"),
-                        result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"), result.getString("cosmetics"));
+            if (result != null) {
+                if (result.next()) {
+                    return new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
+                            result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
+                            result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getInt("playersRecruited"), result.getInt("recruitedBy"),
+                            result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
+                            Cosmetic.Item.valueOf(result.getString("trail")), Cosmetic.Item.valueOf(result.getString("warcry")), Cosmetic.Item.valueOf(result.getString("gore")),
+                            LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")), result.getString("ownedKits"),
+                            result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"), result.getString("cosmetics"),
+                            ParticleQuality.valueOf(result.getString("particleQuality")));
+                }
+                result.getStatement().close();
             }
-            result.getStatement().close();
         } catch (SQLException e) {
             plugin.getLogger().severe("Uh oh! Unable to get the player data!");
             e.printStackTrace();
@@ -97,16 +101,19 @@ public class MySQL {
 
     public PlayerData getPlayerData(String name) {
         try (ResultSet result = executeQuery(Query.GET_PLAYER_DATA_FROM_NAME, name)) {
-            if (result.next()) {
-                return new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
-                        result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
-                        result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getInt("playersRecruited"), result.getInt("recruitedBy"),
-                        result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
-                        Cosmetic.Item.valueOf(result.getString("trail")), Cosmetic.Item.valueOf(result.getString("warcry")), Cosmetic.Item.valueOf(result.getString("gore")),
-                        LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")), result.getString("ownedKits"),
-                        result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"), result.getString("cosmetics"));
+            if (result != null) {
+                if (result.next()) {
+                    return new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
+                            result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
+                            result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getInt("playersRecruited"), result.getInt("recruitedBy"),
+                            result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
+                            Cosmetic.Item.valueOf(result.getString("trail")), Cosmetic.Item.valueOf(result.getString("warcry")), Cosmetic.Item.valueOf(result.getString("gore")),
+                            LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")), result.getString("ownedKits"),
+                            result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"), result.getString("cosmetics"),
+                            ParticleQuality.valueOf(result.getString("particleQuality")));
+                }
+                result.getStatement().close();
             }
-            result.getStatement().close();
         } catch (SQLException e) {
             plugin.getLogger().severe("Uh oh! Unable to get the player data!");
             e.printStackTrace();
@@ -117,17 +124,20 @@ public class MySQL {
     public ArrayList<PlayerData> getAllPlayerData() {
         try (ResultSet result = executeQuery(Query.GET_ALL_PLAYER_DATA)) {
             ArrayList<PlayerData> playerDatas = new ArrayList<>();
-            while (result.next()) {
-                playerDatas.add(new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
-                        result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
-                        result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getInt("playersRecruited"), result.getInt("recruitedBy"),
-                        result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
-                        Cosmetic.Item.valueOf(result.getString("trail")), Cosmetic.Item.valueOf(result.getString("warcry")), Cosmetic.Item.valueOf(result.getString("gore")),
-                        LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")), result.getString("ownedKits"),
-                        result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"), result.getString("cosmetics")));
+            if (result != null) {
+                while (result.next()) {
+                    playerDatas.add(new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),
+                            result.getString("name"), Rank.valueOf(result.getString("rank")), result.getInt("kills"), result.getInt("deaths"), result.getInt("souls"), result.getInt("coins"),
+                            result.getInt("killstreaksEnded"), result.getInt("revengeKills"), result.getInt("highestKillstreak"), result.getInt("playersRecruited"), result.getInt("recruitedBy"),
+                            result.getBoolean("dailyReward"), result.getBoolean("teamRequests"), result.getBoolean("privateMessaging"), result.getBoolean("stealthyJoin"),
+                            Cosmetic.Item.valueOf(result.getString("trail")), Cosmetic.Item.valueOf(result.getString("warcry")), Cosmetic.Item.valueOf(result.getString("gore")),
+                            LocalDateTime.parse(result.getString("dailyRewardLast")), LocalDateTime.parse(result.getString("lastOnline")), result.getString("ownedKits"),
+                            result.getString("lastKilledBy"), result.getString("title"), result.getString("friends"), result.getString("cosmetics"),
+                            ParticleQuality.valueOf(result.getString("particleQuality"))));
+                }
+                result.getStatement().close();
+                return playerDatas;
             }
-            result.getStatement().close();
-            return playerDatas;
         } catch (SQLException e) {
             plugin.getLogger().severe("Uh oh! Unable to get all player data");
             e.printStackTrace();
@@ -137,10 +147,12 @@ public class MySQL {
 
     public int getEssenceAmount(Player player, Essence.Type type) {
         try (ResultSet result = executeQuery(Query.GET_ESSENCE_AMOUNT, player.getUniqueId().toString(), type.toString())) {
-            if (result.next()) {
-                return result.getInt("amount");
+            if (result != null) {
+                if (result.next()) {
+                    return result.getInt("amount");
+                }
+                result.getStatement().close();
             }
-            result.getStatement().close();
         } catch (SQLException e) {
             plugin.getLogger().severe("Uh oh! Unable to get the essence data!");
             e.printStackTrace();
@@ -150,12 +162,14 @@ public class MySQL {
 
     public Punishment getPunishment(UUID uuid, Punishment.Type type, LocalDateTime date) {
         try (ResultSet result = executeQuery(Query.GET_PUNISHMENT, uuid.toString(), type.toString(), date.toString())) {
-            if (result.next()) {
-                return new Punishment(result.getInt("id"), UUID.fromString(result.getString("uuid")), result.getString("name"), Punishment.Type.valueOf(result.getString("type")),
-                        LocalDateTime.parse(result.getString("date")), result.getInt("duration"), LocalDateTime.parse(result.getString("expiration")), UUID.fromString(result.getString("enforcer")),
-                        Punishment.Reason.valueOf(result.getString("reason")), result.getBoolean("pardoned"));
+            if (result != null) {
+                if (result.next()) {
+                    return new Punishment(result.getInt("id"), UUID.fromString(result.getString("uuid")), result.getString("name"), Punishment.Type.valueOf(result.getString("type")),
+                            LocalDateTime.parse(result.getString("date")), result.getInt("duration"), LocalDateTime.parse(result.getString("expiration")), UUID.fromString(result.getString("enforcer")),
+                            Punishment.Reason.valueOf(result.getString("reason")), result.getBoolean("pardoned"));
+                }
+                result.getStatement().close();
             }
-            result.getStatement().close();
         } catch (SQLException e) {
             plugin.getLogger().severe("Uh oh! Unable to get the punishment!");
             e.printStackTrace();
@@ -166,13 +180,15 @@ public class MySQL {
     public ArrayList<Punishment> getAllPunishments(UUID uuid) {
         try (ResultSet result = executeQuery(Query.GET_ALL_PUNISHMENTS, uuid.toString())) {
             ArrayList<Punishment> punishments = new ArrayList<>();
-            while (result.next()) {
-                punishments.add(new Punishment(result.getInt("id"), UUID.fromString(result.getString("uuid")), result.getString("name"), Punishment.Type.valueOf(result.getString("type")),
-                        LocalDateTime.parse(result.getString("date")), result.getInt("duration"), LocalDateTime.parse(result.getString("expiration")), UUID.fromString(result.getString("enforcer")),
-                        Punishment.Reason.valueOf(result.getString("reason")), result.getBoolean("pardoned")));
+            if (result != null) {
+                while (result.next()) {
+                    punishments.add(new Punishment(result.getInt("id"), UUID.fromString(result.getString("uuid")), result.getString("name"), Punishment.Type.valueOf(result.getString("type")),
+                            LocalDateTime.parse(result.getString("date")), result.getInt("duration"), LocalDateTime.parse(result.getString("expiration")), UUID.fromString(result.getString("enforcer")),
+                            Punishment.Reason.valueOf(result.getString("reason")), result.getBoolean("pardoned")));
+                }
+                result.getStatement().close();
+                return punishments;
             }
-            result.getStatement().close();
-            return punishments;
         } catch (SQLException e) {
             plugin.getLogger().severe("Uh oh! Unable to get punishments!");
             e.printStackTrace();
@@ -183,13 +199,15 @@ public class MySQL {
     public ArrayList<Punishment> getAllPunishments() {
         try (ResultSet result = executeQuery(Query.GET_PUNISHMENTS)) {
             ArrayList<Punishment> punishments = new ArrayList<>();
-            while (result.next()) {
-                punishments.add(new Punishment(result.getInt("id"), UUID.fromString(result.getString("uuid")), result.getString("name"), Punishment.Type.valueOf(result.getString("type")),
-                        LocalDateTime.parse(result.getString("date")), result.getInt("duration"), LocalDateTime.parse(result.getString("expiration")), UUID.fromString(result.getString("enforcer")),
-                        Punishment.Reason.valueOf(result.getString("reason")), result.getBoolean("pardoned")));
+            if (result != null) {
+                while (result.next()) {
+                    punishments.add(new Punishment(result.getInt("id"), UUID.fromString(result.getString("uuid")), result.getString("name"), Punishment.Type.valueOf(result.getString("type")),
+                            LocalDateTime.parse(result.getString("date")), result.getInt("duration"), LocalDateTime.parse(result.getString("expiration")), UUID.fromString(result.getString("enforcer")),
+                            Punishment.Reason.valueOf(result.getString("reason")), result.getBoolean("pardoned")));
+                }
+                result.getStatement().close();
+                return punishments;
             }
-            result.getStatement().close();
-            return punishments;
         } catch (SQLException e) {
             plugin.getLogger().severe("Uh oh! Unable to get punishments!");
             e.printStackTrace();
@@ -222,7 +240,7 @@ public class MySQL {
      * @param query MySQL query to execute
      * @return Result of MySQL query
      */
-    public ResultSet executeQuery(Query query, Object... parameters) {
+    private ResultSet executeQuery(Query query, Object... parameters) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query.toString());
             int i = 1;

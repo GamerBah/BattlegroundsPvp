@@ -6,7 +6,7 @@ import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Etc.Menus.PunishMenu;
 import com.battlegroundspvp.Etc.Menus.WarnMenu;
-import com.battlegroundspvp.Utils.EventSound;
+import com.battlegroundspvp.Utils.Enums.EventSound;
 import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -42,8 +42,8 @@ public class WarnCommand implements CommandExecutor {
             return true;
         }
 
-        if (args.length > 1) {
-            plugin.sendIncorrectUsage(player, "/warn <player>");
+        if (args.length > 2) {
+            plugin.sendIncorrectUsage(player, "/warn <player> [clear]");
             return true;
         }
 
@@ -56,7 +56,6 @@ public class WarnCommand implements CommandExecutor {
         if (args.length == 1) {
             @SuppressWarnings("deprecation")
             PlayerData targetData = Battlegrounds.getSql().getPlayerData(args[0]);
-
 
             if (targetData == null) {
                 player.sendMessage(ChatColor.RED + "That player has never joined before!");
@@ -71,13 +70,37 @@ public class WarnCommand implements CommandExecutor {
             }
 
             OfflinePlayer target = plugin.getServer().getOfflinePlayer(targetData.getUuid());
-            if (target == null) {
-                player.sendMessage(ChatColor.RED + "That player isn't online!");
+            WarnMenu warnMenu = new WarnMenu(plugin);
+            warnMenu.openInventory(player, target, null);
+        }
+
+        if (args.length == 2) {
+            PlayerData targetData = Battlegrounds.getSql().getPlayerData(args[0]);
+
+            if (targetData == null) {
+                player.sendMessage(ChatColor.RED + "That player has never joined before!");
                 Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                 return true;
             }
-            WarnMenu warnMenu = new WarnMenu(plugin);
-            warnMenu.openInventory(player, target, null);
+
+            if (targetData.getName().equals(playerData.getName())) {
+                player.sendMessage(ChatColor.RED + "You can't clear your own warnings!");
+                Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                return true;
+            }
+
+            if (warned.containsKey(targetData.getUuid())) {
+                plugin.getServer().getOnlinePlayers().stream().filter(players ->
+                        plugin.getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER))
+                        .forEach(players -> players.sendMessage(ChatColor.GRAY + player.getName() + ChatColor.RED + " cleared "
+                                + ChatColor.GOLD + targetData.getName() + "'s (" + warned.get(targetData.getUuid()) + ")" + ChatColor.RED + " warnings"));
+                warned.remove(targetData.getUuid());
+                return true;
+            } else {
+                player.sendMessage(ChatColor.RED + "That player doesn't have any warnings!");
+                Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                return true;
+            }
         }
         return false;
     }

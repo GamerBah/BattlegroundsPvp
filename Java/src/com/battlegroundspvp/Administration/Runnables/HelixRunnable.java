@@ -5,7 +5,7 @@ package com.battlegroundspvp.Administration.Runnables;
 import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Listeners.CombatListener;
-import com.battlegroundspvp.Utils.Cosmetic;
+import com.battlegroundspvp.Utils.Enums.Cosmetic;
 import com.battlegroundspvp.Utils.Packets.Particles.ParticleEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

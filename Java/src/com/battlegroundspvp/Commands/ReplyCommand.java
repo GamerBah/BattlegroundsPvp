@@ -2,9 +2,9 @@ package com.battlegroundspvp.Commands;
 
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Utils.EventSound;
+import com.battlegroundspvp.Utils.Enums.EventSound;
+import com.battlegroundspvp.Utils.Enums.Time;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
-import com.battlegroundspvp.Utils.Time;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;

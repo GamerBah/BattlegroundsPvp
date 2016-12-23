@@ -3,8 +3,8 @@ package com.battlegroundspvp.Utils.Messages;// AUTHOR: gamer_000 (12/28/2015)
 import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
+import com.battlegroundspvp.Utils.Enums.Time;
 import com.battlegroundspvp.Utils.KDRatio;
-import com.battlegroundspvp.Utils.Time;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.OfflinePlayer;

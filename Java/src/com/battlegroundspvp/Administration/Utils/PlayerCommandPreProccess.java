@@ -2,12 +2,11 @@ package com.battlegroundspvp.Administration.Utils;
 /* Created by GamerBah on 8/15/2016 */
 
 
-import com.battlegroundspvp.Administration.Commands.ChatCommands;
 import com.battlegroundspvp.Administration.Commands.FreezeCommand;
 import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Administration.Runnables.TrailRunnable;
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Utils.EventSound;
+import com.battlegroundspvp.Utils.Enums.EventSound;
 import com.connorlinfoot.titleapi.TitleAPI;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.StringUtils;
@@ -95,7 +94,7 @@ public class PlayerCommandPreProccess implements Listener {
         }
 
         plugin.getServer().getOnlinePlayers().stream().filter(players ->
-                plugin.getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER) && ChatCommands.cmdspies.contains(players.getUniqueId()))
+                plugin.getPlayerData(players.getUniqueId()).hasRank(Rank.HELPER) && Battlegrounds.getCmdspies().contains(players.getUniqueId()))
                 .forEach(players -> players.sendMessage(ChatColor.GRAY + "" + ChatColor.BOLD + "" + ChatColor.DARK_GRAY + player.getName() + ": " + ChatColor.GRAY + command));
     }
 

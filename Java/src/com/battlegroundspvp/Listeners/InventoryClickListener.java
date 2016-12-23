@@ -19,7 +19,11 @@ import com.battlegroundspvp.Etc.Menus.*;
 import com.battlegroundspvp.Etc.Menus.Cosmetics.GoreMenu;
 import com.battlegroundspvp.Etc.Menus.Cosmetics.TrailMenu;
 import com.battlegroundspvp.Etc.Menus.Cosmetics.WarcryMenu;
-import com.battlegroundspvp.Utils.*;
+import com.battlegroundspvp.Utils.Enums.Cosmetic;
+import com.battlegroundspvp.Utils.Enums.EventSound;
+import com.battlegroundspvp.Utils.Enums.Rarity;
+import com.battlegroundspvp.Utils.FireworkUtils;
+import com.battlegroundspvp.Utils.I;
 import com.battlegroundspvp.Utils.Kits.KitManager;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import com.battlegroundspvp.Utils.Teams.TeamMessages;
@@ -204,42 +208,67 @@ public class InventoryClickListener implements Listener {
                 PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
                 ItemStack item = event.getCurrentItem();
                 event.setCancelled(true);
-                if (item.getType().equals(Material.INK_SACK)) {
-                    SettingsMenu settingsMenu = new SettingsMenu(plugin);
+                SettingsMenu settingsMenu = new SettingsMenu(plugin);
 
-                    if (item.getItemMeta().getDisplayName().contains("Stealthy")) {
-                        if (!playerData.isStealthyJoin()) {
-                            playerData.setStealthyJoin(true);
-                            settingsMenu.openInventory(player);
-                            Battlegrounds.playSound(player, EventSound.CLICK);
-                        } else {
-                            playerData.setStealthyJoin(false);
-                            Battlegrounds.playSound(player, EventSound.CLICK);
-                            settingsMenu.openInventory(player);
-                        }
+                if (item.getItemMeta().getDisplayName().contains("Stealthy")) {
+                    if (!playerData.isStealthyJoin()) {
+                        playerData.setStealthyJoin(true);
+                        settingsMenu.openInventory(player);
+                        Battlegrounds.playSound(player, EventSound.CLICK);
+                    } else {
+                        playerData.setStealthyJoin(false);
+                        Battlegrounds.playSound(player, EventSound.CLICK);
+                        settingsMenu.openInventory(player);
                     }
-                    if (item.getItemMeta().getDisplayName().contains("Messaging")) {
-                        if (!playerData.isPrivateMessaging()) {
-                            playerData.setPrivateMessaging(true);
+                }
+                if (item.getItemMeta().getDisplayName().contains("Command")) {
+                    if (!Battlegrounds.getCmdspies().contains(player.getUniqueId())) {
+                        Battlegrounds.getCmdspies().add(player.getUniqueId());
+                        settingsMenu.openInventory(player);
+                        Battlegrounds.playSound(player, EventSound.CLICK);
+                    } else {
+                        Battlegrounds.getCmdspies().remove(player.getUniqueId());
+                        Battlegrounds.playSound(player, EventSound.CLICK);
+                        settingsMenu.openInventory(player);
+                    }
+                }
+                if (item.getItemMeta().getDisplayName().contains("Messaging")) {
+                    if (!playerData.isPrivateMessaging()) {
+                        playerData.setPrivateMessaging(true);
+                        Battlegrounds.playSound(player, EventSound.CLICK);
+                        settingsMenu.openInventory(player);
+                    } else {
+                        playerData.setPrivateMessaging(false);
+                        Battlegrounds.playSound(player, EventSound.CLICK);
+                        settingsMenu.openInventory(player);
+                    }
+                }
+                if (item.getItemMeta().getDisplayName().contains("Requests")) {
+                    if (!playerData.isTeamRequests()) {
+                        playerData.setTeamRequests(true);
+                        Battlegrounds.playSound(player, EventSound.CLICK);
+                        settingsMenu.openInventory(player);
+                    } else {
+                        playerData.setTeamRequests(false);
+                        Battlegrounds.playSound(player, EventSound.CLICK);
+                        settingsMenu.openInventory(player);
+                    }
+                }
+                if (item.getItemMeta().getDisplayName().contains("Particle")) {
+                        /*if (playerData.getParticleQuality().equals(ParticleQuality.LOW)) {
+                            playerData.setParticleQuality(ParticleQuality.MEDIUM);
+                            Battlegrounds.playSound(player, EventSound.CLICK);
+                            settingsMenu.openInventory(player);
+                        } else if (playerData.getParticleQuality().equals(ParticleQuality.MEDIUM)) {
+                            playerData.setParticleQuality(ParticleQuality.HIGH);
                             Battlegrounds.playSound(player, EventSound.CLICK);
                             settingsMenu.openInventory(player);
                         } else {
-                            playerData.setPrivateMessaging(false);
+                            playerData.setParticleQuality(ParticleQuality.LOW);
                             Battlegrounds.playSound(player, EventSound.CLICK);
                             settingsMenu.openInventory(player);
-                        }
-                    }
-                    if (item.getItemMeta().getDisplayName().contains("Requests")) {
-                        if (!playerData.isTeamRequests()) {
-                            playerData.setTeamRequests(true);
-                            Battlegrounds.playSound(player, EventSound.CLICK);
-                            settingsMenu.openInventory(player);
-                        } else {
-                            playerData.setTeamRequests(false);
-                            Battlegrounds.playSound(player, EventSound.CLICK);
-                            settingsMenu.openInventory(player);
-                        }
-                    }
+                        }*/
+                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                 }
             }
 
@@ -850,10 +879,12 @@ public class InventoryClickListener implements Listener {
                     Battlegrounds.playSound(player, EventSound.INVENTORY_GO_BACK);
                 }
                 if (item.getType().equals(Material.WOOL)) {
+                    if (item.getItemMeta().getLore().contains(ChatColor.RED + "Nothing (Select a book)")) {
+                        return;
+                    }
                     PlayerData playerData = plugin.getPlayerData(wool.getItemMeta().getLore().get(0).substring(13, wool.getItemMeta().getLore().get(0).length()));
-                    Player target = plugin.getServer().getPlayer(playerData.getUuid());
                     Punishment.Reason reason = Punishment.getReasonFromName(wool.getItemMeta().getLore().get(1).substring(9, wool.getItemMeta().getLore().get(1).length()));
-                    plugin.warnPlayer(player, target, reason);
+                    plugin.warnPlayer(player, playerData, reason);
                 }
             }
 
@@ -952,7 +983,9 @@ public class InventoryClickListener implements Listener {
                 }
             }
 
-        } else {
+        } else
+
+        {
             event.setCancelled(false);
         }
     }

@@ -4,12 +4,12 @@ package com.battlegroundspvp.Kits.Rare;
 
 import com.battlegroundspvp.Administration.Runnables.AutoUpdate;
 import com.battlegroundspvp.Battlegrounds;
+import com.battlegroundspvp.Utils.Enums.Rarity;
 import com.battlegroundspvp.Utils.I;
 import com.battlegroundspvp.Utils.Kits.Kit;
 import com.battlegroundspvp.Utils.Kits.KitAbility;
 import com.battlegroundspvp.Utils.Kits.KitManager;
 import com.battlegroundspvp.Utils.Packets.Particles.ParticleEffect;
-import com.battlegroundspvp.Utils.Rarity;
 import com.connorlinfoot.titleapi.TitleAPI;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;

@@ -5,8 +5,8 @@ package com.battlegroundspvp.Administration.Runnables;
 import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Listeners.CombatListener;
-import com.battlegroundspvp.Utils.Cosmetic;
-import com.battlegroundspvp.Utils.EventSound;
+import com.battlegroundspvp.Utils.Enums.Cosmetic;
+import com.battlegroundspvp.Utils.Enums.EventSound;
 import com.battlegroundspvp.Utils.Packets.Particles.ParticleEffect;
 import com.connorlinfoot.titleapi.TitleAPI;
 import lombok.Getter;
@@ -65,6 +65,8 @@ public class TrailRunnable implements Runnable {
                     if (still.containsKey(player)) {
                         if (!Battlegrounds.getAfk().contains(player.getUniqueId())) {
                             if (!CombatListener.getTagged().containsKey(player.getUniqueId())) {
+                                // ParticleQuality quality = playerData.getParticleQuality();
+                                // (quality.equals(ParticleQuality.LOW) ? 3 : quality.equals(ParticleQuality.MEDIUM) ? 6 : 9)
                                 // Rare
 
 

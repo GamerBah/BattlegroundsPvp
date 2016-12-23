@@ -5,7 +5,7 @@ package com.battlegroundspvp.Administration.Commands;
 import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Utils.EventSound;
+import com.battlegroundspvp.Utils.Enums.EventSound;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;

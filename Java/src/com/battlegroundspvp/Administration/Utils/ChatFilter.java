@@ -2,11 +2,12 @@ package com.battlegroundspvp.Administration.Utils;
 /* Created by GamerBah on 8/15/2016 */
 
 
+import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Utils.EventSound;
+import com.battlegroundspvp.Utils.Enums.EventSound;
+import com.battlegroundspvp.Utils.Enums.Time;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
-import com.battlegroundspvp.Utils.Time;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -67,7 +68,8 @@ public class ChatFilter implements Listener {
                 attempts.put(player, attempts.get(player) + 1);
                 if (attempts.get(player) == 10) {
                     attempts.remove(player);
-                    plugin.warnPlayer(null, player, Punishment.Reason.ATTEMPT_SWEARING);
+                    PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
+                    plugin.warnPlayer(null, playerData, Punishment.Reason.ATTEMPT_SWEARING);
                 }
             }
         }

@@ -4,13 +4,13 @@ package com.battlegroundspvp.Kits.Legendary;
 
 import com.battlegroundspvp.Administration.Runnables.AutoUpdate;
 import com.battlegroundspvp.Battlegrounds;
+import com.battlegroundspvp.Utils.Enums.Rarity;
 import com.battlegroundspvp.Utils.I;
 import com.battlegroundspvp.Utils.Kits.Kit;
 import com.battlegroundspvp.Utils.Kits.KitAbility;
 import com.battlegroundspvp.Utils.Kits.KitManager;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import com.battlegroundspvp.Utils.Packets.Particles.ParticleEffect;
-import com.battlegroundspvp.Utils.Rarity;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
