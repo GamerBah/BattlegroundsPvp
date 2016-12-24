@@ -44,11 +44,11 @@ public class AFKCommand implements CommandExecutor {
             TitleAPI.clearTitle(player);
             player.removePotionEffect(PotionEffectType.INVISIBILITY);
         } else {
-            Battlegrounds.getAfk().add(player.getUniqueId());
             plugin.respawn(player, player.getWorld().getSpawnLocation().add(0.5, 8, 0.5));
             player.getInventory().clear();
             player.sendMessage(ChatColor.GRAY + "You are now AFK");
             Battlegrounds.playSound(player, EventSound.CLICK);
+            Battlegrounds.getAfk().add(player.getUniqueId());
             TitleAPI.sendTitle(player, 10, 1728000, 20, BoldColor.AQUA.getColor() + "You are AFK!", ChatColor.YELLOW + "Move to start playing again!");
             player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, true, false));
         }

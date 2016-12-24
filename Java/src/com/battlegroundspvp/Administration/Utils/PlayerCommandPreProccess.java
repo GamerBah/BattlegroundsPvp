@@ -4,7 +4,7 @@ package com.battlegroundspvp.Administration.Utils;
 
 import com.battlegroundspvp.Administration.Commands.FreezeCommand;
 import com.battlegroundspvp.Administration.Data.PlayerData;
-import com.battlegroundspvp.Administration.Runnables.TrailRunnable;
+import com.battlegroundspvp.Administration.Runnables.AFKRunnable;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.Enums.EventSound;
 import com.connorlinfoot.titleapi.TitleAPI;
@@ -89,8 +89,8 @@ public class PlayerCommandPreProccess implements Listener {
             plugin.respawn(player);
         }
 
-        if (TrailRunnable.getStill().containsKey(player)) {
-            TrailRunnable.getStill().put(player, 0);
+        if (AFKRunnable.getAfkTimer().containsKey(player)) {
+            AFKRunnable.getAfkTimer().put(player, 0);
         }
 
         plugin.getServer().getOnlinePlayers().stream().filter(players ->

@@ -3,10 +3,15 @@ package com.battlegroundspvp.Administration.Runnables;
 
 
 import com.battlegroundspvp.Battlegrounds;
+import lombok.Getter;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
 
 public class AFKRunnable implements Runnable {
 
+    @Getter
+    private static HashMap<Player, Integer> afkTimer = new HashMap<>();
     private Battlegrounds plugin;
 
     public AFKRunnable(Battlegrounds plugin) {
@@ -16,11 +21,11 @@ public class AFKRunnable implements Runnable {
     @Override
     public void run() {
         for (Player player : plugin.getServer().getOnlinePlayers()) {
-            if (TrailRunnable.getStill().containsKey(player)) {
-                if (TrailRunnable.getStill().get(player) < 600) {
-                    TrailRunnable.getStill().put(player, TrailRunnable.getStill().get(player) + 1);
+            if (afkTimer.containsKey(player)) {
+                if (afkTimer.get(player) < 300) {
+                    afkTimer.put(player, afkTimer.get(player) + 1);
                 }
-                if (TrailRunnable.getStill().get(player) == 600) {
+                if (afkTimer.get(player) == 300) {
                     if (!Battlegrounds.getAfk().contains(player.getUniqueId())) {
                         player.chat("/afk");
                     }

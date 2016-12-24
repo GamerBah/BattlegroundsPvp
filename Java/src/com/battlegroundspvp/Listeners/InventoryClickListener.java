@@ -27,6 +27,7 @@ import com.battlegroundspvp.Utils.I;
 import com.battlegroundspvp.Utils.Kits.KitManager;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import com.battlegroundspvp.Utils.Teams.TeamMessages;
+import com.battlegroundspvp.Utils.Teams.TeamUtils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.*;
@@ -49,7 +50,7 @@ public class InventoryClickListener implements Listener {
         this.plugin = plugin;
     }
 
-    public static int selectedInInventory(Inventory inventory) {
+    private static int selectedInInventory(Inventory inventory) {
         int found = 0;
         for (ItemStack item : inventory.getContents()) {
             if (item != null && item.getDurability() == 10)
@@ -199,6 +200,7 @@ public class InventoryClickListener implements Listener {
                     }
                     TeamMessages teamMessages = new TeamMessages(plugin);
                     teamMessages.sendRequestMessage(player, target);
+                    TeamUtils.createPendingRequest(target, player);
                 }
 
                 event.setCancelled(true);

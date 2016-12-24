@@ -57,25 +57,25 @@ public class PingCommand implements CommandExecutor {
         if (ping <= 20) {
             status = BoldColor.PINK.getColor() + "AWESOME! ";
         }
-        if (ping > 20 && ping <= 50) {
+        if (ping > 20 && ping <= 40) {
             status = BoldColor.PURPLE.getColor() + "GREAT! ";
         }
-        if (ping > 50 && ping <= 100) {
+        if (ping > 40 && ping <= 70) {
             status = BoldColor.GREEN.getColor() + "Good! ";
         }
-        if (ping > 100 && ping <= 150) {
+        if (ping > 70 && ping <= 120) {
             status = BoldColor.DARK_GREEN.getColor() + "Okay. ";
         }
-        if (ping > 150 && ping <= 250) {
+        if (ping > 120 && ping <= 150) {
             status = BoldColor.YELLOW.getColor() + "Eh... ";
         }
-        if (ping > 250 && ping <= 350) {
+        if (ping > 150 && ping <= 200) {
             status = BoldColor.GOLD.getColor() + "Bad. ";
         }
-        if (ping > 350 && ping <= 450) {
+        if (ping > 200 && ping <= 250) {
             status = BoldColor.RED.getColor() + "AWFUL! ";
         }
-        if (ping > 450) {
+        if (ping > 250) {
             status = BoldColor.DARK_RED.getColor() + "RIP. ";
         }
 

@@ -66,7 +66,7 @@ public enum Cosmetic {
         SOUND_ANVIL(102, KILL_SOUND, "Anvil", new I(Material.ANVIL)
                 .name(ChatColor.BLUE + "Anvil")
                 .lore(ChatColor.GRAY + "" + ChatColor.ITALIC + "Crushed by pure iron."),
-                Rarity.RARE, Sound.BLOCK_ANVIL_FALL, 1, 0.9F),
+                Rarity.RARE, Sound.BLOCK_ANVIL_LAND, 1, 0.9F),
 
         // Epic
         SOUND_EXPLODE(130, KILL_SOUND, "Explosion", new I(Material.TNT)

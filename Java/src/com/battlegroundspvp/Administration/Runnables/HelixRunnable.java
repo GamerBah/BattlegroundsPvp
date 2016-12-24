@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 public class HelixRunnable implements Runnable {
 
-    double phi = 0;
+    private double phi = 0;
     private Battlegrounds plugin;
 
     public HelixRunnable(Battlegrounds plugin) {
@@ -23,7 +23,7 @@ public class HelixRunnable implements Runnable {
     public void run() {
         for (Player player : plugin.getServer().getOnlinePlayers()) {
             PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
-            if (TrailRunnable.getStill().containsKey(player)) {
+            if (TrailRunnable.getStill().contains(player)) {
                 if (!Battlegrounds.getAfk().contains(player.getUniqueId())) {
                     if (!CombatListener.getTagged().containsKey(player.getUniqueId())) {
                         if (playerData.getTrail().equals(Cosmetic.Item.TRAIL_FLAME_WARRIOR)) {

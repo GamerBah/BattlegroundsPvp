@@ -18,6 +18,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -40,6 +41,7 @@ public class PlayerDeath implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
         Player killer = player.getKiller();
+        Location deathLoc = new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
         ParticleEffect.LAVA.display(0, 0.2F, 0, 1, 20, player.getLocation(), 100);
         player.setHealth(20);
         plugin.getServer().getScheduler().runTask(plugin, () -> {
@@ -136,6 +138,7 @@ public class PlayerDeath implements Listener {
 
         PlayerData killerData = plugin.getPlayerData(killer.getUniqueId());
         scoreboardListener.updateScoreboardKills(killer, 1);
+        player.getWorld().playSound(deathLoc, killerData.getWarcry().getKillSound(), killerData.getWarcry().getVolume(), killerData.getWarcry().getPitch());
 
         for (Achievement.Type achievement : Achievement.Type.values()) {
             if (achievement.getGroup().equals(Achievement.COMBAT) && achievement.getName().contains("Brutality")) {

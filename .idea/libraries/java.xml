@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="java">
+    <CLASSES />
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Downloads/brettwooldridge-HikariCP-HikariCP-2.4.4-1-ga7e0d35.zip!/brettwooldridge-HikariCP-a7e0d35/src/main/java" />
+      <root url="jar://$USER_HOME$/Downloads/brettwooldridge-HikariCP-HikariCP-2.4.4-1-ga7e0d35.zip!/brettwooldridge-HikariCP-a7e0d35/src/test/java" />
+    </SOURCES>
+  </library>
+</component>

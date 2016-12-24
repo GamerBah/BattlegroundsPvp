@@ -81,15 +81,30 @@ public class Ninja extends Kit {
                         players.hidePlayer(player);
                         Bukkit.getServer().getScheduler().runTaskLater(Battlegrounds.getInstance(), () -> {
                             if (KitAbility.getPlayerStatus().containsKey(player.getName())) {
-                                ParticleEffect.SMOKE_LARGE.display(0.3F, 1F, 0.3F, 0, 65, player.getLocation(), 35);
+                                ParticleEffect.SMOKE_LARGE.display(0.3F, 0.5F, 0.3F, 0, 70, player.getLocation().add(0, 0.5, 0), 35);
                                 player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_FLAP, 0.5F, 1.3F);
                                 players.showPlayer(player);
                             }
                         }, 100L);
                     }
                     player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_FLAP, 0.75F, 1F);
-                    ParticleEffect.SMOKE_LARGE.display(0.3F, 1F, 0.3F, 0, 65, player.getLocation(), 35);
+                    ParticleEffect.SMOKE_LARGE.display(0.3F, 0.5F, 0.3F, 0, 70, player.getLocation().add(0, 0.5, 0), 35);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 0, false, false));
+                    Bukkit.getServer().getScheduler().runTaskLater(Battlegrounds.getInstance(), () -> {
+                        if (KitAbility.getPlayerStatus().containsKey(player.getName())) {
+                            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 2F, 1.5F);
+                        }
+                    }, 70);
+                    Bukkit.getServer().getScheduler().runTaskLater(Battlegrounds.getInstance(), () -> {
+                        if (KitAbility.getPlayerStatus().containsKey(player.getName())) {
+                            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 2F, 1.5F);
+                        }
+                    }, 80);
+                    Bukkit.getServer().getScheduler().runTaskLater(Battlegrounds.getInstance(), () -> {
+                        if (KitAbility.getPlayerStatus().containsKey(player.getName())) {
+                            player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 2F, 1.5F);
+                        }
+                    }, 90);
                 }
             }
         }

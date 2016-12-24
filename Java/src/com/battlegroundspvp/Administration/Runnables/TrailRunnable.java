@@ -17,12 +17,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class TrailRunnable implements Runnable {
 
     @Getter
-    private static HashMap<Player, Integer> still = new HashMap<>();
+    private static HashSet<Player> still = new HashSet<>();
     private Battlegrounds plugin;
     private Map<Player, Location> playerLocations = new HashMap<>();
 
@@ -39,16 +40,18 @@ public class TrailRunnable implements Runnable {
             if (player.getLocation().getX() == playerLocations.get(player).getX()
                     && player.getLocation().getY() == playerLocations.get(player).getY()
                     && player.getLocation().getZ() == playerLocations.get(player).getZ()) {
-                if (!still.containsKey(player)) {
+                if (!still.contains(player)) {
                     playerLocations.put(player, player.getLocation());
-                    still.put(player, -1);
+                    still.add(player);
+                    AFKRunnable.getAfkTimer().put(player, 0);
                 }
             } else {
                 playerLocations.put(player, player.getLocation());
                 still.remove(player);
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                     if (Battlegrounds.getAfk().contains(player.getUniqueId())) {
-                        if (!still.containsKey(player)) {
+                        if (AFKRunnable.getAfkTimer().containsKey(player)) {
+                            AFKRunnable.getAfkTimer().remove(player);
                             TitleAPI.clearTitle(player);
                             player.sendMessage(ChatColor.GRAY + "You are no longer AFK");
                             Battlegrounds.playSound(player, EventSound.CLICK);
@@ -62,7 +65,7 @@ public class TrailRunnable implements Runnable {
 
             if (player.getGameMode() != GameMode.CREATIVE) {
                 if (!CombatListener.getTagged().containsKey(player.getUniqueId())) {
-                    if (still.containsKey(player)) {
+                    if (still.contains(player)) {
                         if (!Battlegrounds.getAfk().contains(player.getUniqueId())) {
                             if (!CombatListener.getTagged().containsKey(player.getUniqueId())) {
                                 // ParticleQuality quality = playerData.getParticleQuality();

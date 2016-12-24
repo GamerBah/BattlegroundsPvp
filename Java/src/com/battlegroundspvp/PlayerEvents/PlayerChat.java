@@ -6,6 +6,7 @@ import com.battlegroundspvp.Administration.Commands.ChatCommands;
 import com.battlegroundspvp.Administration.Commands.StaffChatCommand;
 import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
+import com.battlegroundspvp.Administration.Runnables.AFKRunnable;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.Enums.EventSound;
@@ -65,6 +66,10 @@ public class PlayerChat implements Listener {
         }
 
         Rank rank = playerData.getRank();
+
+        if (AFKRunnable.getAfkTimer().containsKey(player)) {
+            AFKRunnable.getAfkTimer().put(player, 0);
+        }
 
         if (playerData.hasRank(Rank.WARRIOR)) {
             ChatColor color = rank.getColor();
