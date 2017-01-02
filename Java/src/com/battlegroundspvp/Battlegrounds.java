@@ -13,7 +13,7 @@ import com.battlegroundspvp.Administration.Utils.ChatFilter;
 import com.battlegroundspvp.Administration.Utils.PlayerCommandPreProccess;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Commands.*;
-import com.battlegroundspvp.Etc.Menus.PunishMenu;
+import com.battlegroundspvp.Etc.Menus.Punishment.PunishMenu;
 import com.battlegroundspvp.Listeners.*;
 import com.battlegroundspvp.PlayerEvents.*;
 import com.battlegroundspvp.Utils.Enums.EventSound;

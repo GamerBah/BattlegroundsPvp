@@ -60,7 +60,7 @@ public class TrailRunnable implements Runnable {
                             player.removePotionEffect(PotionEffectType.INVISIBILITY);
                         }
                     }
-                }, 3L);
+                }, 2L);
             }
 
             if (player.getGameMode() != GameMode.CREATIVE) {

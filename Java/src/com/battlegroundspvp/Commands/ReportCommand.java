@@ -2,7 +2,7 @@ package com.battlegroundspvp.Commands;
 
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Etc.Menus.ReportMenu;
+import com.battlegroundspvp.Etc.Menus.Punishment.ReportMenu;
 import com.battlegroundspvp.Utils.Enums.EventSound;
 import com.battlegroundspvp.Utils.Enums.Time;
 import lombok.Getter;

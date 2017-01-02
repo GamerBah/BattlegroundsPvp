@@ -38,6 +38,7 @@ public enum Query {
     UPDATE_PLAYER_FRIENDS("UPDATE players SET friends = ? WHERE id = ?"),
     UPDATE_PLAYER_OWNED_COSMETICS("UPDATE players SET cosmetics = ? WHERE id = ?"),
     UPDATE_PLAYER_PARTICLE_QUALITY("UPDATE players SET cosmetics = ? WHERE id = ?"),
+    UPDATE_PLAYER_INSTANT_RESPAWN("UPDATE players SET instantRespawn = ? WHERE id = ?"),
 
     // DONATION DATA
     CREATE_ESSENCE_DATA("INSERT INTO essences (uuid, type, amount) VALUES (?, ?, ?)"),

@@ -28,7 +28,7 @@ public class PlayerData {
     @Getter
     private int kills, deaths, souls, coins, killstreaksEnded, revengeKills, highestKillstreak, playersRecruited, recruitedBy;
     @Getter
-    private boolean dailyReward, teamRequests, privateMessaging, stealthyJoin;
+    private boolean dailyReward, teamRequests, privateMessaging, stealthyJoin, instantRespawn;
     @Getter
     private Cosmetic.Item trail, warcry, gore;
     @Getter
@@ -155,5 +155,9 @@ public class PlayerData {
     public void setParticleQuality(ParticleQuality particleQuality) {
         sql.executeUpdate(UPDATE_PLAYER_PARTICLE_QUALITY, particleQuality.toString(), id);
         this.particleQuality = particleQuality;
+    }
+
+    public void setInstantRespawn(boolean instantRespawn) {
+        sql.executeUpdate(UPDATE_PLAYER_STEALTHY_JOIN, this.instantRespawn = instantRespawn, id);
     }
 }

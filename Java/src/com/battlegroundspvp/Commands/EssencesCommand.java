@@ -4,7 +4,7 @@ package com.battlegroundspvp.Commands;
 
 import com.battlegroundspvp.Administration.Donations.Essence;
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Etc.Menus.EssenceMenu;
+import com.battlegroundspvp.Etc.Menus.Player.EssenceMenu;
 import com.battlegroundspvp.Utils.Enums.EventSound;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;

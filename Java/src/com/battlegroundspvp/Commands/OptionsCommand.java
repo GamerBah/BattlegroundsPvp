@@ -3,7 +3,7 @@ package com.battlegroundspvp.Commands;
 
 
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Etc.Menus.OptionsMenu;
+import com.battlegroundspvp.Etc.Menus.Player.OptionsMenu;
 import com.battlegroundspvp.Utils.Enums.EventSound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

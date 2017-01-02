@@ -7,7 +7,7 @@ import com.battlegroundspvp.Administration.Data.PlayerData;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Etc.Menus.PunishMenu;
+import com.battlegroundspvp.Etc.Menus.Punishment.PunishMenu;
 import com.battlegroundspvp.Utils.Enums.EventSound;
 import net.gpedro.integrations.slack.SlackMessage;
 import net.md_5.bungee.api.ChatColor;

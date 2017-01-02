@@ -1,4 +1,4 @@
-package com.battlegroundspvp.Etc.Menus;
+package com.battlegroundspvp.Etc.Menus.Player;
 /* Created by GamerBah on 6/1/2016 */
 
 

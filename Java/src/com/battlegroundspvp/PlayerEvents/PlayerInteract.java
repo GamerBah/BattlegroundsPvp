@@ -4,10 +4,11 @@ package com.battlegroundspvp.PlayerEvents;
 
 import com.battlegroundspvp.Administration.Commands.FreezeCommand;
 import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Runnables.AFKRunnable;
 import com.battlegroundspvp.Administration.Runnables.AutoUpdate;
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.Etc.Menus.ProfileMenu;
-import com.battlegroundspvp.Etc.Menus.SettingsMenu;
+import com.battlegroundspvp.Etc.Menus.Player.ProfileMenu;
+import com.battlegroundspvp.Etc.Menus.Player.SettingsMenu;
 import com.battlegroundspvp.Utils.Enums.EventSound;
 import com.battlegroundspvp.Utils.Enums.Rarity;
 import com.battlegroundspvp.Utils.I;
@@ -40,6 +41,9 @@ public class PlayerInteract implements Listener {
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
+        if (AFKRunnable.getAfkTimer().containsKey(player)) {
+            AFKRunnable.getAfkTimer().put(player, 0);
+        }
 
         if (!player.getGameMode().equals(GameMode.CREATIVE) && !(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.RIGHT_CLICK_AIR))) {
             event.setCancelled(true);

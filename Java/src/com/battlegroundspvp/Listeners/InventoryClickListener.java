@@ -15,10 +15,17 @@ import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Commands.ReportCommand;
 import com.battlegroundspvp.Etc.Achievements.Achievement;
 import com.battlegroundspvp.Etc.Achievements.AchievementMenu;
-import com.battlegroundspvp.Etc.Menus.*;
+import com.battlegroundspvp.Etc.Menus.CosmeticrateMenu;
 import com.battlegroundspvp.Etc.Menus.Cosmetics.GoreMenu;
 import com.battlegroundspvp.Etc.Menus.Cosmetics.TrailMenu;
 import com.battlegroundspvp.Etc.Menus.Cosmetics.WarcryMenu;
+import com.battlegroundspvp.Etc.Menus.KSlotsMenu;
+import com.battlegroundspvp.Etc.Menus.Player.EssenceMenu;
+import com.battlegroundspvp.Etc.Menus.Player.ProfileMenu;
+import com.battlegroundspvp.Etc.Menus.Player.SettingsMenu;
+import com.battlegroundspvp.Etc.Menus.Punishment.PunishMenu;
+import com.battlegroundspvp.Etc.Menus.Punishment.ReportMenu;
+import com.battlegroundspvp.Etc.Menus.Punishment.WarnMenu;
 import com.battlegroundspvp.Utils.Enums.Cosmetic;
 import com.battlegroundspvp.Utils.Enums.EventSound;
 import com.battlegroundspvp.Utils.Enums.Rarity;
@@ -299,6 +306,11 @@ public class InventoryClickListener implements Listener {
                     Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                 }
 
+                if (item.getType().equals(Material.DIAMOND)) {
+                    // TODO: Open Challenge Menu
+                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                }
+
                 if (item.getType().equals(Material.GLOWSTONE_DUST)) {
                     GoreMenu goreMenu = new GoreMenu(plugin);
                     goreMenu.openInventory(player);
@@ -320,9 +332,29 @@ public class InventoryClickListener implements Listener {
                     achievementMenu.openCombatAchievements(player);
                     Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                 }
+                if (item.getType().equals(Material.DIAMOND)) {
+                    // TODO: Open Challenge Achievement Menu
+                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                }
                 if (item.getType().equals(Material.BUCKET)) {
                     achievementMenu.openCollectionAchievements(player);
                     Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+                }
+                if (item.getType().equals(Material.SKULL_ITEM)) {
+                    // TODO: Open Recruitment Achievement Menu
+                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                }
+                if (item.getType().equals(Material.NAME_TAG)) {
+                    // TODO: Open ??? Achievement Menu
+                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                }
+                if (item.getType().equals(Material.DIAMOND_BOOTS)) {
+                    // TODO: Open Miscellaneous Achievement Menu
+                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                }
+                if (item.getType().equals(Material.BLAZE_POWDER)) {
+                    // TODO: Open Donation Achievement Menu
+                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                 }
                 if (item.getType().equals(Material.END_CRYSTAL)) {
                     PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
@@ -743,11 +775,13 @@ public class InventoryClickListener implements Listener {
                     Punishment.Reason reason = Punishment.getReasonFromName(item.getItemMeta().getDisplayName().substring(2, item.getItemMeta().getDisplayName().length()));
                     PlayerData playerData = plugin.getPlayerData(wool.getItemMeta().getLore().get(0).substring(15, wool.getItemMeta().getLore().get(0).length()));
                     Player targetOnline = plugin.getServer().getPlayer(playerData.getUuid());
-                    if (targetOnline == null) {
-                        OfflinePlayer target = plugin.getServer().getOfflinePlayer(playerData.getUuid());
-                        punishMenu.openPunishMenu(player, target, type, reason, reason.getLength());
-                    } else {
-                        punishMenu.openPunishMenu(player, targetOnline, type, reason, reason.getLength());
+                    if (reason != null) {
+                        if (targetOnline == null) {
+                            OfflinePlayer target = plugin.getServer().getOfflinePlayer(playerData.getUuid());
+                            punishMenu.openPunishMenu(player, target, type, reason, reason.getLength());
+                        } else {
+                            punishMenu.openPunishMenu(player, targetOnline, type, reason, reason.getLength());
+                        }
                     }
                     Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                     HashMap<Punishment.Reason, Integer> create = new HashMap<>();

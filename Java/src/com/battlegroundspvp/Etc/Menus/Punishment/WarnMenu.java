@@ -1,4 +1,4 @@
-package com.battlegroundspvp.Etc.Menus;
+package com.battlegroundspvp.Etc.Menus.Punishment;
 /* Created by GamerBah on 8/25/2016 */
 
 

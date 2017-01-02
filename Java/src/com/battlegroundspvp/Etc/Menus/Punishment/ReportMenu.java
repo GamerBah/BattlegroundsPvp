@@ -1,4 +1,4 @@
-package com.battlegroundspvp.Etc.Menus;
+package com.battlegroundspvp.Etc.Menus.Punishment;
 
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;

@@ -30,7 +30,8 @@ public class AchievementMenu {
         inv.setItem(11, new I(Material.DIAMOND)
                 .name(BoldColor.YELLOW.getColor() + "Challenge Achievements")
                 .lore(ChatColor.GRAY + "View Achievements related")
-                .lore(ChatColor.GRAY + "to Daily Challenges"));
+                .lore(ChatColor.GRAY + "to Daily Challenges")
+                .lore("").lore(BoldColor.RED.getColor() + "COMING SOON!"));
         inv.setItem(12, new I(Material.BUCKET)
                 .name(BoldColor.GREEN.getColor() + "Collection Achievements")
                 .lore(ChatColor.GRAY + "View Achievements related to")
@@ -38,7 +39,8 @@ public class AchievementMenu {
         inv.setItem(13, new I(Material.SKULL_ITEM).durability(3)
                 .name(BoldColor.PURPLE.getColor() + "Recruitment Achievements")
                 .lore(ChatColor.GRAY + "View Achievements related")
-                .lore(ChatColor.GRAY + "to Recruitment and Friends"));
+                .lore(ChatColor.GRAY + "to Recruitment and Friends")
+                .lore("").lore(BoldColor.RED.getColor() + "COMING SOON!"));
         inv.setItem(14, new I(Material.NAME_TAG)
                 .name(BoldColor.DARK_GREEN.getColor() + "???")
                 .lore(BoldColor.RED.getColor() + "COMING SOON!"));
