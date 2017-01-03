@@ -55,7 +55,7 @@ public class AchievementMenu {
                 .name(BoldColor.GOLD.getColor() + "Achievement Mastery")
                 .lore(ChatColor.GRAY + "Click to view your Achievement")
                 .lore(ChatColor.GRAY + "Mastery Titles and Particle Packs"));
-        inv.setItem(40, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
+        inv.setItem(40, new I(Material.ARROW).name(ChatColor.GRAY + "\u21E6 Back"));
 
         player.openInventory(inv);
     }
@@ -194,7 +194,7 @@ public class AchievementMenu {
                     }
                 }
             }
-            inv.setItem(49, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
+            inv.setItem(49, new I(Material.ARROW).name(ChatColor.GRAY + "\u21E6 Back"));
         }
         player.openInventory(inv);
     }
@@ -321,7 +321,7 @@ public class AchievementMenu {
                     }
                 }
             }
-            inv.setItem(49, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
+            inv.setItem(49, new I(Material.ARROW).name(ChatColor.GRAY + "\u21E6 Back"));
         }
         player.openInventory(inv);
     }

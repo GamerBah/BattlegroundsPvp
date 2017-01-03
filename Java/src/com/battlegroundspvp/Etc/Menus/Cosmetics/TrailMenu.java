@@ -62,7 +62,7 @@ public class TrailMenu {
         }
 
         inv.setItem(26, Cosmetic.Item.TRAIL_NONE.getItem());
-        inv.setItem(22, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
+        inv.setItem(22, new I(Material.ARROW).name(ChatColor.GRAY + "\u21E6 Back"));
         player.openInventory(inv);
     }
 }

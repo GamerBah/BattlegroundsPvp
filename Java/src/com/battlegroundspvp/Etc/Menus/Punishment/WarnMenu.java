@@ -95,7 +95,7 @@ public class WarnMenu {
             }
         }
         if (plugin.getAllPlayerData().size() > (page + 1) * 45) {
-            inv.setItem(53, new I(Material.ARROW).name(ChatColor.GRAY + "Next Page"));
+            inv.setItem(53, new I(Material.ARROW).name(ChatColor.GRAY + "Next \u21E8 Page"));
         }
         if (page > 0) {
             inv.setItem(45, new I(Material.ARROW).name(ChatColor.GRAY + "Previous Page"));
@@ -135,7 +135,7 @@ public class WarnMenu {
         im.setLore(lore);
         wool.setItemMeta(im);
 
-        inv.setItem(30, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
+        inv.setItem(30, new I(Material.ARROW).name(ChatColor.GRAY + "\u21E6 Back"));
         inv.setItem(32, wool);
 
         player.openInventory(inv);

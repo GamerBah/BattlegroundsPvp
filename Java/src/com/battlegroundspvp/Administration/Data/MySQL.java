@@ -89,6 +89,7 @@ public class MySQL {
                 plugin.getLogger().severe("Uh oh! Unable to get the player data!");
                 e.printStackTrace();
             }
+            closeConnection(connection);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -120,6 +121,7 @@ public class MySQL {
                 plugin.getLogger().severe("Uh oh! Unable to get the player data!");
                 e.printStackTrace();
             }
+            closeConnection(connection);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -151,6 +153,7 @@ public class MySQL {
                 plugin.getLogger().severe("Uh oh! Unable to get all player data");
                 e.printStackTrace();
             }
+            closeConnection(connection);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -175,6 +178,7 @@ public class MySQL {
                 plugin.getLogger().severe("Uh oh! Unable to get the essence data!");
                 e.printStackTrace();
             }
+            closeConnection(connection);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -201,6 +205,7 @@ public class MySQL {
                 plugin.getLogger().severe("Uh oh! Unable to get the punishment!");
                 e.printStackTrace();
             }
+            closeConnection(connection);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -227,6 +232,7 @@ public class MySQL {
                 plugin.getLogger().severe("Uh oh! Unable to get punishments!");
                 e.printStackTrace();
             }
+            closeConnection(connection);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -253,6 +259,7 @@ public class MySQL {
                 plugin.getLogger().severe("Uh oh! Unable to get punishments!");
                 e.printStackTrace();
             }
+            closeConnection(connection);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -280,6 +287,7 @@ public class MySQL {
                 plugin.getLogger().severe("Could not execute MySQL query: " + e.getMessage());
                 e.printStackTrace();
             }
+            closeConnection(connection);
         } catch (Exception e) {
             e.printStackTrace();
         }

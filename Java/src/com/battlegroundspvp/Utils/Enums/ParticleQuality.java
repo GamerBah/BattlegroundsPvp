@@ -8,21 +8,21 @@ import org.bukkit.Material;
 
 public enum ParticleQuality {
 
-    LOW("Low", new I(Material.CLAY_BRICK)
+    LOW("Low", new I(Material.INK_SACK).durability(8)
             .name(ChatColor.AQUA + "Particle Quality")
             .lore(BoldColor.GREEN.getColor() + "Low").lore(" ")
             .lore(ChatColor.GRAY + "Changes the amount of")
             .lore(ChatColor.GRAY + "particles that display")
             .lore(ChatColor.GRAY + "in some effects").lore(" ")
             .lore(ChatColor.YELLOW + "Click to change!")),
-    MEDIUM("Medium", new I(Material.IRON_INGOT)
+    MEDIUM("Medium", new I(Material.INK_SACK).durability(5)
             .name(ChatColor.AQUA + "Particle Quality")
             .lore(BoldColor.GOLD.getColor() + "Medium").lore(" ")
             .lore(ChatColor.GRAY + "Changes the amount of")
             .lore(ChatColor.GRAY + "particles that display")
             .lore(ChatColor.GRAY + "in some effects").lore(" ")
             .lore(ChatColor.YELLOW + "Click to change!")),
-    HIGH("High", new I(Material.GOLD_INGOT)
+    HIGH("High", new I(Material.INK_SACK).durability(10)
             .name(ChatColor.AQUA + "Particle Quality")
             .lore(BoldColor.RED.getColor() + "High " + ChatColor.GRAY + "(Default)").lore(" ")
             .lore(ChatColor.GRAY + "Changes the amount of")

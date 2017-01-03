@@ -23,7 +23,12 @@ public class SettingsMenu {
 
     public void openInventory(Player player) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
-        Inventory inv = plugin.getServer().createInventory(null, 36, "Settings");
+        Inventory inv = null;
+        if (playerData.hasRank(Rank.MODERATOR)) {
+            inv = plugin.getServer().createInventory(null, 36, "Settings");
+        } else {
+            inv = plugin.getServer().createInventory(null, 27, "Settings");
+        }
 
         if (!playerData.isTeamRequests()) {
             inv.setItem(11, new I(Material.INK_SACK).durability(8)
@@ -38,52 +43,61 @@ public class SettingsMenu {
         }
 
         if (!playerData.isPrivateMessaging()) {
-            inv.setItem(15, new I(Material.INK_SACK).durability(8)
+            inv.setItem(13, new I(Material.INK_SACK).durability(8)
                     .name(ChatColor.YELLOW + "Private Messaging: " + BoldColor.RED.getColor() + "DISABLED")
                     .lore(ChatColor.GRAY + "Enabling this will allow players").lore(ChatColor.GRAY + "to privately message you"));
         } else {
-            inv.setItem(15, new I(Material.INK_SACK).durability(10)
+            inv.setItem(13, new I(Material.INK_SACK).durability(10)
                     .name(ChatColor.YELLOW + "Private Messaging: " + BoldColor.GREEN.getColor() + "ENABLED")
                     .lore(ChatColor.GRAY + "Disabling this will prevent players")
                     .lore(ChatColor.GRAY + "from privately messaging you"));
         }
 
         if (playerData.getParticleQuality().equals(ParticleQuality.LOW)) {
-            inv.setItem(13, ParticleQuality.LOW.getItem());
+            inv.setItem(15, ParticleQuality.LOW.getItem());
         }
         if (playerData.getParticleQuality().equals(ParticleQuality.MEDIUM)) {
-            inv.setItem(13, ParticleQuality.MEDIUM.getItem());
+            inv.setItem(15, ParticleQuality.MEDIUM.getItem());
         }
         if (playerData.getParticleQuality().equals(ParticleQuality.HIGH)) {
-            //inv.setItem(13, ParticleQuality.HIGH.getItem());
-            inv.setItem(13, new I(Material.CLAY_BRICK).name(ChatColor.AQUA + "Particle Quality").lore(BoldColor.RED.getColor() + "COMING SOON!"));
+            //inv.setItem(15, ParticleQuality.HIGH.getItem());
+            inv.setItem(15, new I(Material.INK_SACK).durability(8).name(ChatColor.AQUA + "Particle Quality").lore(BoldColor.RED.getColor() + "COMING SOON!"));
         }
 
         if (playerData.hasRank(Rank.MODERATOR)) {
-            if (!playerData.isStealthyJoin()) {
-                inv.setItem(12, new I(Material.SULPHUR)
-                        .name(ChatColor.GOLD + "Stealthy Join: " + BoldColor.RED.getColor() + "DISABLED")
-                        .lore(ChatColor.GRAY + "Enabling this will cause you to join")
-                        .lore(ChatColor.GRAY + "the server without the notifications"));
-            } else {
-                inv.setItem(12, new I(Material.SUGAR)
-                        .name(ChatColor.GOLD + "Stealthy Join: " + BoldColor.GREEN.getColor() + "ENABLED")
-                        .lore(ChatColor.GRAY + "Disabling this will cause you to join")
-                        .lore(ChatColor.GRAY + "the server with notifications"));
-            }
-            if (!Battlegrounds.getCmdspies().contains(player.getUniqueId())) {
-                inv.setItem(14, new I(Material.SULPHUR)
-                        .name(ChatColor.GOLD + "Command Spy: " + BoldColor.RED.getColor() + "DISABLED")
-                        .lore(ChatColor.GRAY + "Enabling this will allow you to see")
-                        .lore(ChatColor.GRAY + "every command that players execute"));
-            } else {
-                inv.setItem(14, new I(Material.SUGAR)
-                        .name(ChatColor.GOLD + "Command Spy: " + BoldColor.GREEN.getColor() + "ENABLED")
-                        .lore(ChatColor.GRAY + "Disabling this will stop you from seeing")
-                        .lore(ChatColor.GRAY + "every command that players execute"));
-            }
+            inv.setItem(22, new I(Material.EYE_OF_ENDER)
+                    .name(ChatColor.GOLD + "Staff Preferences..."));
         }
 
+        player.openInventory(inv);
+    }
+
+    public void openStaffInventory(Player player) {
+        PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
+        Inventory inv = plugin.getServer().createInventory(null, 36, "Staff Settings");
+        if (!playerData.isStealthyJoin()) {
+            inv.setItem(12, new I(Material.INK_SACK).durability(8)
+                    .name(ChatColor.GOLD + "Stealthy Join: " + BoldColor.RED.getColor() + "DISABLED")
+                    .lore(ChatColor.GRAY + "Enabling this will cause you to join")
+                    .lore(ChatColor.GRAY + "the server without the notifications"));
+        } else {
+            inv.setItem(12, new I(Material.INK_SACK).durability(10)
+                    .name(ChatColor.GOLD + "Stealthy Join: " + BoldColor.GREEN.getColor() + "ENABLED")
+                    .lore(ChatColor.GRAY + "Disabling this will cause you to join")
+                    .lore(ChatColor.GRAY + "the server with notifications"));
+        }
+        if (!Battlegrounds.getCmdspies().contains(player.getUniqueId())) {
+            inv.setItem(14, new I(Material.INK_SACK).durability(8)
+                    .name(ChatColor.GOLD + "Command Spy: " + BoldColor.RED.getColor() + "DISABLED")
+                    .lore(ChatColor.GRAY + "Enabling this will allow you to see")
+                    .lore(ChatColor.GRAY + "every command that players execute"));
+        } else {
+            inv.setItem(14, new I(Material.INK_SACK).durability(10)
+                    .name(ChatColor.GOLD + "Command Spy: " + BoldColor.GREEN.getColor() + "ENABLED")
+                    .lore(ChatColor.GRAY + "Disabling this will stop you from seeing")
+                    .lore(ChatColor.GRAY + "every command that players execute"));
+        }
+        inv.setItem(31, new I(Material.ARROW).name(ChatColor.GRAY + "\u21E6 Back"));
         player.openInventory(inv);
     }
 }

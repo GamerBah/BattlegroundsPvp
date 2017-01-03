@@ -96,7 +96,7 @@ public class PunishMenu {
             }
         }
         if (plugin.getAllPlayerData().size() > (page + 1) * 45) {
-            inv.setItem(53, new I(Material.ARROW).name(ChatColor.GRAY + "Next Page"));
+            inv.setItem(53, new I(Material.ARROW).name(ChatColor.GRAY + "Next \u21E8 Page"));
         }
         if (page > 0) {
             inv.setItem(45, new I(Material.ARROW).name(ChatColor.GRAY + "Previous Page"));
@@ -139,7 +139,7 @@ public class PunishMenu {
                 .lore(" ").lore(ChatColor.RED + "Click to view!"));
         inv.setItem(16, new I(Material.BARRIER).name(BoldColor.DARK_RED.getColor() + "BANS").lore(ChatColor.GRAY + "Past Bans: " + ChatColor.RED + bans)
                 .lore(" ").lore(ChatColor.RED + "Click to view!"));
-        inv.setItem(31, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
+        inv.setItem(31, new I(Material.ARROW).name(ChatColor.GRAY + "\u21E6 Back"));
 
         player.openInventory(inv);
     }
@@ -221,7 +221,7 @@ public class PunishMenu {
         im.setLore(lore);
         wool.setItemMeta(im);
 
-        inv.setItem(30, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
+        inv.setItem(30, new I(Material.ARROW).name(ChatColor.GRAY + "\u21E6 Back"));
         inv.setItem(32, wool);
 
         player.openInventory(inv);
@@ -276,9 +276,9 @@ public class PunishMenu {
             }
         }
         if (mutes.size() > (page + 1) * 45) {
-            inv.setItem(50, new I(Material.ARROW).name(ChatColor.GRAY + "Next Page"));
+            inv.setItem(50, new I(Material.ARROW).name(ChatColor.GRAY + "Next \u21E8 Page"));
         }
-        inv.setItem(48, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
+        inv.setItem(48, new I(Material.ARROW).name(ChatColor.GRAY + "\u21E6 Back"));
         inv.setItem(49, new I(Material.BOOK_AND_QUILL).name(BoldColor.GREEN.getColor() + "Register New Mute"));
         player.openInventory(inv);
     }
@@ -330,9 +330,9 @@ public class PunishMenu {
             }
         }
         if (bans.size() > (page + 1) * 45) {
-            inv.setItem(50, new I(Material.ARROW).name(ChatColor.GRAY + "Next Page"));
+            inv.setItem(50, new I(Material.ARROW).name(ChatColor.GRAY + "Next \u21E8 Page"));
         }
-        inv.setItem(48, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
+        inv.setItem(48, new I(Material.ARROW).name(ChatColor.GRAY + "\u21E6 Back"));
         inv.setItem(49, new I(Material.BOOK_AND_QUILL).name(BoldColor.GREEN.getColor() + "Register New Ban"));
         player.openInventory(inv);
     }
@@ -386,9 +386,9 @@ public class PunishMenu {
             }
         }
         if (temps.size() > (page + 1) * 45) {
-            inv.setItem(50, new I(Material.ARROW).name(ChatColor.GRAY + "Next Page"));
+            inv.setItem(50, new I(Material.ARROW).name(ChatColor.GRAY + "Next \u21E8 Page"));
         }
-        inv.setItem(48, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
+        inv.setItem(48, new I(Material.ARROW).name(ChatColor.GRAY + "\u21E6 Back"));
         inv.setItem(49, new I(Material.BOOK_AND_QUILL).name(BoldColor.GREEN.getColor() + "Register New Temp-Ban"));
         player.openInventory(inv);
     }
@@ -430,9 +430,9 @@ public class PunishMenu {
             }
         }
         if (kicks.size() > (page + 1) * 45) {
-            inv.setItem(50, new I(Material.ARROW).name(ChatColor.GRAY + "Next Page"));
+            inv.setItem(50, new I(Material.ARROW).name(ChatColor.GRAY + "Next \u21E8 Page"));
         }
-        inv.setItem(48, new I(Material.ARROW).name(ChatColor.GRAY + "Go Back"));
+        inv.setItem(48, new I(Material.ARROW).name(ChatColor.GRAY + "\u21E6 Back"));
         inv.setItem(49, new I(Material.BOOK_AND_QUILL).name(BoldColor.GREEN.getColor() + "Kick Player"));
         player.openInventory(inv);
     }

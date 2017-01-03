@@ -213,70 +213,67 @@ public class InventoryClickListener implements Listener {
                 event.setCancelled(true);
             }
 
-            if (inventory.getName().equals("Settings")) {
+            if (inventory.getName().contains("Settings")) {
                 PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
                 ItemStack item = event.getCurrentItem();
                 event.setCancelled(true);
                 SettingsMenu settingsMenu = new SettingsMenu(plugin);
 
+                if (item.getType().equals(Material.ARROW)) {
+                    settingsMenu.openInventory(player);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_GO_BACK);
+                }
+
+                if (item.getItemMeta().getDisplayName().contains("Staff Preferences...")) {
+                    settingsMenu.openStaffInventory(player);
+                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+                }
                 if (item.getItemMeta().getDisplayName().contains("Stealthy")) {
                     if (!playerData.isStealthyJoin()) {
                         playerData.setStealthyJoin(true);
-                        settingsMenu.openInventory(player);
-                        Battlegrounds.playSound(player, EventSound.CLICK);
                     } else {
                         playerData.setStealthyJoin(false);
-                        Battlegrounds.playSound(player, EventSound.CLICK);
-                        settingsMenu.openInventory(player);
                     }
+                    settingsMenu.openStaffInventory(player);
+                    Battlegrounds.playSound(player, EventSound.CLICK);
                 }
                 if (item.getItemMeta().getDisplayName().contains("Command")) {
                     if (!Battlegrounds.getCmdspies().contains(player.getUniqueId())) {
                         Battlegrounds.getCmdspies().add(player.getUniqueId());
-                        settingsMenu.openInventory(player);
-                        Battlegrounds.playSound(player, EventSound.CLICK);
                     } else {
                         Battlegrounds.getCmdspies().remove(player.getUniqueId());
-                        Battlegrounds.playSound(player, EventSound.CLICK);
-                        settingsMenu.openInventory(player);
                     }
+                    settingsMenu.openStaffInventory(player);
+                    Battlegrounds.playSound(player, EventSound.CLICK);
                 }
                 if (item.getItemMeta().getDisplayName().contains("Messaging")) {
                     if (!playerData.isPrivateMessaging()) {
                         playerData.setPrivateMessaging(true);
-                        Battlegrounds.playSound(player, EventSound.CLICK);
-                        settingsMenu.openInventory(player);
                     } else {
                         playerData.setPrivateMessaging(false);
-                        Battlegrounds.playSound(player, EventSound.CLICK);
-                        settingsMenu.openInventory(player);
                     }
+                    settingsMenu.openInventory(player);
+                    Battlegrounds.playSound(player, EventSound.CLICK);
                 }
                 if (item.getItemMeta().getDisplayName().contains("Requests")) {
                     if (!playerData.isTeamRequests()) {
                         playerData.setTeamRequests(true);
-                        Battlegrounds.playSound(player, EventSound.CLICK);
-                        settingsMenu.openInventory(player);
                     } else {
                         playerData.setTeamRequests(false);
-                        Battlegrounds.playSound(player, EventSound.CLICK);
-                        settingsMenu.openInventory(player);
                     }
+                    settingsMenu.openInventory(player);
+                    Battlegrounds.playSound(player, EventSound.CLICK);
                 }
                 if (item.getItemMeta().getDisplayName().contains("Particle")) {
                         /*if (playerData.getParticleQuality().equals(ParticleQuality.LOW)) {
                             playerData.setParticleQuality(ParticleQuality.MEDIUM);
-                            Battlegrounds.playSound(player, EventSound.CLICK);
-                            settingsMenu.openInventory(player);
                         } else if (playerData.getParticleQuality().equals(ParticleQuality.MEDIUM)) {
                             playerData.setParticleQuality(ParticleQuality.HIGH);
-                            Battlegrounds.playSound(player, EventSound.CLICK);
-                            settingsMenu.openInventory(player);
                         } else {
                             playerData.setParticleQuality(ParticleQuality.LOW);
-                            Battlegrounds.playSound(player, EventSound.CLICK);
-                            settingsMenu.openInventory(player);
-                        }*/
+                        }
+                    settingsMenu.openInventory(player);
+                    Battlegrounds.playSound(player, EventSound.CLICK);*/
                     Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                 }
             }
@@ -782,11 +779,11 @@ public class InventoryClickListener implements Listener {
                         } else {
                             punishMenu.openPunishMenu(player, targetOnline, type, reason, reason.getLength());
                         }
+                        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+                        HashMap<Punishment.Reason, Integer> create = new HashMap<>();
+                        create.put(reason, reason.getLength());
+                        Battlegrounds.punishmentCreation.put(player, create);
                     }
-                    Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
-                    HashMap<Punishment.Reason, Integer> create = new HashMap<>();
-                    create.put(reason, reason.getLength());
-                    Battlegrounds.punishmentCreation.put(player, create);
                 }
                 if (item.getType().equals(Material.WATCH)) {
                     if (item.getItemMeta().getDisplayName().contains("(Select a reason first)")) {
