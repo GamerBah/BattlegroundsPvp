@@ -99,7 +99,7 @@ public class MySQL {
     public PlayerData getPlayerData(String name) {
         try {
             Connection connection = dataSource.getConnection();
-            try (ResultSet result = executeQuery(connection, Query.GET_PLAYER_DATA_FROM_UUID, name)) {
+            try (ResultSet result = executeQuery(connection, Query.GET_PLAYER_DATA_FROM_NAME, name)) {
                 if (result != null) {
                     if (result.next()) {
                         PlayerData playerData = new PlayerData(result.getInt("id"), UUID.fromString(result.getString("uuid")),

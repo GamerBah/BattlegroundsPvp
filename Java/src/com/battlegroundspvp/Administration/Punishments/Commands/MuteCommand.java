@@ -156,7 +156,7 @@ public class MuteCommand implements CommandExecutor {
         }
 
         PunishMenu punishMenu = new PunishMenu(plugin);
-        punishMenu.openPunishMenu(player, target, Punishment.Type.MUTE, null, 0);
+        punishMenu.openPunishMenu(player, targetData, Punishment.Type.MUTE, null, 0);
         Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
 
         return true;

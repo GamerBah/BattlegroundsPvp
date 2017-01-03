@@ -324,7 +324,8 @@ public class Battlegrounds extends JavaPlugin {
     }
 
     public PlayerData getPlayerData(UUID uuid) {
-        Optional<PlayerData> playerDataStream = playerData.stream().filter(playerData -> playerData.getUuid().equals(uuid)).findFirst();
+        Optional<PlayerData> playerDataStream = playerData.stream().filter(playerData ->
+                playerData.getUuid().equals(uuid)).findFirst();
 
         if (playerDataStream.isPresent()) {
             return playerDataStream.get();
@@ -340,7 +341,8 @@ public class Battlegrounds extends JavaPlugin {
     }
 
     public PlayerData getPlayerData(String name) {
-        Optional<PlayerData> playerDataStream = playerData.stream().filter(playerData -> playerData.getName().equalsIgnoreCase(name)).findFirst();
+        Optional<PlayerData> playerDataStream = playerData.stream().filter(playerData ->
+                playerData.getName().equalsIgnoreCase(name)).findFirst();
 
         if (playerDataStream.isPresent()) {
             return playerDataStream.get();

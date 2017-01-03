@@ -144,8 +144,7 @@ public class PunishMenu {
         player.openInventory(inv);
     }
 
-    public void openPunishMenu(Player player, OfflinePlayer target, Punishment.Type type, Punishment.Reason reason, int time) {
-        PlayerData targetData = plugin.getPlayerData(target.getName());
+    public void openPunishMenu(Player player, PlayerData targetData, Punishment.Type type, Punishment.Reason reason, int time) {
         Inventory inv = plugin.getServer().createInventory(null, 36, "Punishment Creation: " + type.getName());
 
         if (reason == null) {
@@ -208,7 +207,7 @@ public class PunishMenu {
         ItemStack wool = new I(Material.WOOL)
                 .name(BoldColor.GREEN.getColor() + "ACCEPT & " + type.getName().toUpperCase()).durability(5);
         List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.GRAY + "Punishing: " + ChatColor.YELLOW + target.getName());
+        lore.add(ChatColor.GRAY + "Punishing: " + ChatColor.YELLOW + targetData.getName());
         if (reason != null) {
             lore.add(ChatColor.GRAY + "For: " + ChatColor.GOLD + reason.getName());
         } else {

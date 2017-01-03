@@ -704,7 +704,7 @@ public class InventoryClickListener implements Listener {
                 }
                 if (item.getType().equals(Material.BOOK_AND_QUILL)) {
                     if (item.getItemMeta().getDisplayName().contains("Mute")) {
-                        punishMenu.openPunishMenu(player, target, Punishment.Type.MUTE, null, 0);
+                        punishMenu.openPunishMenu(player, targetData, Punishment.Type.MUTE, null, 0);
                         Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                     }
                     if (item.getItemMeta().getDisplayName().contains(" Ban")) {
@@ -714,7 +714,7 @@ public class InventoryClickListener implements Listener {
                             Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                             return;
                         }
-                        punishMenu.openPunishMenu(player, target, Punishment.Type.BAN, null, 0);
+                        punishMenu.openPunishMenu(player, targetData, Punishment.Type.BAN, null, 0);
                         Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                     }
                     if (item.getItemMeta().getDisplayName().contains("Temp-Ban")) {
@@ -724,7 +724,7 @@ public class InventoryClickListener implements Listener {
                             Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                             return;
                         }
-                        punishMenu.openPunishMenu(player, target, Punishment.Type.TEMP_BAN, null, 0);
+                        punishMenu.openPunishMenu(player, targetData, Punishment.Type.TEMP_BAN, null, 0);
                         Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                     }
                     if (item.getItemMeta().getDisplayName().contains("Kick")) {
@@ -734,7 +734,7 @@ public class InventoryClickListener implements Listener {
                             Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                             return;
                         }
-                        punishMenu.openPunishMenu(player, target, Punishment.Type.KICK, null, 0);
+                        punishMenu.openPunishMenu(player, targetData, Punishment.Type.KICK, null, 0);
                         Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                     }
                 }
@@ -771,14 +771,8 @@ public class InventoryClickListener implements Listener {
                 if (item.getType().equals(Material.BOOK)) {
                     Punishment.Reason reason = Punishment.getReasonFromName(item.getItemMeta().getDisplayName().substring(2, item.getItemMeta().getDisplayName().length()));
                     PlayerData playerData = plugin.getPlayerData(wool.getItemMeta().getLore().get(0).substring(15, wool.getItemMeta().getLore().get(0).length()));
-                    Player targetOnline = plugin.getServer().getPlayer(playerData.getUuid());
                     if (reason != null) {
-                        if (targetOnline == null) {
-                            OfflinePlayer target = plugin.getServer().getOfflinePlayer(playerData.getUuid());
-                            punishMenu.openPunishMenu(player, target, type, reason, reason.getLength());
-                        } else {
-                            punishMenu.openPunishMenu(player, targetOnline, type, reason, reason.getLength());
-                        }
+                        punishMenu.openPunishMenu(player, playerData, type, reason, reason.getLength());
                         Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                         HashMap<Punishment.Reason, Integer> create = new HashMap<>();
                         create.put(reason, reason.getLength());
@@ -834,13 +828,7 @@ public class InventoryClickListener implements Listener {
                                     Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                                 }
                                 PlayerData playerData = plugin.getPlayerData(wool.getItemMeta().getLore().get(0).substring(15, wool.getItemMeta().getLore().get(0).length()));
-                                Player targetOnline = plugin.getServer().getPlayer(playerData.getUuid());
-                                if (targetOnline == null) {
-                                    OfflinePlayer target = plugin.getServer().getOfflinePlayer(playerData.getUuid());
-                                    punishMenu.openPunishMenu(player, target, type, reason, time);
-                                } else {
-                                    punishMenu.openPunishMenu(player, targetOnline, type, reason, time);
-                                }
+                                punishMenu.openPunishMenu(player, playerData, type, reason, time);
                                 HashMap<Punishment.Reason, Integer> create = new HashMap<>();
                                 create.put(reason, time);
                                 Battlegrounds.punishmentCreation.put(player, create);
@@ -870,22 +858,21 @@ public class InventoryClickListener implements Listener {
                 }
                 if (item.getType().equals(Material.WOOL)) {
                     PlayerData playerData = plugin.getPlayerData(wool.getItemMeta().getLore().get(0).substring(15, wool.getItemMeta().getLore().get(0).length()));
-                    OfflinePlayer target = plugin.getServer().getOfflinePlayer(playerData.getUuid());
                     if (!Battlegrounds.punishmentCreation.containsKey(player)) {
                         Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                         return;
                     }
                     if (inventory.getName().contains(" Ban")) {
-                        BanCommand.banPlayer(target.getUniqueId(), player, Battlegrounds.punishmentCreation.get(player));
+                        BanCommand.banPlayer(playerData.getUuid(), player, Battlegrounds.punishmentCreation.get(player));
                     }
                     if (inventory.getName().contains(" Mute")) {
-                        MuteCommand.mutePlayer(target.getUniqueId(), player, Battlegrounds.punishmentCreation.get(player));
+                        MuteCommand.mutePlayer(playerData.getUuid(), player, Battlegrounds.punishmentCreation.get(player));
                     }
                     if (inventory.getName().contains(" Temp-Ban")) {
-                        TempBanCommand.tempbanPlayer(target.getUniqueId(), player, Battlegrounds.punishmentCreation.get(player));
+                        TempBanCommand.tempbanPlayer(playerData.getUuid(), player, Battlegrounds.punishmentCreation.get(player));
                     }
                     if (inventory.getName().contains(" Kick")) {
-                        KickCommand.kickPlayer(target.getUniqueId(), player, Battlegrounds.punishmentCreation.get(player));
+                        KickCommand.kickPlayer(playerData.getUuid(), player, Battlegrounds.punishmentCreation.get(player));
                     }
                 }
             }

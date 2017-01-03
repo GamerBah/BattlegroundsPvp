@@ -107,7 +107,7 @@ public class KickCommand implements CommandExecutor {
         }
 
         PunishMenu punishMenu = new PunishMenu(plugin);
-        punishMenu.openPunishMenu(player, target, Punishment.Type.KICK, null, 0);
+        punishMenu.openPunishMenu(player, targetData, Punishment.Type.KICK, null, 0);
         Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
 
         return true;

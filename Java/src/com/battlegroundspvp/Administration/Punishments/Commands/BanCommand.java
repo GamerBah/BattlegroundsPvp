@@ -154,7 +154,7 @@ public class BanCommand implements CommandExecutor {
         }
 
         PunishMenu punishMenu = new PunishMenu(plugin);
-        punishMenu.openPunishMenu(player, target, Punishment.Type.BAN, null, 0);
+        punishMenu.openPunishMenu(player, targetData, Punishment.Type.BAN, null, 0);
         Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
 
         return true;
