@@ -127,7 +127,7 @@ public class EssenceMenu {
                         .lore(ChatColor.YELLOW + "Click to activate!"));
             }
         }
-        inv.setItem(49, new I(Material.ARROW).name(ChatColor.GRAY + "\u21E6 Back"));
+        inv.setItem(49, new I(Material.ARROW).name(ChatColor.GRAY + "\u00AB Back"));
 
         player.openInventory(inv);
     }

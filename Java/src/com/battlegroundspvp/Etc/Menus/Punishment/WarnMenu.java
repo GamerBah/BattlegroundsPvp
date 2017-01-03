@@ -95,10 +95,10 @@ public class WarnMenu {
             }
         }
         if (plugin.getAllPlayerData().size() > (page + 1) * 45) {
-            inv.setItem(53, new I(Material.ARROW).name(ChatColor.GRAY + "Next \u21E8 Page"));
+            inv.setItem(53, new I(Material.ARROW).name(ChatColor.GRAY + "Next \u00BB"));
         }
         if (page > 0) {
-            inv.setItem(45, new I(Material.ARROW).name(ChatColor.GRAY + "Previous Page"));
+            inv.setItem(45, new I(Material.ARROW).name(ChatColor.GRAY + "\u00AB Previous"));
         }
         inv.setItem(47, new I(Material.APPLE).name(ChatColor.AQUA + "Sort by Name: " + ChatColor.GRAY + (sortType.equals(PunishMenu.SortType.NAME_AZ) ? "Z-A" : "A-Z")));
         inv.setItem(48, new I(Material.EXP_BOTTLE).name(ChatColor.AQUA + "Sort by Rank: " + ChatColor.GRAY + (sortType.equals(PunishMenu.SortType.RANK_HIGH_LOW) ? "Low-High" : "High-Low")));
@@ -135,7 +135,7 @@ public class WarnMenu {
         im.setLore(lore);
         wool.setItemMeta(im);
 
-        inv.setItem(30, new I(Material.ARROW).name(ChatColor.GRAY + "\u21E6 Back"));
+        inv.setItem(30, new I(Material.ARROW).name(ChatColor.GRAY + "\u00AB Back"));
         inv.setItem(32, wool);
 
         player.openInventory(inv);

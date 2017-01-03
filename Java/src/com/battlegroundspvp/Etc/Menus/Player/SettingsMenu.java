@@ -97,7 +97,7 @@ public class SettingsMenu {
                     .lore(ChatColor.GRAY + "Disabling this will stop you from seeing")
                     .lore(ChatColor.GRAY + "every command that players execute"));
         }
-        inv.setItem(31, new I(Material.ARROW).name(ChatColor.GRAY + "\u21E6 Back"));
+        inv.setItem(31, new I(Material.ARROW).name(ChatColor.GRAY + "\u00AB Back"));
         player.openInventory(inv);
     }
 }
