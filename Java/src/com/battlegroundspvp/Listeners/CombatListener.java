@@ -2,13 +2,11 @@ package com.battlegroundspvp.Listeners;
 
 import com.battlegroundspvp.Administration.Runnables.AutoUpdate;
 import com.battlegroundspvp.Battlegrounds;
-import com.battlegroundspvp.PlayerEvents.PlayerMove;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import com.connorlinfoot.titleapi.TitleAPI;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.SmallFireball;
@@ -359,12 +357,10 @@ public class CombatListener implements Listener {
             Player player = (Player) event.getEntity();
 
             if (event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
-                if (PlayerMove.getLaunched().contains(player)) {
+                if (Battlegrounds.getFallDmg().contains(player)) {
                     event.setCancelled(true);
                     player.setFallDistance(0);
-                    PlayerMove.getLaunched().remove(player);
-                    player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_LARGE_BLAST, 1, 1);
-                    player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.85F, 0.875F);
+                    Battlegrounds.getFallDmg().remove(player);
                 }
                 if (AutoUpdate.updating) {
                     event.setCancelled(true);

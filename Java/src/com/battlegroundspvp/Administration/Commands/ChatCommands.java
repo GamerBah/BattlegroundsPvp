@@ -1,6 +1,6 @@
 package com.battlegroundspvp.Administration.Commands;
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.Enums.EventSound;

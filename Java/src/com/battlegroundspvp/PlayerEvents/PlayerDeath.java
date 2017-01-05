@@ -3,7 +3,7 @@ package com.battlegroundspvp.PlayerEvents;
 
 
 import com.battlegroundspvp.Administration.Commands.ChatCommands;
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Etc.Achievements.Achievement;
 import com.battlegroundspvp.Listeners.CombatListener;
@@ -56,7 +56,7 @@ public class PlayerDeath implements Listener {
 
         for (Achievement.Type achievement : Achievement.Type.values()) {
             if (achievement.getGroup().equals(Achievement.COMBAT) && achievement.getName().contains("Deathknell")) {
-                if (playerData.getDeaths() == achievement.getRequirement()) {
+                if (playerData.getKitPvpData().getDeaths() == achievement.getRequirement()) {
                     Achievement.sendUnlockMessage(player, achievement);
                 }
             }
@@ -133,6 +133,7 @@ public class PlayerDeath implements Listener {
                     TitleAPI.sendTitle(player, 5, 35, 20, BoldColor.RED.getColor() + "You died!", ChatColor.GRAY + "The point of the game is to" + ChatColor.ITALIC + "stay alive");
                 }
             }
+            plugin.getGlobalStats().addSuicide();
             return;
         }
 
@@ -142,13 +143,13 @@ public class PlayerDeath implements Listener {
 
         for (Achievement.Type achievement : Achievement.Type.values()) {
             if (achievement.getGroup().equals(Achievement.COMBAT) && achievement.getName().contains("Brutality")) {
-                if (killerData.getKills() == achievement.getRequirement()) {
+                if (killerData.getKitPvpData().getKills() == achievement.getRequirement()) {
                     Achievement.sendUnlockMessage(player, achievement);
                 }
             }
         }
 
-        playerData.setLastKilledBy(killer);
+        playerData.getKitPvpData().setLastKilledBy(killer);
 
         TextComponentMessages tcm = new TextComponentMessages(plugin);
         TextComponent killerTCM = new TextComponent(killer.getName());
@@ -229,12 +230,12 @@ public class PlayerDeath implements Listener {
                         + (essence ? ChatColor.YELLOW + " [" + eOwner + "'s Essence]" : ""));
                 TitleAPI.sendTitle(killer, 1, 30, 10, BoldColor.GREEN.getColor() + killstreak + " Killstreak!", ChatColor.GRAY + "You killed " + ChatColor.RED + player.getName());
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 2, 1);
-                if (killerData.getLastKilledBy().equals(player.getUniqueId().toString())) {
-                    killerData.setRevengeKills(killerData.getRevengeKills() + 1);
-                    killerData.setLastKilledBy("NONE");
+                if (killerData.getKitPvpData().getLastKilledBy().equals(player.getUniqueId().toString())) {
+                    killerData.getKitPvpData().addRevengeKill();
+                    killerData.getKitPvpData().setLastKilledBy("NONE");
                     for (Achievement.Type achievement : Achievement.Type.values()) {
                         if (achievement.getGroup().equals(Achievement.COMBAT) && achievement.getName().contains("Vengeful")) {
-                            if (killerData.getRevengeKills() == achievement.getRequirement()) {
+                            if (killerData.getKitPvpData().getRevengeKills() == achievement.getRequirement()) {
                                 Achievement.sendUnlockMessage(killer, achievement);
                             }
                         }
@@ -247,13 +248,13 @@ public class PlayerDeath implements Listener {
                 TTA_Methods.sendActionBar(killer, ChatColor.AQUA + "[+" + souls + " Souls]" + ChatColor.LIGHT_PURPLE
                         + (coins != 0 ? " [+" + coins + (coins == 1 ? " Battle Coin]" : " Battle Coins]") : "")
                         + (essence ? ChatColor.YELLOW + " [" + eOwner + "'s Essence]" : ""));
-                if (killerData.getLastKilledBy().equals(player.getUniqueId().toString())) {
+                if (killerData.getKitPvpData().getLastKilledBy().equals(player.getUniqueId().toString())) {
                     TitleAPI.sendTitle(killer, 1, 40, 10, BoldColor.YELLOW.getColor() + "REVENGE!", ChatColor.GRAY + "You killed " + ChatColor.RED + player.getName());
-                    killerData.setRevengeKills(killerData.getRevengeKills() + 1);
-                    killerData.setLastKilledBy("NONE");
+                    killerData.getKitPvpData().addRevengeKill();
+                    killerData.getKitPvpData().setLastKilledBy("NONE");
                     for (Achievement.Type achievement : Achievement.Type.values()) {
                         if (achievement.getGroup().equals(Achievement.COMBAT) && achievement.getName().contains("Vengeful")) {
-                            if (killerData.getRevengeKills() == achievement.getRequirement()) {
+                            if (killerData.getKitPvpData().getRevengeKills() == achievement.getRequirement()) {
                                 Achievement.sendUnlockMessage(killer, achievement);
                             }
                         }
@@ -262,11 +263,11 @@ public class PlayerDeath implements Listener {
                     TitleAPI.sendTitle(killer, 1, 30, 10, " ", ChatColor.GRAY + "You killed " + ChatColor.RED + player.getName());
                 }
             }
-            if (Battlegrounds.killStreak.get(killer.getUniqueId()) > killerData.getHighestKillstreak()) {
-                killerData.setHighestKillstreak(Battlegrounds.killStreak.get(killer.getUniqueId()));
+            if (Battlegrounds.killStreak.get(killer.getUniqueId()) > killerData.getKitPvpData().getHighestKillstreak()) {
+                killerData.getKitPvpData().setHighestKillstreak(Battlegrounds.killStreak.get(killer.getUniqueId()));
                 for (Achievement.Type achievement : Achievement.Type.values()) {
                     if (achievement.getGroup().equals(Achievement.COMBAT) && achievement.getName().contains("Sadist")) {
-                        if (killerData.getHighestKillstreak() == achievement.getRequirement()) {
+                        if (killerData.getKitPvpData().getHighestKillstreak() == achievement.getRequirement()) {
                             Achievement.sendUnlockMessage(killer, achievement);
                         }
                     }
@@ -280,13 +281,13 @@ public class PlayerDeath implements Listener {
             TTA_Methods.sendActionBar(killer, ChatColor.AQUA + "[+" + souls + " Souls]"
                     + ChatColor.LIGHT_PURPLE + (coins != 0 ? " [+" + coins + (coins == 1 ? " Battle Coin]" : " Battle Coins]") : "")
                     + (essence ? ChatColor.YELLOW + " [" + eOwner + "'s Essence]" : ""));
-            if (killerData.getLastKilledBy().equals(player.getUniqueId().toString())) {
+            if (killerData.getKitPvpData().getLastKilledBy().equals(player.getUniqueId().toString())) {
                 TitleAPI.sendTitle(killer, 1, 40, 10, BoldColor.YELLOW.getColor() + "REVENGE!", ChatColor.GRAY + "You killed " + ChatColor.RED + player.getName());
-                killerData.setRevengeKills(killerData.getRevengeKills() + 1);
-                killerData.setLastKilledBy("NONE");
+                killerData.getKitPvpData().addRevengeKill();
+                killerData.getKitPvpData().setLastKilledBy("NONE");
                 for (Achievement.Type achievement : Achievement.Type.values()) {
                     if (achievement.getGroup().equals(Achievement.COMBAT) && achievement.getName().contains("Vengeful")) {
-                        if (killerData.getRevengeKills() == achievement.getRequirement()) {
+                        if (killerData.getKitPvpData().getRevengeKills() == achievement.getRequirement()) {
                             Achievement.sendUnlockMessage(killer, achievement);
                         }
                     }
@@ -301,16 +302,18 @@ public class PlayerDeath implements Listener {
                 plugin.getServer().broadcastMessage(ChatColor.GOLD + killer.getName()
                         + ChatColor.GRAY + " ended " + ChatColor.RED + player.getName()
                         + "'s " + ChatColor.GRAY + "killstreak of " + BoldColor.RED.getColor() + Battlegrounds.killStreak.get(player.getUniqueId()) + "!");
-                killerData.setKillstreaksEnded(killerData.getKillstreaksEnded() + 1);
+                killerData.getKitPvpData().addKillstreakEnded();
                 for (Achievement.Type achievement : Achievement.Type.values()) {
                     if (achievement.getGroup().equals(Achievement.COMBAT) && achievement.getName().contains("Buzzkill")) {
-                        if (killerData.getKillstreaksEnded() == achievement.getRequirement()) {
+                        if (killerData.getKitPvpData().getKillstreaksEnded() == achievement.getRequirement()) {
                             Achievement.sendUnlockMessage(killer, achievement);
                         }
                     }
                 }
                 TitleAPI.sendTitle(player, 5, 35, 20, BoldColor.RED.getColor() + "Killed by " + BoldColor.GOLD.getColor() + killer.getName(),
                         ChatColor.YELLOW + "You reached a " + BoldColor.GOLD.getColor() + Battlegrounds.killStreak.get(player.getUniqueId()) + ChatColor.YELLOW + " killstreak! Nice!");
+
+                plugin.getGlobalStats().addKillstreakEnded();
             }
             Battlegrounds.killStreak.remove(player.getUniqueId());
         }

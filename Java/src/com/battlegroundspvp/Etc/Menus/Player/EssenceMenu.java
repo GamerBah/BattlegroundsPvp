@@ -2,7 +2,7 @@ package com.battlegroundspvp.Etc.Menus.Player;
 /* Created by GamerBah on 8/17/2016 */
 
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Donations.Essence;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.I;

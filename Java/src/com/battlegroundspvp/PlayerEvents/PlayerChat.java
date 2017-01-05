@@ -4,7 +4,7 @@ package com.battlegroundspvp.PlayerEvents;
 
 import com.battlegroundspvp.Administration.Commands.ChatCommands;
 import com.battlegroundspvp.Administration.Commands.StaffChatCommand;
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Administration.Runnables.AFKRunnable;
 import com.battlegroundspvp.Administration.Utils.Rank;

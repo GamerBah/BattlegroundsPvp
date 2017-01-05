@@ -1,7 +1,7 @@
 package com.battlegroundspvp.Utils;
 /* Created by GamerBah on 8/15/2016 */
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Battlegrounds;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -18,10 +18,10 @@ public class KDRatio {
     public ChatColor getRatioColor(Player player) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         ChatColor ratioColor = ChatColor.GRAY;
-        double ratio = ((double) playerData.getKills() / (double) playerData.getDeaths());
+        double ratio = ((double) playerData.getKitPvpData().getKills() / (double) playerData.getKitPvpData().getDeaths());
         ratio = Math.round(ratio * 100.00D) / 100.00D;
-        if (playerData.getDeaths() == 0) {
-            ratio = playerData.getKills();
+        if (playerData.getKitPvpData().getDeaths() == 0) {
+            ratio = playerData.getKitPvpData().getKills();
         }
         if (ratio < 0.25D) {
             ratioColor = ChatColor.DARK_RED;
@@ -46,10 +46,10 @@ public class KDRatio {
     public ChatColor getRatioColor(OfflinePlayer player) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         ChatColor ratioColor = ChatColor.GRAY;
-        double ratio = ((double) playerData.getKills() / (double) playerData.getDeaths());
+        double ratio = ((double) playerData.getKitPvpData().getKills() / (double) playerData.getKitPvpData().getDeaths());
         ratio = Math.round(ratio * 100.00D) / 100.00D;
-        if (playerData.getDeaths() == 0) {
-            ratio = playerData.getKills();
+        if (playerData.getKitPvpData().getDeaths() == 0) {
+            ratio = playerData.getKitPvpData().getKills();
         }
         if (ratio < 0.25D) {
             ratioColor = ChatColor.DARK_RED;
@@ -73,12 +73,12 @@ public class KDRatio {
 
     public Double getRatio(Player player) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
-        double ratio = ((double) playerData.getKills() / (playerData.getDeaths() > 0 ? (double) playerData.getDeaths() : 1));
+        double ratio = ((double) playerData.getKitPvpData().getKills() / (playerData.getKitPvpData().getDeaths() > 0 ? (double) playerData.getKitPvpData().getDeaths() : 1));
         return Math.round(ratio * 100.00D) / 100.00D;
     }
 
     public Double getRatio(PlayerData playerData) {
-        double ratio = ((double) playerData.getKills() / (playerData.getDeaths() > 0 ? (double) playerData.getDeaths() : 1));
+        double ratio = ((double) playerData.getKitPvpData().getKills() / (playerData.getKitPvpData().getDeaths() > 0 ? (double) playerData.getKitPvpData().getDeaths() : 1));
         return Math.round(ratio * 100.00D) / 100.00D;
     }
 }

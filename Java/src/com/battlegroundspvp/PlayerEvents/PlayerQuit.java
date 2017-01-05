@@ -2,7 +2,7 @@ package com.battlegroundspvp.PlayerEvents;
 /* Created by GamerBah on 8/7/2016 */
 
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Commands.ReportCommand;
@@ -53,9 +53,9 @@ public class PlayerQuit implements Listener {
             });
         }
 
-        playerData.setLastKilledBy("NONE");
+        playerData.getKitPvpData().setLastKilledBy("NONE");
 
-        if (playerData.isStealthyJoin()) {
+        if (playerData.getPlayerSettings().isStealthyJoin()) {
             event.setQuitMessage(null);
             plugin.getServer().getOnlinePlayers().stream().filter(staff ->
                     plugin.getPlayerData(staff.getUniqueId()).hasRank(Rank.ADMIN)).forEach(staff ->

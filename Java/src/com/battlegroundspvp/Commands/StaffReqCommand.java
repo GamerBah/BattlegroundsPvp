@@ -1,7 +1,7 @@
 package com.battlegroundspvp.Commands;
 /* Created by GamerBah on 3/6/2016 */
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
@@ -81,14 +81,14 @@ public class StaffReqCommand implements CommandExecutor {
         Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
         cooldown.put(player.getUniqueId(), 60);
         plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
-                if (cooldown.containsKey(player.getUniqueId())) {
-                    if (cooldown.get(player.getUniqueId()) >= 0) {
-                        cooldown.put(player.getUniqueId(), (cooldown.get(player.getUniqueId()) - 1));
-                    } else {
-                        cooldown.remove(player.getUniqueId());
-                        player.sendMessage(ChatColor.GREEN + "You can now use " + ChatColor.YELLOW + "/staffreq " + ChatColor.GREEN + "again!");
-                    }
+            if (cooldown.containsKey(player.getUniqueId())) {
+                if (cooldown.get(player.getUniqueId()) >= 0) {
+                    cooldown.put(player.getUniqueId(), (cooldown.get(player.getUniqueId()) - 1));
+                } else {
+                    cooldown.remove(player.getUniqueId());
+                    player.sendMessage(ChatColor.GREEN + "You can now use " + ChatColor.YELLOW + "/staffreq " + ChatColor.GREEN + "again!");
                 }
+            }
         }, 1L, 20L);
 
         return false;

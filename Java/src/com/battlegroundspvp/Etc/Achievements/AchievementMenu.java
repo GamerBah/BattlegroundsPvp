@@ -2,7 +2,7 @@ package com.battlegroundspvp.Etc.Achievements;
 /* Created by GamerBah on 9/4/2016 */
 
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.Enums.Cosmetic;
 import com.battlegroundspvp.Utils.I;
@@ -63,11 +63,11 @@ public class AchievementMenu {
     public void openCombatAchievements(Player player) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         Inventory inv = plugin.getServer().createInventory(null, 54, "Combat Achievements");
-        int kills = playerData.getKills();
-        int deaths = playerData.getDeaths();
-        int killstreaksEnded = playerData.getKillstreaksEnded();
-        int revengeKills = playerData.getRevengeKills();
-        int highestKillstreak = playerData.getHighestKillstreak();
+        int kills = playerData.getKitPvpData().getKills();
+        int deaths = playerData.getKitPvpData().getDeaths();
+        int killstreaksEnded = playerData.getKitPvpData().getKillstreaksEnded();
+        int revengeKills = playerData.getKitPvpData().getRevengeKills();
+        int highestKillstreak = playerData.getKitPvpData().getHighestKillstreak();
         for (int i = 0; i < 36; i++) {
             for (Achievement.Type ach : Achievement.Type.values()) {
                 if (ach.getGroup().equals(Achievement.COMBAT)) {
@@ -202,7 +202,7 @@ public class AchievementMenu {
     public void openCollectionAchievements(Player player) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         Inventory inv = plugin.getServer().createInventory(null, 54, "Collection Achievements");
-        String[] k = playerData.getOwnedKits().substring(2, playerData.getOwnedKits().length() - 1).split(",");
+        String[] k = playerData.getKitPvpData().getOwnedKits().substring(2, playerData.getKitPvpData().getOwnedKits().length() - 1).split(",");
         int kitsOwned = k.length;
         int particles = 0;
         int warcries = 0;

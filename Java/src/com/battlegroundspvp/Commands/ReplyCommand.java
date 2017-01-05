@@ -63,7 +63,7 @@ public class ReplyCommand implements CommandExecutor {
             return true;
         }
 
-        if (!plugin.getPlayerData(target.getUniqueId()).isPrivateMessaging()) {
+        if (!plugin.getPlayerData(target.getUniqueId()).getPlayerSettings().isPrivateMessaging()) {
             player.sendMessage(ChatColor.RED + "That player isn't accepting private messages anymore!");
             Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;

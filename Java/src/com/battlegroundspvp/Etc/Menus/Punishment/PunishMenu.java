@@ -2,7 +2,7 @@ package com.battlegroundspvp.Etc.Menus.Punishment;
 /* Created by GamerBah on 8/25/2016 */
 
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
@@ -45,8 +45,8 @@ public class PunishMenu {
         Inventory inv = plugin.getServer().createInventory(null, 54, "Punish Menu");
 
         int a = 0;
-        for (int i = page * 45; i < plugin.getAllPlayerData().size() && i >= page * 45 && i < (page + 1) * 45; i++) {
-            plugin.getAllPlayerData().sort(new Comparator<PlayerData>() {
+        for (int i = page * 45; i < plugin.getPlayerData().size() && i >= page * 45 && i < (page + 1) * 45; i++) {
+            plugin.getPlayerData().sort(new Comparator<PlayerData>() {
                 @Override
                 public int compare(PlayerData p1, PlayerData p2) {
                     if (sortType.equals(SortType.NAME_ZA)) {
@@ -60,7 +60,7 @@ public class PunishMenu {
                     }
                 }
             });
-            PlayerData playerData = plugin.getAllPlayerData().get(i);
+            PlayerData playerData = plugin.getPlayerData().get(i);
             if (playerData.getId() != pData.getId()) {
                 if (i < 45) {
                     if (sortType.equals(SortType.ONLINE_ONLY)) {
@@ -95,7 +95,7 @@ public class PunishMenu {
                 }
             }
         }
-        if (plugin.getAllPlayerData().size() > (page + 1) * 45) {
+        if (plugin.getPlayerData().size() > (page + 1) * 45) {
             inv.setItem(53, new I(Material.ARROW).name(ChatColor.GRAY + "Next \u00BB"));
         }
         if (page > 0) {

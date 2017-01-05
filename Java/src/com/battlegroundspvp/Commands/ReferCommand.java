@@ -1,7 +1,7 @@
 package com.battlegroundspvp.Commands;
 /* Created by GamerBah on 9/7/2016 */
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.Enums.EventSound;
 import net.md_5.bungee.api.ChatColor;
@@ -51,7 +51,7 @@ public class ReferCommand implements CommandExecutor {
         }
 
         PlayerData recruitData = plugin.getPlayerData(args[0]);
-        recruitData.setPlayersRecruited(recruitData.getPlayersRecruited() + 1);
+        recruitData.addPlayerRecruited();
         Player recruiter = plugin.getServer().getPlayer(args[0]);
         if (recruiter != null) {
             recruiter.sendMessage(ChatColor.GREEN + "Successfully recruited " + player.getName() + "! " + ChatColor.AQUA + "[+75 Souls]" + ChatColor.LIGHT_PURPLE + "[+50 Battle Coins]");

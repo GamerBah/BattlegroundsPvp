@@ -2,7 +2,7 @@ package com.battlegroundspvp.Administration.Donations;
 /* Created by GamerBah on 8/18/2016 */
 
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.Enums.Time;
@@ -39,7 +39,7 @@ public class DonationMessages {
         player.sendMessage(" ");
         BaseComponent component = new TextComponent(ChatColor.GRAY + "    You can now find your\n");
         component.addExtra(one);
-        component.addExtra(new TextComponent(ChatColor.GRAY + "    in your Settings menu\n"));
+        component.addExtra(new TextComponent(ChatColor.GRAY + "    in your Player Profile\n"));
         player.spigot().sendMessage(component);
         player.sendMessage(type.getColor() + "\u00AB" + ChatColor.WHITE + "========================================" + type.getColor() + "\u00BB");
         player.sendMessage(" ");

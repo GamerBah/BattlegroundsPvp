@@ -2,7 +2,7 @@ package com.battlegroundspvp.Listeners;
 /* Created by GamerBah on 8/12/2016 */
 
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Donations.DonationMessages;
 import com.battlegroundspvp.Administration.Donations.Essence;
 import com.battlegroundspvp.Administration.Punishments.Commands.BanCommand;
@@ -229,10 +229,14 @@ public class InventoryClickListener implements Listener {
                     Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
                 }
                 if (item.getItemMeta().getDisplayName().contains("Stealthy")) {
-                    if (!playerData.isStealthyJoin()) {
-                        playerData.setStealthyJoin(true);
+                    if (!playerData.getPlayerSettings().isStealthyJoin()) {
+                        if (playerData.hasRank(Rank.MODERATOR)) {
+                            playerData.getPlayerSettings().setStealthyJoin(true);
+                        } else {
+                            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                        }
                     } else {
-                        playerData.setStealthyJoin(false);
+                        playerData.getPlayerSettings().setStealthyJoin(false);
                     }
                     settingsMenu.openStaffInventory(player);
                     Battlegrounds.playSound(player, EventSound.CLICK);
@@ -247,19 +251,19 @@ public class InventoryClickListener implements Listener {
                     Battlegrounds.playSound(player, EventSound.CLICK);
                 }
                 if (item.getItemMeta().getDisplayName().contains("Messaging")) {
-                    if (!playerData.isPrivateMessaging()) {
-                        playerData.setPrivateMessaging(true);
+                    if (!playerData.getPlayerSettings().isPrivateMessaging()) {
+                        playerData.getPlayerSettings().setPrivateMessaging(true);
                     } else {
-                        playerData.setPrivateMessaging(false);
+                        playerData.getPlayerSettings().setPrivateMessaging(false);
                     }
                     settingsMenu.openInventory(player);
                     Battlegrounds.playSound(player, EventSound.CLICK);
                 }
                 if (item.getItemMeta().getDisplayName().contains("Requests")) {
-                    if (!playerData.isTeamRequests()) {
-                        playerData.setTeamRequests(true);
+                    if (!playerData.getPlayerSettings().isTeamRequests()) {
+                        playerData.getPlayerSettings().setTeamRequests(true);
                     } else {
-                        playerData.setTeamRequests(false);
+                        playerData.getPlayerSettings().setTeamRequests(false);
                     }
                     settingsMenu.openInventory(player);
                     Battlegrounds.playSound(player, EventSound.CLICK);
@@ -356,7 +360,7 @@ public class InventoryClickListener implements Listener {
                 if (item.getType().equals(Material.END_CRYSTAL)) {
                     PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
                     ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
-                    playerData.setTitle("TRAIL_NONE");
+                    playerData.getKitPvpData().setTitle("TRAIL_NONE");
                     scoreboardListener.reloadScoreboardTeams(player, player.getScoreboard());
                     Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
                     player.closeInventory();
@@ -383,7 +387,7 @@ public class InventoryClickListener implements Listener {
                     PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
                     if (achievement != null) {
                         if (playerData.hasRank(Rank.WARRIOR)) {
-                            playerData.setTitle(achievement.toString());
+                            playerData.getKitPvpData().setTitle(achievement.toString());
                             ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
                             scoreboardListener.reloadScoreboardTeams(player, player.getScoreboard());
                             player.closeInventory();
@@ -933,7 +937,7 @@ public class InventoryClickListener implements Listener {
                                 .lore(ChatColor.GRAY + "This slot will be rolled").lore(" ")
                                 .lore(ChatColor.YELLOW + "Click to Disable!")
                                 .durability(10));
-                        inventory.setItem(31, new I(Material.WOOL).name((playerData.getSouls() >= 400 * selectedInInventory(inventory)
+                        inventory.setItem(31, new I(Material.WOOL).name((playerData.getKitPvpData().getSouls() >= 400 * selectedInInventory(inventory)
                                 ? BoldColor.GREEN.getColor() + "Click to Roll!" : BoldColor.RED.getColor() + "Need More Souls!"))
                                 .lore(ChatColor.GRAY + "Cost: " + ChatColor.AQUA + 400 * selectedInInventory(inventory) + " Souls")
                                 .durability(5));
@@ -946,7 +950,7 @@ public class InventoryClickListener implements Listener {
                                     .lore(ChatColor.GRAY + "This slot will not be rolled").lore(" ")
                                     .lore(ChatColor.YELLOW + "Click to Activate!")
                                     .durability(8));
-                            inventory.setItem(31, new I(Material.WOOL).name((playerData.getSouls() >= 400 * selectedInInventory(inventory)
+                            inventory.setItem(31, new I(Material.WOOL).name((playerData.getKitPvpData().getSouls() >= 400 * selectedInInventory(inventory)
                                     ? BoldColor.GREEN.getColor() + "Click to Roll!" : BoldColor.RED.getColor() + "Need More Souls!"))
                                     .lore(ChatColor.GRAY + "Cost: " + ChatColor.AQUA + 400 * selectedInInventory(inventory) + " Souls")
                                     .durability(5));
@@ -957,7 +961,7 @@ public class InventoryClickListener implements Listener {
                 }
 
                 if (item.getType().equals(Material.WOOL)) {
-                    if (playerData.getSouls() < 400 * selectedInInventory(inventory)) {
+                    if (playerData.getKitPvpData().getSouls() < 400 * selectedInInventory(inventory)) {
                         Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                     } else {
                         KSlotsMenu kSlotsMenu = new KSlotsMenu(plugin);
@@ -965,7 +969,7 @@ public class InventoryClickListener implements Listener {
                     }
                 }
                 if (item.getType().equals(Material.ARROW) && item.getItemMeta().getDisplayName().equals(BoldColor.YELLOW.getColor() + "Reset Slots")) {
-                    if (playerData.getSouls() < 400 * selectedInInventory(inventory)) {
+                    if (playerData.getKitPvpData().getSouls() < 400 * selectedInInventory(inventory)) {
                         Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                         player.closeInventory();
                         player.sendMessage(ChatColor.RED + "You don't have enough Souls to use the machine again!");
@@ -991,7 +995,7 @@ public class InventoryClickListener implements Listener {
                 }
 
                 if (item.getType().equals(Material.ARROW) && item.getItemMeta().getDisplayName().equals(BoldColor.YELLOW.getColor() + "Reset Slots")) {
-                    if (playerData.getSouls() < 500) {
+                    if (playerData.getKitPvpData().getSouls() < 500) {
                         Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                         player.closeInventory();
                         player.sendMessage(ChatColor.RED + "You don't have enough Battle Coins to open another Cosmeticrate");

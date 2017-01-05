@@ -53,6 +53,9 @@ public class PlayerRespawn implements Listener {
         player.setLevel(0);
         player.setFlying(false);
         player.setAllowFlight(false);
+        if (!Battlegrounds.getFallDmg().contains(player)) {
+            Battlegrounds.getFallDmg().add(player);
+        }
         for (PotionEffect effect : player.getActivePotionEffects()) {
             player.removePotionEffect(effect.getType());
         }

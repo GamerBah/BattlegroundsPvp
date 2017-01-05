@@ -38,6 +38,7 @@ public class Essence {
         } else {
             essenceData.setEssence(player, type, plugin.getEssenceData(type).get(player.getUniqueId()) - 1);
         }
+        plugin.getGlobalStats().addUsedEssence();
     }
 
     public void removeActiveEssence() {

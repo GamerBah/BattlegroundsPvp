@@ -112,7 +112,7 @@ public class TeamCommand implements CommandExecutor {
                             Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                             player.sendMessage(ChatColor.RED + "That player is already on a team!");
                             return false;
-                        } else if (!plugin.getPlayerData(target.getUniqueId()).isTeamRequests()) {
+                        } else if (!plugin.getPlayerData(target.getUniqueId()).getPlayerSettings().isTeamRequests()) {
                             Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                             player.sendMessage(ChatColor.RED + "That player has chosen to not receive team requests!");
                             return false;

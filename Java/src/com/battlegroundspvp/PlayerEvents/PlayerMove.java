@@ -3,10 +3,14 @@ package com.battlegroundspvp.PlayerEvents;
 
 
 import com.battlegroundspvp.Battlegrounds;
+import com.battlegroundspvp.Utils.Enums.EventSound;
 import com.battlegroundspvp.Utils.I;
+import com.battlegroundspvp.Utils.Kits.KitManager;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import com.battlegroundspvp.Utils.Packets.Particles.ParticleEffect;
+import com.connorlinfoot.titleapi.TitleAPI;
 import lombok.Getter;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -36,6 +40,15 @@ public class PlayerMove implements Listener {
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
+        if (player.getLocation().distance(player.getWorld().getSpawnLocation()) > 9) {
+            if (!KitManager.isPlayerInKit(player)) {
+                plugin.respawn(player);
+                TitleAPI.sendTitle(player, 5, 40, 10, " ", ChatColor.GRAY + "Choose a kit first!");
+                Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                return;
+            }
+        }
+
         if (event.getTo().getBlock().getType().equals(Material.GOLD_PLATE)) {
             if (player.getGameMode().equals(GameMode.CREATIVE)) {
                 return;
@@ -51,21 +64,19 @@ public class PlayerMove implements Listener {
                     && player.getTargetBlock(set, 20).getLocation().getBlockY() >= 32) {
                 return;
             }
+            if (!KitManager.isPlayerInKit(player)) {
+                return;
+            }
             player.setVelocity(player.getLocation().getDirection().multiply(3));
             player.setVelocity(new Vector(player.getVelocity().getX(), 1.0D, player.getVelocity().getZ()));
             player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_LAUNCH, 2, 0.3F);
-            if (!launched.contains(player)) {
-                launched.add(player);
-                plugin.getServer().getScheduler().runTaskLater(plugin, () -> launched.remove(player), 50L);
-                BukkitTask task = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
-                    if (launched.contains(player)) {
-                        ParticleEffect.FIREWORKS_SPARK.display(0, 0.5F, 0, 0.05F, 5, player.getLocation(), 30);
-                    }
-                }, 0L, 1L);
-                plugin.getServer().getScheduler().runTaskLater(plugin, task::cancel, 20);
-            }
+            BukkitTask task = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+                ParticleEffect.FIREWORKS_SPARK.display(0, 0.5F, 0, 0.05F, 5, player.getLocation(), 30);
+            }, 0L, 1L);
+            plugin.getServer().getScheduler().runTaskLater(plugin, task::cancel, 20);
         }
     }
+
 
     @EventHandler
     public void onTeleport(PlayerTeleportEvent event) {

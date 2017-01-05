@@ -2,7 +2,7 @@ package com.battlegroundspvp.Administration.Runnables;
 /* Created by GamerBah on 8/30/2016 */
 
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Listeners.CombatListener;
 import com.battlegroundspvp.Utils.Enums.Cosmetic;

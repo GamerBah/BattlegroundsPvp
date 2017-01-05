@@ -1,6 +1,6 @@
 package com.battlegroundspvp.Utils.Messages;// AUTHOR: gamer_000 (12/28/2015)
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.Enums.Time;
@@ -70,17 +70,17 @@ public class TextComponentMessages {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         KDRatio kdRatio = new KDRatio(plugin);
         ChatColor ratioColor = kdRatio.getRatioColor(player);
-        double ratio = ((double) playerData.getKills() / (double) playerData.getDeaths());
+        double ratio = ((double) playerData.getKitPvpData().getKills() / (double) playerData.getKitPvpData().getDeaths());
         ratio = Math.round(ratio * 100.00D) / 100.00D;
-        if (playerData.getDeaths() == 0) {
-            ratio = playerData.getKills();
+        if (playerData.getKitPvpData().getDeaths() == 0) {
+            ratio = playerData.getKitPvpData().getKills();
         }
 
         return new ComponentBuilder(
                 playerData.getRank().getColor() + "" + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")
-                        + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : ChatColor.GRAY) + player.getName() + "\n\n"
-                        + ChatColor.GRAY + "Kills: " + ChatColor.GREEN + playerData.getKills() + "\n"
-                        + ChatColor.GRAY + "Deaths: " + ChatColor.RED + playerData.getDeaths() + "\n"
+                        + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : ChatColor.GRAY) + playerData.getName() + "\n\n"
+                        + ChatColor.GRAY + "Kills: " + ChatColor.GREEN + playerData.getKitPvpData().getKills() + "\n"
+                        + ChatColor.GRAY + "Deaths: " + ChatColor.RED + playerData.getKitPvpData().getDeaths() + "\n"
                         + ChatColor.GRAY + "K/D Ratio: " + ratioColor + ratio
                         + "\n\n" + ChatColor.YELLOW + "Click to open player options....").create();
     }
@@ -89,17 +89,17 @@ public class TextComponentMessages {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         KDRatio kdRatio = new KDRatio(plugin);
         ChatColor ratioColor = kdRatio.getRatioColor(player);
-        double ratio = ((double) playerData.getKills() / (double) playerData.getDeaths());
+        double ratio = ((double) playerData.getKitPvpData().getKills() / (double) playerData.getKitPvpData().getDeaths());
         ratio = Math.round(ratio * 100.00D) / 100.00D;
-        if (playerData.getDeaths() == 0) {
-            ratio = playerData.getKills();
+        if (playerData.getKitPvpData().getDeaths() == 0) {
+            ratio = playerData.getKitPvpData().getKills();
         }
         return new ComponentBuilder(
                 playerData.getRank().getColor() + "" + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")
-                        + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : ChatColor.GRAY) + player.getName() + "\n"
+                        + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : ChatColor.GRAY) + playerData.getName() + "\n"
                         + ChatColor.GRAY + "Was last online " + Time.toString(Time.timeDifference(playerData.getLastOnline()), true) + " ago\n\n"
-                        + ChatColor.GRAY + "Kills: " + ChatColor.GREEN + playerData.getKills() + "\n"
-                        + ChatColor.GRAY + "Deaths: " + ChatColor.RED + playerData.getDeaths() + "\n"
+                        + ChatColor.GRAY + "Kills: " + ChatColor.GREEN + playerData.getKitPvpData().getKills() + "\n"
+                        + ChatColor.GRAY + "Deaths: " + ChatColor.RED + playerData.getKitPvpData().getDeaths() + "\n"
                         + ChatColor.GRAY + "K/D Ratio: " + ratioColor + ratio).create();
     }
 

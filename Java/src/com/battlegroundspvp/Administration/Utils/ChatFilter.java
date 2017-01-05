@@ -2,7 +2,7 @@ package com.battlegroundspvp.Administration.Utils;
 /* Created by GamerBah on 8/15/2016 */
 
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.Enums.EventSound;

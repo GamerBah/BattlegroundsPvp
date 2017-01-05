@@ -3,7 +3,7 @@ package com.battlegroundspvp.Administration.Commands;
 
 
 import com.battlegroundspvp.Administration.Data.EssenceData;
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Donations.DonationMessages;
 import com.battlegroundspvp.Administration.Donations.Essence;
 import com.battlegroundspvp.Administration.Utils.Rank;
@@ -81,20 +81,20 @@ public class DonationCommand implements CommandExecutor {
                     plugin.slackErrorReporting.call(new SlackMessage("Error while attempting to process new donation!\nIssue: Requested UUID was not found in server database."));
                     return true;
                 }
-                if (!args[1].matches("[1,3,6]")) {
+                if (!args[2].matches("[1,3,6]")) {
                     plugin.getLogger().severe("Error Processing Donation Request: Time value invalid");
                     plugin.slackErrorReporting.call(new SlackMessage("Error while attempting to process new donation!\nIssue: Requested Essence time was invalid."));
                     return true;
                 }
 
-                if (Integer.parseInt(args[2]) != 50 && Integer.parseInt(args[2]) != 100 && Integer.parseInt(args[2]) != 150) {
+                if (Integer.parseInt(args[3]) != 50 && Integer.parseInt(args[3]) != 100 && Integer.parseInt(args[3]) != 150) {
                     plugin.getLogger().severe("Error Processing Donation Request: Invalid increase");
                     plugin.slackErrorReporting.call(new SlackMessage("Error while attempting to process new donation!\nIssue: Requested Essence increase was invalid."));
                     return true;
                 }
                 Essence.Type eType = null;
                 for (Essence.Type type : Essence.Type.values()) {
-                    if (Integer.parseInt(args[1]) == type.getTime() && Integer.parseInt(args[2]) == type.getIncrease()) {
+                    if (Integer.parseInt(args[2]) == type.getTime() && Integer.parseInt(args[3]) == type.getIncrease()) {
                         eType = type;
                     }
                 }
@@ -109,7 +109,7 @@ public class DonationCommand implements CommandExecutor {
                 } else {
                     plugin.createEssenceData(playerData.getUuid(), eType);
                 }
-                plugin.getLogger().info("Success! Donation for Rank registered!");
+                plugin.getLogger().info("Success! Donation for Essence registered!");
                 Player player = plugin.getServer().getPlayer(playerData.getUuid());
                 plugin.slackDonations.call(new SlackMessage(">>> _*" + player.getName() + "* purchased a *" + eType.getTime() + " hour (+" + eType.getIncrease() + "%) Battle Essence!*_"));
                 if (player.isOnline()) {

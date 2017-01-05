@@ -44,48 +44,27 @@ public enum Time {
         String dl;
         String wl;
         String mnl;
-        String yl;
 
-        if (seconds == 1) {
-            sl = " second";
-        } else sl = " seconds";
-        if (minutes == 1) {
-            ml = " minute";
-        } else ml = " minutes";
-        if (hours == 1) {
-            hl = " hour";
-        } else hl = " hours";
-        if (days == 1) {
-            dl = " day";
-        } else dl = " days";
-        if (weeks == 1) {
-            wl = " week";
-        } else wl = " weeks";
-        if (months == 1) {
-            mnl = " month";
-        } else mnl = " months";
+        if (!shortened) {
+            if (seconds == 1) {
+                sl = " second";
+            } else sl = " seconds";
+            if (minutes == 1) {
+                ml = " minute";
+            } else ml = " minutes";
+            if (hours == 1) {
+                hl = " hour";
+            } else hl = " hours";
+            if (days == 1) {
+                dl = " day";
+            } else dl = " days";
+            if (weeks == 1) {
+                wl = " week";
+            } else wl = " weeks";
+            if (months == 1) {
+                mnl = " month";
+            } else mnl = " months";
 
-        if (shortened) {
-            if (years <= 0) {
-                if (months <= 0) {
-                    if (weeks <= 0) {
-                        if (days <= 0) {
-                            if (hours <= 0) {
-                                if (minutes <= 0) {
-                                    return seconds + sl;
-                                }
-                                return minutes + " min" + (seconds == 0 ? "" : " " + seconds + " sec");
-                            }
-                            return hours + (hours == 1 ? " hr" : " hrs") + (minutes == 0 ? "" : " " + minutes + " min");
-                        }
-                        return days + dl + ", " + hours + (hours == 1 ? " hr" : " hrs");
-                    }
-                    return weeks + wl + ", " + days + dl;
-                }
-                return months + mnl;
-            }
-            return "over a year";
-        } else {
             if (years <= 0) {
                 if (months <= 0) {
                     if (weeks <= 0) {
@@ -98,9 +77,44 @@ public enum Time {
                             }
                             return hours + hl + (minutes == 0 ? "" : " and " + minutes + ml);
                         }
-                        return days + dl + ", " + hours + hl;
+                        return days + dl + (hours == 0 ? "" : ", " + hours + hl);
                     }
-                    return weeks + wl + " and " + days + dl;
+                    return weeks + wl + (days == 0 ? "" : " and " + days + dl);
+                }
+                return months + mnl;
+            }
+            return "over a year";
+        } else {
+            sl = " sec";
+            ml = " min";
+            if (hours == 1) {
+                hl = " hr";
+            } else hl = " hrs";
+            if (days == 1) {
+                dl = " day";
+            } else dl = " days";
+            if (weeks == 1) {
+                wl = " week";
+            } else wl = " weeks";
+            if (months == 1) {
+                mnl = " month";
+            } else mnl = " months";
+
+            if (years <= 0) {
+                if (months <= 0) {
+                    if (weeks <= 0) {
+                        if (days <= 0) {
+                            if (hours <= 0) {
+                                if (minutes <= 0) {
+                                    return seconds + sl;
+                                }
+                                return minutes + " min" + (seconds == 0 ? "" : " " + seconds + sl);
+                            }
+                            return hours + hl + (minutes == 0 ? "" : " " + minutes + ml);
+                        }
+                        return days + dl + (hours == 0 ? "" : " & " + hours + hl);
+                    }
+                    return weeks + wl + (days == 0 ? "" : " & " + days + dl);
                 }
                 return months + mnl;
             }

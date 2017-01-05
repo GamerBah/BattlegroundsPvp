@@ -3,7 +3,7 @@ package com.battlegroundspvp.PlayerEvents;
 
 
 import com.battlegroundspvp.Administration.Commands.FreezeCommand;
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Donations.DonationMessages;
 import com.battlegroundspvp.Administration.Donations.Essence;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
@@ -46,8 +46,8 @@ public class PlayerJoin implements Listener {
             plugin.createPlayerData(event.getUniqueId(), event.getName());
             plugin.getServer().getScheduler().runTaskLaterAsynchronously(plugin, () -> {
                 plugin.getPlayerData(event.getUniqueId()).setDailyRewardLast(LocalDateTime.now());
-                plugin.getPlayerData(event.getUniqueId()).setLastKilledBy(event.getUniqueId().toString());
-            }, 2L);
+            }, 1L);
+            plugin.getGlobalStats().addUniqueJoin();
         }
 
         ArrayList<Punishment> punishments = plugin.getPlayerPunishments().get(event.getUniqueId());
@@ -103,10 +103,10 @@ public class PlayerJoin implements Listener {
         KDRatio kdRatio = new KDRatio(plugin);
         scoreboardListener.getRanks().put(plugin.getPlayerData(event.getUniqueId()).getUuid(), plugin.getPlayerData(event.getUniqueId()).getRank().getColor()
                 + "" + ChatColor.BOLD + plugin.getPlayerData(event.getUniqueId()).getRank().getName().toUpperCase());
-        scoreboardListener.getKills().put(plugin.getPlayerData(event.getUniqueId()).getUuid(), plugin.getPlayerData(event.getUniqueId()).getKills());
-        scoreboardListener.getDeaths().put(plugin.getPlayerData(event.getUniqueId()).getUuid(), plugin.getPlayerData(event.getUniqueId()).getDeaths());
+        scoreboardListener.getKills().put(plugin.getPlayerData(event.getUniqueId()).getUuid(), plugin.getPlayerData(event.getUniqueId()).getKitPvpData().getKills());
+        scoreboardListener.getDeaths().put(plugin.getPlayerData(event.getUniqueId()).getUuid(), plugin.getPlayerData(event.getUniqueId()).getKitPvpData().getDeaths());
         scoreboardListener.getKds().put(plugin.getPlayerData(event.getUniqueId()).getUuid(), ChatColor.GRAY + "" + kdRatio.getRatio(plugin.getPlayerData(event.getUniqueId())));
-        scoreboardListener.getSouls().put(plugin.getPlayerData(event.getUniqueId()).getUuid(), plugin.getPlayerData(event.getUniqueId()).getSouls());
+        scoreboardListener.getSouls().put(plugin.getPlayerData(event.getUniqueId()).getUuid(), plugin.getPlayerData(event.getUniqueId()).getKitPvpData().getSouls());
         scoreboardListener.getCoins().put(plugin.getPlayerData(event.getUniqueId()).getUuid(), plugin.getPlayerData(event.getUniqueId()).getCoins());
     }
 
@@ -140,7 +140,7 @@ public class PlayerJoin implements Listener {
             TitleAPI.sendTitle(player, 5, 60, 20, BoldColor.YELLOW.getColor() + "Welcome to" + BoldColor.GOLD.getColor() + "Battlegrounds!",
                     ChatColor.AQUA + "Right-Click the Nether Star to get started!");
         } else {
-            if (playerData.isStealthyJoin()) {
+            if (playerData.getPlayerSettings().isStealthyJoin()) {
                 event.setJoinMessage(null);
                 plugin.getServer().getOnlinePlayers().stream().filter(staff ->
                         plugin.getPlayerData(staff.getUniqueId()).hasRank(Rank.ADMIN)).forEach(staff ->

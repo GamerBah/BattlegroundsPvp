@@ -2,7 +2,7 @@ package com.battlegroundspvp.Etc.Menus.Cosmetics;
 /* Created by GamerBah on 8/20/2016 */
 
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.Enums.Cosmetic;
 import com.battlegroundspvp.Utils.Enums.Rarity;

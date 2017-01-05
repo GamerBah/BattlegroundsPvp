@@ -1,7 +1,7 @@
 package com.battlegroundspvp.Administration.Commands;
 /* Created by GamerBah on 8/10/2016 */
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.Enums.EventSound;
@@ -54,25 +54,35 @@ public class FlySpeedCommand implements CommandExecutor {
 
         float speed = 0f;
         switch (args[0]) {
-            case "1": speed = 0.1f;
+            case "1":
+                speed = 0.1f;
                 break;
-            case "2": speed = 0.2f;
+            case "2":
+                speed = 0.2f;
                 break;
-            case "3": speed = 0.3f;
+            case "3":
+                speed = 0.3f;
                 break;
-            case "4": speed = 0.4f;
+            case "4":
+                speed = 0.4f;
                 break;
-            case "5": speed = 0.5f;
+            case "5":
+                speed = 0.5f;
                 break;
-            case "6": speed = 0.6f;
+            case "6":
+                speed = 0.6f;
                 break;
-            case "7": speed = 0.7f;
+            case "7":
+                speed = 0.7f;
                 break;
-            case "8": speed = 0.8f;
+            case "8":
+                speed = 0.8f;
                 break;
-            case "9": speed = 0.9f;
+            case "9":
+                speed = 0.9f;
                 break;
-            case "10": speed = 1.0f;
+            case "10":
+                speed = 1.0f;
                 break;
         }
         player.setFlySpeed(speed);

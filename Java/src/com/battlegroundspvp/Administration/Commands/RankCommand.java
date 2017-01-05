@@ -2,7 +2,7 @@ package com.battlegroundspvp.Administration.Commands;
 /* Created by GamerBah on 8/7/2016 */
 
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Listeners.ScoreboardListener;
@@ -72,7 +72,7 @@ public class RankCommand implements CommandExecutor, TabCompleter {
                             playerData.setRank(rank);
                         }
                         if (!playerData.hasRank(Rank.MODERATOR)) {
-                            playerData.setStealthyJoin(false);
+                            playerData.getPlayerSettings().setStealthyJoin(false);
                         }
                         sender.sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Success! " + ChatColor.GRAY + target.getName() + "'s rank was changed to " + WordUtils.capitalizeFully(rank.toString()));
                         return;

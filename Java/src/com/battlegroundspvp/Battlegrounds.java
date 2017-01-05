@@ -2,8 +2,9 @@ package com.battlegroundspvp;
 /* Created by GamerBah on 8/7/2016 */
 
 import com.battlegroundspvp.Administration.Commands.*;
+import com.battlegroundspvp.Administration.Data.GlobalStats;
 import com.battlegroundspvp.Administration.Data.MySQL;
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Data.Query;
 import com.battlegroundspvp.Administration.Donations.Essence;
 import com.battlegroundspvp.Administration.Punishments.Commands.*;
@@ -65,15 +66,15 @@ public class Battlegrounds extends JavaPlugin {
     private static HashSet<UUID> afk = new HashSet<>();
     @Getter
     private static HashSet<UUID> cmdspies = new HashSet<>();
+    @Getter
+    private static HashSet<Player> fallDmg = new HashSet<>();
     public SlackApi slackReports = null;
     public SlackApi slackStaffRequests = null;
     public SlackApi slackDonations = null;
     public SlackApi slackPunishments = null;
     public SlackApi slackErrorReporting = null;
     @Getter
-    private HashSet<PlayerData> playerData = new HashSet<>();
-    @Getter
-    private ArrayList<PlayerData> allPlayerData = new ArrayList<>();
+    private ArrayList<PlayerData> playerData = new ArrayList<>();
     @Getter
     private HashMap<UUID, ArrayList<Punishment>> playerPunishments = new HashMap<>();
     @Getter
@@ -94,6 +95,8 @@ public class Battlegrounds extends JavaPlugin {
     private HashMap<UUID, Integer> six100Essence = new HashMap<>();
     @Getter
     private HashMap<UUID, Integer> six150Essence = new HashMap<>();
+    @Getter
+    private GlobalStats globalStats = null;
     @Getter
     private List<String> filteredWords = new ArrayList<>();
     @Getter
@@ -130,13 +133,13 @@ public class Battlegrounds extends JavaPlugin {
             KDRatio kdRatio = new KDRatio(this);
             //GlowAPI.setGlowing(player, null, getServer().getOnlinePlayers());
             scoreboardListener.getRanks().put(player.getUniqueId(), playerData.getRank().getColor() + "" + ChatColor.BOLD + playerData.getRank().getName().toUpperCase());
-            scoreboardListener.getKills().put(player.getUniqueId(), playerData.getKills());
-            scoreboardListener.getDeaths().put(player.getUniqueId(), playerData.getDeaths());
+            scoreboardListener.getKills().put(player.getUniqueId(), playerData.getKitPvpData().getKills());
+            scoreboardListener.getDeaths().put(player.getUniqueId(), playerData.getKitPvpData().getDeaths());
             scoreboardListener.getKds().put(player.getUniqueId(), ChatColor.GRAY + "" + kdRatio.getRatio(player));
-            scoreboardListener.getSouls().put(player.getUniqueId(), playerData.getSouls());
+            scoreboardListener.getSouls().put(player.getUniqueId(), playerData.getKitPvpData().getSouls());
             scoreboardListener.getCoins().put(player.getUniqueId(), playerData.getCoins());
-            scoreboardListener.updateScoreboardKills(player, 0);
             scoreboardListener.updateScoreboardRank(player, playerData.getRank());
+            scoreboardListener.updateScoreboardKills(player, 0);
             scoreboardListener.updateScoreboardDeaths(player, 0);
             scoreboardListener.updateScoreboardSouls(player, 0);
             scoreboardListener.updateScoreboardCoins(player, 0);
@@ -224,6 +227,7 @@ public class Battlegrounds extends JavaPlugin {
         launchers.add(new Location(getServer().getWorld("Colosseum"), 6, 27.05, -6));
         launchers.add(new Location(getServer().getWorld("Colosseum"), -6, 27.05, 6));
 
+        // Make sure Menu Search Sign is in place
         getProtocolManager().getAsynchronousManager().registerAsyncHandler(
                 new PacketAdapter(this, PacketType.Play.Client.UPDATE_SIGN) {
                     @Override
@@ -248,10 +252,15 @@ public class Battlegrounds extends JavaPlugin {
                         }
                     }
                 }).syncStart();
+
+        // Reload Relevant Data
         getServer().getScheduler().runTaskLater(this, () -> {
             reloadPunishments();
             reloadAllPlayerData();
         }, 5L);
+
+        // Initialize Global Stat tracking
+        globalStats = sql.getGlobalStats();
     }
 
     public void onDisable() {
@@ -359,7 +368,11 @@ public class Battlegrounds extends JavaPlugin {
 
     public void createPlayerData(UUID uuid, String name) {
         sql.executeUpdate(Query.CREATE_PLAYER_DATA, uuid.toString(), name);
-        getServer().getScheduler().runTaskLater(this, () -> playerData.add(sql.getPlayerData(uuid)), 5L);
+        sql.executeUpdate(Query.CREATE_KITPVP_DATA, sql.getPlayerData(uuid).getId());
+        sql.executeUpdate(Query.CREATE_SETTINGS_DATA, sql.getPlayerData(uuid).getId());
+        getServer().getScheduler().runTaskLater(this, () -> {
+            playerData.add(sql.getPlayerData(uuid));
+        }, 1L);
     }
 
     public HashMap<UUID, Integer> getEssenceData(Essence.Type type) {
@@ -430,8 +443,8 @@ public class Battlegrounds extends JavaPlugin {
 
     private void reloadAllPlayerData() {
         if (!sql.getAllPlayerData().isEmpty()) {
-            for (PlayerData playerData : sql.getAllPlayerData()) {
-                allPlayerData.add(playerData);
+            for (PlayerData pData : sql.getAllPlayerData()) {
+                playerData.add(pData);
             }
         }
     }

@@ -2,7 +2,7 @@ package com.battlegroundspvp.Etc.Menus.Player;
 /* Created by GamerBah on 6/1/2016 */
 
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.Enums.ParticleQuality;
@@ -30,7 +30,7 @@ public class SettingsMenu {
             inv = plugin.getServer().createInventory(null, 27, "Settings");
         }
 
-        if (!playerData.isTeamRequests()) {
+        if (!playerData.getPlayerSettings().isTeamRequests()) {
             inv.setItem(11, new I(Material.INK_SACK).durability(8)
                     .name(ChatColor.YELLOW + "Team Requests: " + BoldColor.RED.getColor() + "DISABLED")
                     .lore(ChatColor.GRAY + "Enabling this will allow players")
@@ -42,7 +42,7 @@ public class SettingsMenu {
                     .lore(ChatColor.GRAY + "from sending you team requests"));
         }
 
-        if (!playerData.isPrivateMessaging()) {
+        if (!playerData.getPlayerSettings().isPrivateMessaging()) {
             inv.setItem(13, new I(Material.INK_SACK).durability(8)
                     .name(ChatColor.YELLOW + "Private Messaging: " + BoldColor.RED.getColor() + "DISABLED")
                     .lore(ChatColor.GRAY + "Enabling this will allow players").lore(ChatColor.GRAY + "to privately message you"));
@@ -53,18 +53,18 @@ public class SettingsMenu {
                     .lore(ChatColor.GRAY + "from privately messaging you"));
         }
 
-        if (playerData.getParticleQuality().equals(ParticleQuality.LOW)) {
+        if (playerData.getPlayerSettings().getParticleQuality().equals(ParticleQuality.LOW)) {
             inv.setItem(15, ParticleQuality.LOW.getItem());
         }
-        if (playerData.getParticleQuality().equals(ParticleQuality.MEDIUM)) {
+        if (playerData.getPlayerSettings().getParticleQuality().equals(ParticleQuality.MEDIUM)) {
             inv.setItem(15, ParticleQuality.MEDIUM.getItem());
         }
-        if (playerData.getParticleQuality().equals(ParticleQuality.HIGH)) {
+        if (playerData.getPlayerSettings().getParticleQuality().equals(ParticleQuality.HIGH)) {
             //inv.setItem(15, ParticleQuality.HIGH.getItem());
             inv.setItem(15, new I(Material.INK_SACK).durability(8).name(ChatColor.AQUA + "Particle Quality").lore(BoldColor.RED.getColor() + "COMING SOON!"));
         }
 
-        if (playerData.hasRank(Rank.MODERATOR)) {
+        if (playerData.hasRank(Rank.HELPER)) {
             inv.setItem(22, new I(Material.EYE_OF_ENDER)
                     .name(ChatColor.GOLD + "Staff Preferences..."));
         }
@@ -75,11 +75,18 @@ public class SettingsMenu {
     public void openStaffInventory(Player player) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         Inventory inv = plugin.getServer().createInventory(null, 36, "Staff Settings");
-        if (!playerData.isStealthyJoin()) {
-            inv.setItem(12, new I(Material.INK_SACK).durability(8)
-                    .name(ChatColor.GOLD + "Stealthy Join: " + BoldColor.RED.getColor() + "DISABLED")
-                    .lore(ChatColor.GRAY + "Enabling this will cause you to join")
-                    .lore(ChatColor.GRAY + "the server without the notifications"));
+        if (!playerData.getPlayerSettings().isStealthyJoin()) {
+            if (playerData.hasRank(Rank.MODERATOR)) {
+                inv.setItem(12, new I(Material.INK_SACK).durability(8)
+                        .name(ChatColor.GOLD + "Stealthy Join: " + BoldColor.RED.getColor() + "DISABLED")
+                        .lore(ChatColor.GRAY + "Enabling this will cause you to join")
+                        .lore(ChatColor.GRAY + "the server without the notifications"));
+            } else {
+                inv.setItem(12, new I(Material.INK_SACK).durability(8)
+                        .name(ChatColor.GOLD + "Stealthy Join: " + BoldColor.RED.getColor() + "DISABLED")
+                        .lore(ChatColor.GRAY + "Must be a " + Rank.MODERATOR.getColor() + "" + ChatColor.BOLD + "MODERATOR"
+                                + ChatColor.GRAY + " to enable this!"));
+            }
         } else {
             inv.setItem(12, new I(Material.INK_SACK).durability(10)
                     .name(ChatColor.GOLD + "Stealthy Join: " + BoldColor.GREEN.getColor() + "ENABLED")

@@ -2,7 +2,7 @@ package com.battlegroundspvp.Etc.Menus.Player;
 /* Created by GamerBah on 9/5/2016 */
 
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Etc.Achievements.Achievement;
@@ -33,12 +33,12 @@ public class ProfileMenu {
         KDRatio kdRatio = new KDRatio(plugin);
         int amount = plugin.getTotalEssenceAmount(player);
         PlayerData killedByPlayerData = null;
-        if (!playerData.getLastKilledBy().equals("NONE")) {
-            killedByPlayerData = plugin.getPlayerData(UUID.fromString(playerData.getLastKilledBy()));
+        if (!playerData.getKitPvpData().getLastKilledBy().equals("NONE")) {
+            killedByPlayerData = plugin.getPlayerData(UUID.fromString(playerData.getKitPvpData().getLastKilledBy()));
         }
         Achievement.Type achievement = null;
         for (Achievement.Type achievements : Achievement.Type.values()) {
-            if (achievements.toString().equals(playerData.getTitle())) {
+            if (achievements.toString().equals(playerData.getKitPvpData().getTitle())) {
                 achievement = achievements;
             }
         }
@@ -46,12 +46,12 @@ public class ProfileMenu {
         ItemStack head = new I(Material.SKULL_ITEM).durability(3)
                 .name(playerData.getRank().getColor() + "" + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.BOLD + playerData.getRank().getName().toUpperCase() + " " : "")
                         + (playerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : ChatColor.GRAY) + player.getName())
-                .lore(ChatColor.GRAY + "Kills: " + ChatColor.GREEN + playerData.getKills())
-                .lore(ChatColor.GRAY + "Deaths: " + ChatColor.RED + playerData.getDeaths())
+                .lore(ChatColor.GRAY + "Kills: " + ChatColor.GREEN + playerData.getKitPvpData().getKills())
+                .lore(ChatColor.GRAY + "Deaths: " + ChatColor.RED + playerData.getKitPvpData().getDeaths())
                 .lore(ChatColor.GRAY + "K/D Ratio: " + kdRatio.getRatioColor(player) + kdRatio.getRatio(player))
-                .lore(ChatColor.GRAY + "Longest Killstreak: " + ChatColor.DARK_AQUA + playerData.getHighestKillstreak())
-                .lore(ChatColor.GRAY + "Revenge Kills: " + ChatColor.BLUE + playerData.getRevengeKills())
-                .lore(ChatColor.GRAY + "Killstreaks Ended: " + ChatColor.YELLOW + playerData.getKillstreaksEnded())
+                .lore(ChatColor.GRAY + "Longest Killstreak: " + ChatColor.DARK_AQUA + playerData.getKitPvpData().getHighestKillstreak())
+                .lore(ChatColor.GRAY + "Revenge Kills: " + ChatColor.BLUE + playerData.getKitPvpData().getRevengeKills())
+                .lore(ChatColor.GRAY + "Killstreaks Ended: " + ChatColor.YELLOW + playerData.getKitPvpData().getKillstreaksEnded())
                 .lore(ChatColor.GRAY + "Last Killed By: " + (killedByPlayerData != null ? (killedByPlayerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : "")
                         + killedByPlayerData.getName() : "--"))
                 .lore(" ")
@@ -63,7 +63,7 @@ public class ProfileMenu {
                         + (playerData.getGore().getRarity() == Rarity.EPIC || playerData.getGore().getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + playerData.getGore().getName())
                 .lore(ChatColor.GRAY + "Mastery Title: " + (achievement != null ? BoldColor.GOLD.getColor() + "[" + achievement.getTitle() + "]" : "None"))
                 .lore(" ")
-                .lore(ChatColor.GRAY + "Souls: " + ChatColor.AQUA + playerData.getSouls())
+                .lore(ChatColor.GRAY + "Souls: " + ChatColor.AQUA + playerData.getKitPvpData().getSouls())
                 .lore(ChatColor.GRAY + "Battle Coins: " + ChatColor.LIGHT_PURPLE + playerData.getCoins());
         SkullMeta meta = (SkullMeta) head.getItemMeta();
         meta.setOwner(player.getName());
@@ -89,7 +89,7 @@ public class ProfileMenu {
                 .lore("").lore(BoldColor.RED.getColor() + "COMING SOON!"));
         inv.setItem(16, new I(Material.BLAZE_POWDER)
                 .name((amount == 0 ? ChatColor.RED + "Battle Essence" : ChatColor.GREEN + "Battle Essence"))
-                .amount(amount)
+                .amount(amount == 0 ? 1 : amount)
                 .lore(amount == 0 ? ChatColor.GRAY + "You don't have Battle Essence!" : ChatColor.GRAY + "You have " + ChatColor.AQUA + amount + ChatColor.GRAY + " Battle "
                         + (amount == 1 ? "Essence" : "Essences")).lore(" ").lore(ChatColor.GRAY + "Purchase Battle Essences at our store!")
                 .lore(ChatColor.YELLOW + "store.battlegroundspvp.com"));

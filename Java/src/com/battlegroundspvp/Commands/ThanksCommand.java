@@ -1,7 +1,7 @@
 package com.battlegroundspvp.Commands;
 /* Created by GamerBah on 8/19/2016 */
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Listeners.ScoreboardListener;
 import com.battlegroundspvp.Utils.Enums.EventSound;
@@ -72,7 +72,7 @@ public class ThanksCommand implements CommandExecutor {
         player.sendMessage(ChatColor.GRAY + "You thanked " + target.getName() + " for the Essence! " + ChatColor.AQUA + "[+50 Souls]");
 
         if (!target.isOnline()) {
-            targetData.setSouls(targetData.getSouls() + 50);
+            targetData.getKitPvpData().addSouls(50);
         } else {
             Player t = plugin.getServer().getPlayer(target.getUniqueId());
             scoreboardListener.updateScoreboardSouls(t, 50);

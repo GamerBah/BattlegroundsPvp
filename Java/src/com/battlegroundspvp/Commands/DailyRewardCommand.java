@@ -1,7 +1,7 @@
 package com.battlegroundspvp.Commands;
 /* Created by GamerBah on 8/28/2016 */
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Listeners.ScoreboardListener;
 import com.battlegroundspvp.Utils.Enums.EventSound;

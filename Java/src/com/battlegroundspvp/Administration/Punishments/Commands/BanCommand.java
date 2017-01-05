@@ -3,7 +3,7 @@ package com.battlegroundspvp.Administration.Punishments.Commands;
 
 
 import com.battlegroundspvp.Administration.Commands.WarnCommand;
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
@@ -93,6 +93,7 @@ public class BanCommand implements CommandExecutor {
             }
             player.closeInventory();
             Battlegrounds.punishmentCreation.remove(player);
+            plugin.getGlobalStats().addBan();
         }
     }
 

@@ -2,6 +2,8 @@ package com.battlegroundspvp.Listeners;
 
 import com.battlegroundspvp.Battlegrounds;
 import org.bukkit.Location;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -49,6 +51,8 @@ public class SpawnProtectListener implements Listener {
         Entity entity = event.getEntity();
         Location location = entity.getLocation();
 
+        if (entity instanceof Arrow) plugin.getGlobalStats().addArrowFired();
+        if (entity instanceof EnderPearl) plugin.getGlobalStats().addEnderpearlThrown();
         if (location.distance(location.getWorld().getSpawnLocation()) <= 12) {
             event.setCancelled(true);
             entity.remove();

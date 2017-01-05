@@ -3,7 +3,7 @@ package com.battlegroundspvp.Administration.Utils;
 
 
 import com.battlegroundspvp.Administration.Commands.FreezeCommand;
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Runnables.AFKRunnable;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.Enums.EventSound;

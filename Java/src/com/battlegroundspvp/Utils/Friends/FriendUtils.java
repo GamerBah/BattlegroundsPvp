@@ -1,6 +1,6 @@
 package com.battlegroundspvp.Utils.Friends;
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Battlegrounds;
 import org.bukkit.entity.Player;
 

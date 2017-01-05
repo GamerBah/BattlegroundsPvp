@@ -2,7 +2,7 @@ package com.battlegroundspvp.Administration.Commands;
 /* Created by GamerBah on 8/7/2016 */
 
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.Enums.EventSound;
@@ -120,17 +120,17 @@ public class FreezeCommand implements CommandExecutor {
 
 
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                        if (frozenPlayers.contains(target)) {
-                            frozenPlayers.remove(target);
-                            target.setWalkSpeed(0.2F);
-                            target.removePotionEffect(PotionEffectType.JUMP);
-                            target.setFoodLevel(20);
-                            player.setSaturation(20);
-                            plugin.respawn(target, target.getWorld().getSpawnLocation());
-                            target.sendMessage(ChatColor.RED + "Your movement has been automatically re-enabled!");
-                            Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
-                        }
-                    }, 6000L);
+                    if (frozenPlayers.contains(target)) {
+                        frozenPlayers.remove(target);
+                        target.setWalkSpeed(0.2F);
+                        target.removePotionEffect(PotionEffectType.JUMP);
+                        target.setFoodLevel(20);
+                        player.setSaturation(20);
+                        plugin.respawn(target, target.getWorld().getSpawnLocation());
+                        target.sendMessage(ChatColor.RED + "Your movement has been automatically re-enabled!");
+                        Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
+                    }
+                }, 6000L);
             }
         }
         return false;

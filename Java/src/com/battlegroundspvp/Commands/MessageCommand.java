@@ -64,7 +64,7 @@ public class MessageCommand implements CommandExecutor {
             return true;
         }
 
-        if (!plugin.getPlayerData(target.getUniqueId()).isPrivateMessaging()) {
+        if (!plugin.getPlayerData(target.getUniqueId()).getPlayerSettings().isPrivateMessaging()) {
             player.sendMessage(ChatColor.RED + "That player isn't accepting private messages!");
             Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
             return true;
@@ -81,7 +81,7 @@ public class MessageCommand implements CommandExecutor {
         }
 
         player.sendMessage(ChatColor.DARK_AQUA + "You" + ChatColor.RED + " \u00BB " + BoldColor.AQUA.getColor() + target.getName() + ChatColor.WHITE + ": " + ChatColor.AQUA + message.trim());
-        target.sendMessage(BoldColor.AQUA.getColor() + player.getName()  + ChatColor.RED + " \u00BB " + ChatColor.DARK_AQUA + "You" + ChatColor.WHITE + ": " + ChatColor.AQUA + message);
+        target.sendMessage(BoldColor.AQUA.getColor() + player.getName() + ChatColor.RED + " \u00BB " + ChatColor.DARK_AQUA + "You" + ChatColor.WHITE + ": " + ChatColor.AQUA + message);
 
         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_HARP, 2, 2);
         target.playSound(target.getLocation(), Sound.BLOCK_NOTE_HARP, 2, 2);

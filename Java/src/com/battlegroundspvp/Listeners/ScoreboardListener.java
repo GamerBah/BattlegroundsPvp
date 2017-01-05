@@ -2,7 +2,7 @@ package com.battlegroundspvp.Listeners;
 /* Created by GamerBah on 8/15/2016 */
 
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Etc.Achievements.Achievement;
@@ -67,11 +67,11 @@ public class ScoreboardListener implements Listener {
             objective.getScore("  ").setScore(8);
 
             // Kills, Deaths, KD
-            objective.getScore(BoldColor.GREEN.getColor() + "Kills: " + ChatColor.GRAY + playerData.getKills()).setScore(7);
-            kills.put(player.getUniqueId(), playerData.getKills());
+            objective.getScore(BoldColor.GREEN.getColor() + "Kills: " + ChatColor.GRAY + playerData.getKitPvpData().getKills()).setScore(7);
+            kills.put(player.getUniqueId(), playerData.getKitPvpData().getKills());
 
-            objective.getScore(BoldColor.RED.getColor() + "Deaths: " + ChatColor.GRAY + playerData.getDeaths()).setScore(6);
-            deaths.put(player.getUniqueId(), playerData.getDeaths());
+            objective.getScore(BoldColor.RED.getColor() + "Deaths: " + ChatColor.GRAY + playerData.getKitPvpData().getDeaths()).setScore(6);
+            deaths.put(player.getUniqueId(), playerData.getKitPvpData().getDeaths());
 
             KDRatio kdRatio = new KDRatio(plugin);
             objective.getScore(BoldColor.YELLOW.getColor() + "K/D Ratio: " + ChatColor.GRAY + "" + kdRatio.getRatio(player)).setScore(5);
@@ -80,11 +80,11 @@ public class ScoreboardListener implements Listener {
             objective.getScore("   ").setScore(4);
 
             // Currencies
-            objective.getScore(BoldColor.AQUA.getColor() + "Souls: " + ChatColor.GRAY + playerData.getSouls()).setScore(3);
-            souls.put(player.getUniqueId(), playerData.getSouls());
+            objective.getScore(BoldColor.AQUA.getColor() + "Souls: " + ChatColor.GRAY + playerData.getKitPvpData().getSouls()).setScore(3);
+            souls.put(player.getUniqueId(), playerData.getKitPvpData().getSouls());
 
             objective.getScore(BoldColor.PINK.getColor() + "Battle Coins: " + ChatColor.GRAY + playerData.getCoins()).setScore(2);
-            souls.put(player.getUniqueId(), playerData.getSouls());
+            souls.put(player.getUniqueId(), playerData.getKitPvpData().getSouls());
         }
         Objective healthObjective = board.registerNewObjective("showhealth", "health");
         healthObjective.setDisplaySlot(DisplaySlot.BELOW_NAME);
@@ -93,7 +93,7 @@ public class ScoreboardListener implements Listener {
         player.setScoreboard(board);
     }
 
-    public void setupScoreboardTeams(Player player, Scoreboard board) {
+    private void setupScoreboardTeams(Player player, Scoreboard board) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         player.setScoreboard(board);
         Team killer = board.registerNewTeam("killer");
@@ -110,31 +110,31 @@ public class ScoreboardListener implements Listener {
 
         for (Player target : Bukkit.getOnlinePlayers()) {
             PlayerData targetData = plugin.getPlayerData(target.getUniqueId());
-            if (targetData.getTitle().equals(Achievement.Type.BRUTALITY_MASTER.toString())) {
+            if (targetData.getKitPvpData().getTitle().equals(Achievement.Type.BRUTALITY_MASTER.toString())) {
                 killer.addEntry(target.getName());
-            } else if (targetData.getTitle().equals(Achievement.Type.BUZZKILL_MASTER.toString())) {
+            } else if (targetData.getKitPvpData().getTitle().equals(Achievement.Type.BUZZKILL_MASTER.toString())) {
                 buzzkill.addEntry(target.getName());
-            } else if (targetData.getTitle().equals(Achievement.Type.VENGEFUL_MASTER.toString())) {
+            } else if (targetData.getKitPvpData().getTitle().equals(Achievement.Type.VENGEFUL_MASTER.toString())) {
                 vengeful.addEntry(target.getName());
-            } else if (targetData.getTitle().equals(Achievement.Type.SADIST_MASTER.toString())) {
+            } else if (targetData.getKitPvpData().getTitle().equals(Achievement.Type.SADIST_MASTER.toString())) {
                 sadist.addEntry(target.getName());
-            } else if (targetData.getTitle().equals(Achievement.Type.DEATHKNELL.toString())) {
+            } else if (targetData.getKitPvpData().getTitle().equals(Achievement.Type.DEATHKNELL.toString())) {
                 fragile.addEntry(target.getName());
-            } else if (targetData.getTitle().equals("TRAIL_NONE")) {
+            } else if (targetData.getKitPvpData().getTitle().equals("TRAIL_NONE")) {
                 none.addEntry(target.getName());
             }
 
-            if (playerData.getTitle().equals(Achievement.Type.BRUTALITY_MASTER.toString())) {
+            if (playerData.getKitPvpData().getTitle().equals(Achievement.Type.BRUTALITY_MASTER.toString())) {
                 target.getScoreboard().getTeam("killer").addEntry(player.getName());
-            } else if (playerData.getTitle().equals(Achievement.Type.BUZZKILL_MASTER.toString())) {
+            } else if (playerData.getKitPvpData().getTitle().equals(Achievement.Type.BUZZKILL_MASTER.toString())) {
                 target.getScoreboard().getTeam("buzzkill").addEntry(player.getName());
-            } else if (playerData.getTitle().equals(Achievement.Type.VENGEFUL_MASTER.toString())) {
+            } else if (playerData.getKitPvpData().getTitle().equals(Achievement.Type.VENGEFUL_MASTER.toString())) {
                 target.getScoreboard().getTeam("vengeful").addEntry(player.getName());
-            } else if (playerData.getTitle().equals(Achievement.Type.SADIST_MASTER.toString())) {
+            } else if (playerData.getKitPvpData().getTitle().equals(Achievement.Type.SADIST_MASTER.toString())) {
                 target.getScoreboard().getTeam("sadist").addEntry(player.getName());
-            } else if (playerData.getTitle().equals(Achievement.Type.DEATHKNELL.toString())) {
+            } else if (playerData.getKitPvpData().getTitle().equals(Achievement.Type.DEATHKNELL.toString())) {
                 target.getScoreboard().getTeam("fragile").addEntry(player.getName());
-            } else if (playerData.getTitle().equals("TRAIL_NONE")) {
+            } else if (playerData.getKitPvpData().getTitle().equals("TRAIL_NONE")) {
                 target.getScoreboard().getTeam("none").addEntry(player.getName());
             }
         }
@@ -155,33 +155,39 @@ public class ScoreboardListener implements Listener {
         Team fragile = board.getTeam("fragile");
         Team none = board.getTeam("none");
 
+        for (Team team : board.getTeams()) {
+            team.setAllowFriendlyFire(true);
+            team.setCanSeeFriendlyInvisibles(false);
+            team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
+        }
+
         for (Player target : Bukkit.getOnlinePlayers()) {
             PlayerData targetData = plugin.getPlayerData(target.getUniqueId());
-            if (targetData.getTitle().equals(Achievement.Type.BRUTALITY_MASTER.toString())) {
+            if (targetData.getKitPvpData().getTitle().equals(Achievement.Type.BRUTALITY_MASTER.toString())) {
                 killer.addEntry(target.getName());
-            } else if (targetData.getTitle().equals(Achievement.Type.BUZZKILL_MASTER.toString())) {
+            } else if (targetData.getKitPvpData().getTitle().equals(Achievement.Type.BUZZKILL_MASTER.toString())) {
                 buzzkill.addEntry(target.getName());
-            } else if (targetData.getTitle().equals(Achievement.Type.VENGEFUL_MASTER.toString())) {
+            } else if (targetData.getKitPvpData().getTitle().equals(Achievement.Type.VENGEFUL_MASTER.toString())) {
                 vengeful.addEntry(target.getName());
-            } else if (targetData.getTitle().equals(Achievement.Type.SADIST_MASTER.toString())) {
+            } else if (targetData.getKitPvpData().getTitle().equals(Achievement.Type.SADIST_MASTER.toString())) {
                 sadist.addEntry(target.getName());
-            } else if (targetData.getTitle().equals(Achievement.Type.DEATHKNELL.toString())) {
+            } else if (targetData.getKitPvpData().getTitle().equals(Achievement.Type.DEATHKNELL.toString())) {
                 fragile.addEntry(target.getName());
-            } else if (targetData.getTitle().equals("TRAIL_NONE")) {
+            } else if (targetData.getKitPvpData().getTitle().equals("TRAIL_NONE")) {
                 none.addEntry(target.getName());
             }
 
-            if (playerData.getTitle().equals(Achievement.Type.BRUTALITY_MASTER.toString())) {
+            if (playerData.getKitPvpData().getTitle().equals(Achievement.Type.BRUTALITY_MASTER.toString())) {
                 target.getScoreboard().getTeam("killer").addEntry(player.getName());
-            } else if (playerData.getTitle().equals(Achievement.Type.BUZZKILL_MASTER.toString())) {
+            } else if (playerData.getKitPvpData().getTitle().equals(Achievement.Type.BUZZKILL_MASTER.toString())) {
                 target.getScoreboard().getTeam("buzzkill").addEntry(player.getName());
-            } else if (playerData.getTitle().equals(Achievement.Type.VENGEFUL_MASTER.toString())) {
+            } else if (playerData.getKitPvpData().getTitle().equals(Achievement.Type.VENGEFUL_MASTER.toString())) {
                 target.getScoreboard().getTeam("vengeful").addEntry(player.getName());
-            } else if (playerData.getTitle().equals(Achievement.Type.SADIST_MASTER.toString())) {
+            } else if (playerData.getKitPvpData().getTitle().equals(Achievement.Type.SADIST_MASTER.toString())) {
                 target.getScoreboard().getTeam("sadist").addEntry(player.getName());
-            } else if (playerData.getTitle().equals(Achievement.Type.DEATHKNELL.toString())) {
+            } else if (playerData.getKitPvpData().getTitle().equals(Achievement.Type.DEATHKNELL.toString())) {
                 target.getScoreboard().getTeam("fragile").addEntry(player.getName());
-            } else if (playerData.getTitle().equals("TRAIL_NONE")) {
+            } else if (playerData.getKitPvpData().getTitle().equals("TRAIL_NONE")) {
                 target.getScoreboard().getTeam("none").addEntry(player.getName());
             }
         }
@@ -208,14 +214,19 @@ public class ScoreboardListener implements Listener {
         Scoreboard board = player.getScoreboard();
         Objective objective = board.getObjective("PlayerData");
         KDRatio kdRatio = new KDRatio(plugin);
-        getKills().put(player.getUniqueId(), playerData.getKills());
+        getKills().put(player.getUniqueId(), playerData.getKitPvpData().getKills());
         getKds().put(player.getUniqueId(), ChatColor.GRAY + "" + kdRatio.getRatio(player));
-        playerData.setKills(playerData.getKills() + amount);
+        playerData.getKitPvpData().addKill(amount);
         board.resetScores(BoldColor.GREEN.getColor() + "Kills: " + ChatColor.GRAY + kills.get(player.getUniqueId()));
         board.resetScores(BoldColor.YELLOW.getColor() + "K/D Ratio: " + kds.get(player.getUniqueId()));
-        objective.getScore(BoldColor.GREEN.getColor() + "Kills: " + ChatColor.GRAY + playerData.getKills()).setScore(7);
+        objective.getScore(BoldColor.GREEN.getColor() + "Kills: " + ChatColor.GRAY + playerData.getKitPvpData().getKills()).setScore(7);
         objective.getScore(BoldColor.YELLOW.getColor() + "K/D Ratio: " + ChatColor.GRAY + "" + kdRatio.getRatio(player)).setScore(5);
         player.setScoreboard(board);
+    }
+
+    public void updateScoreboardKills(Player player) {
+        updateScoreboardKills(player, 1);
+        plugin.getGlobalStats().addKill();
     }
 
     public void updateScoreboardDeaths(Player player, int amount) {
@@ -223,24 +234,30 @@ public class ScoreboardListener implements Listener {
         Scoreboard board = player.getScoreboard();
         Objective objective = board.getObjective("PlayerData");
         KDRatio kdRatio = new KDRatio(plugin);
-        getDeaths().put(player.getUniqueId(), playerData.getDeaths());
+        getDeaths().put(player.getUniqueId(), playerData.getKitPvpData().getDeaths());
         getKds().put(player.getUniqueId(), ChatColor.GRAY + "" + kdRatio.getRatio(player));
-        playerData.setDeaths(playerData.getDeaths() + amount);
+        playerData.getKitPvpData().addDeath(amount);
         board.resetScores(BoldColor.RED.getColor() + "Deaths: " + ChatColor.GRAY + deaths.get(player.getUniqueId()));
         board.resetScores(BoldColor.YELLOW.getColor() + "K/D Ratio: " + kds.get(player.getUniqueId()));
-        objective.getScore(BoldColor.RED.getColor() + "Deaths: " + ChatColor.GRAY + playerData.getDeaths()).setScore(6);
+        objective.getScore(BoldColor.RED.getColor() + "Deaths: " + ChatColor.GRAY + playerData.getKitPvpData().getDeaths()).setScore(6);
         objective.getScore(BoldColor.YELLOW.getColor() + "K/D Ratio: " + ChatColor.GRAY + "" + kdRatio.getRatio(player)).setScore(5);
         player.setScoreboard(board);
+    }
+
+    public void updateScoreboardDeaths(Player player) {
+        updateScoreboardDeaths(player, 1);
+        plugin.getGlobalStats().addDeath();
     }
 
     public void updateScoreboardSouls(Player player, int amount) {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         Scoreboard board = player.getScoreboard();
         Objective objective = board.getObjective("PlayerData");
-        getSouls().put(player.getUniqueId(), playerData.getSouls());
-        playerData.setSouls(playerData.getSouls() + amount);
+        getSouls().put(player.getUniqueId(), playerData.getKitPvpData().getSouls());
+        playerData.getKitPvpData().addSouls(amount);
+        plugin.getGlobalStats().addSouls(amount);
         board.resetScores(BoldColor.AQUA.getColor() + "Souls: " + ChatColor.GRAY + souls.get(player.getUniqueId()));
-        objective.getScore(BoldColor.AQUA.getColor() + "Souls: " + ChatColor.GRAY + playerData.getSouls()).setScore(3);
+        objective.getScore(BoldColor.AQUA.getColor() + "Souls: " + ChatColor.GRAY + playerData.getKitPvpData().getSouls()).setScore(3);
         player.setScoreboard(board);
     }
 
@@ -249,7 +266,8 @@ public class ScoreboardListener implements Listener {
         Scoreboard board = player.getScoreboard();
         Objective objective = board.getObjective("PlayerData");
         getCoins().put(player.getUniqueId(), playerData.getCoins());
-        playerData.setCoins(playerData.getCoins() + amount);
+        playerData.addCoins(amount);
+        plugin.getGlobalStats().addCoins(amount);
         board.resetScores(BoldColor.PINK.getColor() + "Battle Coins: " + ChatColor.GRAY + coins.get(player.getUniqueId()));
         objective.getScore(BoldColor.PINK.getColor() + "Battle Coins: " + ChatColor.GRAY + playerData.getCoins()).setScore(2);
         player.setScoreboard(board);

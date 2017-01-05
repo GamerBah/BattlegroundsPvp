@@ -1,7 +1,7 @@
 package com.battlegroundspvp.Utils.Kits;
 
 import com.battlegroundspvp.Administration.Commands.FreezeCommand;
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Utils.Enums.EventSound;
@@ -45,8 +45,8 @@ public abstract class Kit implements Listener, CommandExecutor {
     /**
      * Defines a kit
      *
-     * @param name  Name of the kit
-     * @param item  Item representing the kit
+     * @param name   Name of the kit
+     * @param item   Item representing the kit
      * @param rarity Color of the kit
      */
     public Kit(Integer id, String name, I item, Rarity rarity) {
@@ -97,10 +97,10 @@ public abstract class Kit implements Listener, CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (command.getName().equalsIgnoreCase(getName().replaceAll("\\s+", ""))) {
-                if (!FreezeCommand.frozenPlayers.contains(player) && !FreezeCommand.frozen && Battlegrounds.getSql().getPlayerData(player.getUniqueId()).getOwnedKits().contains(this.getId() + ",")) {
+                if (!FreezeCommand.frozenPlayers.contains(player) && !FreezeCommand.frozen && Battlegrounds.getSql().getPlayerData(player.getUniqueId()).getKitPvpData().getOwnedKits().contains(this.getId() + ",")) {
                     wearCheckLevel(player);
                 }
-                if (!Battlegrounds.getSql().getPlayerData(player.getUniqueId()).getOwnedKits().contains(this.getId() + ",")) {
+                if (!Battlegrounds.getSql().getPlayerData(player.getUniqueId()).getKitPvpData().getOwnedKits().contains(this.getId() + ",")) {
                     player.sendMessage(ChatColor.RED + "You haven't unlocked this kit yet!");
                     Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                 }

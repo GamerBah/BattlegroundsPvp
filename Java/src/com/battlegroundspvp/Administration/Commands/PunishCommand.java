@@ -1,7 +1,7 @@
 package com.battlegroundspvp.Administration.Commands;
 /* Created by GamerBah on 8/25/2016 */
 
-import com.battlegroundspvp.Administration.Data.PlayerData;
+import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Etc.Menus.Punishment.PunishMenu;
