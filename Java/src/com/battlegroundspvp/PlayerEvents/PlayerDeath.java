@@ -52,7 +52,7 @@ public class PlayerDeath implements Listener {
 
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         ScoreboardListener scoreboardListener = new ScoreboardListener(plugin);
-        scoreboardListener.updateScoreboardDeaths(player, 1);
+        scoreboardListener.updateScoreboardDeaths(player);
 
         for (Achievement.Type achievement : Achievement.Type.values()) {
             if (achievement.getGroup().equals(Achievement.COMBAT) && achievement.getName().contains("Deathknell")) {
@@ -138,7 +138,7 @@ public class PlayerDeath implements Listener {
         }
 
         PlayerData killerData = plugin.getPlayerData(killer.getUniqueId());
-        scoreboardListener.updateScoreboardKills(killer, 1);
+        scoreboardListener.updateScoreboardKills(killer);
         player.getWorld().playSound(deathLoc, killerData.getWarcry().getKillSound(), killerData.getWarcry().getVolume(), killerData.getWarcry().getPitch());
 
         for (Achievement.Type achievement : Achievement.Type.values()) {

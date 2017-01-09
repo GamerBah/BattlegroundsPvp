@@ -120,9 +120,11 @@ public class Battlegrounds extends JavaPlugin {
         registerCommands();
         registerListeners();
 
+        // Init SQL and Global Stat tracking
         sql = new MySQL(this);
-        protocolManager = ProtocolLibrary.getProtocolManager();
+        globalStats = sql.getGlobalStats();
 
+        protocolManager = ProtocolLibrary.getProtocolManager();
         // Save Default Configuration
         saveDefaultConfig();
 
@@ -258,9 +260,6 @@ public class Battlegrounds extends JavaPlugin {
             reloadPunishments();
             reloadAllPlayerData();
         }, 5L);
-
-        // Initialize Global Stat tracking
-        globalStats = sql.getGlobalStats();
     }
 
     public void onDisable() {

@@ -1,15 +1,15 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="Battlegrounds">
-    <output-path>$PROJECT_DIR$/../../Test Server/Gamer's Plugin Testing/plugins/update</output-path>
+    <output-path>$USER_HOME$/Desktop/Bukkit/Compiled Plugins</output-path>
     <root id="archive" name="Battlegrounds.jar">
       <element id="module-output" name="Battlegrounds" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/net/gpedro/integrations/slack/slack-webhook/1.2.0/slack-webhook-1.2.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/zaxxer/HikariCP/2.5.1/HikariCP-2.5.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/log4j/log4j/1.2.14/log4j-1.2.14.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/ch/qos/logback/logback-classic/1.0.13/logback-classic-1.0.13.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-jdk14/1.7.22/slf4j-jdk14-1.7.22.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.21/slf4j-api-1.7.21.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/ch/qos/logback/logback-core/1.0.13/logback-core-1.0.13.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/net/gpedro/integrations/slack/slack-webhook/1.2.1/slack-webhook-1.2.1.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

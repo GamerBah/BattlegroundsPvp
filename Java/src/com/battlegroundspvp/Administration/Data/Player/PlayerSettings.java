@@ -17,7 +17,7 @@ public class PlayerSettings {
     @Getter
     private final int id;
     @Getter
-    private boolean teamRequests, privateMessaging, stealthyJoin, instantRespawn;
+    private boolean teamRequests, privateMessaging, stealthyJoin;
     @Getter
     private ParticleQuality particleQuality;
 
@@ -36,9 +36,5 @@ public class PlayerSettings {
     public void setParticleQuality(ParticleQuality particleQuality) {
         sql.executeUpdate(UPDATE_SETTINGS_PARTICLE_QUALITY, particleQuality.toString(), id);
         this.particleQuality = particleQuality;
-    }
-
-    public void setInstantRespawn(boolean instantRespawn) {
-        sql.executeUpdate(UPDATE_SETTINGS_INSTANT_RESPAWN, this.instantRespawn = instantRespawn, id);
     }
 }

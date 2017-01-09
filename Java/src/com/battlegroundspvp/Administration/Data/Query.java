@@ -44,7 +44,6 @@ public enum Query {
     UPDATE_SETTINGS_PRIVATE_MESSAGING("UPDATE player_settings SET privateMessaging = ? WHERE id = ?"),
     UPDATE_SETTINGS_STEALTHY_JOIN("UPDATE player_settings SET stealthyJoin = ? WHERE id = ?"),
     UPDATE_SETTINGS_PARTICLE_QUALITY("UPDATE player_settings SET cosmetics = ? WHERE id = ?"),
-    UPDATE_SETTINGS_INSTANT_RESPAWN("UPDATE player_settings SET instantRespawn = ? WHERE id = ?"),
 
     // DONATION DATA
     CREATE_ESSENCE_DATA("INSERT INTO essences (uuid, type, amount) VALUES (?, ?, ?)"),
@@ -61,7 +60,7 @@ public enum Query {
     REMOVE_PUNISHMENT("DELETE FROM punishment WHERE uuid = ? AND type = ? AND date = ?"),
 
     // GLOBAL STATS
-    GET_GLOBAL_STATS("SELECT * FROM global_stats"),
+    GET_GLOBAL_STATS("SELECT * FROM global_stats WHERE id = 1"),
     UPDATE_GLOBAL_KILLS("UPDATE global_stats SET totalKills = ?"),
     UPDATE_GLOBAL_DEATHS("UPDATE global_stats SET totalDeaths = ?"),
     UPDATE_GLOBAL_SOULS("UPDATE global_stats SET totalSoulsEarned = ?"),

@@ -244,7 +244,6 @@ public class MySQL {
                                 result.getBoolean("teamRequests"),
                                 result.getBoolean("privateMessaging"),
                                 result.getBoolean("stealthyJoin"),
-                                result.getBoolean("instantRespawn"),
                                 ParticleQuality.valueOf(result.getString("particleQuality"))
                         );
                         result.getStatement().close();
@@ -399,7 +398,7 @@ public class MySQL {
                 }
                 closeConnection(connection);
             } catch (SQLException e) {
-                plugin.getLogger().severe("Uh oh! Unable to get punishments!");
+                plugin.getLogger().severe("Uh oh! Unable to get global stats!");
                 e.printStackTrace();
             }
             closeConnection(connection);

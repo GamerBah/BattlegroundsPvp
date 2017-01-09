@@ -1,7 +1,7 @@
 main: com.battlegroundspvp.Battlegrounds
 name: Battlegrounds
 author: GamerBah
-version: 0.13.0b
+version: 0.13.1b
 depend: [ProtocolLib]
 commands:
   rank:
