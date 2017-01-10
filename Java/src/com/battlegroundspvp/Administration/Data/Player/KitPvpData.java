@@ -16,9 +16,9 @@ public class KitPvpData {
     @Getter
     private final int id;
     @Getter
-    private int kills, deaths, souls, killstreaksEnded, revengeKills, highestKillstreak;
+    private int kills, deaths, souls, combatRating, killstreaksEnded, revengeKills, highestKillstreak;
     @Getter
-    private String ownedKits, lastKilledBy, title;
+    private String playersRated, ownedKits, lastKilledBy, title;
 
     public void addKill(int amount) {
         sql.executeUpdate(UPDATE_KITPVP_KILLS, this.kills += amount, id);
@@ -30,6 +30,15 @@ public class KitPvpData {
 
     public void addSouls(int amount) {
         sql.executeUpdate(UPDATE_KITPVP_SOULS, this.souls += amount, id);
+    }
+
+    public void addCombatRating() {
+        sql.executeUpdate(UPDATE_KITPVP_COMBAT_RATING, this.combatRating += 1, id);
+    }
+
+    public void addPlayerRated(int playerId) {
+        sql.executeUpdate(UPDATE_KITPVP_PLAYERS_RATED, this.playersRated + playerId + ",", id);
+        this.playersRated = playersRated + playerId + ",";
     }
 
     public void setOwnedKits(String list) {

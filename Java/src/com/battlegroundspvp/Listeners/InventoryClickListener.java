@@ -203,11 +203,37 @@ public class InventoryClickListener implements Listener {
                     player.closeInventory();
                     if (target == player) {
                         player.sendMessage(ChatColor.RED + "You can't team with yourself!");
+                        Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                         return;
                     }
                     TeamMessages teamMessages = new TeamMessages(plugin);
                     teamMessages.sendRequestMessage(player, target);
                     TeamUtils.createPendingRequest(target, player);
+                }
+
+                if (event.getCurrentItem().getType().equals(Material.IRON_INGOT)) {
+                    player.closeInventory();
+                    if (target == player) {
+                        player.sendMessage(ChatColor.RED + "You can't increase your own Combat Rating!");
+                        Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                        return;
+                    }
+                    PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
+                    PlayerData targetData = plugin.getPlayerData(target.getUniqueId());
+                    playerData.getKitPvpData().addPlayerRated(targetData.getId());
+                    player.sendMessage(ChatColor.GREEN + "Gave " + target.getName() + " a +1 on their combat skills!");
+                    Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
+                }
+
+                if (event.getCurrentItem().getType().equals(Material.GOLD_INGOT)) {
+                    player.closeInventory();
+                    if (target == player) {
+                        player.sendMessage(ChatColor.RED + "You can't change your own Combat Rating!");
+                        Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                        return;
+                    }
+                    player.sendMessage(ChatColor.GREEN + "You've already given " + target.getName() + " a +1 on their combat skills!");
+                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
                 }
 
                 event.setCancelled(true);

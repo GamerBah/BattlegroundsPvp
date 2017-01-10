@@ -31,6 +31,8 @@ public enum Query {
     UPDATE_KITPVP_KILLS("UPDATE kitpvp_data SET kills = ? WHERE id = ?"),
     UPDATE_KITPVP_DEATHS("UPDATE kitpvp_data SET deaths = ? WHERE id = ?"),
     UPDATE_KITPVP_SOULS("UPDATE kitpvp_data SET souls = ? WHERE id = ?"),
+    UPDATE_KITPVP_COMBAT_RATING("UPDATE kitpvp_data SET combatRating = ? WHERE id = ?"),
+    UPDATE_KITPVP_PLAYERS_RATED("UPDATE kitpvp_data SET playersRated = ? WHERE id = ?"),
     UPDATE_KITPVP_OWNED_KITS("UPDATE kitpvp_data SET ownedKits = ? WHERE id = ?"),
     UPDATE_KITPVP_LAST_KILLED_BY("UPDATE kitpvp_data SET lastKilledBy = ? WHERE id = ?"),
     UPDATE_KITPVP_KILLSTREAKS_ENDED("UPDATE kitpvp_data SET killstreaksEnded = ? WHERE id = ?"),

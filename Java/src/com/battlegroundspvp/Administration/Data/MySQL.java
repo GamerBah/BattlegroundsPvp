@@ -208,9 +208,11 @@ public class MySQL {
                                 result.getInt("kills"),
                                 result.getInt("deaths"),
                                 result.getInt("souls"),
+                                result.getInt("combatRating"),
                                 result.getInt("killstreaksEnded"),
                                 result.getInt("revengeKills"),
                                 result.getInt("highestKillstreak"),
+                                result.getString("playersRated"),
                                 result.getString("ownedKits"),
                                 result.getString("lastKilledBy"),
                                 result.getString("title")

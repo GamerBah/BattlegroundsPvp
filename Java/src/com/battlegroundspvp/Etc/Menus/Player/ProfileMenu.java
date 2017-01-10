@@ -54,6 +54,7 @@ public class ProfileMenu {
                 .lore(ChatColor.GRAY + "Killstreaks Ended: " + ChatColor.YELLOW + playerData.getKitPvpData().getKillstreaksEnded())
                 .lore(ChatColor.GRAY + "Last Killed By: " + (killedByPlayerData != null ? (killedByPlayerData.hasRank(Rank.WARRIOR) ? ChatColor.WHITE : "")
                         + killedByPlayerData.getName() : "--"))
+                .lore(ChatColor.GRAY + "Combat Rating: " + ChatColor.DARK_PURPLE + playerData.getKitPvpData().getCombatRating())
                 .lore(" ")
                 .lore(ChatColor.GRAY + "Particle Pack: " + (playerData.getTrail().getRarity() == Rarity.COMMON ? ChatColor.DARK_GRAY : playerData.getTrail().getRarity().getColor())
                         + (playerData.getTrail().getRarity() == Rarity.EPIC || playerData.getTrail().getRarity() == Rarity.LEGENDARY ? "" + ChatColor.BOLD : "") + playerData.getTrail().getName())
