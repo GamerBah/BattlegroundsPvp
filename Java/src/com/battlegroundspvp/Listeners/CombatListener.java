@@ -2,6 +2,7 @@ package com.battlegroundspvp.Listeners;
 
 import com.battlegroundspvp.Administration.Runnables.AutoUpdate;
 import com.battlegroundspvp.Battlegrounds;
+import com.battlegroundspvp.Commands.SpectateCommand;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import com.connorlinfoot.titleapi.TitleAPI;
 import lombok.Getter;
@@ -51,6 +52,11 @@ public class CombatListener implements Listener {
                 event.setCancelled(true);
                 return;
             }*/
+
+            if (SpectateCommand.getSpectating().contains(damager) || SpectateCommand.getSpectating().contains(damaged)) {
+                event.setCancelled(true);
+                return;
+            }
 
             if (Battlegrounds.currentTeams.containsKey(damaged.getName())) {
                 if (Battlegrounds.currentTeams.get(damaged.getName()).equals(damager.getName())) {
@@ -322,7 +328,9 @@ public class CombatListener implements Listener {
     public void onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
 
-        if (tagged.containsKey(player.getUniqueId()) && (event.getMessage().toLowerCase().startsWith("/spawn"))) {
+        if (tagged.containsKey(player.getUniqueId())
+                && (event.getMessage().toLowerCase().startsWith("/spawn"))
+                && (event.getMessage().toLowerCase().startsWith("/spectate"))) {
             player.sendMessage(ChatColor.RED + "You cannot use that command during combat!");
             event.setCancelled(true);
         }

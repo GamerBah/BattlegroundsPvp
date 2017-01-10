@@ -6,6 +6,7 @@ import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Commands.ReportCommand;
+import com.battlegroundspvp.Commands.SpectateCommand;
 import com.battlegroundspvp.Utils.Enums.EventSound;
 import com.battlegroundspvp.Utils.Messages.BoldColor;
 import net.md_5.bungee.api.ChatColor;
@@ -27,6 +28,10 @@ public class PlayerQuit implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
+
+        if (SpectateCommand.getSpectating().contains(player)) {
+            SpectateCommand.getSpectating().remove(player);
+        }
 
         if (Battlegrounds.killStreak.containsKey(player.getUniqueId())) {
             Battlegrounds.killStreak.remove(player.getUniqueId());

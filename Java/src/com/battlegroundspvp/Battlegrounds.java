@@ -303,6 +303,7 @@ public class Battlegrounds extends JavaPlugin {
         getCommand("crate").setExecutor(new CrateCommand(this));
         getCommand("warn").setExecutor(new WarnCommand(this));
         getCommand("rules").setExecutor(new RulesCommand(this));
+        getCommand("spectate").setExecutor(new SpectateCommand(this));
     }
 
     private void registerListeners() {

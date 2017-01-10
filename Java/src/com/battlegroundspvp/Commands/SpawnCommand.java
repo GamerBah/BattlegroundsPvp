@@ -1,7 +1,6 @@
 package com.battlegroundspvp.Commands;
 /* Created by GamerBah on 8/15/2016 */
 
-
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.PlayerEvents.PlayerMove;
 import com.battlegroundspvp.Utils.Enums.EventSound;

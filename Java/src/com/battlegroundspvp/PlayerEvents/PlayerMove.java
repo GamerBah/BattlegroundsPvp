@@ -3,6 +3,7 @@ package com.battlegroundspvp.PlayerEvents;
 
 
 import com.battlegroundspvp.Battlegrounds;
+import com.battlegroundspvp.Commands.SpectateCommand;
 import com.battlegroundspvp.Utils.Enums.EventSound;
 import com.battlegroundspvp.Utils.I;
 import com.battlegroundspvp.Utils.Kits.KitManager;
@@ -40,7 +41,7 @@ public class PlayerMove implements Listener {
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
-        if (player.getLocation().distance(player.getWorld().getSpawnLocation()) > 9) {
+        if (player.getLocation().distance(player.getWorld().getSpawnLocation()) > 9 && !SpectateCommand.getSpectating().contains(player)) {
             if (!KitManager.isPlayerInKit(player)) {
                 plugin.respawn(player);
                 TitleAPI.sendTitle(player, 5, 40, 10, " ", ChatColor.GRAY + "Choose a kit first!");

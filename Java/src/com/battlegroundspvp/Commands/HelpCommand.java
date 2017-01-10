@@ -35,9 +35,8 @@ public class HelpCommand implements CommandExecutor {
 
         if (args.length == 0) {
             player.sendMessage("§m------------------§f[ " + ChatColor.RED + "Command Help " + ChatColor.WHITE + "]§m------------------");
-            if (playerData.hasRank(Rank.HELPER)) {
+            if (playerData.hasRank(Rank.HELPER))
                 player.sendMessage(ChatColor.GOLD + " You can use §e/help staff §6for Staff-related commands");
-            }
             player.sendMessage(BoldColor.DARK_AQUA.getColor() + " /afk " + ChatColor.GRAY + "- Sets you as away-from-keyboard");
             player.sendMessage(BoldColor.DARK_AQUA.getColor() + " /crates " + ChatColor.GRAY + "- Opens the Cosmeticrate Menu");
             player.sendMessage(BoldColor.DARK_AQUA.getColor() + " /dailyreward " + ChatColor.GRAY + "- Claims an available Daily Reward");
@@ -51,6 +50,8 @@ public class HelpCommand implements CommandExecutor {
             player.sendMessage(BoldColor.DARK_AQUA.getColor() + " /report " + ChatColor.GRAY + "- Reports a player to Staff members");
             player.sendMessage(BoldColor.DARK_AQUA.getColor() + " /rules " + ChatColor.GRAY + "- Displays the server rules");
             player.sendMessage(BoldColor.DARK_AQUA.getColor() + " /slots " + ChatColor.GRAY + "- Opens the \"K-Slots\" Machine");
+            if (playerData.hasRank(Rank.WARRIOR))
+                player.sendMessage(BoldColor.DARK_AQUA.getColor() + " /spectate " + ChatColor.GRAY + "- Puts you into spectator mode");
             player.sendMessage(BoldColor.DARK_AQUA.getColor() + " /spawn " + ChatColor.GRAY + "- Teleports you back to the spawn");
             player.sendMessage(BoldColor.DARK_AQUA.getColor() + " /staffreq " + ChatColor.GRAY + "- Sends a message to offline Staff members");
             player.sendMessage(BoldColor.DARK_AQUA.getColor() + " /team " + ChatColor.GRAY + "- Team up with another player");
