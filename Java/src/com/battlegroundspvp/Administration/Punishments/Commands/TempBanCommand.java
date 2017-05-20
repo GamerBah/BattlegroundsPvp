@@ -53,7 +53,7 @@ public class TempBanCommand implements CommandExecutor {
                                     + ChatColor.GOLD + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Time Remaining: " + ChatColor.YELLOW +
                                     Time.toString(Time.punishmentTimeRemaining(punishment.getExpiration()), true)).create()));
                             player.spigot().sendMessage(baseComponent);
-                            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                            EventSound.playSound(player, EventSound.ACTION_FAIL);
                             return;
                         }
                     }
@@ -125,14 +125,14 @@ public class TempBanCommand implements CommandExecutor {
         PlayerData targetData = plugin.getPlayerData(plugin.getServer().getOfflinePlayer(args[0]).getUniqueId());
         if (targetData == null) {
             player.sendMessage(ChatColor.RED + "That player hasn't joined before!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
         OfflinePlayer target = plugin.getServer().getOfflinePlayer(targetData.getUuid());
 
         if (targetData == playerData) {
             player.sendMessage(ChatColor.RED + "You can't temp-ban yourself!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
@@ -151,7 +151,7 @@ public class TempBanCommand implements CommandExecutor {
                                     + ChatColor.GOLD + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Time Remaining: " + ChatColor.YELLOW +
                                     Time.toString(Time.punishmentTimeRemaining(punishment.getExpiration()), true)).create()));
                             player.spigot().sendMessage(baseComponent);
-                            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                            EventSound.playSound(player, EventSound.ACTION_FAIL);
                             return true;
                         }
                     }
@@ -161,7 +161,7 @@ public class TempBanCommand implements CommandExecutor {
 
         PunishMenu punishMenu = new PunishMenu(plugin);
         punishMenu.openPunishMenu(player, targetData, Punishment.Type.TEMP_BAN, null, 0);
-        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+        EventSound.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
 
         return true;
     }

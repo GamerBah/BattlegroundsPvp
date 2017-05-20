@@ -138,10 +138,10 @@ public class CosmeticrateMenu {
                     if (item.getItem().equals(inventory.getItem(13))) {
                         finalCosmetic = item;
                         if (item.getRarity().equals(Rarity.EPIC)) {
-                            Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
+                            EventSound.playSound(player, EventSound.ITEM_RECEIVE_EPIC);
                         }
                         if (item.getRarity().equals(Rarity.LEGENDARY)) {
-                            Battlegrounds.playSound(player, EventSound.ITEM_RECEIVE_LEGENDARY);
+                            EventSound.playSound(player, EventSound.ITEM_RECEIVE_LEGENDARY);
                         }
                     }
                 }

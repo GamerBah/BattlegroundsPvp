@@ -106,7 +106,7 @@ public class KitAbility {
                     checkStatus(player, status);
                     TitleAPI.clearTitle(player);
                     TitleAPI.sendTitle(player, 5, 25, 7, " ", BoldColor.GREEN.getColor() + "\u21d1 ABILITY RECHARGED! \u21d1");
-                    Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
+                    EventSound.playSound(player, EventSound.ACTION_SUCCESS);
                     player.setExp(0F);
                     player.setLevel(getStatus(player).getCharges());
                     task.cancel();

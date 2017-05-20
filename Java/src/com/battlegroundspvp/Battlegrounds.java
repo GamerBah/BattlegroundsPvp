@@ -6,7 +6,6 @@ import com.battlegroundspvp.Administration.Data.GlobalStats;
 import com.battlegroundspvp.Administration.Data.MySQL;
 import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Data.Query;
-import com.battlegroundspvp.Administration.Donations.Essence;
 import com.battlegroundspvp.Administration.Punishments.Commands.*;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Administration.Runnables.*;
@@ -78,24 +77,6 @@ public class Battlegrounds extends JavaPlugin {
     @Getter
     private HashMap<UUID, ArrayList<Punishment>> playerPunishments = new HashMap<>();
     @Getter
-    private HashMap<UUID, Integer> one50Essence = new HashMap<>();
-    @Getter
-    private HashMap<UUID, Integer> one100Essence = new HashMap<>();
-    @Getter
-    private HashMap<UUID, Integer> one150Essence = new HashMap<>();
-    @Getter
-    private HashMap<UUID, Integer> three50Essence = new HashMap<>();
-    @Getter
-    private HashMap<UUID, Integer> three100Essence = new HashMap<>();
-    @Getter
-    private HashMap<UUID, Integer> three150Essence = new HashMap<>();
-    @Getter
-    private HashMap<UUID, Integer> six50Essence = new HashMap<>();
-    @Getter
-    private HashMap<UUID, Integer> six100Essence = new HashMap<>();
-    @Getter
-    private HashMap<UUID, Integer> six150Essence = new HashMap<>();
-    @Getter
     private GlobalStats globalStats = null;
     @Getter
     private List<String> filteredWords = new ArrayList<>();
@@ -106,14 +87,13 @@ public class Battlegrounds extends JavaPlugin {
     @Getter
     private HashMap<UUID, UUID> messagers = new HashMap<>();
     @Getter
-    private ArrayList<Location> fireworkBlocks = new ArrayList<>();
+    private List<Location> uLaunchers = new ArrayList<>();
     @Getter
-    private ArrayList<Location> launchers = new ArrayList<>();
-
-    public static void playSound(Player player, EventSound eventSound) {
-        player.playSound(player.getLocation(), eventSound.getSound1(), eventSound.getVol1(), eventSound.getPtch1());
-        player.playSound(player.getLocation(), eventSound.getSound2(), eventSound.getVol2(), eventSound.getPtch2());
-    }
+    private List<Location> fLaunchers = new ArrayList<>();
+    @Getter
+    private List<Location> fLaunchersParticle = new ArrayList<>();
+    @Getter
+    private List<Location> uLaunchersParticle = new ArrayList<>();
 
     public void onEnable() {
         instance = this;
@@ -130,6 +110,7 @@ public class Battlegrounds extends JavaPlugin {
 
         // Reload player data on reload
         for (Player player : getServer().getOnlinePlayers()) {
+            BossBarAPI.removeAllBars(player);
             PlayerData playerData = getPlayerData(player.getUniqueId());
             ScoreboardListener scoreboardListener = new ScoreboardListener(this);
             KDRatio kdRatio = new KDRatio(this);
@@ -147,26 +128,18 @@ public class Battlegrounds extends JavaPlugin {
             scoreboardListener.updateScoreboardCoins(player, 0);
             respawn(player);
             TitleAPI.clearTitle(player);
-            if (!getOne50Essence().containsKey(player.getUniqueId()))
-                getOne50Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.ONE_HOUR_50_PERCENT));
-            if (!getOne100Essence().containsKey(player.getUniqueId()))
-                getOne100Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.ONE_HOUR_100_PERCENT));
-            if (!getOne150Essence().containsKey(player.getUniqueId()))
-                getOne150Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.ONE_HOUR_150_PERCENT));
-            if (!getThree50Essence().containsKey(player.getUniqueId()))
-                getThree50Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.THREE_HOUR_50_PERCENT));
-            if (!getThree100Essence().containsKey(player.getUniqueId()))
-                getThree100Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.THREE_HOUR_100_PERCENT));
-            if (!getThree150Essence().containsKey(player.getUniqueId()))
-                getThree150Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.THREE_HOUR_150_PERCENT));
-            if (!getSix50Essence().containsKey(player.getUniqueId()))
-                getSix50Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_50_PERCENT));
-            if (!getSix100Essence().containsKey(player.getUniqueId()))
-                getSix100Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_100_PERCENT));
-            if (!getSix150Essence().containsKey(player.getUniqueId()))
-                getSix150Essence().put(player.getUniqueId(), getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_150_PERCENT));
-            BossBarAPI.removeAllBars(player);
         }
+
+        // Initialize Launcher Lists
+        uLaunchers = (List<Location>) getConfig().getList("launchersUp");
+        uLaunchers.remove(0);
+        fLaunchers = (List<Location>) getConfig().getList("launchersForward");
+        fLaunchers.remove(0);
+
+        for (Location location : uLaunchers)
+            uLaunchersParticle.add(location.clone().add(0, 1, 0));
+        for (Location location : fLaunchers)
+            fLaunchersParticle.add(location.clone().add(0, 1, 0));
 
         // Initialize Various Repeating Tasks
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new AutoUpdate(this), 120, 120);
@@ -209,25 +182,6 @@ public class Battlegrounds extends JavaPlugin {
         slackPunishments = new SlackApi("https://hooks.slack.com/services/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");
         slackErrorReporting = new SlackApi("https://hooks.slack.com/services/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");
 
-        // Register Firework Blocks
-        fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), -5.5, 37.0, 0.5));
-        fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), -3.5, 37.0, -3.5));
-        fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), 0.5, 37.0, 6.5));
-        fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), 6.5, 37.0, 0.5));
-        fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), 4.5, 37.0, 4.5));
-        fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), 0.5, 37.0, -5.5));
-        fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), 4.5, 37.0, -3.5));
-        fireworkBlocks.add(new Location(getServer().getWorld("Colosseum"), -3.5, 37.0, 4.5));
-
-        // Register Launcher Blocks
-        launchers.add(new Location(getServer().getWorld("Colosseum"), 8, 27.05, 0));
-        launchers.add(new Location(getServer().getWorld("Colosseum"), 6, 27.05, 6));
-        launchers.add(new Location(getServer().getWorld("Colosseum"), 0, 27.05, 8));
-        launchers.add(new Location(getServer().getWorld("Colosseum"), -8, 27.05, 0));
-        launchers.add(new Location(getServer().getWorld("Colosseum"), -6, 27.05, -6));
-        launchers.add(new Location(getServer().getWorld("Colosseum"), 0, 27.05, -8));
-        launchers.add(new Location(getServer().getWorld("Colosseum"), 6, 27.05, -6));
-        launchers.add(new Location(getServer().getWorld("Colosseum"), -6, 27.05, 6));
 
         // Make sure Menu Search Sign is in place
         getProtocolManager().getAsynchronousManager().registerAsyncHandler(
@@ -243,7 +197,7 @@ public class Battlegrounds extends JavaPlugin {
                                 PacketContainer packetContainer = event.getPacket();
                                 String term = packetContainer.getStringArrays().read(0)[0];
                                 punishMenu.openPlayersMenu(player, PunishMenu.SortType.SEARCH, term, 0);
-                                playSound(player, EventSound.INVENTORY_OPEN_MENU);
+                                EventSound.playSound(player, EventSound.INVENTORY_OPEN_MENU);
                                 Location loc = new Location(player.getWorld(), 0, 0, 0);
                                 Sign sign = (Sign) loc.getBlock().getState();
                                 sign.setLine(1, "§f§l^ ^ ^");
@@ -264,6 +218,11 @@ public class Battlegrounds extends JavaPlugin {
 
     public void onDisable() {
         sql.disconnect();
+        uLaunchers.add(0, new Location(getServer().getWorlds().get(0), 3.1415, 3.1415, 3.1415));
+        fLaunchers.add(0, new Location(getServer().getWorlds().get(0), 3.1415, 3.1415, 3.1415));
+        getConfig().set("launchersUp", uLaunchers);
+        getConfig().set("launchersForward", fLaunchers);
+        saveConfig();
     }
 
     private void registerCommands() {
@@ -304,6 +263,7 @@ public class Battlegrounds extends JavaPlugin {
         getCommand("warn").setExecutor(new WarnCommand(this));
         getCommand("rules").setExecutor(new RulesCommand(this));
         getCommand("spectate").setExecutor(new SpectateCommand(this));
+        getCommand("launcher").setExecutor(new LauncherCommand(this));
     }
 
     private void registerListeners() {
@@ -370,38 +330,10 @@ public class Battlegrounds extends JavaPlugin {
         sql.executeUpdate(Query.CREATE_PLAYER_DATA, uuid.toString(), name);
         sql.executeUpdate(Query.CREATE_KITPVP_DATA, sql.getPlayerData(uuid).getId());
         sql.executeUpdate(Query.CREATE_SETTINGS_DATA, sql.getPlayerData(uuid).getId());
+        sql.executeUpdate(Query.CREATE_ESSENCE_DATA, sql.getPlayerData(uuid).getId(), uuid);
         getServer().getScheduler().runTaskLater(this, () -> {
             playerData.add(sql.getPlayerData(uuid));
         }, 1L);
-    }
-
-    public HashMap<UUID, Integer> getEssenceData(Essence.Type type) {
-        switch (type) {
-            case ONE_HOUR_50_PERCENT:
-                return getOne50Essence();
-            case ONE_HOUR_100_PERCENT:
-                return getOne100Essence();
-            case ONE_HOUR_150_PERCENT:
-                return getOne150Essence();
-            case THREE_HOUR_50_PERCENT:
-                return getThree50Essence();
-            case THREE_HOUR_100_PERCENT:
-                return getThree100Essence();
-            case THREE_HOUR_150_PERCENT:
-                return getThree150Essence();
-            case SIX_HOUR_50_PERCENT:
-                return getSix50Essence();
-            case SIX_HOUR_100_PERCENT:
-                return getSix100Essence();
-            case SIX_HOUR_150_PERCENT:
-                return getSix150Essence();
-        }
-        return null;
-    }
-
-    public void createEssenceData(UUID uuid, Essence.Type type) {
-        sql.executeUpdate(Query.CREATE_ESSENCE_DATA, uuid.toString(), type.toString(), 1);
-        getServer().getScheduler().runTaskLater(this, () -> getEssenceData(type).put(uuid, 1), 5L);
     }
 
     private Punishment getPunishment(UUID uuid, Punishment.Type type, LocalDateTime date) {
@@ -443,20 +375,18 @@ public class Battlegrounds extends JavaPlugin {
 
     private void reloadAllPlayerData() {
         if (!sql.getAllPlayerData().isEmpty()) {
-            for (PlayerData pData : sql.getAllPlayerData()) {
-                playerData.add(pData);
-            }
+            playerData.addAll(sql.getAllPlayerData());
         }
     }
 
     public void sendNoPermission(Player player) {
         player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Sorry! " + ChatColor.GRAY + "You aren't allowed to use this command!");
-        playSound(player, EventSound.ACTION_FAIL);
+        EventSound.playSound(player, EventSound.ACTION_FAIL);
     }
 
     public void sendIncorrectUsage(Player player, String msg) {
         player.sendMessage(BoldColor.RED.getColor() + "Oops! " + ChatColor.GRAY + "Try this: " + ChatColor.RED + msg);
-        playSound(player, EventSound.ACTION_FAIL);
+        EventSound.playSound(player, EventSound.ACTION_FAIL);
     }
 
     public void warnPlayer(@Nullable Player player, PlayerData targetData, Punishment.Reason reason) {
@@ -536,9 +466,17 @@ public class Battlegrounds extends JavaPlugin {
     }
 
     public int getTotalEssenceAmount(Player player) {
-        return (getOne50Essence().get(player.getUniqueId()) + getOne100Essence().get(player.getUniqueId()) + getOne150Essence().get(player.getUniqueId())
-                + getThree50Essence().get(player.getUniqueId()) + getThree100Essence().get(player.getUniqueId()) + getThree150Essence().get(player.getUniqueId())
-                + getSix50Essence().get(player.getUniqueId()) + getSix100Essence().get(player.getUniqueId()) + getSix150Essence().get(player.getUniqueId()));
+        PlayerData playerData = getPlayerData(player.getUniqueId());
+        return (playerData.getEssenceData().getOne50()
+                + playerData.getEssenceData().getOne100()
+                + playerData.getEssenceData().getOne150()
+                + playerData.getEssenceData().getThree50()
+                + playerData.getEssenceData().getThree100()
+                + playerData.getEssenceData().getThree150()
+                + playerData.getEssenceData().getSix50()
+                + playerData.getEssenceData().getSix100()
+                + playerData.getEssenceData().getSix150()
+        );
     }
 
 }

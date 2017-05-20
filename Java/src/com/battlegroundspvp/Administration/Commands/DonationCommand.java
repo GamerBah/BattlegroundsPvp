@@ -2,7 +2,6 @@ package com.battlegroundspvp.Administration.Commands;
 /* Created by GamerBah on 8/18/2016 */
 
 
-import com.battlegroundspvp.Administration.Data.EssenceData;
 import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Donations.DonationMessages;
 import com.battlegroundspvp.Administration.Donations.Essence;
@@ -94,7 +93,7 @@ public class DonationCommand implements CommandExecutor {
                 }
                 Essence.Type eType = null;
                 for (Essence.Type type : Essence.Type.values()) {
-                    if (Integer.parseInt(args[2]) == type.getTime() && Integer.parseInt(args[3]) == type.getIncrease()) {
+                    if (Integer.parseInt(args[2]) == type.getDuration() && Integer.parseInt(args[3]) == type.getPercent()) {
                         eType = type;
                     }
                 }
@@ -103,15 +102,11 @@ public class DonationCommand implements CommandExecutor {
                     plugin.slackErrorReporting.call(new SlackMessage("Error while attempting to process new donation!\nIssue: Essence Type was invalid."));
                     return true;
                 }
-                EssenceData essenceData = new EssenceData(plugin);
-                if (!plugin.getEssenceData(eType).get(playerData.getUuid()).equals(0)) {
-                    essenceData.setEssence(playerData.getUuid(), eType, plugin.getEssenceData(eType).get(playerData.getUuid()) + 1);
-                } else {
-                    plugin.createEssenceData(playerData.getUuid(), eType);
-                }
+
+                playerData.getEssenceData().addEssence(eType);
                 plugin.getLogger().info("Success! Donation for Essence registered!");
                 Player player = plugin.getServer().getPlayer(playerData.getUuid());
-                plugin.slackDonations.call(new SlackMessage(">>> _*" + player.getName() + "* purchased a *" + eType.getTime() + " hour (+" + eType.getIncrease() + "%) Battle Essence!*_"));
+                plugin.slackDonations.call(new SlackMessage(">>> _*" + player.getName() + "* purchased a *" + eType.getDuration() + " hour (+" + eType.getPercent() + "%) Battle Essence!*_"));
                 if (player.isOnline()) {
                     DonationMessages donationMessages = new DonationMessages(plugin);
                     donationMessages.sendEssensePurchaseMessage(player, eType);

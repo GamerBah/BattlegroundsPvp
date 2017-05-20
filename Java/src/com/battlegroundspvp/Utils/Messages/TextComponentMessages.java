@@ -7,6 +7,7 @@ import com.battlegroundspvp.Utils.Enums.Time;
 import com.battlegroundspvp.Utils.KDRatio;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -16,6 +17,20 @@ public class TextComponentMessages {
 
     public TextComponentMessages(Battlegrounds plugin) {
         this.plugin = plugin;
+    }
+
+    public static BaseComponent launcherLocation(Player player, Location location) {
+        int x = location.getBlockX();
+        int y = location.getBlockY();
+        int z = location.getBlockZ();
+
+        TextComponent textComponent = new TextComponent(ChatColor.GRAY + "- " + ChatColor.RED + x + ", " + y + ", " + z);
+        textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GREEN + "Click to teleport!").create()));
+        textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/teleport " + player.getName() + " " + x + " " + (y + 1) + " " + z));
+
+        BaseComponent baseComponent = new TextComponent("   ");
+        baseComponent.addExtra(textComponent);
+        return baseComponent;
     }
 
     public TextComponent centerTextSpacesLeft() {

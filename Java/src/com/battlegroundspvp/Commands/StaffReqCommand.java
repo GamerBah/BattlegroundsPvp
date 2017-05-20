@@ -52,7 +52,7 @@ public class StaffReqCommand implements CommandExecutor {
                             + ChatColor.WHITE + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Time Remaining: " + ChatColor.WHITE +
                             Time.toString(Time.punishmentTimeRemaining(punishment.getExpiration()), true)).create()));
                     player.spigot().sendMessage(baseComponent);
-                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                    EventSound.playSound(player, EventSound.ACTION_FAIL);
                     return true;
                 }
             }
@@ -78,7 +78,7 @@ public class StaffReqCommand implements CommandExecutor {
         plugin.slackStaffRequests.call(new SlackMessage(">>>*" + player.getName() + ":* _" + message + "_"));
 
         player.sendMessage(ChatColor.GREEN + "Your message has been sent! A staff member has been notified of your request and should be able to help you shortly!");
-        Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
+        EventSound.playSound(player, EventSound.ACTION_SUCCESS);
         cooldown.put(player.getUniqueId(), 60);
         plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
             if (cooldown.containsKey(player.getUniqueId())) {

@@ -43,7 +43,7 @@ public class KickCommand implements CommandExecutor {
         if (target == null) {
             player.closeInventory();
             player.sendMessage(ChatColor.RED + "That player isn't online!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return;
         }
 
@@ -91,25 +91,25 @@ public class KickCommand implements CommandExecutor {
         PlayerData targetData = plugin.getPlayerData(plugin.getServer().getOfflinePlayer(args[0]).getUniqueId());
         if (targetData == null) {
             player.sendMessage(ChatColor.RED + "That player hasn't joined before!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
         Player target = plugin.getServer().getPlayer(targetData.getUuid());
         if (target == null) {
             player.sendMessage(ChatColor.RED + "That player isn't online!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
         if (targetData == playerData) {
             player.sendMessage(ChatColor.RED + "You can't kick yourself!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
         PunishMenu punishMenu = new PunishMenu(plugin);
         punishMenu.openPunishMenu(player, targetData, Punishment.Type.KICK, null, 0);
-        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+        EventSound.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
 
         return true;
     }

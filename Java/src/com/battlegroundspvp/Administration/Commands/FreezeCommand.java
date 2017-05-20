@@ -58,7 +58,7 @@ public class FreezeCommand implements CommandExecutor {
                 Bukkit.getServer().broadcastMessage(ChatColor.RED + "" + ChatColor.BOLD + "All players have been frozen by " + player.getName() + "!");
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     PlayerData pData = plugin.getPlayerData(p.getUniqueId());
-                    Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
+                    EventSound.playSound(player, EventSound.ACTION_SUCCESS);
                     if (!pData.hasRank(Rank.MODERATOR)) {
                         p.setWalkSpeed(0F);
                         p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, -50, true, false));
@@ -75,7 +75,7 @@ public class FreezeCommand implements CommandExecutor {
                         plugin.respawn(p);
                         p.setWalkSpeed(0.2F);
                     }
-                    Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
+                    EventSound.playSound(player, EventSound.ACTION_SUCCESS);
                 }
                 return true;
             }
@@ -83,12 +83,12 @@ public class FreezeCommand implements CommandExecutor {
             Player target = plugin.getServer().getPlayer(args[0]);
             if (target == player) {
                 player.sendMessage(ChatColor.RED + "You want to freeze yourself? But... why?");
-                Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                EventSound.playSound(player, EventSound.ACTION_FAIL);
                 return true;
             }
             if (target == null) {
                 player.sendMessage(ChatColor.RED + "That player isn't online!");
-                Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                EventSound.playSound(player, EventSound.ACTION_FAIL);
                 return true;
             }
 
@@ -100,10 +100,10 @@ public class FreezeCommand implements CommandExecutor {
                 player.setSaturation(20);
                 plugin.respawn(target, target.getWorld().getSpawnLocation());
                 target.sendMessage(ChatColor.RED + "Your movement has been re-enabled!");
-                Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
+                EventSound.playSound(player, EventSound.ACTION_SUCCESS);
 
                 player.sendMessage(ChatColor.GREEN + "You unfroze " + target.getName());
-                Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
+                EventSound.playSound(player, EventSound.ACTION_SUCCESS);
             } else {
                 frozenPlayers.add(target);
                 target.setWalkSpeed(0F);
@@ -112,11 +112,11 @@ public class FreezeCommand implements CommandExecutor {
                 player.setSaturation(0);
                 target.sendMessage(ChatColor.RED + "You have been frozen by " + player.getName() + "!");
                 target.sendMessage(ChatColor.RED + "You will automatically be unfrozen in 5 minutes.");
-                Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
+                EventSound.playSound(player, EventSound.ACTION_SUCCESS);
 
                 player.sendMessage(ChatColor.GREEN + "You have successfully frozen " + target.getName() + "!");
                 player.sendMessage(ChatColor.RED + "They will automatically be unfrozen in 5 minutes.");
-                Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
+                EventSound.playSound(player, EventSound.ACTION_SUCCESS);
 
 
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
@@ -128,7 +128,7 @@ public class FreezeCommand implements CommandExecutor {
                         player.setSaturation(20);
                         plugin.respawn(target, target.getWorld().getSpawnLocation());
                         target.sendMessage(ChatColor.RED + "Your movement has been automatically re-enabled!");
-                        Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
+                        EventSound.playSound(player, EventSound.ACTION_SUCCESS);
                     }
                 }, 6000L);
             }

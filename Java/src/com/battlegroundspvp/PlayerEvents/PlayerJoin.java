@@ -5,7 +5,6 @@ package com.battlegroundspvp.PlayerEvents;
 import com.battlegroundspvp.Administration.Commands.FreezeCommand;
 import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Donations.DonationMessages;
-import com.battlegroundspvp.Administration.Donations.Essence;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Administration.Runnables.AutoUpdate;
 import com.battlegroundspvp.Administration.Utils.Rank;
@@ -115,25 +114,6 @@ public class PlayerJoin implements Listener {
         Player player = event.getPlayer();
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
 
-        if (!plugin.getOne50Essence().containsKey(player.getUniqueId()))
-            plugin.getOne50Essence().put(player.getUniqueId(), Battlegrounds.getSql().getEssenceAmount(player, Essence.Type.ONE_HOUR_50_PERCENT));
-        if (!plugin.getOne100Essence().containsKey(player.getUniqueId()))
-            plugin.getOne100Essence().put(player.getUniqueId(), Battlegrounds.getSql().getEssenceAmount(player, Essence.Type.ONE_HOUR_100_PERCENT));
-        if (!plugin.getOne150Essence().containsKey(player.getUniqueId()))
-            plugin.getOne150Essence().put(player.getUniqueId(), Battlegrounds.getSql().getEssenceAmount(player, Essence.Type.ONE_HOUR_150_PERCENT));
-        if (!plugin.getThree50Essence().containsKey(player.getUniqueId()))
-            plugin.getThree50Essence().put(player.getUniqueId(), Battlegrounds.getSql().getEssenceAmount(player, Essence.Type.THREE_HOUR_50_PERCENT));
-        if (!plugin.getThree100Essence().containsKey(player.getUniqueId()))
-            plugin.getThree100Essence().put(player.getUniqueId(), Battlegrounds.getSql().getEssenceAmount(player, Essence.Type.THREE_HOUR_100_PERCENT));
-        if (!plugin.getThree150Essence().containsKey(player.getUniqueId()))
-            plugin.getThree150Essence().put(player.getUniqueId(), Battlegrounds.getSql().getEssenceAmount(player, Essence.Type.THREE_HOUR_150_PERCENT));
-        if (!plugin.getSix50Essence().containsKey(player.getUniqueId()))
-            plugin.getSix50Essence().put(player.getUniqueId(), Battlegrounds.getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_50_PERCENT));
-        if (!plugin.getSix100Essence().containsKey(player.getUniqueId()))
-            plugin.getSix100Essence().put(player.getUniqueId(), Battlegrounds.getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_100_PERCENT));
-        if (!plugin.getSix150Essence().containsKey(player.getUniqueId()))
-            plugin.getSix150Essence().put(player.getUniqueId(), Battlegrounds.getSql().getEssenceAmount(player, Essence.Type.SIX_HOUR_150_PERCENT));
-
         if (!player.hasPlayedBefore()) {
             event.setJoinMessage(BoldColor.GOLD.getColor() + "New! " + BoldColor.DARK_GRAY.getColor() + "[" + BoldColor.GREEN.getColor() + "+"
                     + BoldColor.DARK_GRAY.getColor() + "] " + ChatColor.WHITE + event.getPlayer().getName());
@@ -167,7 +147,7 @@ public class PlayerJoin implements Listener {
             if (!playerData.isDailyReward()) {
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                     player.spigot().sendMessage(baseComponent);
-                    Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
+                    EventSound.playSound(player, EventSound.ACTION_SUCCESS);
                 }, 2L);
             }
         }

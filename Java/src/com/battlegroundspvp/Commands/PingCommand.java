@@ -35,7 +35,7 @@ public class PingCommand implements CommandExecutor {
 
             if (target == null) {
                 player.sendMessage(ChatColor.RED + "That player isn't online!");
-                Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                EventSound.playSound(player, EventSound.ACTION_FAIL);
                 return true;
             }
         } else if (args.length > 2) {

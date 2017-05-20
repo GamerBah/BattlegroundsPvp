@@ -69,7 +69,7 @@ public class ReloadCommand implements CommandExecutor {
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                     plugin.getServer().reload();
                     for (Player players : plugin.getServer().getOnlinePlayers()) {
-                        Battlegrounds.playSound(players, EventSound.ACTION_SUCCESS);
+                        EventSound.playSound(players, EventSound.ACTION_SUCCESS);
                         players.setWalkSpeed(0.2F);
                     }
                     plugin.getServer().broadcastMessage(BoldColor.RED.getColor() + "SERVER: " + ChatColor.GRAY

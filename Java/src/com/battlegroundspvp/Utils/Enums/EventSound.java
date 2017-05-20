@@ -3,6 +3,7 @@ package com.battlegroundspvp.Utils.Enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 
 @AllArgsConstructor
 @Getter
@@ -32,4 +33,9 @@ public enum EventSound {
     private Sound sound2;
     private float vol2;
     private float ptch2;
+
+    public static void playSound(Player player, EventSound eventSound) {
+        player.playSound(player.getLocation(), eventSound.getSound1(), eventSound.getVol1(), eventSound.getPtch1());
+        player.playSound(player.getLocation(), eventSound.getSound2(), eventSound.getVol2(), eventSound.getPtch2());
+    }
 }

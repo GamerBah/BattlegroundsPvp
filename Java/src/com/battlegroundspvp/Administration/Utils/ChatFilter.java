@@ -50,7 +50,7 @@ public class ChatFilter implements Listener {
                             + ChatColor.WHITE + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Time Remaining: " + ChatColor.WHITE +
                             Time.toString(Time.punishmentTimeRemaining(punishment.getExpiration()), true)).create()));
                     player.spigot().sendMessage(baseComponent);
-                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                    EventSound.playSound(player, EventSound.ACTION_FAIL);
                     return;
                 }
             }
@@ -59,7 +59,7 @@ public class ChatFilter implements Listener {
         if (!isClean(event.getMessage())) {
             event.setCancelled(true);
             player.sendMessage(BoldColor.RED.getColor() + "Please refrain from using profane language!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             if (!attempts.containsKey(player)) {
                 if (!plugin.getPlayerData(player.getUniqueId()).hasRank(Rank.HELPER)) {
                     attempts.put(player, 1);

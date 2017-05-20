@@ -70,7 +70,7 @@ public class PlayerInteract implements Listener {
                 return;
             }
             if (item.getType().equals(Material.NETHER_STAR)) {
-                Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
+                EventSound.playSound(player, EventSound.INVENTORY_OPEN_MENU);
                 Inventory kitSelectorInventory = Bukkit.createInventory(null, 54, "Kit Selector");
 
                 ItemStack commonLockedGlass = new I(Material.STAINED_GLASS_PANE).durability(15).name(ChatColor.GRAY + "Common Kit")
@@ -130,7 +130,7 @@ public class PlayerInteract implements Listener {
                 player.openInventory(kitSelectorInventory);
 
             } else if (item.getType().equals(Material.REDSTONE_COMPARATOR)) {
-                Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
+                EventSound.playSound(player, EventSound.INVENTORY_OPEN_MENU);
                 SettingsMenu settingsMenu = new SettingsMenu(plugin);
                 settingsMenu.openInventory(player);
             } else if (item.getType().equals(Material.BOOK)) {
@@ -140,7 +140,7 @@ public class PlayerInteract implements Listener {
                     player.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_DIAMOND, 2, 0.85F);
                 }
             } else if (item.getType().equals(Material.SKULL_ITEM)) {
-                Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_MENU);
+                EventSound.playSound(player, EventSound.INVENTORY_OPEN_MENU);
                 ProfileMenu profileMenu = new ProfileMenu(plugin);
                 profileMenu.openInventory(player);
             } else if (item.getType().equals(Material.ENDER_PEARL)) {

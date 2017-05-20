@@ -53,7 +53,7 @@ public class ReportCommand implements CommandExecutor {
                             + ChatColor.WHITE + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Time Remaining: " + ChatColor.WHITE +
                             Time.toString(Time.punishmentTimeRemaining(punishment.getExpiration()), true)).create()));
                     player.spigot().sendMessage(baseComponent);
-                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                    EventSound.playSound(player, EventSound.ACTION_FAIL);
                     return true;
                 }
             }
@@ -68,13 +68,13 @@ public class ReportCommand implements CommandExecutor {
 
         if (reported == null) {
             player.sendMessage(ChatColor.RED + "That player isn't online!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
         if (reported == player) {
             player.sendMessage(ChatColor.RED + "You can't report yourself! Unless you have something to tell us.... *gives suspicious look*");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
@@ -84,7 +84,7 @@ public class ReportCommand implements CommandExecutor {
             reportArray.put(player.getUniqueId(), new ArrayList<>());
             reportMenu.openInventory(player, reported);
         } else {
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             player.sendMessage(ChatColor.RED + "You must wait " + ChatColor.YELLOW
                     + cooldown.get(player.getUniqueId()) + " seconds " + ChatColor.RED + "before you report another player!");
             return false;

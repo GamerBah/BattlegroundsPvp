@@ -35,7 +35,7 @@ public class OptionsCommand implements CommandExecutor {
 
         if (target == null) {
             player.sendMessage(org.bukkit.ChatColor.RED + "That player is not online!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 

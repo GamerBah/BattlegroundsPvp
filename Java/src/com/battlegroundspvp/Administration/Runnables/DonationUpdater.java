@@ -21,7 +21,7 @@ public class DonationUpdater implements Runnable {
 
     @Override
     public void run() {
-        Essence essence = new Essence(plugin);
+        Essence essence = new Essence();
         if (!plugin.getConfig().getBoolean("essenceActive")) {
             return;
         }
@@ -29,20 +29,23 @@ public class DonationUpdater implements Runnable {
 
         if (timeRemaining > 0) {
             if (!plugin.getConfig().getBoolean("developmentMode")) {
-                plugin.getConfig().set("essenceTimeRemaining", timeRemaining - 1);
-                plugin.saveConfig();
+                if (!AutoUpdate.updating) {
+                    plugin.getConfig().set("essenceTimeRemaining", timeRemaining - 1);
+                    plugin.saveConfig();
+                }
                 long milliseconds = timeRemaining * 1000;
                 float completion = Float.parseFloat(Double.toString(((double) milliseconds / (plugin.getConfig().getInt("essenceTime") * 60 * 60 * 1000))));
                 Essence.Type essenceType = Essence.Type.ONE_HOUR_50_PERCENT;
                 for (Essence.Type type : Essence.Type.values()) {
-                    if (plugin.getConfig().getInt("essenceTime") == type.getTime() && plugin.getConfig().getInt("essenceIncrease") == type.getIncrease()) {
+                    if (plugin.getConfig().getInt("essenceTime") == type.getDuration() && plugin.getConfig().getInt("essenceIncrease") == type.getPercent()) {
                         essenceType = type;
                     }
                 }
                 for (Player player : plugin.getServer().getOnlinePlayers()) {
                     BossBarAPI.removeAllBars(player);
                     BossBarAPI.addBar(player, new TextComponent(ChatColor.RED + Time.toString(milliseconds, true) + ChatColor.GRAY + " remaining in "
-                                    + ChatColor.RED + plugin.getConfig().getString("essenceOwner") + ChatColor.GRAY + "'s Battle Essence (" + essenceType.getIncrease() + "%)"),
+                                    + ChatColor.RED + plugin.getConfig().getString("essenceOwner") + ChatColor.GRAY + "'s Battle Essence "
+                                    + essenceType.getChatColor() + "(+" + essenceType.getPercent() + "%)"),
                             essenceType.getBarColor(), BossBarAPI.Style.PROGRESS, completion);
                 }
             }

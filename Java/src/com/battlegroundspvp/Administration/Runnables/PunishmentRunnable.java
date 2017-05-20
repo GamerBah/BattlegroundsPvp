@@ -38,7 +38,7 @@ public class PunishmentRunnable implements Runnable {
                                     player.sendMessage(ChatColor.RED + " \nYou are now able to chat again");
                                     player.sendMessage(ChatColor.GRAY + punishments.get(i).getReason().getMessage() + "\n ");
                                 }
-                                Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
+                                EventSound.playSound(player, EventSound.ACTION_SUCCESS);
                             }
                         }
                     }

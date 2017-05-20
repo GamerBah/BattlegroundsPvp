@@ -66,7 +66,7 @@ public class FriendCommand implements CommandExecutor {
             if (args[0].equalsIgnoreCase("add")) {
                 if (plugin.getPlayerData(args[1]) == null) {
                     player.sendMessage(ChatColor.RED + "That player hasn't joined before!");
-                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                    EventSound.playSound(player, EventSound.ACTION_FAIL);
                     return true;
                 }
                 if (args[0].equalsIgnoreCase("list")) {
@@ -81,14 +81,14 @@ public class FriendCommand implements CommandExecutor {
                 PlayerData targetData = plugin.getPlayerData(args[1]);
                 if (!plugin.getServer().getPlayer(targetData.getUuid()).isOnline()) {
                     player.sendMessage(ChatColor.RED + "That player isn't online!");
-                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                    EventSound.playSound(player, EventSound.ACTION_FAIL);
                     return true;
                 }
                 Player target = plugin.getServer().getPlayer(args[1]);
                 FriendUtils friendUtils = new FriendUtils(plugin);
                 if (friendUtils.areFriends(player, target)) {
                     player.sendMessage(ChatColor.RED + "You are already friends with " + target.getName() + "!");
-                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                    EventSound.playSound(player, EventSound.ACTION_FAIL);
                     return true;
                 }
                 friendUtils.createPendingRequest(player, target);
@@ -108,14 +108,14 @@ public class FriendCommand implements CommandExecutor {
             if (args[0].equalsIgnoreCase("remove")) {
                 if (plugin.getPlayerData(args[1]) == null) {
                     player.sendMessage(ChatColor.RED + "That player hasn't joined before!");
-                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                    EventSound.playSound(player, EventSound.ACTION_FAIL);
                     return true;
                 }
                 PlayerData friendData = plugin.getPlayerData(args[1]);
                 Player target = plugin.getServer().getPlayer(args[1]);
                 if (!playerData.getFriends().contains(friendData.getId() + ",")) {
                     player.sendMessage(ChatColor.RED + "That player isn't your friend!");
-                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                    EventSound.playSound(player, EventSound.ACTION_FAIL);
                     return true;
                 }
                 FriendUtils friendUtils = new FriendUtils(plugin);

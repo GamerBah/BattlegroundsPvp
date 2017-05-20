@@ -102,7 +102,7 @@ public abstract class Kit implements Listener, CommandExecutor {
                 }
                 if (!Battlegrounds.getSql().getPlayerData(player.getUniqueId()).getKitPvpData().getOwnedKits().contains(this.getId() + ",")) {
                     player.sendMessage(ChatColor.RED + "You haven't unlocked this kit yet!");
-                    Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                    EventSound.playSound(player, EventSound.ACTION_FAIL);
                 }
             }
         }

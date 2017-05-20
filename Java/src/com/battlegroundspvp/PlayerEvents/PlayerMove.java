@@ -42,10 +42,10 @@ public class PlayerMove implements Listener {
         Player player = event.getPlayer();
 
         if (player.getLocation().distance(player.getWorld().getSpawnLocation()) > 9 && !SpectateCommand.getSpectating().contains(player)) {
-            if (!KitManager.isPlayerInKit(player)) {
+            if (!KitManager.isPlayerInKit(player) && player.getGameMode().equals(GameMode.ADVENTURE)) {
                 plugin.respawn(player);
                 TitleAPI.sendTitle(player, 5, 40, 10, " ", ChatColor.GRAY + "Choose a kit first!");
-                Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                EventSound.playSound(player, EventSound.ACTION_FAIL);
                 return;
             }
         }

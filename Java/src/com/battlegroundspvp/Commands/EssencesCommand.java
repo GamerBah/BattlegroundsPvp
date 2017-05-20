@@ -2,7 +2,6 @@ package com.battlegroundspvp.Commands;
 /* Created by GamerBah on 8/18/2016 */
 
 
-import com.battlegroundspvp.Administration.Donations.Essence;
 import com.battlegroundspvp.Battlegrounds;
 import com.battlegroundspvp.Etc.Menus.Player.EssenceMenu;
 import com.battlegroundspvp.Utils.Enums.EventSound;
@@ -32,18 +31,11 @@ public class EssencesCommand implements CommandExecutor {
             return true;
         }
 
-        int amount = 0;
-        for (Essence.Type eType : Essence.Type.values()) {
-            if (!plugin.getEssenceData(eType).containsKey(player.getUniqueId())) {
-                amount += 0;
-            } else {
-                amount += plugin.getEssenceData(eType).get(player.getUniqueId());
-            }
-        }
+        int amount = plugin.getTotalEssenceAmount(player);
         if (amount == 0) {
             player.sendMessage(ChatColor.RED + "You don't have any Battle Essences!");
             player.sendMessage(ChatColor.YELLOW + "Buy one from our store! " + ChatColor.GOLD + "battlegroundspvp.com/store");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 

@@ -42,7 +42,7 @@ public class ChatCommands implements CommandExecutor {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     p.sendMessage(BoldColor.RED.getColor() + "The chat has been cleared by " + player.getName() + "!");
                     p.sendMessage(" ");
-                    Battlegrounds.playSound(p, EventSound.ACTION_SUCCESS);
+                    EventSound.playSound(p, EventSound.ACTION_SUCCESS);
                 }
             }
         }
@@ -58,7 +58,7 @@ public class ChatCommands implements CommandExecutor {
                         p.sendMessage(" ");
                         p.sendMessage(BoldColor.RED.getColor() + "The chat has been locked by " + player.getName() + "!");
                         p.sendMessage(" ");
-                        Battlegrounds.playSound(p, EventSound.ACTION_SUCCESS);
+                        EventSound.playSound(p, EventSound.ACTION_SUCCESS);
                     }
                 } else {
                     chatSilenced = false;
@@ -66,7 +66,7 @@ public class ChatCommands implements CommandExecutor {
                         p.sendMessage(" ");
                         p.sendMessage(BoldColor.GREEN.getColor() + "All chat has been re-enabled!");
                         p.sendMessage(" ");
-                        Battlegrounds.playSound(p, EventSound.ACTION_SUCCESS);
+                        EventSound.playSound(p, EventSound.ACTION_SUCCESS);
                     }
                 }
             }

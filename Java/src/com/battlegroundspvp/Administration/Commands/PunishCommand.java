@@ -51,7 +51,7 @@ public class PunishCommand implements CommandExecutor {
 
         if (targetData == null) {
             player.sendMessage(ChatColor.RED + "That player has never joined before!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
@@ -59,7 +59,7 @@ public class PunishCommand implements CommandExecutor {
             OfflinePlayer target = plugin.getServer().getOfflinePlayer(targetData.getUuid());
             if (target == null) {
                 player.sendMessage(ChatColor.RED + "That player isn't online!");
-                Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                EventSound.playSound(player, EventSound.ACTION_FAIL);
                 return true;
             }
             PunishMenu punishMenu = new PunishMenu(plugin);

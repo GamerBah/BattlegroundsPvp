@@ -32,7 +32,7 @@ public class AFKCommand implements CommandExecutor {
 
         if (CombatListener.getTagged().containsKey(player.getUniqueId())) {
             player.sendMessage(ChatColor.RED + "You cannot change your AFK status while in combat!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
@@ -40,14 +40,14 @@ public class AFKCommand implements CommandExecutor {
             Battlegrounds.getAfk().remove(player.getUniqueId());
             plugin.respawn(player);
             player.sendMessage(ChatColor.GRAY + "You are no longer AFK");
-            Battlegrounds.playSound(player, EventSound.CLICK);
+            EventSound.playSound(player, EventSound.CLICK);
             TitleAPI.clearTitle(player);
             player.removePotionEffect(PotionEffectType.INVISIBILITY);
         } else {
             plugin.respawn(player, player.getWorld().getSpawnLocation().add(0.5, 8, 0.5));
             player.getInventory().clear();
             player.sendMessage(ChatColor.GRAY + "You are now AFK");
-            Battlegrounds.playSound(player, EventSound.CLICK);
+            EventSound.playSound(player, EventSound.CLICK);
             TitleAPI.sendTitle(player, 10, 1728000, 20, BoldColor.AQUA.getColor() + "You are AFK!", ChatColor.YELLOW + "Move to start playing again!");
             player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1, true, false));
             plugin.getServer().getScheduler().runTaskLater(plugin, () -> Battlegrounds.getAfk().add(player.getUniqueId()), 5L);

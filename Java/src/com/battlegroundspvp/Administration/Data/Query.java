@@ -1,5 +1,6 @@
 package com.battlegroundspvp.Administration.Data;
 
+import com.battlegroundspvp.Administration.Donations.Essence;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -48,10 +49,8 @@ public enum Query {
     UPDATE_SETTINGS_PARTICLE_QUALITY("UPDATE player_settings SET cosmetics = ? WHERE id = ?"),
 
     // DONATION DATA
-    CREATE_ESSENCE_DATA("INSERT INTO essences (uuid, type, amount) VALUES (?, ?, ?)"),
-    UPDATE_ESSENCE_AMOUNT("UPDATE essences SET amount = ? WHERE uuid = ? AND type = ?"),
-    GET_ESSENCE_AMOUNT("SELECT * FROM essences WHERE uuid = ? AND type = ?"),
-    DELETE_ESSENCE_DATA("DELETE FROM essences WHERE uuid = ? AND type = ?"),
+    CREATE_ESSENCE_DATA("INSERT INTO essences (id, uuid) VALUES (?, ?)"),
+    GET_ESSENCE_DATA("SELECT * FROM essences WHERE id = ?"),
 
     // PUNISHMENT DATA
     CREATE_PUNISHMENT("INSERT INTO punishment (uuid, name, type, date, duration, expiration, enforcer, reason) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"),
@@ -78,6 +77,10 @@ public enum Query {
     UPDATE_GLOBAL_STREAKS_ENDED("UPDATE global_stats SET totalKillstreaksEnded = ?");
 
     private final String query;
+
+    public static String UPDATE_ESSENCE_AMOUNT(Essence.Type type) {
+        return "UPDATE essences SET " + type.getDuration() + "_" + type.getPercent() + " = ? WHERE id = ?";
+    }
 
     @Override
     public String toString() {

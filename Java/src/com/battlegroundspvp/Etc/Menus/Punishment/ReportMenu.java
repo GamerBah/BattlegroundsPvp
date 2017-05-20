@@ -162,7 +162,7 @@ public class ReportMenu implements Listener {
 
                 if (ReportCommand.getCooldown().get(player.getUniqueId()) == 0) {
                     ReportCommand.getCooldown().remove(player.getUniqueId());
-                    Battlegrounds.playSound(player, EventSound.CLICK);
+                    EventSound.playSound(player, EventSound.CLICK);
                     player.sendMessage(ChatColor.GREEN + "You are now able to report another player!");
                     this.cancel();
                 }

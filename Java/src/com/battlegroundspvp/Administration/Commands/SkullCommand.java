@@ -39,7 +39,7 @@ public class SkullCommand implements CommandExecutor {
 
         if (player.getGameMode() != GameMode.CREATIVE) {
             player.sendMessage(ChatColor.RED + "You must be in Gamemode 1 to use this!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Battlegrounds.iml" filepath="$PROJECT_DIR$/Battlegrounds.iml" />
+      <module fileurl="file://C:\Users\gamer\Desktop\Bukkit\Plugin Dev\BattlegroundsPvp\Battlegrounds.iml" filepath="C:\Users\gamer\Desktop\Bukkit\Plugin Dev\BattlegroundsPvp\Battlegrounds.iml" />
     </modules>
   </component>
 </project>

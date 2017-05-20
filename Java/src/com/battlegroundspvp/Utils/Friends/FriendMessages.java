@@ -27,10 +27,10 @@ public class FriendMessages {
     }
 
     public void sendRequestMessage(Player sender, Player target) {
-        Battlegrounds.playSound(sender, EventSound.TEAM_REQUEST);
+        EventSound.playSound(sender, EventSound.TEAM_REQUEST);
         sender.sendMessage(WHITE + "   \u00AB " + GREEN + "You sent a friend request to " + YELLOW + target.getName() + WHITE + " \u00BB");
 
-        Battlegrounds.playSound(target, EventSound.TEAM_REQUEST);
+        EventSound.playSound(target, EventSound.TEAM_REQUEST);
         target.sendMessage(" ");
         target.sendMessage(GOLD + "   \u00AB " + WHITE + "========================================" + GOLD + " \u00BB");
         target.sendMessage(" ");
@@ -46,18 +46,18 @@ public class FriendMessages {
     }
 
     public void sendAcceptMessage(Player target, Player sender) {
-        Battlegrounds.playSound(sender, EventSound.TEAM_REQUEST_ACCEPT);
+        EventSound.playSound(sender, EventSound.TEAM_REQUEST_ACCEPT);
         sender.sendMessage(GREEN + "   \u00AB " + YELLOW + "You are now friends with " + AQUA + target.getName() + GREEN + " \u00BB");
 
-        Battlegrounds.playSound(target, EventSound.TEAM_REQUEST_ACCEPT);
+        EventSound.playSound(target, EventSound.TEAM_REQUEST_ACCEPT);
         target.sendMessage(GREEN + "   \u00AB " + YELLOW + "You are now friends with " + AQUA + sender.getName() + GREEN + " \u00BB");
     }
 
     public void sendDeclineMessage(Player target, Player sender) {
-        Battlegrounds.playSound(sender, EventSound.TEAM_REQUEST_DENY);
+        EventSound.playSound(sender, EventSound.TEAM_REQUEST_DENY);
         sender.sendMessage(RED + "   \u00AB " + AQUA + target.getName() + RED + "declined " + YELLOW + "your friend request" + RED + " \u00BB");
 
-        Battlegrounds.playSound(target, EventSound.TEAM_REQUEST_DENY);
+        EventSound.playSound(target, EventSound.TEAM_REQUEST_DENY);
         target.sendMessage(RED + "   \u00AB " + YELLOW + "You " + RED + "declined " + AQUA + sender.getName() + YELLOW + "'s friend request" + RED + " \u00BB");
     }
 
@@ -65,7 +65,7 @@ public class FriendMessages {
         PlayerData playerData = plugin.getPlayerData(player.getUniqueId());
         if (playerData.getFriends() == null) {
             player.sendMessage(ChatColor.RED + "You haven't added any friends, yet!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return;
         }
         String[] stringList = playerData.getFriends().split(",");

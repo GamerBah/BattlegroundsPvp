@@ -53,7 +53,7 @@ public class BanCommand implements CommandExecutor {
                                     + ChatColor.WHITE + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Date: " + ChatColor.AQUA
                                     + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(PST)'"))).create()));
                             player.spigot().sendMessage(baseComponent);
-                            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                            EventSound.playSound(player, EventSound.ACTION_FAIL);
                             return;
                         }
                     }
@@ -120,14 +120,14 @@ public class BanCommand implements CommandExecutor {
         PlayerData targetData = plugin.getPlayerData(plugin.getServer().getOfflinePlayer(args[0]).getUniqueId());
         if (targetData == null) {
             player.sendMessage(ChatColor.RED + "That player hasn't joined before!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
         OfflinePlayer target = plugin.getServer().getOfflinePlayer(targetData.getUuid());
 
         if (targetData == playerData) {
             player.sendMessage(ChatColor.RED + "You can't ban yourself!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
@@ -146,7 +146,7 @@ public class BanCommand implements CommandExecutor {
                                     + ChatColor.WHITE + punishment.getReason().getName() + "\n" + ChatColor.GRAY + "Date: " + ChatColor.AQUA
                                     + punishment.getDate().format(DateTimeFormatter.ofPattern("MMM d, yyyy 'at' h:mm a '(PST)'"))).create()));
                             player.spigot().sendMessage(baseComponent);
-                            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                            EventSound.playSound(player, EventSound.ACTION_FAIL);
                             return true;
                         }
                     }
@@ -156,7 +156,7 @@ public class BanCommand implements CommandExecutor {
 
         PunishMenu punishMenu = new PunishMenu(plugin);
         punishMenu.openPunishMenu(player, targetData, Punishment.Type.BAN, null, 0);
-        Battlegrounds.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
+        EventSound.playSound(player, EventSound.INVENTORY_OPEN_SUBMENU);
 
         return true;
     }

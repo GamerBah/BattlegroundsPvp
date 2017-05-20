@@ -41,7 +41,7 @@ public class UnbanCommand implements CommandExecutor {
 
         if (args.length != 1) {
             player.sendMessage(ChatColor.RED + "/unban <player>");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
@@ -75,7 +75,7 @@ public class UnbanCommand implements CommandExecutor {
 
         if (p == null) {
             player.sendMessage(ChatColor.RED + "That player isn't banned!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 

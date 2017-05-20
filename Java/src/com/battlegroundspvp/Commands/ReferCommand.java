@@ -34,19 +34,19 @@ public class ReferCommand implements CommandExecutor {
 
         if (playerData.getRecruitedBy() != -1) {
             player.sendMessage(ChatColor.RED + "You've already referred someone!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
         if (args[0].equals(player.getName())) {
             player.sendMessage(ChatColor.RED + "You can't refer yourself!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
         if (plugin.getPlayerData(args[0]) == null) {
             player.sendMessage(ChatColor.RED + "That player doesn't exist!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 
@@ -55,11 +55,11 @@ public class ReferCommand implements CommandExecutor {
         Player recruiter = plugin.getServer().getPlayer(args[0]);
         if (recruiter != null) {
             recruiter.sendMessage(ChatColor.GREEN + "Successfully recruited " + player.getName() + "! " + ChatColor.AQUA + "[+75 Souls]" + ChatColor.LIGHT_PURPLE + "[+50 Battle Coins]");
-            Battlegrounds.playSound(recruiter, EventSound.ACTION_SUCCESS);
+            EventSound.playSound(recruiter, EventSound.ACTION_SUCCESS);
         }
         playerData.setRecruitedBy(recruitData.getId());
         player.sendMessage(ChatColor.GREEN + "Successfully referred " + recruitData.getName() + "! " + ChatColor.AQUA + "[+25 Souls]" + ChatColor.LIGHT_PURPLE + "[+10 Battle Coins]");
-        Battlegrounds.playSound(player, EventSound.ACTION_SUCCESS);
+        EventSound.playSound(player, EventSound.ACTION_SUCCESS);
 
         return false;
     }

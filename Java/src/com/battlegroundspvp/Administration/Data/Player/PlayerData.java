@@ -1,6 +1,7 @@
 package com.battlegroundspvp.Administration.Data.Player;
 /* Created by GamerBah on 6/18/2016 */
 
+import com.battlegroundspvp.Administration.Data.EssenceData;
 import com.battlegroundspvp.Administration.Data.MySQL;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
@@ -39,6 +40,8 @@ public class PlayerData {
     private KitPvpData kitPvpData;
     @Getter
     private PlayerSettings playerSettings;
+    @Getter
+    private EssenceData essenceData;
 
     public void setName(String name) {
         sql.executeUpdate(UPDATE_PLAYER_NAME, this.name = name, id);
@@ -108,5 +111,9 @@ public class PlayerData {
 
     public void setPlayerSettings(PlayerSettings playerSettings) {
         this.playerSettings = playerSettings;
+    }
+
+    public void setEssenceData(EssenceData essenceData) {
+        this.essenceData = essenceData;
     }
 }

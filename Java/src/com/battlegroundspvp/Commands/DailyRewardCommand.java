@@ -41,7 +41,7 @@ public class DailyRewardCommand implements CommandExecutor {
 
         if (playerData.isDailyReward()) {
             player.sendMessage(ChatColor.RED + "You've already claimed your reward! Come back tomorrow for another one!");
-            Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+            EventSound.playSound(player, EventSound.ACTION_FAIL);
             return true;
         }
 

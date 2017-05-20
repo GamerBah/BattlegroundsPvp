@@ -59,13 +59,13 @@ public class WarnCommand implements CommandExecutor {
 
             if (targetData == null) {
                 player.sendMessage(ChatColor.RED + "That player has never joined before!");
-                Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                EventSound.playSound(player, EventSound.ACTION_FAIL);
                 return true;
             }
 
             if (targetData.getName().equals(playerData.getName())) {
                 player.sendMessage(ChatColor.RED + "You aren't able to warn yourself!");
-                Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                EventSound.playSound(player, EventSound.ACTION_FAIL);
                 return true;
             }
 
@@ -79,13 +79,13 @@ public class WarnCommand implements CommandExecutor {
 
             if (targetData == null) {
                 player.sendMessage(ChatColor.RED + "That player has never joined before!");
-                Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                EventSound.playSound(player, EventSound.ACTION_FAIL);
                 return true;
             }
 
             if (targetData.getName().equals(playerData.getName())) {
                 player.sendMessage(ChatColor.RED + "You can't clear your own warnings!");
-                Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                EventSound.playSound(player, EventSound.ACTION_FAIL);
                 return true;
             }
 
@@ -98,7 +98,7 @@ public class WarnCommand implements CommandExecutor {
                 return true;
             } else {
                 player.sendMessage(ChatColor.RED + "That player doesn't have any warnings!");
-                Battlegrounds.playSound(player, EventSound.ACTION_FAIL);
+                EventSound.playSound(player, EventSound.ACTION_FAIL);
                 return true;
             }
         }

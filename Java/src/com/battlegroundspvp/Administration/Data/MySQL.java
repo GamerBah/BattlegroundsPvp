@@ -4,7 +4,6 @@ package com.battlegroundspvp.Administration.Data;
 import com.battlegroundspvp.Administration.Data.Player.KitPvpData;
 import com.battlegroundspvp.Administration.Data.Player.PlayerData;
 import com.battlegroundspvp.Administration.Data.Player.PlayerSettings;
-import com.battlegroundspvp.Administration.Donations.Essence;
 import com.battlegroundspvp.Administration.Punishments.Punishment;
 import com.battlegroundspvp.Administration.Utils.Rank;
 import com.battlegroundspvp.Battlegrounds;
@@ -12,7 +11,6 @@ import com.battlegroundspvp.Utils.Enums.Cosmetic;
 import com.battlegroundspvp.Utils.Enums.ParticleQuality;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.bukkit.entity.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,7 +32,7 @@ public class MySQL {
         String user = plugin.getConfig().getString("username");
         String pass = plugin.getConfig().getString("password");
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://" + host + "/" + db);
+        config.setJdbcUrl("jdbc:mysql://" + host + "/" + db + "?useSSL=false");
         config.setUsername(user);
         config.setPassword(pass);
         config.addDataSourceProperty("cachePrepStmts", "true");
@@ -89,9 +87,10 @@ public class MySQL {
                                 LocalDateTime.parse(result.getString("lastOnline")),
                                 result.getString("friends"),
                                 result.getString("cosmetics"),
-                                null, null);
+                                null, null, null);
                         playerData.setKitPvpData(getKitPvpData(playerData));
                         playerData.setPlayerSettings(getPlayerSettings(playerData));
+                        playerData.setEssenceData(getEssenceData(playerData));
                         result.getStatement().close();
                         closeConnection(connection);
                         return playerData;
@@ -132,9 +131,10 @@ public class MySQL {
                                 LocalDateTime.parse(result.getString("lastOnline")),
                                 result.getString("friends"),
                                 result.getString("cosmetics"),
-                                null, null);
+                                null, null, null);
                         playerData.setKitPvpData(getKitPvpData(playerData));
                         playerData.setPlayerSettings(getPlayerSettings(playerData));
+                        playerData.setEssenceData(getEssenceData(playerData));
                         result.getStatement().close();
                         closeConnection(connection);
                         return playerData;
@@ -176,9 +176,10 @@ public class MySQL {
                                 LocalDateTime.parse(result.getString("lastOnline")),
                                 result.getString("friends"),
                                 result.getString("cosmetics"),
-                                null, null);
+                                null, null, null);
                         playerData.setKitPvpData(getKitPvpData(playerData));
                         playerData.setPlayerSettings(getPlayerSettings(playerData));
+                        playerData.setEssenceData(getEssenceData(playerData));
                         playerDatas.add(playerData);
                     }
                     result.getStatement().close();
@@ -266,16 +267,28 @@ public class MySQL {
         return null;
     }
 
-    public int getEssenceAmount(Player player, Essence.Type type) {
+    public EssenceData getEssenceData(PlayerData playerData) {
         try {
             Connection connection = dataSource.getConnection();
-            try (ResultSet result = executeQuery(connection, Query.GET_ESSENCE_AMOUNT, player.getUniqueId().toString(), type.toString())) {
+            try (ResultSet result = executeQuery(connection, Query.GET_ESSENCE_DATA, playerData.getId())) {
                 if (result != null) {
                     if (result.next()) {
-                        int amount = result.getInt("amount");
+                        EssenceData essenceData = new EssenceData(
+                                result.getInt("id"),
+                                UUID.fromString(result.getString("uuid")),
+                                result.getInt("1_50"),
+                                result.getInt("1_100"),
+                                result.getInt("1_150"),
+                                result.getInt("3_50"),
+                                result.getInt("3_100"),
+                                result.getInt("3_150"),
+                                result.getInt("6_50"),
+                                result.getInt("6_100"),
+                                result.getInt("6_150")
+                        );
                         result.getStatement().close();
                         closeConnection(connection);
-                        return amount;
+                        return essenceData;
                     }
                     result.getStatement().close();
                 }
@@ -288,7 +301,7 @@ public class MySQL {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 0;
+        return null;
     }
 
     public Punishment getPunishment(UUID uuid, Punishment.Type type, LocalDateTime date) {
@@ -420,6 +433,32 @@ public class MySQL {
         try {
             Connection connection = dataSource.getConnection();
             try (PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+                int i = 1;
+                for (Object parameter : parameters) {
+                    preparedStatement.setObject(i++, parameter);
+                }
+                preparedStatement.executeUpdate();
+                preparedStatement.close();
+                closeConnection(connection);
+            } catch (SQLException e) {
+                plugin.getLogger().severe("Could not execute MySQL query: " + e.getMessage());
+                e.printStackTrace();
+            }
+            closeConnection(connection);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Executes a MySQL update
+     *
+     * @param query MySQL Query String to execute
+     */
+    public void executeUpdate(String query, Object... parameters) {
+        try {
+            Connection connection = dataSource.getConnection();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 int i = 1;
                 for (Object parameter : parameters) {
                     preparedStatement.setObject(i++, parameter);

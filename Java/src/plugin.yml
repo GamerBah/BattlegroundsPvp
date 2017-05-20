@@ -88,3 +88,5 @@ commands:
     description: Displays the Server Rules
   spectate:
     description: Puts the player into spectate mode
+  launcher:
+    description: Adds either upwards or forwards launchers
